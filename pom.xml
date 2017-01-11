@@ -19,12 +19,13 @@
 		<!-- Versions used throughout the applications -->
 		<!-- OSGi / Karaf -->
 		<osgi.version>5.0.0</osgi.version>
-		<karaf.version>4.0.7</karaf.version>
+		<karaf.version>4.0.8</karaf.version>
 		<karaf.cxf.version>3.1.8</karaf.cxf.version>
 		<karaf.hibernate.version>4.3.6.Final</karaf.hibernate.version>
 		<karaf.hibernate.validator.version>5.0.3.Final</karaf.hibernate.validator.version>
 		<pax.cdi.version>0.12.0</pax.cdi.version>
-		
+		<jpa-features.version>2.5.0</jpa-features.version>
+
 		<!-- Java specs -->
 		<javax.el.version>2.2.4</javax.el.version>
 		<javax.persistence.version>2.1.1</javax.persistence.version>
