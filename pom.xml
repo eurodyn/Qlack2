@@ -4,20 +4,17 @@
 
 	<groupId>com.eurodyn.qlack2</groupId>
 	<artifactId>qlack2</artifactId>
-	<version>2.0.0-SNAPSHOT</version>
+	<version>2.0.0</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<!-- Blueprint namespaces + versions -->
 		<blueprint.ns>v1.0.0</blueprint.ns>
 		<blueprint.cm>v1.1.0</blueprint.cm>
 		<blueprint.jpa>v2.0.0</blueprint.jpa>
 		<blueprint.tx>v2.0.0</blueprint.tx>
 
-		<!-- Versions used throughout the applications -->
-		<!-- OSGi / Karaf -->
 		<osgi.version>5.0.0</osgi.version>
 		<karaf.version>4.0.8</karaf.version>	<!-- https://github.com/eurodyn/Qlack2-Website/wiki/Against-which-Karaf-version-is-QLACK-built -->
 		<karaf.cxf.version>3.1.8</karaf.cxf.version>
@@ -25,15 +22,11 @@
 		<karaf.hibernate.validator.version>5.0.3.Final</karaf.hibernate.validator.version>
 		<pax.cdi.version>0.12.0</pax.cdi.version>
 		<jpa-features.version>2.5.0</jpa-features.version>
-
-		<!-- Java specs -->
 		<javax.el.version>2.2.4</javax.el.version>
 		<javax.persistence.version>2.1.1</javax.persistence.version>
 		<javax.servlet-api.version>3.1.0</javax.servlet-api.version>
 		<javax.transaction.version>1.2</javax.transaction.version>
 		<javax.ws.rs-api.version>2.0</javax.ws.rs-api.version>
-
-		<!-- Utility libraries -->
 		<javax.validation.validation-api>1.1.0.Final</javax.validation.validation-api>
 		<apache.poi.servicemix.version>3.9_2</apache.poi.servicemix.version>
 		<apache.poi.version>3.9</apache.poi.version>
@@ -55,11 +48,9 @@
 		<commons.pool2.version>2.3</commons.pool2.version>
 		<maven-bundle-plugin.version>3.2.0</maven-bundle-plugin.version>
 		<jackson2.version>2.6.6</jackson2.version>
-
 		<javassist.version>3.18.1-GA</javassist.version>
 		<jbpm.version>6.2.0.Final</jbpm.version>
 		<joda.version>2.2</joda.version>
-
 		<mysql.connector.version>5.1.38</mysql.connector.version>
 		<mongodb.driver>3.1.0</mongodb.driver>
 		<quartz.version>2.2.1</quartz.version>
@@ -85,14 +76,10 @@
 		<swagger.version>1.5.10</swagger.version>
 		<liquibase.version>3.5.3</liquibase.version>
 		<liquibase.snakeyaml.version>1.17</liquibase.snakeyaml.version>
-
-		<!-- Testing dependencies versions -->
 		<junit.version>4.12</junit.version>
 		<pax.exam.version>4.9.2</pax.exam.version>
 		<org.hsqldb.version>2.3.4</org.hsqldb.version>
 		<slf4j-simple.version>1.6.1</slf4j-simple.version>
-
-		<!-- Webjar versions -->
 		<angular.translate.version>2.1.0-1</angular.translate.version>
 		<clamav4j.version>0.5</clamav4j.version>		
 		<freemarker.version>2.3.20</freemarker.version>
@@ -101,8 +88,7 @@
 		<jai.version>1.1.3</jai.version>
 		<memcached.version>2.12.0</memcached.version>
 		<mimeutil.version>2.1.3</mimeutil.version>
-
-		<!-- Maven plugins -->
+		<pax-url-aether.version>2.4.7</pax-url-aether.version>
 		<build-helper-maven-plugin.version>1.12</build-helper-maven-plugin.version>
 		<maven-assembly-plugin.version>2.6</maven-assembly-plugin.version>
 		<frontend-maven-plugin.version>1.0</frontend-maven-plugin.version>
@@ -114,10 +100,10 @@
 		<owasp.maven.plugin>1.3.4</owasp.maven.plugin>
 		<maven.resources.plugin.version>2.7</maven.resources.plugin.version>
 		<maven.install.plugin.version>2.5.2</maven.install.plugin.version>
-
-		<!-- Front-end/Gulp dependencies -->
 		<nodejs.version>v4.2.4</nodejs.version>
 		<npm.version>2.14.12</npm.version>
+		<apache.httpcore.version>4.3</apache.httpcore.version>
+		<apache.httpclient.version>4.3</apache.httpclient.version>
 	</properties>
 
 	<repositories>
