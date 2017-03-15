@@ -16,7 +16,7 @@
 		<connection>scm:git:git@github.com:eurodyn/Qlack2-BusinessEngine.git</connection>
 		<developerConnection>scm:git:git@github.com:eurodyn/Qlack2-BusinessEngine.git</developerConnection>
 		<url>https://github.com/eurodyn/Qlack2-BusinessEngine</url>
-    <tag>HEAD</tag>
+    <tag>2.2.1</tag>
   </scm>
 
 	<modules>

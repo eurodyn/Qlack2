@@ -16,7 +16,7 @@
 		<connection>scm:git:git@github.com:eurodyn/Qlack2-Util.git</connection>
 		<developerConnection>scm:git:git@github.com:eurodyn/Qlack2-Util.git</developerConnection>
 		<url>https://github.com/eurodyn/Qlack2-Util</url>
-    <tag>HEAD</tag>
+    <tag>2.2.1</tag>
   </scm>
 
 	<modules>
