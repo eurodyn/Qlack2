@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: explorer_1
+      author: ckask
+      changes:
+        - insert:
+            tableName: al_audit_level
+            columns:
+            - column:
+                name: id
+                value: 'ce90fdba-be92-45d7-a7e2-4fe4a9c8b824'
+            - column:
+                name: name
+                value: 'AUDIT_LEVEL_QBE_EXPLORER'

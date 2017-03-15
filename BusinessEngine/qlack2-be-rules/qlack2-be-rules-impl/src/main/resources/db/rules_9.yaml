@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: rules_9
+      author: gsapo
+      changes:
+        - insert:
+            tableName: al_audit_level
+            columns:
+            - column:
+                name: id
+                value: 'e62f1607-f29c-4936-9c44-585639c46f35'
+            - column:
+                name: name
+                value: 'AUDIT_LEVEL_QBE_RULES'

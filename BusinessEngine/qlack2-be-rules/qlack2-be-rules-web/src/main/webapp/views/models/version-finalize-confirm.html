@@ -1,0 +1,20 @@
+<div class="container-fluid" ng-controller="DataModelVersionFinalizeCtrl">
+	<div class="row">
+		<div class="col-xs-4"><i class="fa fa-question-circle fa-3x"></i></div>
+		<div class="col-xs-8">
+			<p translate>data_model.finalize_version_confirm</p>
+			<div ng-show="getData().versions.length > 0">
+				<p translate>data_model.finalize_version_cascade</p>
+				<ul ng-repeat="version in getData().versions">
+					<li>{{ version }}</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix top-buffer">
+		<div class="pull-right">
+			<button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> <span translate>action.cancel</span></button>
+			<button class="btn btn-success" ng-click="finalize()"><i class="fa fa-check"></i> <span translate>action.finalize</span></button>
+		</div>
+	</div>
+</div>

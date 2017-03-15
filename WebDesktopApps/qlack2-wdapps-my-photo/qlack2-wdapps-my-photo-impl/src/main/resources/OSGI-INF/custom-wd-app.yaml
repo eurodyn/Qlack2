@@ -1,0 +1,28 @@
+!!WDApplication:
+  identification:
+    uniqueId:           f94197d5-d11e-45f1-bcde-2c39230110b7
+    titleKey:           application_title
+    descriptionKey:     application_description
+    version:            2.0.0
+  instantiation:
+    path:               'apps/myphoto/'
+    index:              '/'
+    multipleInstances:  false
+    restrictAccess:     false
+    translationsGroup:  myphoto
+  menu:
+    icon:               '{image-small}api/apps/myphoto/myphoto'
+    iconSmall:          '{image}api/apps/myphoto/myphoto'
+    bgColor:            'bg-indigo'
+    system:             true
+    showTitle:          false
+  window:
+    width:              300
+    minWidth:           300
+    height:             300
+    minHeight:          300
+    resizable:          false
+    maximizable:        false
+    minimizable:        true
+    closable:           true
+    draggable:          true

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+  version="2.0">
+
+  <!-- process instance queries -->
+  <named-query name="getProcessInstancesByProcessId">
+    <query>
+      select
+      new com.eurodyn.qlack2.fuse.workflow.runtime.api.dto.ProcessInstanceDesc(
+      log.id,
+      log.processInstanceId,
+      log.processId,
+      log.processName,
+      log.processVersion,
+      log.status,
+      log.externalId,
+      log.start,
+      log.end,
+      log.duration,
+      log.identity
+      )
+      from
+        ProcessInstanceLog log
+      where
+        log.processId like :processId
+    </query>
+    <!-- hint name="org.hibernate.timeout" value="200"/ -->
+  </named-query>
+  
+  <!-- process instance queries -->
+  <named-query name="getProcessInstanceDetailsByProcessInstanceId">
+    <query>
+      select
+      new com.eurodyn.qlack2.fuse.workflow.runtime.api.dto.ProcessInstanceDesc(
+      log.id,
+      log.processInstanceId,
+      log.processId,
+      log.processName,
+      log.processVersion,
+      log.status,
+      log.externalId,
+      log.start,
+      log.end,
+      log.duration,
+      log.identity
+      )
+      from
+        ProcessInstanceLog log
+      where
+        log.processInstanceId like :instanceId
+    </query>
+    <!-- hint name="org.hibernate.timeout" value="200"/ -->
+  </named-query>
+
+  <named-query name="getProcessInstancesByStatus">
+    <query>
+      select
+      new com.eurodyn.qlack2.fuse.workflow.runtime.api.dto.ProcessInstanceDesc(
+      log.id,
+      log.processInstanceId,
+      log.processId,
+      log.processName,
+      log.processVersion,
+      log.status,
+      log.externalId,
+      log.start,
+      log.end,
+      log.duration,
+      log.identity
+      )
+      from
+        ProcessInstanceLog log
+      where
+        log.status in (:states)
+    </query>
+    <!-- hint name="org.hibernate.timeout" value="200"/ -->
+  </named-query>
+
+  <named-query name="getProcessInstancesByProcessIdAndStatus">
+    <query>
+     select
+      new com.eurodyn.qlack2.fuse.workflow.runtime.api.dto.ProcessInstanceDesc(
+      log.id,
+      log.processInstanceId,
+      log.processId,
+      log.processName,
+      log.processVersion,
+      log.status,
+      log.externalId,
+      log.start,
+      log.end,
+      log.duration,
+      log.identity
+      )
+      from
+        ProcessInstanceLog log
+      where
+        log.status in (:states) and log.processId like :processId
+    </query>
+    <!-- hint name="org.hibernate.timeout" value="200"/ -->
+  </named-query>
+
+</entity-mappings>

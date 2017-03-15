@@ -1,0 +1,47 @@
+<div class="container-fluid" ng-controller="WorkflowVersionCreateCtrl">
+	<form class="form-horizontal" role="form" name="workflowVersionForm" novalidate>
+		<div class="form-group" ng-class="{'has-error has-feedback': workflowVersionForm.name.$invalid && !workflowVersionForm.name.$dirty}">
+			<label for="name" class="col-xs-4 control-label" translate>versionName</label>
+			<div class="col-xs-8">
+				<input type="text" name="name" class="form-control" id="name" ng-model="newWorkflowVersion.name">
+				<i ng-show="workflowVersionForm.name.$invalid && !workflowVersionForm.name.$dirty"
+					class="fa fa-exclamation-triangle form-control-feedback"
+					popover="{{workflowVersionForm.name.message}}"
+					popover-placement="left"
+					popover-trigger="mouseenter"></i>
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error has-feedback': workflowVersionForm.description.$invalid && !workflowVersionForm.description.$dirty}">
+			<label for="description" class="col-xs-4 control-label" translate>versionDescription</label>
+			<div class="col-xs-8">
+				<textarea class="form-control" id="description" ng-model="newWorkflowVersion.description"></textarea>
+				<i ng-show="workflowVersionForm.description.$invalid && !workflowVersionForm.description.$dirty"
+					class="fa fa-exclamation-triangle form-control-feedback"
+					popover="{{workflowVersionForm.description.message}}"
+					popover-placement="left"
+					popover-trigger="mouseenter"></i>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="based_on" class="col-xs-4 control-label" translate>basedOn</label>
+			<script id="basedOnListTemplate" type="text/x-kendo-template">
+				<div>
+					#if(data.state == 1){#
+						<i class="fa fa-check-circle-o"></i> <span>#=data.name#</span>
+					#}else{#
+						<i class="fa fa-circle-o"></i> <span>#=data.name#</span>
+					#}#
+				</div>
+			</script>
+			<div class="col-xs-8">
+				<select kendo-drop-down-list="basedOnDropDownList" k-option-label="'{{'select_version' | translate}}'" k-options="basedOnOptions" ng-model="newWorkflowVersion.basedOn"></select>
+			</div>
+		</div>
+		<div class="clearfix top-buffer">
+			<div class="pull-right">
+				<button class="btn btn-success" ng-click="createWorkflowVersion()"><i class="fa fa-check"></i> <span translate>create</span></button>
+				<button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> <span translate>cancel</span></button>			
+			</div>
+		</div>
+	</form>
+</div>

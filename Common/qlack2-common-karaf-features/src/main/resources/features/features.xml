@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ***************************************************************************
+* Copyright 2014 EUROPEAN DYNAMICS SA <info@eurodyn.com>
+*
+* Licensed under the EUPL, Version 1.1 only (the "License").
+* You may not use this work except in compliance with the Licence.
+* You may obtain a copy of the Licence at:
+* https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the Licence is distributed on an "AS IS" basis,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the Licence for the specific la
+ *************************************************************************** -->
+
+<!--
+feature:repo-add mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/LATEST/xml/features
+-->
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0"	name="QLACK2-COMMMON">
+	<!-- External repositories needed for this features set -->
+	<!-- <repository>mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/${project.version}/xml/features</repository>
+	<repository>mvn:org.apache.cxf.karaf/apache-cxf/${karaf.cxf.version}/xml/features</repository> -->
+	
+	<feature description="QLACK2 Common - util" name="qlack2-common-util" version="${project.version}">
+		<bundle>mvn:commons-collections/commons-collections/${commons.collections.version}</bundle>
+		<bundle>mvn:commons-beanutils/commons-beanutils/${commons.beanutils.version}</bundle>
+		<bundle>wrap:mvn:com.github.slugify/slugify/${slugify.version}</bundle>
+		<bundle>mvn:com.eurodyn.qlack2.common/qlack2-common-util/${project.version}</bundle>
+	</feature>
+
+</features>

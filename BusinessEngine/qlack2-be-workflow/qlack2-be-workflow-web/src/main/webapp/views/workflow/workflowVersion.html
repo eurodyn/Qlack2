@@ -1,0 +1,60 @@
+<div class="well inner-well top-buffer" ng-controller="WorkflowVersionCtrl" ng-disabled="!canManageWorkflow || !canEditVersion">
+	<div class="row">
+		<div class="col-sm-6">
+			<script id="versionsListTemplate" type="text/x-kendo-template">
+				<div>
+					#if(data.state == 1){#
+						<i class="fa fa-check-circle-o"></i> <span>#=data.name#</span>
+					#}else{#
+						<i class="fa fa-circle-o"></i> <span>#=data.name#</span>
+					#}#
+				</div>
+			</script>
+			<label class="col-sm-4 control-label" translate>versions</label>
+			<select id="versionsSelect" kendo-drop-down-list="versionsDropDownList" k-option-label="'{{'select_version' | translate}}'" k-options="workflowVersions" ng-model="workflowSelectedVersionId"></select>
+			<span ng-show="workflowSelectedVersionId" ng-switch on="!!workflowVersion.lockedBy">
+				<span ng-switch-when="true">
+					<i class="fa fa-lock fa-lg" tooltip="{{'lockedBy_text'|translate: '{lockedby: \'' + workflowVersion.lockedBy.firstName + ' ' + workflowVersion.lockedBy.lastName + '\', lockedon: \'' + workflowVersion.lockedOnDate + '\'}'}}"></i> 
+				</span>
+				<span ng-switch-default>
+					<i class="fa fa-unlock fa-lg"></i>
+				</span>
+			</span>
+			<i id="enabled-testing" class="fa fa-flag fa-lg" tooltip="{{'testing_enabled'|translate}}" ng-show="workflowVersion.enableTesting"></i>
+			<div ng-show="!!workflowSelectedVersionId">		
+				<p class="form-control-static text-muted small" translate translate-value-createdby="{{ workflowVersion.createdBy.firstName}} {{workflowVersion.createdBy.lastName}}"
+					translate-value-createdon="{{ workflowVersion.createdOn | qDate:'lll' }}">createdBy_text</p>
+				<p class="form-control-static text-muted small" translate translate-value-lastmodifiedby="{{ workflowVersion.lastModifiedBy.firstName}} {{workflowVersion.lastModifiedBy.lastName}}"
+					translate-value-lastmodifiedon="{{ workflowVersion.lastModifiedOn | qDate:'lll' }}"> modifiedBy_text</p>	
+			</div>	
+		</div>
+		<div class="col-sm-6" ng-show="!!workflowSelectedVersionId" ng-disabled="!canManageWorkflow || !canEditVersion">
+			<div class="form-group" ng-class="{'has-error has-feedback': workflowForm.versionDescription.$invalid && !workflowForm.versionDescription.$dirty}">
+				<label for="version-description" class="col-sm-4 control-label" translate>versionDescription</label>
+				<div class="col-sm-8">
+					<textarea class="form-control" name="versionDescription" id="version.description" ng-model="workflowVersion.description"></textarea>
+					<i ng-show="workflowForm.versionDescription.$invalid && !workflowForm.versionDescription.$dirty"
+								class="fa fa-exclamation-triangle form-control-feedback"
+								popover="{{workflowForm.versionDescription.message}}"
+								popover-placement="left"
+								popover-trigger="mouseenter"></i>
+				</div>
+			</div>
+		</div>						
+	</div>
+	<div class="clearfix top-buffer" ng-show="!!workflowSelectedVersionId" ng-disabled="!canManageWorkflow || !canEditVersion">
+		<tabset>
+			<tab heading="{{'workflow' | translate}}">
+				<div class="top-buffer">
+					<div ui-ace="aceOption" id="version.content" class="textarea" ng-model="workflowVersion.content" style="height: 200px;"></div>
+				</div>
+			</tab>
+			<tab id="conditionsTab" heading="{{'conditions' | translate}}">
+				<div class="top-buffer">
+					<div id="conditionsGrid" kendo-grid k-toolbar='setConditionsToolbar()' k-columns='setConditionsColumns()' k-options="workflowVersionConditions" k-rebind="rebindVal" ng-class="{'has-error':conditionsHaveError}">	
+					</div>
+				</div>
+			</tab>
+		</tabset>
+	</div>
+</div>

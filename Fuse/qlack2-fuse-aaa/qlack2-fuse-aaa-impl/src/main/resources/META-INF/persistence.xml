@@ -1,0 +1,22 @@
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+
+	<persistence-unit name="fuse-aaa" transaction-type="JTA">
+		<jta-data-source>osgi:service/javax.sql.DataSource/(osgi.jndi.service.name=qlack2-ds)</jta-data-source>
+		<class>com.eurodyn.qlack2.fuse.aaa.impl.model.Application</class>
+		<class>com.eurodyn.qlack2.fuse.aaa.impl.model.Group</class>
+		<class>com.eurodyn.qlack2.fuse.aaa.impl.model.GroupHasOperation</class>
+		<class>com.eurodyn.qlack2.fuse.aaa.impl.model.Operation</class>
+		<class>com.eurodyn.qlack2.fuse.aaa.impl.model.OpTemplate</class>
+		<class>com.eurodyn.qlack2.fuse.aaa.impl.model.OpTemplateHasOperation</class>
+		<class>com.eurodyn.qlack2.fuse.aaa.impl.model.Resource</class>
+		<class>com.eurodyn.qlack2.fuse.aaa.impl.model.Session</class>
+		<class>com.eurodyn.qlack2.fuse.aaa.impl.model.SessionAttribute</class>
+		<class>com.eurodyn.qlack2.fuse.aaa.impl.model.User</class>
+		<class>com.eurodyn.qlack2.fuse.aaa.impl.model.UserAttribute</class>
+		<class>com.eurodyn.qlack2.fuse.aaa.impl.model.UserHasOperation</class>
+		<class>com.eurodyn.qlack2.fuse.aaa.impl.model.VerificationToken</class>
+	</persistence-unit>
+
+</persistence>

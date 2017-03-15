@@ -1,0 +1,22 @@
+<h1>Hello from qlack2-wdapps-demo-security-external</h1>
+
+<ul>
+  <li>
+    Unfortunately, I can not access my parent window direclty since I run on a different domain.<br>
+    <button ng-click="homeCtrl.accessParentWindow()">Access parent window</button><br>
+    You may check the developer's console of your browser for an error message similar to:<br>
+    <pre style="color: red">Error: Blocked a frame with origin "http://localhost:3000" from accessing a cross-origin frame.</pre>
+  </li>
+  <li>
+    But I can interact with Web Desktop via Pub/Sub. Try to press this button:<br>
+    <button ng-click="homeCtrl.publishNotification()">Send a notification via Pub/Sub</button>
+  </li>
+  <li>
+    And I can use Pub/Sub to get the security token of the currently logged-in user:<br>
+    <button ng-click="homeCtrl.getSecurityToken()">Get security token via Pub/Sub</button>
+  </li>
+  Token:
+  <div>
+    {{homeCtrl.token|json}}
+  </div>
+</ul>

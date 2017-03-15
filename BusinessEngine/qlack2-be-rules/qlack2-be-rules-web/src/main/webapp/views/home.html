@@ -1,0 +1,47 @@
+<section id="welcome" class="well" ng-controller="ProjectListCtrl">
+	<div class="clearfix">
+		<h3>Welcome to the Rules component</h3>
+		<p>
+			Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.
+			Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
+			ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo,
+			fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.
+			Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi.
+			Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.
+			Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet.
+			Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui.
+		</p>
+	</div>
+	<div class="clearfix">
+		<div class="pull-left">
+			<h3 translate>label.project.recent</h3>
+		</div>
+		<div class="pull-right actions">
+			<select kendo-drop-down-list
+					k-option-label="selectProjectTitle" 
+					k-rebind="selectProjectTitle"
+					k-data-source="projectsDataSource"
+					k-data-text-field="'name'"
+					k-data-value-field="'id'"
+					k-on-change="selectProject(kendoEvent)"
+					>
+			</select>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-lg-3" ng-repeat="recentProject in recentProjects">
+			<div class="project bg-info">
+				<h4>{{recentProject.name}}</h4>
+				<div class="row">
+					<div class="col-xs-8">
+						<div class="clearfix"><label translate>label.createdOn</label> {{recentProject.createdOn | qDate:'lll'}}</div>
+						<div class="clearfix"><label translate>label.createdBy</label> {{recentProject.createdBy.firstName}} {{recentProject.createdBy.lastName}}</div>
+					</div>
+					<div class="col-xs-4">
+						<button class="btn btn-primary" ng-click="editProject(recentProject.id)"><i class="fa fa-pencil"></i> <span translate>action.edit</span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

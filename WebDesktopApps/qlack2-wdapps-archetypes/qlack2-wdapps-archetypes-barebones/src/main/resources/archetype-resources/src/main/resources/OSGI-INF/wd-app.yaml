@@ -1,0 +1,28 @@
+!!WDApplication:
+  identification:
+    uniqueId:           ${uniqueId}
+    titleKey:           application_title
+    descriptionKey:     application_description
+    version:            ${version}
+  instantiation:
+    path:               '${path}'
+    index:              '${index}'
+    multipleInstances:  ${multipleInstances}
+    restrictAccess:     ${restrictAccess}
+    translationsGroup:  ${translationsGroup}
+  menu:
+    icon:               '${icon}'
+    iconSmall:          '${iconSmall}'
+    bgColor:            '${bgColor}'
+    system:             ${system}
+    showTitle:          ${showTitle}
+  window:
+    width:              ${width}
+    minWidth:           ${minWidth}
+    height:             ${height}
+    minHeight:          ${minHeight}
+    resizable:          ${resizable}
+    maximizable:        ${maximizable}
+    minimizable:        ${minimizable}
+    closable:           ${closable}
+    draggable:          ${draggable}

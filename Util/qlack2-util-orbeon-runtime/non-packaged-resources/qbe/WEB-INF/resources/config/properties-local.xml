@@ -1,0 +1,38 @@
+<!--
+    This file is an empty template for your own properties-local.xml file. Please follow the instructions here:
+
+    http://wiki.orbeon.com/forms/doc/developer-guide/configuration-properties
+-->
+<properties xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns:oxf="http://www.orbeon.com/oxf/processors">
+	<!-- Implementation of orbeon persistent api -->
+	<property as="xs:string" name="oxf.fr.persistence.provider.*.*.*"
+	  value="qbe-persistence"/>
+
+	<property as="xs:anyURI" name="oxf.fr.persistence.qbe-persistence.uri"
+	  value="http://localhost:8181/api/apps/forms/orbeon/orbeon"/>
+
+	<!-- Most comprehensive logging configuration -->
+	<property as="xs:NMTOKENS" name="oxf.xforms.logging.debug"
+		value="document model submission control event action analysis server server-body html
+           submission-details submission-body"/>
+	<property as="xs:NMTOKENS" name="oxf.xforms.logging.error"
+		value="submission-error-body"/>
+
+	<!-- Properties for forwarding Qlack headers -->
+	<property as="xs:string" name="oxf.http.forward-headers" value="X-Qlack-Fuse-IDM-Token"/>
+
+	<property as="xs:string" name="oxf.xforms.forward-submission-headers" value="X-Qlack-Fuse-IDM-Token"/>
+	
+	<property as="xs:anyURI" name="oxf.fr.default-logo.uri.*.*" value=""/>
+	
+	<!--!Disable Saxon Source Location.To optimize for speed, it should be set to false-->
+	<property as="xs:boolean" processor-name="oxf:saxon8" name="generate-source-location" value="false"/>
+	
+	<property as="xs:string" name="oxf.fr.detail.buttons.*.*" value="" />
+	<!-- [M]/[D]/[Y]  or [D]/[M]/[Y] or [D].[M].[Y]-->
+	<property as="xs:string"  name="oxf.xforms.format.input.date" value="[D]/[M]/[Y]"/>
+
+	<!--property as="xs:string"  name="oxf.xforms.xbl.mapping.ed"
+                          value="http://www.eurodyn.com/"/-->
+</properties>

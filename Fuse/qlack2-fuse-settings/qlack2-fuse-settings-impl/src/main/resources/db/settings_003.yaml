@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: settings_003
+      author: European Dynamics SA
+      changes:
+        - renameColumn:
+            tableName: set_setting
+            newColumnName: psswrd
+            oldColumnName: password
+            columnDataType: boolean

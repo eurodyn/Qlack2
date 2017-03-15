@@ -1,0 +1,41 @@
+<div ng-controller="AccessDetailsCtrl">	
+	<div class="clearfix resourceHeading">
+		<h4>{{selectedSubject.name}}</h4>
+	</div>
+
+	<section class="well">
+		<div class="clearfix" ng-if="selectedSubject.type == 'superadmin'">
+			<p class="bg-info formMessage" translate>superadmin_access_rights_not_editable</p>
+		</div>
+		<form class="form-horizontal" role="form">
+			<fieldset>
+				<div class="row">
+					<script id="accessTemplate" type="text/x-kendo-template">
+						<span translate>#=data.name#</span>
+					</script>
+					<div class="col-sm-12 col-md-6" ng-repeat="access in accessData">
+						<div class="form-group">
+							<label for="title" class="col-sm-4 control-label" translate>{{access.operation}}</label>
+							<div class="col-sm-8">
+								<select id="categories" kendo-drop-down-list ng-model="access.access" 
+									ng-disabled="selectedSubject.type == 'superadmin'"
+									k-data-source="accessTypes" k-data-text-field="'name'" k-data-value-field="'value'"
+									k-template="accessTemplate" k-value-template="accessTemplate">
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+			
+			<hr/>
+			<div class="clearfix" ng-show="selectedSubject.type != 'superadmin'">
+				<div class="pull-right">
+					<button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> <span translate>action.cancel</span></button>
+					<button class="btn btn-success" ng-click="save()"><i class="fa fa-check"></i> <span translate>action.save</span></button>
+				</div>
+			</div>
+		</form>
+	</section>
+
+</div>

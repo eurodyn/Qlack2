@@ -1,0 +1,12 @@
+{
+	"operations": [
+		{
+			"name": "APPMANAGEMENT_CONFIGURE",
+			"description": "Configure the Application Manager application including access management of the application"
+		},
+		{
+			"name": "APPMANAGEMENT_MANAGED",
+			"description": "User or group managed (in terms of access rights) by the Application Manager application"
+		}
+	]
+}

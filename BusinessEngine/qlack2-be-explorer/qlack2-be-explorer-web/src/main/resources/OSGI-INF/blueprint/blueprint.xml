@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs">
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="ProjectService"
+		interface="com.eurodyn.qlack2.be.explorer.api.ProjectService" />
+	<reference id="ConfigService"
+		interface="com.eurodyn.qlack2.be.explorer.api.ConfigService" />
+
+	<!-- LOCAL BEANS & SERVICES -->
+	<bean id="ProjectRest"
+		class="com.eurodyn.qlack2.be.explorer.web.rest.ProjectRest">
+		<property name="projectService" ref="ProjectService" />
+	</bean>
+	<bean id="ConfigRest"
+		class="com.eurodyn.qlack2.be.explorer.web.rest.ConfigRest">
+		<property name="configService" ref="ConfigService" />
+	</bean>
+
+	<!-- CXF CONFIGURATION -->
+	<jaxrs:server id="ProjectsExplorerRestServer" address="/apps/explorer">
+		<jaxrs:serviceBeans>
+			<ref component-id="ProjectRest" />
+			<ref component-id="ConfigRest" />
+		</jaxrs:serviceBeans>
+
+		<jaxrs:providers>
+			<bean id="MappingExceptionMapper" class="com.eurodyn.qlack2.util.validator.util.rest.MappingExceptionMapper"/>
+			<bean id="ValidationExceptionMapper" class="com.eurodyn.qlack2.util.validator.util.rest.ValidationExceptionMapper"/>
+			<bean id="GenericExceptionMapper" class="com.eurodyn.qlack2.util.rest.mapper.GenericExceptionMapper"/>
+			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+				<property name="mapper">
+					<bean id="jacksonMapper" class="com.eurodyn.qlack2.util.rest.CustomisedJackson" />
+				</property>
+			</bean>
+		</jaxrs:providers>
+	</jaxrs:server>
+</blueprint>

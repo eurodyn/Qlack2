@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: lexicon_4
+      author: European Dynamics SA
+      changes:
+        - addColumn:
+            tableName: lex_data
+            columns:
+              - column:
+                  name: last_updated_on
+                  type: bigint
+                  constraints:
+                    nullable: false

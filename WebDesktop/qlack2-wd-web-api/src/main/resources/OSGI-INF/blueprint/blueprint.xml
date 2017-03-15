@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
+
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.wd.web.api"
+		update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="ticket.header.name" value="X-Qlack-Fuse-IDM-Token-WD" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<!-- Ticket Interceptor -->
+	<bean id="ExtractTicketInterceptor"
+		class="com.eurodyn.qlack2.fuse.security.proxy.impl.util.ExtractTicketInterceptor">
+		<property name="ticketHeaderName" value="${ticket.header.name}" />
+	</bean><bean id="CleanTicketInterceptor"
+		class="com.eurodyn.qlack2.fuse.security.proxy.impl.util.CleanTicketInterceptor"/>
+		
+</blueprint>

@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: workflow_runtime_impl_2
+      author: egian
+      changes:
+        - insert:
+            tableName: al_audit_level
+            columns:
+            - column:
+                name: id
+                value: '8a836a30-076f-11e4-9191-0800200c9a66'
+            - column:
+                name: name
+                value: 'LOG_LEVEL_RUNTIME_WORKFLOW'

@@ -1,0 +1,21 @@
+{
+  "groups": [
+    { "name": "ESCP_USER", "description": "The default group all users are assigned to when registering with the system."},
+    { "name": "SYSTEM_ADMINS", "description": "Administrators of the system.", "parentGroupName": "ESCP_USER"}
+  ],
+
+  "operations": [
+    { "name": "SYSTEM_ADMINISTRATION", "description": "Provides access to system administration functionality." },
+    { "name": "SETTINGS_SENSITIVE_GET", "description": "Reads system settings marked as sensitive." },
+    { "name": "SETTINGS_SET", "description": "Writes system settings." },
+    { "name": "COMMUNITY_MEMBERSHIP", "description": "A member of the community." },
+    { "name": "COMMUNITY_ADMINISTRATION", "description": "A administrator of the community." }
+  ],
+
+  "groupHasOperations": [
+    { "groupName": "SYSTEM_ADMINS", "operationName": "SYSTEM_ADMINISTRATION"},
+    { "groupName": "SYSTEM_ADMINS", "operationName": "SETTINGS_SENSITIVE_GET"},
+    { "groupName": "SYSTEM_ADMINS", "operationName": "SETTINGS_SET"}
+  ]
+
+}

@@ -1,0 +1,9 @@
+<BranchVCSpec>
+	<PkgGUID>{72485A52-51D3-4d0c-9665-435060BECFDD}</PkgGUID>
+	<XMLPath>Analysis and Business Modeling.xml</XMLPath>
+	<Config>
+		<GUID>QBE</GUID>
+		<LocalPath>%QBE%</LocalPath>
+		<Type>2</Type>
+	</Config>
+</BranchVCSpec>

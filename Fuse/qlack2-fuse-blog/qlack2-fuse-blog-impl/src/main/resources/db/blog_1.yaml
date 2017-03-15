@@ -1,0 +1,459 @@
+databaseChangeLog:
+  - changeSet:
+      id: blog_01
+      author: European Dynamics SA (eleni.giannakopoulou@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: blg_layout
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name  
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: home
+                  type: varchar(128)
+                  constraints:
+                    nullable: false  
+        - createIndex:
+              indexName: uq_blg_layout_name
+              tableName: blg_layout
+              columns:
+                - column:
+                   name: name
+              unique: true       
+        - createTable:
+            tableName: blg_blog
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false	
+              - column:
+                  name: picture
+                  type: longblob
+              - column:
+                  name: rss_feed_enabled
+                  type: boolean
+              - column:
+                  name: language
+                  type: varchar(45)
+              - column:
+                  name: blg_layout
+                  type: varchar(36)
+        - addForeignKeyConstraint:
+              constraintName: fk_blg_blog_blg_layout1
+              baseTableName: blg_blog
+              baseColumnNames: blg_layout
+              referencedTableName: blg_layout
+              referencedColumnNames: id
+              onDelete: no action
+              onUpdate: no action
+        - createIndex:
+              indexName: uq_blg_blog_name
+              tableName: blg_blog
+              columns:
+                - column:
+                   name: name
+              unique: true
+        - createIndex:
+              indexName: fk_idx_blog_blg_layout1
+              tableName: blg_blog
+              columns:
+                - column:
+                   name: blg_layout
+        - createIndex:
+              indexName: idx_blg_blog_user_id
+              tableName: blg_blog
+              columns:
+                - column:
+                   name: user_id	   		   
+        - createTable:
+             tableName: blg_post
+             columns:
+               - column:
+                   name: id
+                   type: varchar(36)
+                   constraints:
+                     primaryKey: true
+                     nullable: false
+               - column:
+                   name: name
+                   type: varchar(50)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: body
+                   type: text
+                   constraints:
+                     nullable: false
+               - column:
+                   name: comments_enabled
+                   type: boolean
+                   constraints:
+                     nullable: false
+               - column:
+                   name: blog
+                   type: varchar(36)
+                   constraints:
+                     nullable: false 
+               - column:
+                   name: date_posted
+                   type: bigint
+               - column:
+                   name: archived
+                   type: boolean
+                   constraints:
+                     nullable: false   
+               - column:
+                   name: published
+                   type: boolean
+                   constraints:
+                     nullable: false   	 
+               - column:
+                   name: trackback_ping_url
+                   type: varchar(100)
+        - addForeignKeyConstraint:
+              constraintName: fk_blg_post_blg_blog1
+              baseTableName: blg_post
+              baseColumnNames: blog
+              referencedTableName: blg_blog
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade	  
+        - createIndex:
+              indexName: fk_idx_post_blg_blog1
+              tableName: blg_post
+              columns:
+                - column:
+                   name: blog
+        - createTable:
+             tableName: blg_category
+             columns:
+               - column:
+                   name: id
+                   type: varchar(36)
+                   constraints:
+                     primaryKey: true
+                     nullable: false
+               - column:
+                   name: name
+                   type: varchar(45)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: description
+                   type: varchar(255)
+               - column:
+                   name: blog
+                   type: varchar(36)
+                   constraints:
+                     nullable: false
+        - addForeignKeyConstraint:
+              constraintName: fk_blg_category_blg_blog1
+              baseTableName: blg_category
+              baseColumnNames: blog
+              referencedTableName: blg_blog
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade
+        - createIndex:
+              indexName: fk_idx_category_blg_blog1
+              tableName: blg_category
+              columns:
+                - column:
+                   name: blog
+        - createTable:
+             tableName: blg_tag
+             columns:
+               - column:
+                   name: id
+                   type: varchar(36)
+                   constraints:
+                     primaryKey: true
+                     nullable: false
+               - column:
+                   name: name
+                   type: varchar(45)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: description
+                   type: varchar(45)
+        - createIndex:
+              indexName: uq_blg_tag_name
+              tableName: blg_tag
+              columns:
+                - column:
+                   name: name  
+              unique: true
+        - createTable:
+             tableName: blg_post_has_category
+             columns:
+               - column:
+                   name: category
+                   type: varchar(36)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: post
+                   type: varchar(36)
+                   constraints:
+                     nullable: false 
+        - addForeignKeyConstraint:
+              constraintName: fk_blg_post_blg_ctg_blg_post1
+              baseTableName: blg_post_has_category
+              baseColumnNames: post
+              referencedTableName: blg_post
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade
+        - addForeignKeyConstraint:
+              constraintName: fk_blg_post_blg_ctg_blg_ctg1
+              baseTableName: blg_post_has_category
+              baseColumnNames: category
+              referencedTableName: blg_category
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade
+        - createIndex:
+              indexName: fk_idx_post_blg_ctg_blg_post1
+              tableName: blg_post_has_category
+              columns:
+                - column:
+                   name: post 
+        - createIndex:
+              indexName: fk_idx_post_blg_ctg_blg_ctg1
+              tableName: blg_post_has_category
+              columns:
+                - column:
+                   name: category 
+        - createIndex:
+              indexName: uq_post_category
+              tableName: blg_post_has_category
+              columns:
+                - column:
+                   name: category  	
+                - column:
+                   name: post 	
+              unique: true
+        - createTable:
+             tableName: blg_post_has_tag
+             columns:
+               - column:
+                   name: post
+                   type: varchar(36)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: tag
+                   type: varchar(36)
+                   constraints:
+                     nullable: false 	
+        - addForeignKeyConstraint:
+              constraintName: fk_blg_post_blg_tag_blg_post1
+              baseTableName: blg_post_has_tag
+              baseColumnNames: post
+              referencedTableName: blg_post
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade	
+        - addForeignKeyConstraint:
+              constraintName: fk_blg_post_blg_tag_blg_tag1
+              baseTableName: blg_post_has_tag
+              baseColumnNames: tag
+              referencedTableName: blg_tag
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade					  
+        - createIndex:
+              indexName: fk_idx_post_blg_tag_blg_post1
+              tableName: blg_post_has_tag
+              columns:
+                - column:
+                   name: post  
+        - createIndex:
+              indexName: fk_idx_post_blg_tag_blg_tag1
+              tableName: blg_post_has_tag
+              columns:
+                - column:
+                   name: tag  
+        - createIndex:
+              indexName: uq_post_tag
+              tableName: blg_post_has_tag
+              columns:
+                - column:
+                   name: post  	
+                - column:
+                   name: tag  	    
+              unique: true		
+        - createTable:
+             tableName: blg_comment
+             columns:
+               - column:
+                   name: id
+                   type: varchar(36)
+                   constraints:
+                     primaryKey: true
+                     nullable: false
+               - column:
+                   name: user_id
+                   type: varchar(36)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: body
+                   type: text
+                   constraints:
+                     nullable: false 	
+               - column:
+                   name: date_commented
+                   type: bigint
+               - column:
+                   name: post
+                   type: varchar(36)
+                   constraints:
+                     nullable: false 	
+        - addForeignKeyConstraint:
+              constraintName: fk_blg_comment_blg_post1
+              baseTableName: blg_comment
+              baseColumnNames: post
+              referencedTableName: blg_post
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade		
+        - createIndex:
+              indexName: fk_idx_comment_blg_post1
+              tableName: blg_comment
+              columns:
+                - column:
+                   name: post  	
+        - createTable:
+             tableName: blg_flag
+             columns:
+               - column:
+                   name: id
+                   type: varchar(36)
+                   constraints:
+                     primaryKey: true
+                     nullable: false
+               - column:
+                   name: blog
+                   type: varchar(36)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: user_id
+                   type: varchar(36)
+                   constraints:
+                     nullable: false 
+               - column:
+                   name: flag_description
+                   type: text
+               - column:
+                   name: flag_name
+                   type: varchar(225)
+                   constraints:
+                     nullable: false 
+               - column:
+                   name: date_flagged
+                   type: bigint
+        - addForeignKeyConstraint:
+              constraintName: fk_blg_flag_blg_blog1
+              baseTableName: blg_flag
+              baseColumnNames: blog
+              referencedTableName: blg_blog
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade		
+        - createIndex:
+              indexName: fk_idx_flag_blg_blog1
+              tableName: blg_flag
+              columns:
+                - column:
+                   name: blog  	
+        - createTable:
+             tableName: blg_trackbacks
+             columns:
+               - column:
+                   name: id
+                   type: varchar(36)
+                   constraints:
+                     primaryKey: true
+                     nullable: false
+               - column:
+                   name: post
+                   type: varchar(36)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: trackback_post
+                   type: varchar(36)
+                   constraints:
+                     nullable: false 
+               - column:
+                   name: blg_comment
+                   type: varchar(36)
+                   constraints:
+                     nullable: false 
+        - createIndex:
+              indexName: fk_idx_trackbacks_blg_post1
+              tableName: blg_trackbacks
+              columns:
+                - column:
+                   name: post  	
+        - createIndex:
+              indexName: fk_idx_trackbacks_blg_post2
+              tableName: blg_trackbacks
+              columns:
+                - column:
+                   name: trackback_post  	
+        - createIndex:
+              indexName: fk_idx_trackbacks_blg_comment1
+              tableName: blg_trackbacks
+              columns:
+                - column:
+                   name: blg_comment  
+        - addForeignKeyConstraint:
+              constraintName: fk_blg_trackbacks_blg_post1
+              baseTableName: blg_trackbacks
+              baseColumnNames: post
+              referencedTableName: blg_post
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade		
+        - addForeignKeyConstraint:
+              constraintName: fk_blg_trackbacks_blg_post2
+              baseTableName: blg_trackbacks
+              baseColumnNames: trackback_post
+              referencedTableName: blg_post
+              referencedColumnNames: id
+              onDelete: no action
+              onUpdate: no action		
+        - addForeignKeyConstraint:
+              constraintName: fk_blg_trackbacks_blg_comment1
+              baseTableName: blg_trackbacks
+              baseColumnNames: blg_comment
+              referencedTableName: blg_comment
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade

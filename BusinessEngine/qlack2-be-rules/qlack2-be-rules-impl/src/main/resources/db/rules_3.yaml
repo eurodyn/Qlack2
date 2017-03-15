@@ -1,0 +1,276 @@
+databaseChangeLog:
+  - changeSet:
+      id: rules_3
+      author: gsapo
+      changes:
+        - createTable:
+            tableName: rul_working_set
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: project_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            constraintName: uq_rul_working_set_name
+            tableName: rul_working_set
+            columnNames: project_id, name
+
+        - createTable:
+            tableName: rul_working_set_version
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: working_set_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: state
+                  type: tinyint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: locked_on
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: locked_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_wrk_set_version_wrk_set
+            baseTableName: rul_working_set_version
+            baseColumnNames: working_set_id
+            referencedTableName: rul_working_set
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addUniqueConstraint:
+            constraintName: uq_rul_wrk_set_version_name
+            tableName: rul_working_set_version
+            columnNames: working_set_id, name
+
+        - createTable:
+            tableName: rul_working_sets_categories
+            columns:
+              - column:
+                  name: working_set_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            constraintName: pk_rul_wrk_sets_categories
+            tableName: rul_working_sets_categories
+            columnNames: working_set_id, category_id
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_wrk_sets_ctg_wrk_set
+            baseTableName: rul_working_sets_categories
+            baseColumnNames: working_set_id
+            referencedTableName: rul_working_set
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_wrk_sets_ctg_category
+            baseTableName: rul_working_sets_categories
+            baseColumnNames: category_id
+            referencedTableName: rul_category
+            referencedColumnNames: id
+            onDelete: restrict
+            onUpdate: cascade
+
+        - createTable:
+            tableName: rul_working_sets_rules
+            columns:
+              - column:
+                  name: working_set_version_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rule_version_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            constraintName: pk_rul_working_sets_rules
+            tableName: rul_working_sets_rules
+            columnNames: working_set_version_id, rule_version_id
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_wrk_sets_rules_wrk_set
+            baseTableName: rul_working_sets_rules
+            baseColumnNames: working_set_version_id
+            referencedTableName: rul_working_set_version
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_working_sets_rules_rule
+            baseTableName: rul_working_sets_rules
+            baseColumnNames: rule_version_id
+            referencedTableName: rul_rule_version
+            referencedColumnNames: id
+            onDelete: restrict
+            onUpdate: cascade
+
+        - createTable:
+            tableName: rul_working_sets_data_models
+            columns:
+              - column:
+                  name: working_set_version_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data_model_version_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            constraintName: pk_rul_wrk_sets_data_models
+            tableName: rul_working_sets_data_models
+            columnNames: working_set_version_id, data_model_version_id
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_wrk_sets_dt_mdl_wrk_set
+            baseTableName: rul_working_sets_data_models
+            baseColumnNames: working_set_version_id
+            referencedTableName: rul_working_set_version
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_wrk_sets_dt_mdl_dt_mdl
+            baseTableName: rul_working_sets_data_models
+            baseColumnNames: data_model_version_id
+            referencedTableName: rul_data_model_version
+            referencedColumnNames: id
+            onDelete: restrict
+            onUpdate: cascade
+
+        - createTable:
+            tableName: rul_working_sets_libraries
+            columns:
+              - column:
+                  name: working_set_version_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: library_version_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            constraintName: pk_rul_working_sets_lbr
+            tableName: rul_working_sets_libraries
+            columnNames: working_set_version_id, library_version_id
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_wrk_sets_lbr_wrk_set
+            baseTableName: rul_working_sets_libraries
+            baseColumnNames: working_set_version_id
+            referencedTableName: rul_working_set_version
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_wrk_sets_lbr_library
+            baseTableName: rul_working_sets_libraries
+            baseColumnNames: library_version_id
+            referencedTableName: rul_library_version
+            referencedColumnNames: id
+            onDelete: restrict
+            onUpdate: cascade

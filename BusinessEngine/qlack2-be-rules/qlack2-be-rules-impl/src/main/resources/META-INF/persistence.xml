@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+	<persistence-unit name="rulesPU" transaction-type="JTA">
+		<jta-data-source>osgi:service/javax.sql.DataSource/(osgi.jndi.service.name=qlack2-ds)</jta-data-source>
+
+		<class>com.eurodyn.qlack2.be.rules.impl.model.RecentProject</class>
+		<class>com.eurodyn.qlack2.be.rules.impl.model.Category</class>
+		<class>com.eurodyn.qlack2.be.rules.impl.model.Rule</class>
+		<class>com.eurodyn.qlack2.be.rules.impl.model.RuleVersion</class>
+		<class>com.eurodyn.qlack2.be.rules.impl.model.DataModel</class>
+		<class>com.eurodyn.qlack2.be.rules.impl.model.DataModelVersion</class>
+		<class>com.eurodyn.qlack2.be.rules.impl.model.DataModelField</class>
+		<class>com.eurodyn.qlack2.be.rules.impl.model.Library</class>
+		<class>com.eurodyn.qlack2.be.rules.impl.model.LibraryVersion</class>
+		<class>com.eurodyn.qlack2.be.rules.impl.model.WorkingSet</class>
+		<class>com.eurodyn.qlack2.be.rules.impl.model.WorkingSetVersion</class>
+		<class>com.eurodyn.qlack2.be.rules.impl.model.WorkingSetVersionKnowledgeBase</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+		<properties>
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="true" />
+		</properties>
+	</persistence-unit>
+
+</persistence>

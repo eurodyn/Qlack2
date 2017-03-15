@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: rules-runtime_2
+      author: European Dynamics SA (georgios.sapountzis@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: rul_runtime_ksession
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: session_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: kbase_state_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_rt_kession_kb_state
+            baseTableName: rul_runtime_ksession
+            baseColumnNames: kbase_state_id
+            referencedTableName: rul_runtime_kbase_state
+            referencedColumnNames: id
+            onDelete: restrict
+            onUpdate: cascade

@@ -1,0 +1,104 @@
+<div ng-controller="CreateFormCtrl">
+	<div class="clearfix resourceHeading">
+		<div class="pull-left">
+			<h3 translate>create_form</h3>
+		</div>
+	</div>
+
+	<section class="well">
+	<form class="form-horizontal" role="form" name="createFormForm" ng-submit="save()" novalidate>
+		<fieldset>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group" ng-class="{'has-error has-feedback': createFormForm.name.$invalid && !createFormForm.name.$dirty}">
+						<label for="name" class="col-sm-4 control-label" translate>formName</label>
+						<div class="col-sm-8">
+							<input id="name" name="name" type="text" class="form-control" ng-model="form.name"/>
+							<i ng-show="createFormForm.name.$invalid && !createFormForm.name.$dirty"
+								class="fa fa-exclamation-triangle form-control-feedback"
+								popover="{{createFormForm.name.message}}"
+								popover-placement="left"
+								popover-trigger="mouseenter"></i>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{'has-error has-feedback': createFormForm.description.$invalid && !createFormForm.description.$dirty}">
+						<label for="description" class="col-sm-4 control-label" translate>description</label>
+						<div class="col-sm-8">
+							<textarea id="description" name="description" class="form-control" ng-model="form.description"></textarea>
+							<i ng-show="createFormForm.description.$invalid && !createFormForm.description.$dirty"
+								class="fa fa-exclamation-triangle form-control-feedback"
+								popover="{{createFormForm.description.message}}"
+								popover-placement="left"
+								popover-trigger="mouseenter"></i>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="categories" class="col-sm-4 control-label" translate>categories</label>
+						<div class="col-sm-8">
+							<select id="categories" name="categories" kendo-multi-select="categoriesMS" k-data-source="categoriesDataSource"
+									k-data-text-field="'name'" k-data-value-field="'id'" ng-model="form.categories"></select>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{'has-error has-feedback': createFormForm.locales.$invalid && !createFormForm.locales.$dirty}">
+						<label for="locales" class="col-sm-4 control-label" translate>languages</label>
+						<div class="col-sm-8">
+							<select kendo-multi-select name="locales" ng-model="form.locales" k-data-source="languageDataSource"
+									k-data-value-field="'locale'" k-data-text-field="'name'"></select>
+							<i ng-show="createFormForm.locales.$invalid && !createFormForm.locales.$dirty"
+								class="fa fa-exclamation-triangle form-control-feedback"
+								popover="{{createFormForm.locales.message}}"
+								popover-placement="left" popover-trigger="mouseenter"></i>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>status</label>
+						<div class="col-sm-8 controls">
+							<label class="radio-inline">
+								<input type="radio" value="true" ng-checked="form.active==true" ng-model="form.active"/>
+								<span translate>active</span>
+							</label>
+							<label class="radio-inline">
+								<input type="radio" value="false" ng-checked="form.active==false" ng-model="form.active"/>
+								<span translate>inactive</span>
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>createdBy</label>
+						<div class="col-sm-8 controls">
+							<p class="form-control-static">{{form.createdBy.firstName}} {{form.createdBy.lastName}}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>createdOn</label>
+						<div class="col-sm-8">
+							<p class="form-control-static">{{ form.createdOn  | qDate:'lll'}}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>modifiedBy</label>
+						<div class="col-sm-8">
+							<p class="form-control-static">{{form.lastModifiedBy.firstName}} {{form.lastModifiedBy.lastName}}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>modifiedOn</label>
+						<div class="col-sm-8">
+							<p class="form-control-static">{{ form.lastModifiedOn  | qDate:'lll'}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+		<div class="clearfix">
+			<div class="pull-right">
+				<button class="btn btn-danger" ng-click="cancel($event)"><i class="fa fa-ban"></i> <span translate>cancel</span></button>
+				<button class="btn btn-success"><i class="fa fa-check"></i> <span translate>create</span></button>
+			</div>
+		</div>
+	</form>
+	</section>
+</div>

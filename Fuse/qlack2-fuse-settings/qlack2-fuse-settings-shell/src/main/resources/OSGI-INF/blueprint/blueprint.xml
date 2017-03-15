@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}">
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="SettingsService" interface="com.eurodyn.qlack2.fuse.settings.api.SettingsService" />
+
+</blueprint>

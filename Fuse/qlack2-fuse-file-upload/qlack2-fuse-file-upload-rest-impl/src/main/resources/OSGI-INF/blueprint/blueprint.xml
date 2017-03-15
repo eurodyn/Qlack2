@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
+
+	<jpa:enable />
+	<tx:enable />
+	
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.fileuploadrest"
+		update-strategy="reload">
+		<cm:default-properties>
+			<!-- The name of the header to lookup ticket information in -->
+			<cm:property name="ticket.header.name" value="X-Qlack-Fuse-IDM-Token" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<!-- EXTERNAL SERVICES -->
+	<!-- <reference id="FileUpload"
+		interface="com.eurodyn.qlack2.fuse.fileupload.api.FileUpload" /> -->
+
+	<!-- LOCAL BEANS & SERVICES -->
+	<!-- <bean id="FileUploadRestImpl"
+		class="com.eurodyn.qlack2.fuse.fileupload.impl.rest.FileUploadRestImpl">
+		<property name="fileUpload" ref="FileUpload" />
+		<cm:managed-properties persistent-id="com.eurodyn.qlack2.fuse.fileuploadrest" 
+				update-strategy="container-managed" />
+		<property name="ticketHeaderName" value="${ticket.header.name}"/>
+	</bean>
+	<service id="FileUploadRestService" ref="FileUploadRestImpl"
+		interface="com.eurodyn.qlack2.fuse.fileupload.api.rest.FileUploadRest"/> -->
+
+</blueprint>

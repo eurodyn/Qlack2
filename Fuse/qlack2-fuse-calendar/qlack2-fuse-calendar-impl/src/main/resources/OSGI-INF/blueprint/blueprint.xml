@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
+
+	<jpa:enable />
+	<tx:enable />
+
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.calendar" update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="export.all_day" value="X-QLACK-ALL-DAY" />
+			<cm:property name="export.contact_id" value="X-QLACK-CONTACT-ID" />
+			<cm:property name="export.created_by" value="X-QLACK-CREATED-BY" />
+			<cm:property name="export.item_category" value="X-QLACK-ITEM-CATEGORY" />
+			<cm:property name="export.last_modified_by" value="X-QLACK-LAST-MODIFIED-BY" />
+			<cm:property name="export.participant_id" value="X-QLACK-PARTICIPANT-ID" />
+			<cm:property name="export.prod_id" value="-//European Dynamics SA//Qlack Fuse 2.0//EN" />
+			<cm:property name="export.supporting_object_category" value="X-QLACK-ATTACH-CATEGORY" />
+			<cm:property name="export.supporting_object_created_by" value="X-QLACK-ATTACH-CREATED-BY" />
+			<cm:property name="export.supporting_object_created_on" value="X-QLACK-ATTACH-CREATED-ON" />
+			<cm:property name="export.supporting_object_filename" value="X-QLACK-ATTACH-FILENAME" />
+			<cm:property name="export.supporting_object_last_modified_by" value="X-QLACK-ATTACH-LAST-MODIFIED-BY" />
+			<cm:property name="export.supporting_object_last_modified_on" value="X-QLACK-ATTACH-LAST-MODIFIED-ON" />
+			<cm:property name="export.supporting_object_object_id" value="X-QLACK-ATTACH-OBJECT-ID" />
+			<cm:property name="export.supporting_object_object_link" value="X-QLACK-ATTACH-OBJECT-LINK" />
+			<cm:property name="export.uid_suffix" value="QLACKFUSE" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<!-- LOCAL SERVICES & BEANS -->
+	<bean id="CalendarItemServiceImpl"
+		  class="com.eurodyn.qlack2.fuse.calendar.impl.CalendarItemServiceImpl">
+	</bean>
+	<bean id="CalendarServiceImpl"
+		  class="com.eurodyn.qlack2.fuse.calendar.impl.CalendarServiceImpl">
+	</bean>
+	<bean id="ImportExportServiceImpl"
+		  class="com.eurodyn.qlack2.fuse.calendar.impl.ImportExportServiceImpl">
+			<cm:managed-properties persistent-id="com.eurodyn.qlack2.fuse.calendar" 
+					update-strategy="container-managed" />
+			<property name="exportAllDay" value="${export.all_day}"/>
+			<property name="exportContactID" value="${export.contact_id}"/>
+			<property name="exportCreatedBy" value="${export.created_by}"/>
+			<property name="exportItemCategory" value="${export.item_category}"/>
+			<property name="exportLastModifiedBy" value="${export.last_modified_by}"/>
+			<property name="exportParticipantID" value="${export.participant_id}"/>
+			<property name="exportProdID" value="${export.prod_id}"/>
+			<property name="exportSupportingObjectCategory" value="${export.supporting_object_category}"/>
+			<property name="exportSupportingObjectCreatedBy" value="${epxort.supporting_object_created_by}"/>
+			<property name="exportSupportingObjectCreatedOn" value="${export.supporting_object_created_on}"/>
+			<property name="exportSupportingObjectFilename" value="${export.supporting_object_filename}"/>
+			<property name="exportSupportingObjectLastModifiedBy" value="${export.supporting_object_last_modified_by}"/>
+			<property name="exportSupportingObjectLastModifiedOn" value="${export.supporting_object_last_modified_on}"/>
+			<property name="exportSupportingObjectObjectId" value="${export.supporting_object_object_id}"/>
+			<property name="exportSupportingObjectObjectLink" value="${export.supporting_object_object_link}"/>
+			<property name="exportUIDSuffix" value="${export.uid_suffix}"/>
+	</bean>
+
+	<service id="CalendarItemService" ref="CalendarItemServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.calendar.api.CalendarItemService"/>
+	<service id="CalendarService" ref="CalendarServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.calendar.api.CalendarService"/>
+	<service id="ImportExportService" ref="ImportExportServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.calendar.api.ImportExportService"/>
+
+</blueprint>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}"
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
+
+	<jpa:enable />
+	<tx:enable />
+
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.contentmanager"
+		update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="storageStrategy" value="DBStorage" />
+			<cm:property name="cleanupInterval" value="60000" />
+			<cm:property name="enableCleanup" value="true" />
+			<cm:property name="startupDelay" value="300000" />
+			<cm:property name="cycleLength" value="10000" />
+			<cm:property name="chunkSize" value="4096000" />
+			<cm:property name="buckets" value="1000" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+</blueprint>

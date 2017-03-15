@@ -1,0 +1,21 @@
+<div ng-controller="CreateProjectCtrl">
+	<div class="clearfix resourceHeading">
+		<div class="pull-left">
+			<h3>{{project.name}}</h3>
+		</div>
+	</div>
+	
+	<section class="well">
+	<form name="projectForm" class="form-horizontal" role="form" novalidate>
+		<fieldset>
+			<ng-include src="'views/projects/projectDetailsFragment.html'"></ng-include>
+		</fieldset>
+		<div class="clearfix">
+			<div class="pull-right">
+				<button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> Cancel</button>
+				<button class="btn btn-success" ng-click="save()"><i class="fa fa-check"></i> Save</button>
+			</div>
+		</div>
+	</form>
+	</section>
+</div>

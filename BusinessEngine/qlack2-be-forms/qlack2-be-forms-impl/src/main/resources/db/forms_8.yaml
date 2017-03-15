@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: forms_8
+      author: ehond
+      changes:
+        - createTable:
+            tableName: fmn_form_version_request_info
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: form_version
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: locale
+                  type: varchar(5)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: data
+                  type: text
+                  constraints:
+                    nullable: true
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_fmn_frm_vrs_req_fmn_frm_vrs
+            baseTableName: fmn_form_version_request_info
+            baseColumnNames: form_version
+            referencedTableName: fmn_form_version
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade

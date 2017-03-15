@@ -1,0 +1,96 @@
+<div class="row" ng-controller="UserDetailsCtrl">
+	<div class="col-sm-6">
+		<div class="form-group"
+				ng-class="{'has-error has-feedback': userForm.username.$invalid && !userForm.username.$dirty}">
+			<label for="username" class="col-sm-4 control-label" translate>username</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" id="username" name="username" ng-model="user.username">
+				<i ng-show="userForm.username.$invalid && !userForm.username.$dirty" 
+					class="fa fa-exclamation-triangle form-control-feedback" 
+					popover="{{userForm.username.message}}" 
+					popover-placement="left" popover-trigger="mouseenter"></i>
+			</div>
+		</div>
+		<div class="form-group"
+				ng-class="{'has-error has-feedback': userForm.firstName.$invalid && !userForm.firstName.$dirty}">
+			<label for="fname" class="col-sm-4 control-label" translate>first_name</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" id="fname" name="firstName" ng-model="user.firstName">
+				<i ng-show="userForm.firstName.$invalid && !userForm.firstName.$dirty" 
+					class="fa fa-exclamation-triangle form-control-feedback" 
+					popover="{{userForm.firstName.message}}" 
+					popover-placement="left" popover-trigger="mouseenter"></i>
+			</div>
+		</div>
+		<div class="form-group"
+				ng-class="{'has-error has-feedback': userForm.lastName.$invalid && !userForm.lastName.$dirty}">
+			<label for="lname" class="col-sm-4 control-label" translate>last_name</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" id="lname" name="lastName" ng-model="user.lastName">
+				<i ng-show="userForm.lastName.$invalid && !userForm.lastName.$dirty" 
+					class="fa fa-exclamation-triangle form-control-feedback" 
+					popover="{{userForm.lastName.message}}" 
+					popover-placement="left" popover-trigger="mouseenter"></i>
+			</div>
+		</div>
+		<div class="form-group"
+				ng-class="{'has-error has-feedback': userForm.email.$invalid && !userForm.email.$dirty}">
+			<label for="email" class="col-sm-4 control-label" translate>email</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" id="email" name="email" ng-model="user.email">
+				<i ng-show="userForm.email.$invalid && !userForm.email.$dirty" 
+					class="fa fa-exclamation-triangle form-control-feedback" 
+					popover="{{userForm.email.message}}" 
+					popover-placement="left" popover-trigger="mouseenter"></i>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" translate>status</label>
+			<div class="col-sm-8 controls">
+				<label class="radio-inline">
+					<input type="radio" value="true" name="active"
+						ng-checked="user.active == true" ng-model="user.active">
+					{{'active' | translate}}
+				</label>
+				<label class="radio-inline">
+					<input type="radio" value="false" name="active"
+						ng-checked="user.active == false" ng-model="user.active">
+					{{'inactive' | translate}}
+				</label>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" translate>superadmin</label>
+			<div class="col-sm-8 controls">
+				<label class="radio-inline">
+					<input type="radio" value="true" name="superadmin" 
+						ng-checked="user.superadmin == true" ng-model="user.superadmin">
+					{{'yes' | translate}}
+				</label>
+				<label class="radio-inline">
+					<input type="radio" value="false" name="superadmin" 
+						ng-checked="user.superadmin == false" ng-model="user.superadmin">
+					{{'no' | translate}}
+				</label>
+			</div>
+		</div>
+		<div ng-if="newUser" ng-include="'views/users/userPasswordFragment.html'"></div>
+	</div>
+	<div class="col-sm-6" ng-class="{'has-error has-feedback': groupsHaveError}">
+		<script id="groupTreeTemplate" type="text/kendo-ui-template">
+							<span ui-sref="groups.group({groupId: '#=item.id#'})" ng-click="cancel()">#=item.name#</span>
+						</script>
+		<script id="groupCheckboxTemplate" type="text/kendo-ui-template">
+							<input type="checkbox" name="userGroups" value="#=item.id#" 
+								ng-checked="user.groups.indexOf('#=item.id#') > -1" ng-click="selectUserGroup('#=item.id#')"
+								ng-disabled="!permissions['WD_MANAGE_USERS']" />
+						</script>
+		<i ng-show="groupsHaveError" 
+			class="fa fa-exclamation-triangle form-control-feedback treeValidation" 
+				popover="{{groupsError}}" 
+				popover-placement="left" popover-trigger="mouseenter"></i>
+		<div kendo-tree-view class="nonEditable" k-data-source="groupTreeSource" 
+			k-template="groupTreeTemplate" k-checkboxes="{template: groupCheckboxTemplate}" k-selectable="false"
+			k-on-data-bound="groupTreeLoaded(kendoEvent)"></div>
+	</div>
+</div>

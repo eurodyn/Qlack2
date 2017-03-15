@@ -1,0 +1,29 @@
+<div class="qwin-component ui-widget-content active" 
+	id="qwin-id-{{applicationInstance.appID}}${{applicationInstance.instanceID}}" 
+	ng-click="desktop.raiseWindow(applicationInstance.appID, applicationInstance.instanceID)"
+	style="z-index: ${zindex}" 
+	ng-class="[applicationInstance.minimised ? 'minimised' : '', applicationInstance.maximised ? 'maximised' : '']">
+	<div class="panel qwin-panel">
+		<div class="heading qwin-heading" >
+			<span class="icon" ng-show="applicationInstance.iconType=='{image}'"> 
+				<img http-src="{{applicationInstance.iconName}}">
+			</span>
+			
+			<span class="icon {{applicationInstance.iconName}}"
+				ng-show="applicationInstance.iconType=='{icon}'">
+			</span>
+			
+			<span class="title" translate>{{applicationInstance.translationsGroup + "." + applicationInstance.titleKey}}</span>
+			<span class="actions place-right">
+				<span ng-if="applicationInstance.minimizable" class="icon mif-minus" ng-click="desktop.desktopService.toggleMinimised(applicationInstance.appID, applicationInstance.instanceID)"></span>
+				<span ng-if="applicationInstance.maximizable" class="icon mif-enlarge" ng-click="desktop.desktopService.toggleMaximised(applicationInstance.appID, applicationInstance.instanceID)"></span>
+				<span ng-if="applicationInstance.closable" class="icon mif-cross" ng-click="desktop.desktopService.setApplicationAsClosed(applicationInstance.appID, applicationInstance.instanceID)"></span>
+			</span>
+		</div>		
+		<div class="content qwin-content">
+			<iframe src="{{trustSrc(applicationInstance.url)}}" 
+				data-app-id="{{applicationInstance.appID}}" 
+				data-app-instance-id="{{applicationInstance.instanceID}}"/>
+		</div>
+	</div>
+</div>

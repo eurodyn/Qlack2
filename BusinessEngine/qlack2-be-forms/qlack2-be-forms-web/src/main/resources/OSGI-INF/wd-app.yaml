@@ -1,0 +1,28 @@
+!!WDApplication:
+  identification:
+    uniqueId:           c47945db-f187-48a7-b959-5e905417104d
+    titleKey:           application_title
+    descriptionKey:     application_description
+    version:            2.0.0
+  instantiation:
+    path:               apps/forms
+    index:              /
+    multipleInstances:  false
+    restrictAccess:     true
+    translationsGroup:  forms_ui
+  menu:
+    icon:               /img/app-forms-icon.png
+    iconSmall:          /img/app-forms-icon-small.png
+    type:
+      displayOn:        group
+      groupKey:         a_components
+  window:
+    width:              1100
+    minWidth:           750
+    height:             800
+    minHeight:          400
+    resizable:          true
+    maximizable:        true
+    minimizable:        true
+    closable:           true
+    draggable:          true

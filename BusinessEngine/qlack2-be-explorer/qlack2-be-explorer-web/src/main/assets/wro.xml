@@ -1,0 +1,30 @@
+<groups xmlns="http://www.isdc.ro/wro">
+	<group name="explorer">
+		<js>/js/App.coffee</js>
+		<js>/js/Constants.coffee</js>
+		<js minimize="false">/js/services/**.coffee</js>
+		<js minimize="false">/js/controllers/**.coffee</js>
+
+		<css>/css/explorer.less</css>
+	</group>
+
+	<group name="explorer-vendor">
+		<js minimize="false">classpath:META-INF/resources/webjars/jquery/1.9.1/jquery.min.js</js>
+		<js minimize="false">/js-vendor/angular.min.js</js>
+		<js minimize="false">/js-vendor/angular-cookies.min.js</js>
+		<js minimize="false">/js-vendor/kendo.web.min.js</js>
+		<js minimize="false">/js-vendor/angular-kendo.js</js>
+		<js minimize="false">/js-vendor/ui-bootstrap-tpls.min.js</js>
+		<js minimize="false">/js-vendor/angular-ui-router.min.js</js>
+		<js minimize="false">/js-vendor/angular-translate.min.js</js>
+		<js minimize="false">/js-vendor/angular-translate-storage-local.js</js>
+		<js minimize="false">/js-vendor/angular-translate-storage-cookie.js</js>
+		<js>/js-vendor/angular-translate-loader-partial.js</js>
+		<js minimize="false">/js-vendor/SecuritySrvProvider.js</js>
+		<js minimize="false">/js-vendor/moment-with-langs.min.js</js>
+		<js minimize="false">/js-vendor/QFormValidationProvider.js</js>
+		<js minimize="false">/js-vendor/QDateProvider.js</js>
+
+		<css minimize="false">/css-vendor/font-awesome.min.css</css>
+	</group>
+</groups>

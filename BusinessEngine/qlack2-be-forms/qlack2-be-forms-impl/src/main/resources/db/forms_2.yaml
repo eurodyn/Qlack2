@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - changeSet:
+      id: forms_2
+      author: ehond
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: fmn_condition
+            constraintName: fk_fmn_condition_fmn_condition
+        - addForeignKeyConstraint:
+            constraintName: fk_fmn_condition_fmn_condition
+            baseTableName: fmn_condition
+            baseColumnNames: parent
+            referencedTableName: fmn_condition
+            referencedColumnNames: id
+            onDelete: set null
+            onUpdate: cascade

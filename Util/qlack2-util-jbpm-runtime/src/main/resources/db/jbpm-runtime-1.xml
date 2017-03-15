@@ -1,0 +1,807 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="European Dynamics S.A." id="1411039582409-1">
+        <createTable tableName="jbpm_Attachment">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="accessType" type="INT(10)"/>
+            <column name="attachedAt" type="datetime"/>
+            <column name="attachmentContentId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contentType" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="attachment_size" type="INT(10)"/>
+            <column name="attachedBy_id" type="VARCHAR(255)"/>
+            <column name="TaskData_Attachments_Id" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-2">
+        <createTable tableName="jbpm_AuditTaskImpl">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="activationTime" type="datetime"/>
+            <column name="actualOwner" type="VARCHAR(255)"/>
+            <column name="createdBy" type="VARCHAR(255)"/>
+            <column name="createdOn" type="datetime"/>
+            <column name="deploymentId" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="dueDate" type="datetime"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="parentId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="priority" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="processId" type="VARCHAR(255)"/>
+            <column name="processInstanceId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="processSessionId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="taskId" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-3">
+        <createTable tableName="jbpm_BAMTaskSummary">
+            <column autoIncrement="true" name="pk" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="createdDate" type="datetime"/>
+            <column name="duration" type="BIGINT(19)"/>
+            <column name="endDate" type="datetime"/>
+            <column name="processInstanceId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="startDate" type="datetime"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="taskId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="taskName" type="VARCHAR(255)"/>
+            <column name="userId" type="VARCHAR(255)"/>
+            <column name="OPTLOCK" type="INT(10)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-4">
+        <createTable tableName="jbpm_BooleanExpression">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="expression" type="LONGTEXT"/>
+            <column name="type" type="VARCHAR(255)"/>
+            <column name="Escalation_Constraints_Id" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-5">
+        <createTable tableName="jbpm_CompletionBehavior">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-6">
+        <createTable tableName="jbpm_Content">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="content" type="LONGBLOB"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-7">
+        <createTable tableName="jbpm_ContextMappingInfo">
+            <column autoIncrement="true" name="mappingId" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="CONTEXT_ID" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="KSESSION_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OWNER_ID" type="VARCHAR(255)"/>
+            <column name="OPTLOCK" type="INT(10)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-8">
+        <createTable tableName="jbpm_CorrelationKeyInfo">
+            <column autoIncrement="true" name="keyId" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="processInstanceId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OPTLOCK" type="INT(10)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-9">
+        <createTable tableName="jbpm_CorrelationPropertyInfo">
+            <column autoIncrement="true" name="propertyId" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="value" type="VARCHAR(255)"/>
+            <column name="OPTLOCK" type="INT(10)"/>
+            <column name="correlationKey_keyId" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-10">
+        <createTable tableName="jbpm_Deadline">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="deadline_date" type="datetime"/>
+            <column name="escalated" type="SMALLINT(5)"/>
+            <column name="Deadlines_StartDeadLine_Id" type="BIGINT(19)"/>
+            <column name="Deadlines_EndDeadLine_Id" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-11">
+        <createTable tableName="jbpm_Delegation_delegates">
+            <column name="task_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entity_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-12">
+        <createTable tableName="jbpm_ErrorInfo">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="message" type="VARCHAR(255)"/>
+            <column name="stacktrace" type="VARCHAR(4000)"/>
+            <column name="timestamp" type="datetime"/>
+            <column name="REQUEST_ID" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-13">
+        <createTable tableName="jbpm_Escalation">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="Deadline_Escalation_Id" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-14">
+        <createTable tableName="jbpm_EventTypes">
+            <column name="InstanceId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="element" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-15">
+        <createTable tableName="jbpm_I18NText">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="language" type="VARCHAR(255)"/>
+            <column name="shortText" type="VARCHAR(255)"/>
+            <column name="text" type="LONGTEXT"/>
+            <column name="Task_Subjects_Id" type="BIGINT(19)"/>
+            <column name="Task_Names_Id" type="BIGINT(19)"/>
+            <column name="Task_Descriptions_Id" type="BIGINT(19)"/>
+            <column name="Reassignment_Documentation_Id" type="BIGINT(19)"/>
+            <column name="Notification_Subjects_Id" type="BIGINT(19)"/>
+            <column name="Notification_Names_Id" type="BIGINT(19)"/>
+            <column name="Notification_Documentation_Id" type="BIGINT(19)"/>
+            <column name="Notification_Descriptions_Id" type="BIGINT(19)"/>
+            <column name="Deadline_Documentation_Id" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-16">
+        <createTable tableName="jbpm_NodeInstanceLog">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="connection" type="VARCHAR(255)"/>
+            <column name="log_date" type="datetime"/>
+            <column name="externalId" type="VARCHAR(255)"/>
+            <column name="nodeId" type="VARCHAR(255)"/>
+            <column name="nodeInstanceId" type="VARCHAR(255)"/>
+            <column name="nodeName" type="VARCHAR(255)"/>
+            <column name="nodeType" type="VARCHAR(255)"/>
+            <column name="processId" type="VARCHAR(255)"/>
+            <column name="processInstanceId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="workItemId" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-17">
+        <createTable tableName="jbpm_Notification">
+            <column name="DTYPE" type="VARCHAR(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="priority" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Escalation_Notifications_Id" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-18">
+        <createTable tableName="jbpm_Notification_BAs">
+            <column name="task_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entity_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-19">
+        <createTable tableName="jbpm_Notification_Recipients">
+            <column name="task_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entity_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-20">
+        <createTable tableName="jbpm_Notification_email_header">
+            <column name="Notification_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="emailHeaders_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mapkey" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-21">
+        <createTable tableName="jbpm_OrganizationalEntity">
+            <column name="DTYPE" type="VARCHAR(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-22">
+        <createTable tableName="jbpm_PeopleAssignments_BAs">
+            <column name="task_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entity_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-23">
+        <createTable tableName="jbpm_PeopleAssignments_ExclOwn">
+            <column name="task_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entity_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-24">
+        <createTable tableName="jbpm_PeopleAssignments_PotOwne">
+            <column name="task_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entity_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-25">
+        <createTable tableName="jbpm_PeopleAssignments_Recipie">
+            <column name="task_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entity_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-26">
+        <createTable tableName="jbpm_PeopleAssignments_Stakeho">
+            <column name="task_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entity_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-27">
+        <createTable tableName="jbpm_PresentationElement">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-28">
+        <createTable tableName="jbpm_ProcessInstanceEventInfo">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="eventType" type="VARCHAR(255)"/>
+            <column name="processInstanceId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OPTLOCK" type="INT(10)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-29">
+        <createTable tableName="jbpm_ProcessInstanceInfo">
+            <column autoIncrement="true" name="InstanceId" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="lastModificationDate" type="datetime"/>
+            <column name="lastReadDate" type="datetime"/>
+            <column name="processId" type="VARCHAR(255)"/>
+            <column name="processInstanceByteArray" type="LONGBLOB"/>
+            <column name="startDate" type="datetime"/>
+            <column name="state" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OPTLOCK" type="INT(10)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-30">
+        <createTable tableName="jbpm_ProcessInstanceLog">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="duration" type="BIGINT(19)"/>
+            <column name="end_date" type="datetime"/>
+            <column name="externalId" type="VARCHAR(255)"/>
+            <column name="user_identity" type="VARCHAR(255)"/>
+            <column name="outcome" type="VARCHAR(255)"/>
+            <column name="parentProcessInstanceId" type="BIGINT(19)"/>
+            <column name="processId" type="VARCHAR(255)"/>
+            <column name="processInstanceDescription" type="VARCHAR(255)"/>
+            <column name="processInstanceId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="processName" type="VARCHAR(255)"/>
+            <column name="processVersion" type="VARCHAR(255)"/>
+            <column name="start_date" type="datetime"/>
+            <column name="status" type="INT(10)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-31">
+        <createTable tableName="jbpm_Reassignment">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="Escalation_Reassignments_Id" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-32">
+        <createTable tableName="jbpm_Reassignment_potentialOwn">
+            <column name="task_id" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="entity_id" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-33">
+        <createTable tableName="jbpm_RequestInfo">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="commandName" type="VARCHAR(255)"/>
+            <column name="deploymentId" type="VARCHAR(255)"/>
+            <column name="executions" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="businessKey" type="VARCHAR(255)"/>
+            <column name="message" type="VARCHAR(255)"/>
+            <column name="owner" type="VARCHAR(255)"/>
+            <column name="requestData" type="LONGBLOB"/>
+            <column name="responseData" type="LONGBLOB"/>
+            <column name="retries" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="timestamp" type="datetime"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-34">
+        <createTable tableName="jbpm_SessionInfo">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="lastModificationDate" type="datetime"/>
+            <column name="rulesByteArray" type="LONGBLOB"/>
+            <column name="startDate" type="datetime"/>
+            <column name="OPTLOCK" type="INT(10)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-35">
+        <createTable tableName="jbpm_Task">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="archived" type="SMALLINT(5)"/>
+            <column name="allowedToDelegate" type="VARCHAR(255)"/>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="formName" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="priority" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subTaskStrategy" type="VARCHAR(255)"/>
+            <column name="subject" type="VARCHAR(255)"/>
+            <column name="activationTime" type="datetime"/>
+            <column name="createdOn" type="datetime"/>
+            <column name="deploymentId" type="VARCHAR(255)"/>
+            <column name="documentAccessType" type="INT(10)"/>
+            <column name="documentContentId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="documentType" type="VARCHAR(255)"/>
+            <column name="expirationTime" type="datetime"/>
+            <column name="faultAccessType" type="INT(10)"/>
+            <column name="faultContentId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="faultName" type="VARCHAR(255)"/>
+            <column name="faultType" type="VARCHAR(255)"/>
+            <column name="outputAccessType" type="INT(10)"/>
+            <column name="outputContentId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="outputType" type="VARCHAR(255)"/>
+            <column name="parentId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="previousStatus" type="INT(10)"/>
+            <column name="processId" type="VARCHAR(255)"/>
+            <column name="processInstanceId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="processSessionId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="skipable" type="BIT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="workItemId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="taskType" type="VARCHAR(255)"/>
+            <column name="OPTLOCK" type="INT(10)"/>
+            <column name="taskInitiator_id" type="VARCHAR(255)"/>
+            <column name="actualOwner_id" type="VARCHAR(255)"/>
+            <column name="createdBy_id" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-36">
+        <createTable tableName="jbpm_TaskDef">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="priority" type="INT(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-37">
+        <createTable tableName="jbpm_TaskEvent">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="logTime" type="datetime"/>
+            <column name="processInstanceId" type="BIGINT(19)"/>
+            <column name="taskId" type="BIGINT(19)"/>
+            <column name="type" type="VARCHAR(255)"/>
+            <column name="userId" type="VARCHAR(255)"/>
+            <column name="OPTLOCK" type="INT(10)"/>
+            <column name="workItemId" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-38">
+        <createTable tableName="jbpm_VariableInstanceLog">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="log_date" type="datetime"/>
+            <column name="externalId" type="VARCHAR(255)"/>
+            <column name="oldValue" type="VARCHAR(255)"/>
+            <column name="processId" type="VARCHAR(255)"/>
+            <column name="processInstanceId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="VARCHAR(255)"/>
+            <column name="variableId" type="VARCHAR(255)"/>
+            <column name="variableInstanceId" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-39">
+        <createTable tableName="jbpm_WorkItemInfo">
+            <column autoIncrement="true" name="workItemId" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="creationDate" type="datetime"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="processInstanceId" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="BIGINT(19)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="OPTLOCK" type="INT(10)"/>
+            <column name="workItemByteArray" type="LONGBLOB"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-40">
+        <createTable tableName="jbpm_email_header">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="body" type="LONGTEXT"/>
+            <column name="fromAddress" type="VARCHAR(255)"/>
+            <column name="language" type="VARCHAR(255)"/>
+            <column name="replyToAddress" type="VARCHAR(255)"/>
+            <column name="subject" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-41">
+        <createTable tableName="jbpm_task_comment">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="addedAt" type="datetime"/>
+            <column name="text" type="LONGTEXT"/>
+            <column name="addedBy_id" type="VARCHAR(255)"/>
+            <column name="TaskData_Comments_Id" type="BIGINT(19)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-42">
+        <addPrimaryKey columnNames="Notification_id, mapkey" constraintName="PK_Notification_email_header" tableName="jbpm_Notification_email_header"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-43">
+        <addPrimaryKey columnNames="id" constraintName="PK_OrganizationalEntity" tableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-44">
+        <addUniqueConstraint columnNames="emailHeaders_id" constraintName="UK_ptaka5kost68h7l3wflv7w6y8" deferrable="false" disabled="false" initiallyDeferred="false" tableName="jbpm_Notification_email_header"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-45">
+        <addForeignKeyConstraint baseColumnNames="TaskData_Comments_Id" baseTableName="jbpm_task_comment" constraintName="FK_1ws9jdmhtey6mxu7jb0r0ufvs" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Task"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-46">
+        <addForeignKeyConstraint baseColumnNames="Deadline_Documentation_Id" baseTableName="jbpm_I18NText" constraintName="FK_21qvifarxsvuxeaw5sxwh473w" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Deadline"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-47">
+        <addForeignKeyConstraint baseColumnNames="Escalation_Constraints_Id" baseTableName="jbpm_BooleanExpression" constraintName="FK_394nf2qoc0k9ok6omgd6jtpso" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Escalation"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-48">
+        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="jbpm_Notification_Recipients" constraintName="FK_3l244pj8sh78vtn9imaymrg47" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Notification"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-49">
+        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="jbpm_PeopleAssignments_Stakeho" constraintName="FK_4bh3ay74x6ql9usunubttfdf1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Task"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-50">
+        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="jbpm_PeopleAssignments_PotOwne" constraintName="FK_4dv2oji7pr35ru0w45trix02x" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Task"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-51">
+        <addForeignKeyConstraint baseColumnNames="Task_Descriptions_Id" baseTableName="jbpm_I18NText" constraintName="FK_4eyfp69ucrron2hr7qx4np2fp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Task"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-52">
+        <addForeignKeyConstraint baseColumnNames="entity_id" baseTableName="jbpm_PeopleAssignments_Recipie" constraintName="FK_4g7y3wx6gnokf6vycgpxs83d6" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-53">
+        <addForeignKeyConstraint baseColumnNames="Deadlines_StartDeadLine_Id" baseTableName="jbpm_Deadline" constraintName="FK_68w742sge00vco2cq3jhbvmgx" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Task"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-54">
+        <addForeignKeyConstraint baseColumnNames="attachedBy_id" baseTableName="jbpm_Attachment" constraintName="FK_7ndpfa311i50bq7hy18q05va3" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-55">
+        <addForeignKeyConstraint baseColumnNames="entity_id" baseTableName="jbpm_Reassignment_potentialOwn" constraintName="FK_8frl6la7tgparlnukhp8xmody" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-56">
+        <addForeignKeyConstraint baseColumnNames="addedBy_id" baseTableName="jbpm_task_comment" constraintName="FK_aax378yjnsmw9kb9vsu994jjv" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-57">
+        <addForeignKeyConstraint baseColumnNames="Deadline_Escalation_Id" baseTableName="jbpm_Escalation" constraintName="FK_ay2gd4fvl9yaapviyxudwuvfg" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Deadline"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-58">
+        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="jbpm_PeopleAssignments_ExclOwn" constraintName="FK_b8owuxfrdng050ugpk0pdowa7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Task"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-59">
+        <addForeignKeyConstraint baseColumnNames="Escalation_Notifications_Id" baseTableName="jbpm_Notification" constraintName="FK_bdbeml3768go5im41cgfpyso9" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Escalation"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-60">
+        <addForeignKeyConstraint baseColumnNames="entity_id" baseTableName="jbpm_Notification_Recipients" constraintName="FK_blf9jsrumtrthdaqnpwxt25eu" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-61">
+        <addForeignKeyConstraint baseColumnNames="Notification_Descriptions_Id" baseTableName="jbpm_I18NText" constraintName="FK_bw8vmpekejxt1ei2ge26gdsry" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Notification"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-62">
+        <addForeignKeyConstraint baseColumnNames="REQUEST_ID" baseTableName="jbpm_ErrorInfo" constraintName="FK_cms0met37ggfw5p5gci3otaq0" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_RequestInfo"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-63">
+        <addForeignKeyConstraint baseColumnNames="taskInitiator_id" baseTableName="jbpm_Task" constraintName="FK_dpk0f9ucm14c78bsxthh7h8yh" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-64">
+        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="jbpm_PeopleAssignments_Recipie" constraintName="FK_enhk831fghf6akjilfn58okl4" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Task"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-65">
+        <addForeignKeyConstraint baseColumnNames="Notification_id" baseTableName="jbpm_Notification_email_header" constraintName="FK_eth4nvxn21fk1vnju85vkjrai" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Notification"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-66">
+        <addForeignKeyConstraint baseColumnNames="Deadlines_EndDeadLine_Id" baseTableName="jbpm_Deadline" constraintName="FK_euoohoelbqvv94d8a8rcg8s5n" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Task"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-67">
+        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="jbpm_Delegation_delegates" constraintName="FK_fajq6kossbsqwr3opkrctxei3" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Task"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-68">
+        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="jbpm_Notification_BAs" constraintName="FK_fc0uuy76t2bvxaxqysoo8xts7" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Notification"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-69">
+        <addForeignKeyConstraint baseColumnNames="Task_Names_Id" baseTableName="jbpm_I18NText" constraintName="FK_fd9uk6hemv2dx1ojovo7ms3vp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Task"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-70">
+        <addForeignKeyConstraint baseColumnNames="Notification_Names_Id" baseTableName="jbpm_I18NText" constraintName="FK_g1trxri8w64enudw2t1qahhk5" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Notification"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-71">
+        <addForeignKeyConstraint baseColumnNames="entity_id" baseTableName="jbpm_Delegation_delegates" constraintName="FK_gn7ula51sk55wj1o1m57guqxb" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-72">
+        <addForeignKeyConstraint baseColumnNames="TaskData_Attachments_Id" baseTableName="jbpm_Attachment" constraintName="FK_hqupx569krp0f0sgu9kh87513" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Task"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-73">
+        <addForeignKeyConstraint baseColumnNames="correlationKey_keyId" baseTableName="jbpm_CorrelationPropertyInfo" constraintName="FK_hrmx1m882cejwj9c04ixh50i4" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="keyId" referencedTableName="jbpm_CorrelationKeyInfo"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-74">
+        <addForeignKeyConstraint baseColumnNames="createdBy_id" baseTableName="jbpm_Task" constraintName="FK_k02og0u71obf1uxgcdjx9rcjc" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-75">
+        <addForeignKeyConstraint baseColumnNames="Task_Subjects_Id" baseTableName="jbpm_I18NText" constraintName="FK_k16jpgrh67ti9uedf6konsu1p" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Task"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-76">
+        <addForeignKeyConstraint baseColumnNames="entity_id" baseTableName="jbpm_PeopleAssignments_Stakeho" constraintName="FK_met63inaep6cq4ofb3nnxi4tm" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-77">
+        <addForeignKeyConstraint baseColumnNames="entity_id" baseTableName="jbpm_Notification_BAs" constraintName="FK_mfbsnbrhth4rjhqc2ud338s4i" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-78">
+        <addForeignKeyConstraint baseColumnNames="actualOwner_id" baseTableName="jbpm_Task" constraintName="FK_nh9nnt47f3l61qjlyedqt05rf" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-79">
+        <addForeignKeyConstraint baseColumnNames="InstanceId" baseTableName="jbpm_EventTypes" constraintName="FK_nrecj4617iwxlc65ij6m7lsl1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="InstanceId" referencedTableName="jbpm_ProcessInstanceInfo"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-80">
+        <addForeignKeyConstraint baseColumnNames="Notification_Subjects_Id" baseTableName="jbpm_I18NText" constraintName="FK_o84rkh69r47ti8uv4eyj7bmo2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Notification"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-81">
+        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="jbpm_PeopleAssignments_BAs" constraintName="FK_omjg5qh7uv8e9bolbaq7hv6oh" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Task"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-82">
+        <addForeignKeyConstraint baseColumnNames="Escalation_Reassignments_Id" baseTableName="jbpm_Reassignment" constraintName="FK_pnpeue9hs6kx2ep0sp16b6kfd" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Escalation"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-83">
+        <addForeignKeyConstraint baseColumnNames="Reassignment_Documentation_Id" baseTableName="jbpm_I18NText" constraintName="FK_pqarjvvnwfjpeyb87yd7m0bfi" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Reassignment"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-84">
+        <addForeignKeyConstraint baseColumnNames="emailHeaders_id" baseTableName="jbpm_Notification_email_header" constraintName="FK_ptaka5kost68h7l3wflv7w6y8" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_email_header"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-85">
+        <addForeignKeyConstraint baseColumnNames="entity_id" baseTableName="jbpm_PeopleAssignments_ExclOwn" constraintName="FK_pth28a73rj6bxtlfc69kmqo0a" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-86">
+        <addForeignKeyConstraint baseColumnNames="task_id" baseTableName="jbpm_Reassignment_potentialOwn" constraintName="FK_qbega5ncu6b9yigwlw55aeijn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Reassignment"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-87">
+        <addForeignKeyConstraint baseColumnNames="Notification_Documentation_Id" baseTableName="jbpm_I18NText" constraintName="FK_qoce92c70adem3ccb3i7lec8x" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_Notification"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-88">
+        <addForeignKeyConstraint baseColumnNames="entity_id" baseTableName="jbpm_PeopleAssignments_BAs" constraintName="FK_t38xbkrq6cppifnxequhvjsl2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-89">
+        <addForeignKeyConstraint baseColumnNames="entity_id" baseTableName="jbpm_PeopleAssignments_PotOwne" constraintName="FK_tee3ftir7xs6eo3fdvi3xw026" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="jbpm_OrganizationalEntity"/>
+    </changeSet>
+
+    <changeSet author="European Dynamics S.A." id="1411039582409-90" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="ATTACHMENT_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-91" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="AUDIT_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-92" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="BAM_TASK_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-93" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="BOOLEANEXPR_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-94" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="COMMENT_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-95" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="CONTENT_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-96" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="CONTEXT_MAPPING_INFO_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-97" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="CORRELATION_KEY_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-98" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="CORRELATION_PROP_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-99" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="DEADLINE_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-100" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="EMAILNOTIFHEAD_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-101" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="ERROR_INFO_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-102" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="ESCALATION_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-103" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="I18NTEXT_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-104" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="NODE_INST_LOG_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-105" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="NOTIFICATION_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-106" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="PROCESS_INSTANCE_INFO_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-107" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="PROC_INST_LOG_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-108" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="REASSIGNMENT_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-109" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="REQUEST_INFO_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-110" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="SESSIONINFO_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-111" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="TASK_DEF_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-112" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="TASK_EVENT_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-113" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="TASK_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-114" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="VAR_INST_LOG_ID_SEQ"/>
+    </changeSet>
+    <changeSet author="European Dynamics S.A." id="1411039582409-115" failOnError="false" dbms="oracle">
+        <createSequence sequenceName="WORKITEMINFO_ID_SEQ"/>
+    </changeSet>
+
+</databaseChangeLog>

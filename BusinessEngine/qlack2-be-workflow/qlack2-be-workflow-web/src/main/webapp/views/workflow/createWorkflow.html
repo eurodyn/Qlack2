@@ -1,0 +1,61 @@
+<div class="clearfix resourceHeading">
+	<div class="pull-left">
+		<h3 translate>create_workflow</h3>
+	</div>
+</div>
+
+<section class="well" ng-controller="WorkflowCreateCtrl">
+	<form class="form-horizontal" role="form" name="newWorkflowForm" novalidate>
+		<fieldset>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group" ng-class="{'has-error has-feedback': newWorkflowForm.name.$invalid && !newWorkflowForm.name.$dirty}">
+						<label for="name" class="col-sm-4 control-label" translate>workflowName</label>
+						<div class="col-sm-8">
+							<input name="name" id="name" type="text" class="form-control" ng-model="workflow.name"/>
+							<i ng-show="newWorkflowForm.name.$invalid && !newWorkflowForm.name.$dirty"
+								class="fa fa-exclamation-triangle form-control-feedback"
+								popover="{{newWorkflowForm.name.message}}"
+								popover-placement="left"
+								popover-trigger="mouseenter"></i>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{'has-error has-feedback': newWorkflowForm.description.$invalid && !newWorkflowForm.description.$dirty}">
+						<label for="description" class="col-sm-4 control-label" translate>workflowDescription</label>
+						<div class="col-sm-8">
+							<textarea id="description" class="form-control" ng-model="workflow.description"></textarea>
+							<i ng-show="newWorkflowForm.description.$invalid && !newWorkflowForm.description.$dirty"
+								class="fa fa-exclamation-triangle form-control-feedback"
+								popover="{{newWorkflowForm.description.message}}"
+								popover-placement="left"
+								popover-trigger="mouseenter"></i>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="categories" class="col-sm-4 control-label" translate>categories</label>
+						<div class="col-sm-8">
+							<select id="categories" name="categories" kendo-multi-select k-options="workflowCategories" ng-model="workflow.categories"></select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>status</label>
+						<div class="col-sm-8 controls">
+							<label class="radio-inline">
+								<input name="active" type="radio" ng-model="workflow.active" ng-value="true" /><label><span translate>active</span></label>
+							</label>
+							<label class="radio-inline">
+								<input name="active" type="radio" ng-model="workflow.active" ng-value="false" /><label><span translate>inactive</span></label>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+		<div class="clearfix">
+			<div class="pull-right">				
+				<button class="btn btn-success" ng-click="save()"><i class="fa fa-check"></i><span translate>create</span></button>
+				<button class="btn btn-danger" ng-click="cancel($event)"><i class="fa fa-ban"></i> <span translate>cancel</span></button>
+			</div>
+		</div>
+	</form>
+</section>

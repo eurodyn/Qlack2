@@ -1,0 +1,17 @@
+operations:
+  - name: FRM_VIEW_FORM
+    description: View / Export forms
+  - name: FRM_MANAGE_FORM
+    description: Create / Update / Delete forms and Create / Update / Delete / Finalise / Open in Orbeon Form Builder and Import form versions
+  - name: FRM_LOCK_FORM
+    description: Lock / Unlock form versions
+  - name: FRM_UNLOCK_ANY_FORM
+    description: Unlock form versions locked by other users
+  - name: FRM_VIEW_RENDERED_FORM
+    description: Get form to be rendered to an external application
+  - name: FRM_MANAGE_CATEGORY
+    description: Create / Update / Delete categories
+  - name: FRM_CONFIGURE
+    description: Configure the Forms Manager application
+  - name: FRM_MANAGED
+    description: User or group managed (in terms of access rights) by the Forms Manager application

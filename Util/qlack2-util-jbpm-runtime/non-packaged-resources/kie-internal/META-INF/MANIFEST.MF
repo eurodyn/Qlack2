@@ -1,0 +1,125 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1425503364519
+Build-Jdk: 1.6.0_45
+Build-Timestamp: Wed, 4 Mar 2015 22:08:46 +0100
+Built-By: kiereleaseuser
+Bundle-Description: The Drools and jBPM internal API which is NOT backwa
+ rds compatible between releases.
+Bundle-DocURL: http://www.jboss.org/
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-ManifestVersion: 2
+Bundle-Name: KIE Internal
+Bundle-SymbolicName: org.kie.internalapi
+Bundle-Vendor: JBoss by Red Hat
+Bundle-Version: 6.2.0.201503042108
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.kie.internal.query;version="6.2.0.201503042108",org.
+ kie.internal.event.knowledgeagent;version="6.2.0.201503042108",org.kie.
+ internal.task.api.model;version="6.2.0.201503042108",org.kie.internal.r
+ untime.manager.context;version="6.2.0.201503042108",org.kie.internal.si
+ mulation;version="6.2.0.201503042108",org.kie.internal.fluent.task;vers
+ ion="6.2.0.201503042108",org.kie.internal.task.exception;version="6.2.0
+ .201503042108",org.kie.internal.runtime.manager.cdi.qualifier;version="
+ 6.2.0.201503042108",org.kie.internal.query.data;version="6.2.0.20150304
+ 2108",org.kie.internal.security;version="6.2.0.201503042108",org.kie.in
+ ternal.runtime.beliefs;version="6.2.0.201503042108",org.kie.internal.ru
+ ntime;version="6.2.0.201503042108",org.kie.internal.command;version="6.
+ 2.0.201503042108",org.kie.internal.builder.help;version="6.2.0.20150304
+ 2108",org.kie.internal.agent.conf;version="6.2.0.201503042108",org.kie.
+ internal.fluent;version="6.2.0.201503042108",org.kie.internal.jaxb;vers
+ ion="6.2.0.201503042108",org.kie.internal.concurrent;version="6.2.0.201
+ 503042108",org.kie.internal.io;version="6.2.0.201503042108",org.kie.int
+ ernal.fluent.runtime;version="6.2.0.201503042108",org.kie.internal.agen
+ t;version="6.2.0.201503042108",org.kie.internal.definition;version="6.2
+ .0.201503042108",org.kie.internal.runtime.cdi;version="6.2.0.2015030421
+ 08",org.kie.internal.runtime.helper;version="6.2.0.201503042108",org.ki
+ e.internal.identity;version="6.2.0.201503042108",org.kie.internal.fluen
+ t.builder;version="6.2.0.201503042108",org.kie.internal.task.service;ve
+ rsion="6.2.0.201503042108",org.kie.internal.weaver;version="6.2.0.20150
+ 3042108",org.kie.internal.runtime.manager.audit.query;version="6.2.0.20
+ 1503042108",org.kie.internal.utils;version="6.2.0.201503042108",org.kie
+ .internal.builder;version="6.2.0.201503042108",org.kie.internal.assembl
+ er;version="6.2.0.201503042108",org.kie.internal.event.rule;version="6.
+ 2.0.201503042108",org.kie.internal.fluent.runtime.rule;version="6.2.0.2
+ 01503042108",org.kie.internal.logger;version="6.2.0.201503042108",org.k
+ ie.internal.runtime.conf;version="6.2.0.201503042108",org.kie.internal;
+ version="6.2.0.201503042108",org.kie.internal.builder.impl;version="6.2
+ .0.201503042108",org.kie.internal.builder.conf;version="6.2.0.201503042
+ 108",org.kie.internal.fluent.test;version="6.2.0.201503042108",org.kie.
+ internal.marshalling;version="6.2.0.201503042108",org.kie.internal.even
+ t.io;version="6.2.0.201503042108",org.kie.internal.fluent.simulation;ve
+ rsion="6.2.0.201503042108",org.kie.internal.process;version="6.2.0.2015
+ 03042108",org.kie.internal.conf;version="6.2.0.201503042108",org.kie.in
+ ternal.event;version="6.2.0.201503042108",org.kie.internal.executor.api
+ ;version="6.2.0.201503042108",org.kie.internal.persistence.jpa;version=
+ "6.2.0.201503042108",org.kie.internal.task.api;version="6.2.0.201503042
+ 108",org.kie.internal.fluent.runtime.process;version="6.2.0.20150304210
+ 8",org.kie.internal.runtime.manager;version="6.2.0.201503042108",org.ki
+ e.internal.task.query;version="6.2.0.201503042108"
+Implementation-Title: KIE Internal
+Implementation-URL: http://www.jboss.org/drools/kie-parent-with-dependen
+ cies/kie-api-parent/kie-internal
+Implementation-Vendor: JBoss by Red Hat
+Implementation-Vendor-Id: org.kie
+Implementation-Version: 6.2.0.Final
+Import-Package: com.sun.tools.xjc;resolution:=optional,com.thoughtworks.
+ xstream;resolution:=optional,javax.enterprise.context;resolution:=optio
+ nal,javax.enterprise.context.spi;resolution:=optional,javax.enterprise.
+ event;resolution:=optional,javax.enterprise.inject.spi;resolution:=opti
+ onal,javax.inject;resolution:=optional,javax.xml.bind;resolution:=optio
+ nal,javax.xml.bind.annotation;resolution:=optional,javax.xml.bind.annot
+ ation.adapters;resolution:=optional,org.drools.compiler.builder.impl,or
+ g.drools.core.builder.conf.impl;resolution:=optional,org.drools.core.co
+ mmand.impl,org.drools.core.concurrent,org.drools.core.impl,org.drools.c
+ ore.io.impl,org.drools.core.marshalling.impl;resolution:=optional,org.d
+ rools.decisiontable;resolution:=optional,org.drools.persistence.jpa;res
+ olution:=optional,org.jbpm.bpmn2;resolution:=optional,org.jbpm.marshall
+ ing.impl;resolution:=optional,org.jbpm.process.builder;resolution:=opti
+ onal,org.jbpm.runtime.manager.impl;resolution:=optional,org.jbpm.servic
+ es.task.persistence;resolution:=optional,org.kie.api,org.kie.api.builde
+ r,org.kie.api.builder.model,org.kie.api.command,org.kie.api.concurrent,
+ org.kie.api.conf,org.kie.api.definition,org.kie.api.definition.process,
+ org.kie.api.definition.rule,org.kie.api.definition.type,org.kie.api.eve
+ nt,org.kie.api.io,org.kie.api.logger,org.kie.api.marshalling,org.kie.ap
+ i.persistence.jpa,org.kie.api.runtime,org.kie.api.runtime.conf,org.kie.
+ api.runtime.manager,org.kie.api.runtime.manager.audit,org.kie.api.runti
+ me.process,org.kie.api.runtime.rule,org.kie.api.task,org.kie.api.task.m
+ odel,org.kie.scanner.*;resolution:=optional,org.mvel2,org.slf4j
+Include-Resource: {org/kie/internal/utils/kieMeta.properties=src/main/fi
+ ltered-resources/org/kie/internal/utils/kieMeta.properties}
+Java-Vendor: Sun Microsystems Inc.
+Java-Version: 1.6.0_45
+Os-Arch: amd64
+Os-Name: Linux
+Os-Version: 3.10.0-123.20.1.el7.x86_64
+Private-Package: org.kie.internal;org.kie.internal.agent;org.kie.interna
+ l.agent.conf;org.kie.internal.assembler;org.kie.internal.builder;org.ki
+ e.internal.builder.conf;org.kie.internal.builder.help;org.kie.internal.
+ builder.impl;org.kie.internal.command;org.kie.internal.concurrent;org.k
+ ie.internal.conf;org.kie.internal.definition;org.kie.internal.event;org
+ .kie.internal.event.io;org.kie.internal.event.knowledgeagent;org.kie.in
+ ternal.event.rule;org.kie.internal.executor.api;org.kie.internal.fluent
+ ;org.kie.internal.fluent.builder;org.kie.internal.fluent.runtime;org.ki
+ e.internal.fluent.runtime.process;org.kie.internal.fluent.runtime.rule;
+ org.kie.internal.fluent.simulation;org.kie.internal.fluent.task;org.kie
+ .internal.fluent.test;org.kie.internal.identity;org.kie.internal.io;org
+ .kie.internal.jaxb;org.kie.internal.logger;org.kie.internal.marshalling
+ ;org.kie.internal.persistence.jpa;org.kie.internal.process;org.kie.inte
+ rnal.query;org.kie.internal.query.data;org.kie.internal.runtime;org.kie
+ .internal.runtime.beliefs;org.kie.internal.runtime.cdi;org.kie.internal
+ .runtime.conf;org.kie.internal.runtime.helper;org.kie.internal.runtime.
+ manager;org.kie.internal.runtime.manager.audit.query;org.kie.internal.r
+ untime.manager.cdi.qualifier;org.kie.internal.runtime.manager.context;o
+ rg.kie.internal.security;org.kie.internal.simulation;org.kie.internal.t
+ ask.api;org.kie.internal.task.api.model;org.kie.internal.task.exception
+ ;org.kie.internal.task.query;org.kie.internal.task.service;org.kie.inte
+ rnal.utils;org.kie.internal.weaver;-split-package:=merge-first
+SPI-Consumer: java.util.ServiceLoader#load(java.lang.Class[org.kie.internal.task.api.TaskModelFactory])
+Scm-Connection: scm:git:git@github.com:droolsjbpm/droolsjbpm-knowledge.g
+ it/kie-internal
+Scm-Revision: 150c05faf2e55af3f21e101dea786ef01ba6f4b9
+Scm-Url: https://github.com/droolsjbpm/droolsjbpm-knowledge/kie-internal
+Specification-Title: KIE Internal
+Specification-Vendor: JBoss by Red Hat
+Specification-Version: 6.2.0.Final
+Tool: Bnd-1.50.0

@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: rules_5
+      author: gsapo
+      changes:
+        - createTable:
+            tableName: rul_recent_project
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: project_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_accessed_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_accessed_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            constraintName: uq_rul_recent_project_user
+            tableName: rul_recent_project
+            columnNames: project_id, last_accessed_by

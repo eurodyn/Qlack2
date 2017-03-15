@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+
+	<!--<jpa:enable />-->
+	<!--<tx:enable />-->
+
+	<!--&lt;!&ndash; EXTERNAL SERVICES &ndash;&gt;-->
+	<!--<reference id="DesktopService"-->
+		<!--interface="com.eurodyn.qlack2.webdesktop.api.DesktopService" />-->
+	<!--<reference id="IDMService" -->
+		<!--interface="com.eurodyn.qlack2.fuse.idm.api.IDMService" />-->
+	<!--<reference id="SecurityService"-->
+		<!--interface="com.eurodyn.qlack2.webdesktop.api.SecurityService" />-->
+	<!--<reference id="DesktopGroupService"-->
+		<!--interface="com.eurodyn.qlack2.webdesktop.api.DesktopGroupService" />-->
+	<!--<reference id="DesktopUserService"-->
+		<!--interface="com.eurodyn.qlack2.webdesktop.api.DesktopUserService" />-->
+	<!--<reference id="EventPublisherService"-->
+		<!--interface="com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService" />-->
+	<!--<reference id="AuditClientService"-->
+		<!--interface="com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService" />-->
+		<!---->
+	<!--&lt;!&ndash; LOCAL BEANS & SERVICES &ndash;&gt;-->
+	<!--<bean id="AppManagementApplication"-->
+		<!--class="com.eurodyn.qlack2.webdesktop.apps.appmanagement.impl.ApplicationServiceImpl">-->
+		<!--<property name="desktopService" ref="DesktopService" />-->
+		<!--<property name="idmService" ref="IDMService"/>-->
+		<!--<property name="eventPublisher" ref="EventPublisherService" />-->
+		<!--<property name="audit" ref="AuditClientService" />-->
+	<!--</bean>-->
+	<!--<service id="AppManagementApplicationService" -->
+		<!--interface="com.eurodyn.qlack2.webdesktop.apps.appmanagement.api.ApplicationService"-->
+		<!--ref="AppManagementApplication">-->
+	<!--</service>-->
+	<!---->
+	<!--<bean id="AppManagementConfigBean"-->
+		<!--class="com.eurodyn.qlack2.webdesktop.apps.appmanagement.impl.ConfigServiceImpl">-->
+		<!--<property name="security" ref="SecurityService" />-->
+		<!--<property name="idmService" ref="IDMService"/>-->
+		<!--<property name="desktopUserService" ref="DesktopUserService" />-->
+		<!--<property name="desktopGroupService" ref="DesktopGroupService" />-->
+		<!--<property name="audit" ref="AuditClientService" />-->
+	<!--</bean>-->
+	<!--<service id="AppManagementConfigService" ref="AppManagementConfigBean"-->
+		<!--interface="com.eurodyn.qlack2.webdesktop.apps.appmanagement.api.ConfigService">-->
+	<!--</service>-->
+	
+</blueprint>

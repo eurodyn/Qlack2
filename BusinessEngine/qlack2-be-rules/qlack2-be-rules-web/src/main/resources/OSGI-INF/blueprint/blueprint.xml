@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs">
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="ProjectsService" interface="com.eurodyn.qlack2.be.rules.api.ProjectsService" />
+	<reference id="CategoriesService" interface="com.eurodyn.qlack2.be.rules.api.CategoriesService" />
+	<reference id="WorkingSetsService" interface="com.eurodyn.qlack2.be.rules.api.WorkingSetsService" />
+	<reference id="RulesService" interface="com.eurodyn.qlack2.be.rules.api.RulesService" />
+	<reference id="DataModelsService" interface="com.eurodyn.qlack2.be.rules.api.DataModelsService" />
+	<reference id="LibraryService" interface="com.eurodyn.qlack2.be.rules.api.LibraryService" />
+	<reference id="LibraryVersionService" interface="com.eurodyn.qlack2.be.rules.api.LibraryVersionService" />
+	
+	<reference id="FileUpload" interface="com.eurodyn.qlack2.util.fileupload.api.FileUpload" />
+	<reference id="FileUploadRestService" interface="com.eurodyn.qlack2.util.fileupload.api.rest.FileUploadRest" />
+	
+	<reference id="ConfigService" interface="com.eurodyn.qlack2.be.rules.api.ConfigService" />
+
+	<!-- LOCAL BEANS & SERVICES -->
+	<bean id="ProjectsRest" class="com.eurodyn.qlack2.be.rules.web.rest.ProjectsRest">
+		<property name="projectsService" ref="ProjectsService" />
+		<property name="categoriesService" ref="CategoriesService" />
+		<property name="rulesService" ref="RulesService" />
+		<property name="dataModelsService" ref="DataModelsService" />
+		<property name="libraryService" ref="LibraryService" />
+	</bean>
+	<bean id="CategoriesRest" class="com.eurodyn.qlack2.be.rules.web.rest.CategoriesRest">
+		<property name="categoriesService" ref="CategoriesService" />
+	</bean>
+	<bean id="WorkingSetsRest" class="com.eurodyn.qlack2.be.rules.web.rest.WorkingSetsRest">
+		<property name="workingSetsService" ref="WorkingSetsService" />
+		<property name="rulesService" ref="RulesService" />
+		<property name="dataModelsService" ref="DataModelsService" />
+		<property name="libraryVersionService" ref="LibraryVersionService" />
+		<property name="fileUpload" ref="FileUpload" />
+	</bean>
+	<bean id="WorkingSetVersionsRest" class="com.eurodyn.qlack2.be.rules.web.rest.WorkingSetVersionsRest">
+		<property name="workingSetsService" ref="WorkingSetsService" />
+	</bean>
+	<bean id="RulesRest" class="com.eurodyn.qlack2.be.rules.web.rest.RulesRest">
+		<property name="rulesService" ref="RulesService" />
+		<property name="fileUpload" ref="FileUpload" />
+	</bean>
+	<bean id="RuleVersionsRest" class="com.eurodyn.qlack2.be.rules.web.rest.RuleVersionsRest">
+		<property name="rulesService" ref="RulesService" />
+	</bean>
+	<bean id="DataModelsRest" class="com.eurodyn.qlack2.be.rules.web.rest.DataModelsRest">
+		<property name="dataModelsService" ref="DataModelsService" />
+		<property name="fileUpload" ref="FileUpload" />
+	</bean>
+	<bean id="DataModelVersionsRest" class="com.eurodyn.qlack2.be.rules.web.rest.DataModelVersionsRest">
+		<property name="dataModelsService" ref="DataModelsService" />
+	</bean>
+	<bean id="LibraryRest" class="com.eurodyn.qlack2.be.rules.web.rest.LibraryRest">
+		<property name="libraryService" ref="LibraryService" />
+		<property name="libraryVersionService" ref="LibraryVersionService" />
+		<property name="fileUploadService" ref="FileUpload" />
+	</bean>
+	<bean id="LibraryVersionRest" class="com.eurodyn.qlack2.be.rules.web.rest.LibraryVersionRest">
+		<property name="libraryVersionService" ref="LibraryVersionService" />
+		<property name="fileUploadService" ref="FileUpload" />
+	</bean>
+
+	<bean id="ConfigRest" class="com.eurodyn.qlack2.be.rules.web.rest.ConfigRest">
+		<property name="configService" ref="ConfigService" />
+	</bean>
+
+	<bean id="JacksonMapper" class="com.eurodyn.qlack2.util.rest.CustomisedJackson">
+		<property name="acceptSingleValueAsArray" value="true" />
+	</bean>
+
+	<!-- CXF CONFIGURATION -->
+	<jaxrs:server id="RulesManagementRestServer" address="/apps/rules">
+		<jaxrs:serviceBeans>
+			<ref component-id="ProjectsRest" />
+			<ref component-id="CategoriesRest" />
+			<ref component-id="WorkingSetsRest" />
+			<ref component-id="WorkingSetVersionsRest" />
+			<ref component-id="RulesRest" />
+			<ref component-id="RuleVersionsRest" />
+			<ref component-id="DataModelsRest" />
+			<ref component-id="DataModelVersionsRest" />
+			<ref component-id="LibraryRest" />
+			<ref component-id="LibraryVersionRest" />
+			<ref component-id="FileUploadRestService" />
+			<ref component-id="ConfigRest" />
+		</jaxrs:serviceBeans>
+
+		<jaxrs:providers>
+			<bean id="MappingExceptionMapper" class="com.eurodyn.qlack2.util.validator.util.rest.MappingExceptionMapper"/>
+			<bean id="ValidationExceptionMapper" class="com.eurodyn.qlack2.util.validator.util.rest.ValidationExceptionMapper"/>
+			<bean id="GenericExceptionMapper" class="com.eurodyn.qlack2.util.rest.mapper.GenericExceptionMapper"/>
+			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+				<property name="mapper">
+					<bean id="jacksonMapper" class="com.eurodyn.qlack2.util.rest.CustomisedJackson" />
+				</property>
+			</bean>
+		</jaxrs:providers>
+	</jaxrs:server>
+
+</blueprint>

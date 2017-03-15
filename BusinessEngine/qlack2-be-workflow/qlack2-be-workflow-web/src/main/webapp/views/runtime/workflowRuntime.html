@@ -1,0 +1,14 @@
+<div ng-controller="WorkflowRuntimeCtrl">
+	<div class="clearfix resourceHeading">
+		<div class="pull-left">
+			<h3>List of Workflow Instances</h3>
+		</div>
+	</div>
+	<section class="well">
+		<form class="form-horizontal" role="form" name="workflowRuntimeForm" novalidate>
+			<div class="top-buffer">
+				<div id="instancesGrid" kendo-grid k-columns='setGridColumns()' k-options="workflowInstancesGrid"></div>
+			</div>		
+		</form>
+	</section>
+</div>

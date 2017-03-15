@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
+
+	<!-- BEAN & SERVICES -->
+	<bean id="QlackClusterServiceImpl"
+		class="com.eurodyn.qlack2.util.cluster.dummy.QlackClusterServiceImpl"
+		init-method="init" destroy-method="destroy">
+	</bean>
+	<service id="QlackClusterService" ref="QlackClusterServiceImpl"
+		interface="com.eurodyn.qlack2.util.cluster.core.QlackClusterService" />
+
+</blueprint>

@@ -1,0 +1,47 @@
+/*
+* Copyright 2014 EUROPEAN DYNAMICS SA <info@eurodyn.com>
+*
+* Licensed under the EUPL, Version 1.1 only (the "License").
+* You may not use this work except in compliance with the Licence.
+* You may obtain a copy of the Licence at:
+* https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the Licence is distributed on an "AS IS" basis,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the Licence for the specific language governing permissions and
+* limitations under the Licence.
+*/
+package com.eurodyn.qlack2.fuse.calendar.impl.util;
+
+
+/**
+ *
+ * @author European Dynamics SA
+ */
+public class CalendarMessage  {
+//public class CalendarMessage extends QlackMessage {
+
+    private final static String COMPONENT_NAME = "CALENDAR";
+
+    public static final String MSGTYPE_ITEM_CREATED                 = "ITEM_CREATED";
+    public static final String MSGTYPE_ITEM_UPDATED                 = "ITEM_UPDATED";
+    public static final String MSGTYPE_ITEM_DELETED                 = "ITEM_DELETED";
+    public static final String MSGTYPE_OBJECT_CREATED               = "OBJECT_CREATED";
+    public static final String MSGTYPE_PARTICIPANT_ADDED            = "PARTICIPANT_ADDED";
+    public static final String MSGTYPE_PARTICIPANT_STATUS_MODIFIED  = "PARTICIPANT_STATUS_MODIFIED";
+
+    public static final String PROPERTY__CALENDAR_ID                = "CALENDAR_ID";
+    public static final String PROPERTY__ITEM_ID                    = "ITEM_ID";
+    public static final String PROPERTY__ITEM_NAME                  = "ITEM_NAME";
+    public static final String PROPERTY__ITEM_CATEGORY_ID           = "ITEM_CATEGORY_ID";
+    public static final String PROPERTY__OBJECT_ID                  = "OBJECT_ID";
+    public static final String PROPERTY__OBJECT_CATEGORY_ID         = "OBJECT_CATEGORY_ID";
+    public static final String PROPERTY__PARTICIPANT_ID             = "PARTICIPANT_ID";
+    public static final String PROPERTY__PARTICIPANT_STATUS         = "PARTICIPANT_STATUS";
+
+    public CalendarMessage() {
+//        this.setComponent(COMPONENT_NAME);
+    }
+
+}

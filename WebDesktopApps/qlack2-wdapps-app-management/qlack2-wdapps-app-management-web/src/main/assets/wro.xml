@@ -1,0 +1,31 @@
+<groups xmlns="http://www.isdc.ro/wro">
+	<group name="appmanagement">
+		<js>/js/App.js</js>
+		<js>/js/Constants.js</js>
+		<js>/js/services/**.js</js>
+		<js>/js/controllers/**.js</js>
+
+		<css>/css/appmanagement.less</css>
+	</group>
+
+	<group name="appmanagement-vendor">
+		<js minimize="false">classpath:META-INF/resources/webjars/jquery/1.9.1/jquery.min.js</js>
+		<js minimize="false">/js-vendor/angular.min.js</js>
+		<js minimize="false">/js-vendor/angular-cookies.min.js</js>
+		<js minimize="false">/js-vendor/kendo.web.min.js</js>
+		<js>/js-vendor/angular-kendo.js</js>
+		<js minimize="false">/js-vendor/ui-bootstrap-tpls.min.js</js>
+		<js minimize="false">/js-vendor/angular-ui-router.min.js</js>
+		<js minimize="false">/js-vendor/angular-translate.min.js</js>
+		<js minimize="false">/js-vendor/angular-translate-storage-local.js</js>
+		<js minimize="false">/js-vendor/angular-translate-storage-cookie.js</js>
+		<js>/js-vendor/angular-translate-loader-partial.js</js>
+		<js minimize="false">/js-vendor/SecuritySrvProvider.js</js>
+		<js minimize="false">/js-vendor/qlack2-bower-pubsub.min.js</js>
+		<js minimize="false">/js-vendor/qlack2-bower-angular-pubsub.min.js</js>
+
+		<css minimize="false">/css-vendor/font-awesome.min.css</css>
+		<css minimize="false">/css-vendor/wd-app.css</css>
+		<css minimize="false">/css-vendor/wd-app-theme.css</css>
+	</group>
+</groups>

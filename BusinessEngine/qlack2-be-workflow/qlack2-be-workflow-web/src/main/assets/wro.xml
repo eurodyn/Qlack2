@@ -1,0 +1,43 @@
+<groups xmlns="http://www.isdc.ro/wro">
+	<group name="workflow">
+		<js minimize="false">/js/App.coffee</js>
+		<js minimize="false">/js/Constants.coffee</js>
+		<js minimize="false">/js/services/**.coffee</js>
+		<js minimize="false">/js/controllers/**.coffee</js>
+	</group>
+
+	<group name="workflow-index">
+		<css>/css/Workflow.less</css>
+	</group>
+
+	<group name="workflow-vendor">
+		<js minimize="false">classpath:META-INF/resources/webjars/jquery/1.9.1/jquery.min.js</js>
+		<js minimize="false">classpath:META-INF/resources/webjars/angularjs/1.2.14/angular.min.js</js>
+		<js minimize="false">classpath:META-INF/resources/webjars/angular-ui-router/0.2.8/angular-ui-router.min.js</js>
+		<js minimize="false">/js-vendor/kendo.web.min.js</js>
+		<js minimize="false">/js-vendor/angular-kendo.js</js>
+		<js minimize="false">classpath:META-INF/resources/webjars/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js</js>
+		<js minimize="false">/js-vendor/angular-cookies.min.js</js>
+		<js minimize="false">/js-vendor/angular-translate.min.js</js>
+		<js minimize="false">/js-vendor/angular-translate-handler-log.js</js>
+		<js minimize="false">/js-vendor/angular-translate-loader-partial.js</js>
+		<js minimize="false">/js-vendor/angular-translate-storage-local.min.js</js>
+		<js minimize="false">/js-vendor/angular-translate-storage-cookie.min.js</js>
+		<js minimize="false">classpath:META-INF/resources/webjars/ace/01.08.2014/src-min-noconflict/ace.js</js>
+		<js minimize="false">/js-vendor/ng-flow-standalone.min.js</js>
+		<js minimize="false">/js-vendor/ui-ace.min.js</js>
+		<js minimize="false">/js-vendor/SecuritySrvProvider.js</js>
+		<js minimize="false">/js-vendor/QFormValidationProvider.js</js>
+		<js minimize="false">classpath:META-INF/resources/webjars/momentjs/2.5.1/min/moment-with-langs.min.js</js>
+		<js minimize="false">/js-vendor/QDateProvider.js</js>
+
+		<css minimize="false">/css-vendor/font-awesome.min.css</css>
+
+		<css>/css-vendor/kendo.common.css</css>
+		<css>/css-vendor/kendo.rtl.css</css>
+	</group>
+
+	<group name="mode-xml">
+		<js minimize="false">classpath:META-INF/resources/webjars/ace/01.08.2014/src-min-noconflict/mode-xml.js</js>
+	</group>
+</groups>

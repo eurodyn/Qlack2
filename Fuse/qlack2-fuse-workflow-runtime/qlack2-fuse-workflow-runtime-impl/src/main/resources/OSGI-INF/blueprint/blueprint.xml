@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+
+	<jpa:enable />
+	<tx:enable />
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="jndiService" interface="org.apache.karaf.jndi.JndiService" />
+	<reference id="userTransaction" interface="javax.transaction.UserTransaction" />
+	<reference id="transactionManager" interface="javax.transaction.TransactionManager" />
+	<reference id="transactionSynchronizations" interface="javax.transaction.TransactionSynchronizationRegistry" />
+
+    <reference id="CustomUserGroupCallback"
+    	interface="com.eurodyn.qlack2.fuse.workflow.runtime.api.CustomUserGroupCallback"
+    	availability="optional" />
+	<reference id="EventPublisherService"
+		interface="com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService" />
+
+    <!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.workflowruntime"
+		update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="smtp.host" value="chaos.eurodyn.com" />
+			<cm:property name="smtp.port" value="25" />
+			<cm:property name="smtp.username" value="" />
+			<cm:property name="smtp.password" value="" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<bean id="WorkflowRuntimeServiceImpl"
+		class="com.eurodyn.qlack2.fuse.workflow.runtime.impl.WorkflowRuntimeServiceImpl"
+		init-method="initWorkflowRuntimeService" destroy-method="disposeWorkflowRuntimeService">
+		<jpa:unit property="emf" unitname="org.jbpm.persistence.jpa" />
+		<jpa:context property="em" unitname="org.jbpm.persistence.jpa" />
+		<tx:transaction method="*" value="Required" />
+		<property name="jndiUtil" ref="jndiUtil"/>
+		<property name="utx" ref="userTransaction"/>
+		<property name="tm" ref="transactionManager"/>
+		<property name="tsr" ref="transactionSynchronizations"/>
+
+		<property name="userGroupCallback" ref="CustomUserGroupCallback"/>
+
+		<!-- TODO explain why this is needed -->
+		<cm:managed-properties persistent-id="com.eurodyn.qlack2.fuse.workflowruntime"
+				update-strategy="container-managed" />
+
+		<property name="emailHost" value="${smtp.host}" />
+		<property name="emailPort" value="${smtp.port}" />
+		<property name="emailUsername" value="${smtp.username}" />
+		<property name="emailPassword" value="${smtp.password}" />
+		<property name="eventPublisherService" ref="EventPublisherService" />
+	</bean>
+	<service id="WorkflowRuntimeService" interface="com.eurodyn.qlack2.fuse.workflow.runtime.api.WorkflowRuntimeService"
+		ref="WorkflowRuntimeServiceImpl">
+	</service>
+
+	<bean id="jndiUtil" class="com.eurodyn.qlack2.fuse.workflow.runtime.impl.util.JndiUtil">
+		<property name="context" ref="blueprintBundleContext"/>
+		<property name="jndiService" ref="jndiService" />
+	</bean>
+</blueprint>

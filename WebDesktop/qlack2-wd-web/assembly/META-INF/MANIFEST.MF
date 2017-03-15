@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-Description: QLACK2 :: Web Desktop :: Web
+Bundle-ManifestVersion: 2
+Bundle-Name: qlack2-wd-web
+Bundle-SymbolicName: com.eurodyn.qlack2.webdesktop.qlack2-wd-web
+Bundle-Version: ${parsedVersion.osgiVersion}
+Jetty-WarFragmentResourcePath: /
+Web-ContextPath: /

@@ -1,0 +1,68 @@
+﻿groups:
+  - name: appmanagement
+    description: AppManagement application translations
+  - name: wd_apps
+    description: Application translations required to display an application in the Web Desktop
+languages:
+  - name: English
+    locale: en
+  - name: Français
+    locale: fr
+translations:
+  - group: wd_apps
+    locale: en
+    keys: 
+      - appmanagement.application_title: Application Manager
+      - appmanagement.application_description: Manage applications deployed in the Web Desktop
+      # WD notifications
+      - appmanagement.application_updated_title: Application updated
+      - appmanagement.application_updated_content: Application "{{application}}" was updated successfully
+      - appmanagement.operations_saved_title: Permissions updated
+      - appmanagement.operations_saved_content: The permissions of {{subject}} were updated successfully
+  - group: wd_apps
+    locale: fr
+    keys:
+      - appmanagement.application_title: Gestion des Applications
+      - appmanagement.application_description: Gérer les applications disponibles au niveau du Web Desktop
+  - group: appmanagement
+    locale: en
+    keys:
+#       Menus
+      - file: File
+      - applications: Applications
+      - access_management: Access management
+      - exit: Exit
+      - help: Help
+#       Content
+      - description: Description
+      - version: Version
+      - group: Group
+      - status: Status
+      - access: Access
+      - active: Active
+      - inactive: Inactive
+      - public: Public
+      - restricted: Restricted
+      - users: Users
+      - user_groups: User groups
+      - username: Username
+      - first_name: First name
+      - last_name: Last name
+      - group_name: Group name
+#       Buttons
+      - save: Save
+      - cancel: Cancel
+      - add: Add
+      - remove: Remove
+#       Access management
+      - WD_ACCESS_APPLICATION: Access application
+      - WD_UPDATE_APPLICATION: Update applications
+      - APPMANAGEMENT_CONFIGURE: Configure this application
+      - filter: Filter
+      - default: Default
+      - allowed: Allowed
+      - denied: Denied
+      - superadmin_access_rights_not_editable: This user is a superadmin and therefore their access rights cannot be edited.
+      - remove_access_subject_confirm: Are you sure you wish to remove this user / group from your access management list? Its access rights will be reverted to the default ones.
+      - remove_from_access_management: Remove from access management
+      - generic_permissions: Generic permissions

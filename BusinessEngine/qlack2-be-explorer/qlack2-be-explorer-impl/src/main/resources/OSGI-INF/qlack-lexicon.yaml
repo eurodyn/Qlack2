@@ -1,0 +1,69 @@
+﻿groups:
+  - name: explorer
+    description: Projects explorer application translations
+languages:
+  - name: English
+    locale: en
+translations:
+  - group: wd_apps
+    locale: en
+    keys:
+      - explorer.application_title: Projects explorer
+      - explorer.application_description: Manage your QBE projects
+      # WD notifications
+      - explorer.project_created_title: Project created
+      - explorer.project_created_content: Project "{{project}}" was created successfully
+      - explorer.project_updated_title: Project updated
+      - explorer.project_updated_content: Project "{{project}}" was updated successfully
+      - explorer.project_deleted_title: Project deleted
+      - explorer.project_deleted_content: Project "{{project}}" was deleted successfully
+      - explorer.operations_saved_title: Permissions updated
+      - explorer.operations_saved_content: The permissions of {{subject}} were updated successfully
+  - group: explorer
+    locale: en
+    keys:
+      # Menus and window titles
+      - file: File
+      - view_projects: View projects
+      - create_project: Create project
+      - access_management: Access management
+      - exit: Exit
+      - help: Help
+      # Actions, Buttons, etc.
+      - actions: Actions
+      - delete_project: Delete project
+      - save: Save
+      - cancel: Cancel
+      - delete: Delete
+      - add: Add
+      - remove: Remove
+      # Project management
+      - name: Name
+      - description: Description
+      - status: Status
+      - active: Active
+      - inactive: Inactive
+      - created_by: Created by
+      - created_on: Created on
+      - last_modified_by: Last modified by
+      - last_modified_on: Last modified on
+      - rules: Rules
+      - workflows: Workflows
+      - forms: Forms
+      - delete_project_confirm: Are you sure you wish to delete this project?
+      # Validation
+      - org.hibernate.validator.constraints.NotEmpty: This field is mandatory
+      - org.hibernate.validator.constraints.Length: The length of this field should be between {{min}} and {{max}} characters
+#       Access management
+      - EXP_VIEW_PROJECT: View project
+      - EXP_MANAGE_PROJECT: Create / Update / Delete project metadata
+      - EXP_CONFIGURE: Configure this application
+      - projects: Projects
+      - filter: Filter
+      - default: Default
+      - allowed: Allowed
+      - denied: Denied
+      - superadmin_access_rights_not_editable: This user is a superadmin and therefore their access rights cannot be edited.
+      - remove_access_subject_confirm: Are you sure you wish to remove this user / group from your access management list? Its access rights will be reverted to the default ones.
+      - remove_from_access_management: Remove from access management
+      - generic_permissions: Generic permissions

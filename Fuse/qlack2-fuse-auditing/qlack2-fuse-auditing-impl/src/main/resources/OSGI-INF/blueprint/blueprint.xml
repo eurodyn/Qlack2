@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+
+	<jpa:enable />
+	<tx:enable />
+
+	<bean id="AuditLevelServiceImpl"
+		class="com.eurodyn.qlack2.fuse.auditing.impl.AuditLevelServiceImpl">
+	</bean>
+	<service id="AuditLevelService" ref="AuditLevelServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.auditing.api.AuditLevelService" />
+
+	<bean id="AuditLoggingServiceImpl"
+		class="com.eurodyn.qlack2.fuse.auditing.impl.AuditLoggingServiceImpl">
+	</bean>
+	<service id="AuditLoggingService" ref="AuditLoggingServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.auditing.api.AuditLoggingService" />
+
+	<bean id="AuditEventListener"
+		class="com.eurodyn.qlack2.fuse.auditing.impl.AuditEventListener">
+		<property name="auditLoggingService" ref="AuditLoggingServiceImpl"/>
+	</bean>
+	<service id="AuditEventListenerService" ref="AuditEventListener"
+		interface="org.osgi.service.event.EventHandler">
+		<service-properties>
+			<entry key="event.topics" value="com/eurodyn/qlack/fuse/auditing" />
+		</service-properties>
+	</service>
+
+</blueprint>

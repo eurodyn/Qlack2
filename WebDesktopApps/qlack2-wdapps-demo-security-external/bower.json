@@ -1,0 +1,26 @@
+{
+  "name": "kavmodern-web-ips",
+  "version": "1.0.0",
+  "dependencies": {
+    "angular-animate": "1.5.7",
+    "angular-cookies": "1.5.7",
+    "angular-touch": "1.5.7",
+    "angular-sanitize": "1.5.7",
+    "angular-aria": "1.5.7",
+    "angular-ui-router": "1.0.0-beta.1",
+    "angular-bootstrap": "2.4.0",
+    "animate.css": "3.5.1",
+    "jquery": "2.1.4",
+    "jquery-ui": "1.12.1",
+    "angular": "1.5.7",
+    "qlack2-bower-angular-pubsub": "^1.0.7"
+  },
+  "overrides": {
+    "yamm3": {
+      "dependencies": {}
+    }
+  },
+  "resolutions": {
+    "angular": "1.5.7"
+  }
+}

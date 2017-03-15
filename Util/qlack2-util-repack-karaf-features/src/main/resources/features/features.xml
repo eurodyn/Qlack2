@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ***************************************************************************
+* Copyright 2014 EUROPEAN DYNAMICS SA <info@eurodyn.com>
+*
+* Licensed under the EUPL, Version 1.1 only (the "License").
+* You may not use this work except in compliance with the Licence.
+* You may obtain a copy of the Licence at:
+* https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the Licence is distributed on an "AS IS" basis,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the Licence for the specific la
+ *************************************************************************** -->
+
+<!--
+feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/LATEST/xml/features
+ -->
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0"
+          name="QLACK2-UTIL-REPACK">
+    <!-- External repositories needed for this features set -->
+    <repository>mvn:org.apache.aries.jpa/jpa-features/${jpa-features.version}/xml/features</repository>
+
+    <feature description="Qlack - Repack - Jackson (with RS support)"
+             name="qlack2-util-repack-jackson-rs" version="${project.version}">
+        <feature>qlack2-util-repack-jackson</feature>
+        <bundle>mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/${jackson2.version}</bundle>
+        <bundle>mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/${jackson2.version}</bundle>
+    </feature>
+
+    <feature description="Qlack - Repack - Jackson"
+             name="qlack2-util-repack-jackson" version="${project.version}">
+        <bundle>mvn:com.fasterxml.jackson.core/jackson-core/${jackson2.version}</bundle>
+        <bundle>mvn:com.fasterxml.jackson.core/jackson-databind/${jackson2.version}</bundle>
+        <bundle>mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson2.version}</bundle>
+        <bundle>mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/${jackson2.version}</bundle>
+        <bundle>mvn:org.yaml/snakeyaml/${snakeyaml.version}</bundle>
+    </feature>
+
+    <feature name="qlack2-util-repack-swagger" version="${project.version}">
+        <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+        <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
+        <bundle>mvn:io.swagger/swagger-core/${swagger.version}</bundle>
+        <bundle>mvn:io.swagger/swagger-annotations/${swagger.version}</bundle>
+        <bundle>mvn:io.swagger/swagger-models/${swagger.version}</bundle>
+    </feature>
+
+    <feature name="qlack2-util-repack-drools-common" version="${jbpm.version}"
+             description="Qlack - Repack - Drools Common">
+        <!-- TODO why to bind this to CXF and not JAXWS-RS? -->
+        <feature version="${karaf.cxf.version}">cxf-specs</feature>
+        <bundle>mvn:com.google.protobuf/protobuf-java/2.5.0</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.antlr/3.5_1</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xstream/1.4.7_1</bundle>
+
+        <!--TODO review start-level if it fails -->
+        <!--<bundle start-level="10">mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxb-api-2.2/1.9.0</bundle>-->
+        <!--<bundle start-level="10">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxb-xjc/2.2.1.1_2</bundle>-->
+        <!--<bundle start-level="10">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxb-impl/2.2.1.1_2</bundle>-->
+        <bundle>mvn:org.apache.servicemix.specs/org.apache.servicemix.specs.jaxb-api-2.2/1.9.0</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxb-xjc/2.2.1.1_2</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.jaxb-impl/2.2.1.1_2</bundle>
+        <bundle>mvn:org.mvel/mvel2/2.2.4.Final</bundle>
+        <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.quartz/2.1.6_1</bundle>
+        <bundle>mvn:org.apache.geronimo.specs/geronimo-atinject_1.0_spec/1.0</bundle>
+        <bundle>wrap:mvn:javax.enterprise/cdi-api/1.0-SP4</bundle>
+    </feature>
+
+    <feature name="qlack2-util-repack-jbpm-commons" version="${jbpm.version}"
+             description="Qlack - Repack - jBPM Common">
+        <bundle>wrap:mvn:org.sonatype.aether/aether-api/1.13.1</bundle>
+        <bundle>wrap:mvn:com.mchange/c3p0/0.9.2.1</bundle>
+        <bundle>mvn:org.apache.geronimo.specs/geronimo-jms_1.1_spec/1.1.1</bundle>
+        <bundle>mvn:org.apache.geronimo.specs/geronimo-jta_1.1_spec/1.1.1</bundle>
+        <!-- <bundle>mvn:org.codehaus.jackson/jackson-core-asl/${jackson.version}</bundle> -->
+        <bundle>mvn:com.fasterxml.jackson.core/jackson-core/${jackson2.version}</bundle>
+        <bundle>mvn:org.apache.aries.spifly/org.apache.aries.spifly.static.bundle/1.0.0</bundle>
+    </feature>
+
+    <!-- A convenience feature to configure CXF-REST to listen under /api -->
+    <feature name="qlack2-util-repack-cxf-conf" version="${project.version}">
+        <configfile finalname="/etc/org.apache.cxf.osgi.cfg">mvn:com.eurodyn.qlack2.util/qlack2-util-cxf-conf/${project.version}/cfg/config-admin</configfile>
+    </feature>
+
+    <feature name="qlack2-util-repack-querydsl" version="${project.version}">
+        <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
+        <bundle>mvn:com.mysema.commons/mysema-commons-lang/${mysema-commons-lang}</bundle>
+        <bundle>mvn:com.querydsl/querydsl-core/${querydsl.version}</bundle>
+        <bundle>mvn:com.querydsl/querydsl-jpa/${querydsl.version}</bundle>
+    </feature>
+
+    <feature name="qlack2-util-repack-jpadb" version="${project.version}">
+        <feature>jpa</feature>
+        <feature>transaction</feature>
+        <feature>jndi</feature>
+        <feature>jdbc</feature>
+        <feature>pax-jdbc</feature>
+        <feature>pax-jdbc-pool-dbcp2</feature>
+        <feature>pax-jdbc-config</feature>
+        <feature version="${karaf.hibernate.version}">hibernate</feature>
+    </feature>
+
+    <feature name="qlack2-util-repack-mysql" version="${project.version}">
+        <feature>qlack2-util-repack-jpadb</feature>
+        <feature>pax-jdbc-mysql</feature>
+    </feature>
+
+    <feature name="qlack2-util-repack-mariadb" version="${project.version}">
+        <feature>qlack2-util-repack-jpadb</feature>
+        <feature>pax-jdbc-mariadb</feature>
+    </feature>
+</features>

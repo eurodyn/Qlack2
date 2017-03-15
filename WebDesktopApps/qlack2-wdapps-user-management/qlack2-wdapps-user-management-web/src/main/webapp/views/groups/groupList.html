@@ -1,0 +1,20 @@
+<div class="row" ng-controller="GroupListCtrl">		
+	<div class="col-sm-3 col-md-2 sidebar">
+		<script id="groupTreeTemplate" type="text/kendo-ui-template">
+			<div>
+			#if (item.parentGroup == null){#
+				<i class="fa fa-#=item.icon#"></i><span ui-sref="groups.group({groupId: '#=item.id#', domain: true})">#=item.name#</span>
+			#}else {#
+				<i class="fa fa-#=item.icon#"></i><span ui-sref="groups.group({groupId: '#=item.id#', domain: false})">#=item.name#</span>
+			#}#
+			</div>
+		</script>
+		<div kendo-tree-view k-data-source="groupTreeSource" k-template="groupTreeTemplate" 
+			k-on-data-bound="groupTreeLoaded(kendoEvent)"
+			k-drag-and-drop="true" k-on-dragend="groupMoved(kendoEvent)"></div>
+	</div>
+	
+	<div class="col-sm-9 col-md-10">
+		<div ui-view autoscroll="false"></div>
+	</div>
+</div>

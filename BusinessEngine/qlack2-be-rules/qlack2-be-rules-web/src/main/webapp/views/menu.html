@@ -1,0 +1,77 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+				<span class="sr-only">Toggle navigation</span>
+	           	<span class="icon-bar"></span>
+	           	<span class="icon-bar"></span>
+	           	<span class="icon-bar"></span>
+	        </button>
+	    </div>
+	
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" collapse="navCollapsed" ng-controller="MenuCtrl">
+			<ul class="nav navbar-nav">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle">
+						<span translate>menu.file</span><b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu dropdown-menu-inverse">
+						<li>
+							<a ui-sref="home">
+								<i class="fa fa-home"></i> <span translate>menu.home</span>
+							</a>
+						</li>
+
+						<li ng-show="permissions['RUL_MANAGE_WORKING_SET_' + $state.params.projectId]">
+							<a ui-sref="tree.working-sets-new({projectId: $state.params.projectId})">
+								<i class="fa fa-tasks"></i> <span translate>title.create_working_set</span>
+							</a>
+						</li>
+						<li ng-show="permissions['RUL_MANAGE_RULE_' + $state.params.projectId]">
+							<a ui-sref="tree.rules-new({projectId: $state.params.projectId})">
+								<i class="fa fa-tasks"></i> <span translate>title.create_rule</span>
+							</a>
+						</li>
+						<li ng-show="permissions['RUL_MANAGE_DATA_MODEL_' + $state.params.projectId]">
+							<a ui-sref="tree.models-new({projectId: $state.params.projectId})">
+								<i class="fa fa-tasks"></i> <span translate>title.create_data_model</span>
+							</a>
+						</li>
+						<li ng-show="permissions['RUL_MANAGE_LIBRARY_' + $state.params.projectId]">
+							<a ui-sref="tree.libraries-new({projectId: $state.params.projectId})">
+								<i class="fa fa-tasks"></i> <span translate>title.create_library</span>
+							</a>
+						</li>
+						<li ng-show="permissions['RUL_MANAGE_CATEGORY_' + $state.params.projectId]">
+							<a ui-sref="tree.categories-new({projectId: $state.params.projectId})">
+								<i class="fa fa-tasks"></i> <span translate>title.create_category</span>
+							</a>
+						</li>
+	
+						<li class="divider"></li>
+						<li ng-show="permissions['RUL_CONFIGURE']">
+							<a ui-sref="access" ui-sref-opts="{reload: true}"><i class="fa fa-group"></i> <span translate>menu.access_management</span></a>
+						</li>
+						<li>
+							<a ng-click="exit()"><i class="fa fa-times"></i> <span translate>menu.exit</span></a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			<!--
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a ui-sref="#"><span translate>menu.help</span></a>
+				</li>
+			</ul>
+			-->
+		</div>
+	</div>
+</nav>
+
+<!--
+<div style="position: fixed; top: 5px; left: 200px" ng-show="hasPendingRequests()">
+	<img src="/apps/rules/img/spinner.gif" alt="spinner" />
+</div>
+-->

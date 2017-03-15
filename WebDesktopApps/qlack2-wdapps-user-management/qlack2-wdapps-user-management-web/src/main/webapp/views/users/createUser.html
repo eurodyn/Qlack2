@@ -1,0 +1,22 @@
+<div  ng-controller="CreateUserCtrl">
+	<div class="clearfix resourceHeading">
+		<div class="pull-left">
+			<h3>{{user.firstName}} {{user.lastName}}</h3>
+		</div>
+	</div>
+	
+	<section class="well">
+		<form class="form-horizontal" role="form" name="userForm">
+			<fieldset>
+				<ng-include src="'views/users/userDetailsFragment.html'"></ng-include>
+			</fieldset>
+			<hr/>
+			<div class="clearfix">
+				<div class="pull-right">
+					<button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> {{'cancel' | translate}}</button>
+					<button class="btn btn-success" ng-click="save()"><i class="fa fa-check"></i> {{'save' | translate}}</button>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>

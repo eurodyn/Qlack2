@@ -1,0 +1,56 @@
+{
+  "name": "qlack2-wd-web",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular-animate": "1.5.2",
+    "angular-cookies": "1.5.2",
+    "angular-sanitize": "1.5.2",
+    "jquery": "2.1.4",
+    "angular-ui-router": "0.2.18",
+    "angular-toastr": "1.7.0",
+    "animate.css": "3.5.1",
+    "angular": "1.5.2",
+    "angular-translate": "2.11.0",
+    "angular-translate-loader-partial": "2.11.0",
+    "angular-translate-storage-local": "2.11.0",
+    "angular-translate-storage-cookie": "2.11.0",
+    "angular-translate-loader-url": "2.11.0",
+    "font-awesome": "4.5.0",
+    "qlack2-bower-angular-security-idm": "1.0.1",
+    "qlack2-bower-angular-atmosphere": "1.0.1",
+    "metro": "3.0.14",
+    "angular-ui-clock": "0.5.1",
+    "angular-uuid4": "0.3.1",
+    "angular-scroll": "1.0.0",
+    "jquery-ui": "1.11.4",
+    "lodash": "4.8.2",
+    "oclazyload": "1.0.9",
+    "atmosphere.js": "atmosphere#2.3.1",
+    "qlack2-bower-angular-pubsub": "1.0.7",
+    "angular-img-http-src": "^0.1.0"
+  },
+  "devDependencies": {
+    "angular-mocks": "1.5.2"
+  },
+  "overrides": {
+    "jquery-ui": {
+      "main": [
+        "ui/core.js",
+        "ui/widget.js",
+        "ui/mouse.js",
+        "ui/position.js",
+        "ui/resizable.js",
+        "ui/draggable.js",
+        "themes/base/core.css",
+        "themes/base/resizable.css",
+        "themes/base/images/*.*"
+      ]
+    }
+  },
+  "resolutions": {
+    "jquery": "2.1.4",
+    "angular": "1.5.2",
+    "lodash": "4.8.2",
+    "qlack2-bower-pubsub": "1.0.6"
+  }
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
+
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.caching.local"
+		update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="active" value="false" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<!-- LOCAL BEANS & SERVICES -->
+	<bean id="CacheServiceImpl"
+		class="com.eurodyn.qlack2.fuse.caching.local.impl.CacheServiceImpl"
+		destroy-method="destroy" init-method="init">
+		<property name="active" value="${active}" />
+		<property name="maxEntries" value="${maxEntries}" />
+	</bean>
+	<service id="CacheService" ref="CacheServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.caching.memcached.api.CacheService">
+	</service>
+
+</blueprint>

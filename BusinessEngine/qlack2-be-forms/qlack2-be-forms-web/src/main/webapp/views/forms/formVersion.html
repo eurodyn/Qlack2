@@ -1,0 +1,104 @@
+<div class="well inner-well top-buffer" ng-controller="FormVersionCtrl">
+	<fieldset ng-disabled="!canManageForm || !canEditVersion">
+		<div class="row">
+			<div class="col-sm-6">
+				<script id="versionsListTemplate" type="text/x-kendo-template">
+				<div>
+					#if(data.state == 1){#
+						<i class="fa fa-check-circle-o"></i> <span>#=data.name#</span>
+					#}else{#
+						<i class="fa fa-circle-o"></i> <span>#=data.name#</span>
+					#}#
+				</div>
+			</script>
+				<select kendo-drop-down-list="versionsDropDownList" k-data-source="versionsDataSource" k-data-text-field="'name'" k-data-value-field="'id'"
+					k-template="versionsTemplate" k-value-template="versionsTemplate" k-on-select="selectFormVersion(kendoEvent)" ng-model="formVersion.id">
+				</select>
+				<i id="lock-status" class="fa fa-lock fa-lg" tooltip="{{'lockedBy_text'|translate: '{lockedby: \'' + formVersion.lockedBy.firstName + ' ' + formVersion.lockedBy.lastName + '\', lockedon: \'' + formVersion.lockedOnDate + '\'}'}}"
+					ng-show="formVersion.lockedBy"></i>
+				<i id="lock-status" class="fa fa-unlock fa-lg"  ng-hide="formVersion.lockedBy"></i>
+				<i id="enabled-testing" class="fa fa-flag fa-lg" tooltip="{{'testing_enabled'|translate}}" ng-show="formVersion.state == 2"></i>
+				<p class="form-control-static text-muted small" translate translate-value-createdby="{{ formVersion.createdBy.firstName }} {{ formVersion.createdBy.lastName }}"
+					translate-value-createdon="{{ formVersion.createdOn | qDate:'lll' }}">createdBy_text</p>
+				<p class="form-control-static text-muted small" translate translate-value-lastmodifiedby="{{ formVersion.lastModifiedBy.firstName }} {{ formVersion.lastModifiedBy.lastName }}"
+					translate-value-lastmodifiedon="{{ formVersion.lastModifiedOn | qDate:'lll' }}"> lastModifiedBy_text</p>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group" ng-class="{'has-error has-feedback': formForm.versionDescription.$invalid && !formForm.versionDescription.$dirty}">
+					<label for="version-description" class="col-sm-4 control-label" translate>description</label>
+					<div class="col-sm-8">
+						<textarea class="form-control" id="version-description" name="versionDescription" ng-model="formVersion.description"></textarea>
+						<i ng-show="formForm.versionDescription.$invalid && !formForm.versionDescription.$dirty"
+								class="fa fa-exclamation-triangle form-control-feedback"
+								popover="{{formForm.versionDescription.message}}"
+								popover-placement="left"
+								popover-trigger="mouseenter"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="clearfix top-buffer">
+			<tabset>
+				<tab heading="{{'form_tab' | translate}}">
+					<div class="top-buffer">
+						<div ui-ace="aceOption" id="versionContent" class="textarea" ng-model="formVersion.content" style="height: 100px;"></div>
+					</div>
+				</tab>
+				<tab id="conditionsTab" heading="{{'conditions_tab' | translate}}">
+					<div class="top-buffer">
+						<div id="conditionsGrid" kendo-grid
+							 k-data-source="conditionsDataSource"
+							 k-sortable="true"
+							 k-resizable="false"
+							 k-scrollable="false"
+							 k-editable='{"mode": "inline"}'
+							 k-toolbar='setConditionsToolbar()'
+							 k-columns='setConditionsColumns()'
+							 k-rebind="rebindVal"
+							 k-on-edit="editRow(kendoEvent)"
+							 k-on-save="saveRow(kendoEvent)"
+							 k-on-remove="removeRow(kendoEvent)"
+							 ng-class="{'has-error':conditionsHaveError}">
+						</div>
+					</div>
+					<!--
+					<div class="top-buffer">
+						<table class="table table-bordered">
+							<thead>
+								<tr>
+									<th>kendo id</th>
+									<th>condition id</th>
+									<th>name</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="version in conditionsDataSource.data()">
+									<td>{{version.kendoId}}</td>
+									<td>{{version.conditionId}}</td>
+									<td>{{version.name}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					-->
+				</tab>
+				<tab id="translationsTab" heading="{{'translations_tab' | translate}}">
+					<div class="top-buffer">
+						<div id="translationsGrid" kendo-grid
+							 k-data-source="translationsDataSource"
+							 k-sortable="true"
+							 k-resizable="false"
+							 k-scrollable="false"
+							 k-editable='{"mode": "inline"}'
+							 k-toolbar='setTranslationsToolbar()'
+							 k-columns='setTranslationsColumns()'
+							 k-rebind="rebindVal"
+							 k-on-save="saveTranslationRow(kendoEvent)"
+							 ng-class="{'has-error':translationsHaveError}">
+						</div>
+					</div>
+				</tab>
+			</tabset>
+		</div>
+	</fieldset>
+</div>

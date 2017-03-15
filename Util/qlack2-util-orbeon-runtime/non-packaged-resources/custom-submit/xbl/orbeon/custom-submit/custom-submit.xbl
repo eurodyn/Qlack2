@@ -1,0 +1,63 @@
+
+<xbl:xbl script-type="application/xhtml+xml" xmlns:xf="http://www.w3.org/2002/xforms"
+    xmlns:xh="http://www.w3.org/1999/xhtml" xmlns:xxf="http://orbeon.org/oxf/xml/xforms"
+    xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xbl="http://www.w3.org/ns/xbl" xmlns:xxbl="http://orbeon.org/oxf/xml/xbl"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:saxon="http://saxon.sf.net/"
+    xmlns:ed="http://www.eurodyn.com" xmlns:fr="http://orbeon.org/oxf/xml/form-runner"
+    xmlns:v="http://www.qlack.com/qbe/validation"    >
+    <!--xbl:script src="/xbl/orbeon/custom-submit/custom-submit.js"/-->
+    <xbl:binding element="fr|custom-submit" id="fr-custom-submit" xxbl:mode="lhha binding value">
+        <xbl:template>
+            <xf:model id="custom-submit-model">
+                <xf:instance id="validation-result">
+                    <dummy/>
+                </xf:instance>
+
+                <xf:bind id="external-constraints-bind" ref="//*" constraint="not(@v:valid = 'false')"/>
+
+                <!-- External validation submission -->
+                <xf:submission id="form-submission" ref="xxf:instance('fr-form-instance')"
+                    xbl:attr="action" method="post"
+                    replace="instance" instance="validation-result">
+                    <xf:delete ev:event="xforms-submit" ref="//@v:*"/>
+                    <xf:action ev:event="xforms-submit-done">
+                        <!-- Insert external validation results when done -->
+                        <xf:insert ref="." origin="instance('validation-result')/v:data/*"/>
+
+
+
+                        <!-- Execute javascript to handle valid/invalid result on client-side >
+                        <xf:action ev:observer="validation-result" if="//@v:valid = 'false'">
+                            <xf:load resource="javascript:isInvalid()" />
+                        </xf:action-->
+
+                        <!-- <!-\- Show all errors on form -\->
+                        <xf:dispatch name="fr-visit-all" targetid="error-summary"/>
+                        <!-\- Update error summary for incremental mode -\->
+                        <xf:refresh/>
+                        <xf:dispatch name="fr-update" targetid="error-summary"/>-->
+
+                    </xf:action>
+                </xf:submission>
+
+            </xf:model>
+
+            <fr:button ref="xxf:binding('fr-custom-submit')">
+                <xf:label>
+                    <xh:img src="/apps/fr/style/images/silk/disk.png"/>
+                    <xh:span>Custom save</xh:span>
+                </xf:label>
+                <xf:send ev:event="DOMActivate" submission="form-submission"/>
+            </fr:button>
+
+            <!--<fr:error-summary id="error-summary" observer="form-group">
+                <fr:label>Validation errors</fr:label>
+                <fr:errors ref="instance('validation-result')/v:global-errors/v:global-error">
+                    <fr:alert ref="@v:alert"/>
+                </fr:errors>
+            </fr:error-summary>-->
+
+        </xbl:template>
+    </xbl:binding>
+</xbl:xbl>

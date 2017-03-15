@@ -1,0 +1,94 @@
+databaseChangeLog:
+  - changeSet:
+      id: explorer_1
+      author: ckask
+      changes:
+        - createTable:
+            tableName: exp_project
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false                    
+              - column:
+                  name: rules
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: workflows
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: forms
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: exp_project_has_language
+            columns:
+              - column:
+                  name: project_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: locale
+                  type: varchar(5)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: exp_project_has_language
+            columnNames: project_id, locale
+        - addForeignKeyConstraint:
+            constraintName: fk_exp_proj_has_lang_exp_proj
+            baseTableName: exp_project_has_language
+            baseColumnNames: project_id
+            referencedTableName: exp_project
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade

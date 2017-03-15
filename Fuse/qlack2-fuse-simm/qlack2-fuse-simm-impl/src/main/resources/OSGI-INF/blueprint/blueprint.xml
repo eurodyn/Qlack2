@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+
+	<jpa:enable />
+	<tx:enable />
+
+	<bean id="FriendsServiceImpl" class="com.eurodyn.qlack2.fuse.simm.impl.FriendsServiceImpl">
+	</bean>
+	<bean id="GroupUserServiceImpl" class="com.eurodyn.qlack2.fuse.simm.impl.GroupUserServiceImpl">
+	</bean>
+	<bean id="NotificationServiceImpl" class="com.eurodyn.qlack2.fuse.simm.impl.NotificationServiceImpl">
+	</bean>
+	<bean id="PostingServiceImpl" class="com.eurodyn.qlack2.fuse.simm.impl.PostingServiceImpl">
+	</bean>
+	<bean id="SocialGroupServiceImpl" class="com.eurodyn.qlack2.fuse.simm.impl.SocialGroupServiceImpl">
+	</bean>
+
+	<service id="FiendsService" ref="FriendsServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.simm.api.FriendsService" />
+	<service id="GroupUserService" ref="GroupUserServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.simm.api.GroupUserService" />
+	<service id="NotificationService" ref="NotificationServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.simm.api.NotificationService" />
+	<service id="PostingService" ref="PostingServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.simm.api.PostingService" />
+	<service id="SocialGroupService" ref="SocialGroupServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.simm.api.SocialGroupService" />
+
+</blueprint>

@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: wiki_02
+      author: European Dynamics SA (eirini.karafyllaki@eurodyn.com)
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: wik_entry_has_tag
+            constraintName: fk_wik_entry_has_wik_entry1
+        - addForeignKeyConstraint:
+            constraintName: fk_wik_entry_has_wik_entry1
+            baseTableName: wik_entry_has_tag
+            baseColumnNames: wik_entry_id
+            referencedTableName: wik_entry
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - dropForeignKeyConstraint:
+            baseTableName: wik_entry_has_tag
+            constraintName: fk_wik_entry_has_wik_tag1
+        - addForeignKeyConstraint:
+            constraintName: fk_wik_entry_has_wik_tag1
+            baseTableName: wik_entry_has_tag
+            baseColumnNames: wik_tag_id
+            referencedTableName: wik_tag
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade

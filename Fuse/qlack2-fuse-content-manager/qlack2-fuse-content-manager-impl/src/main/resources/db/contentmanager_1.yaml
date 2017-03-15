@@ -1,0 +1,181 @@
+databaseChangeLog:
+  - changeSet:
+      id: contentmanager_1
+      author: European Dynamics SA (christina.kaskoura@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: cm_node
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: type
+                  type: tinyint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent
+                  type: varchar(36)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: lock_token
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_cm_node_cm_node
+            baseTableName: cm_node
+            baseColumnNames: parent
+            referencedTableName: cm_node
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - createTable:
+            tableName: cm_node_attribute
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: value
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: node
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_cm_node_attribute_cm_node
+            baseTableName: cm_node_attribute
+            baseColumnNames: node
+            referencedTableName: cm_node
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addUniqueConstraint:
+            tableName: cm_node_attribute
+            columnNames: name, node
+            constraintName: uq_cm_node_attribute_name_node
+        - createTable:
+            tableName: cm_version
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: node
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: filename
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: mimetype
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content
+                  type: longblob
+                  constraints:
+                    nullable: true
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_cm_version_cm_node
+            baseTableName: cm_version
+            baseColumnNames: node
+            referencedTableName: cm_node
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addUniqueConstraint:
+            tableName: cm_version
+            columnNames: name, node
+            constraintName: uq_cm_version_name_node
+        - createTable:
+            tableName: cm_version_attribute
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: value
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: node_version
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_cm_version_attr_cm_version
+            baseTableName: cm_version_attribute
+            baseColumnNames: node_version
+            referencedTableName: cm_version
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addUniqueConstraint:
+            tableName: cm_version_attribute
+            columnNames: name, node_version
+            constraintName: name_version

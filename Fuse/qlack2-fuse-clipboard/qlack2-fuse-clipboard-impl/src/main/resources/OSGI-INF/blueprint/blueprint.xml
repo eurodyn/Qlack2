@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+	
+	<jpa:enable />
+	<tx:enable />
+
+	<bean id="ClipboardServiceImpl" class="com.eurodyn.qlack2.fuse.clipboard.impl.ClipboardServiceImpl">
+	</bean>
+
+	<service id="ClipboardService" ref="ClipboardServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.clipboard.api.ClipboardService"/>
+
+</blueprint>

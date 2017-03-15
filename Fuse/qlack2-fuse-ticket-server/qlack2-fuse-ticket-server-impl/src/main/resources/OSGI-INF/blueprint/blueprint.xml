@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+
+	<jpa:enable />
+	<tx:enable />
+
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.ticketserver"
+		update-strategy="reload">
+		<cm:default-properties>
+			<!-- Enables the invalid tickets cleanup service -->
+			<cm:property name="enableCleanup" value="true" />
+			<!-- How often should we try to clean tickets (msec)? -->
+			<cm:property name="cleanupInterval" value="5000" />
+			<!-- Clean-up invalid tickets? -->
+			<cm:property name="cleanupExpired" value="true" />
+			<!-- Clean-up revoked tickets? -->
+			<cm:property name="cleanupRevoked" value="true" />
+			<!-- The number of msec to wait before starting up cleaning -->
+			<cm:property name="startupDelay" value="60000" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<bean id="Cleanup"
+		class="com.eurodyn.qlack2.fuse.ticketserver.impl.cleanup.CleanupBean"
+		init-method="init" destroy-method="destroy">
+		<cm:managed-properties persistent-id="com.eurodyn.qlack2.fuse.ticketserver" 
+					update-strategy="container-managed" />
+		<property name="enableCleanup" value="${enableCleanup}" />
+		<property name="cleanupInterval" value="${cleanupInterval}" />
+		<property name="cleanupExpired" value="${cleanupExpired}" />
+		<property name="cleanupRevoked" value="${cleanupRevoked}" />
+		<property name="startupDelay" value="${startupDelay}" />		
+		<property name="ticketService" ref="ticketServerServiceImpl" />
+	</bean>
+
+	<!--<bean id="TicketServerServiceImpl"-->
+		<!--class="com.eurodyn.qlack2.fuse.ticketserver.impl.TicketServerServiceImpl">-->
+	<!--</bean>-->
+	<!--<service id="TicketServerService" ref="TicketServerServiceImpl"-->
+		<!--interface="com.eurodyn.qlack2.fuse.ticketserver.api.TicketServerService" />-->
+
+</blueprint>

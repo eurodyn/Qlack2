@@ -1,0 +1,73 @@
+<div class="container-fluid" ng-controller="LibraryVersionCreateCtrl">
+	<form name="libraryVersionForm" class="form-horizontal" role="form" novalidate>
+		<div class="form-group" ng-class="{'has-error has-feedback': libraryVersionForm.name.$invalid && !libraryVersionForm.name.$dirty}">
+			<label class="col-xs-4 control-label" translate>label.version_name</label>
+			<div class="col-xs-8">
+				<input type="text" name="name" class="form-control" ng-model="libraryVersion.name">
+				<i ng-show="libraryVersionForm.name.$invalid && !libraryVersionForm.name.$dirty"
+					class="fa fa-exclamation-triangle form-control-feedback"
+					popover="{{libraryVersionForm.name.message}}"
+					popover-placement="left"
+					popover-trigger="mouseenter">
+				</i>
+			</div>
+		</div>
+
+		<div class="form-group"
+			 flow-init="{headers: {'X-Qlack-Fuse-IDM-Token': getTicket()}, sHeader : getTicket()}"
+			 flow-name="attachment.flow"
+			 flow-files-submitted="$flow.upload()">
+
+			<label for="contentJar" class="col-xs-4 control-label" translate>label.upload_jar</label>
+			<div id="contentJar" class="col-xs-8" ng-class="{'has-error has-feedback': contentJarHasError}">
+				<div ng-repeat="file in attachment.flow.files" class="uploadedFile">
+					<span class="filename">{{file.name}}</span>
+					<span class="filesize">({{file.size}} bytes)</span>
+					<div class="pull-right" ng-show="file.isComplete()">
+						<button title="remove attachment" class="btn btn-danger btn-xs" ng-click="file.cancel()">
+							<i class="fa fa-trash-o"></i>
+						</button>
+					</div>
+				</div>
+				<div class="progress" ng-show="$flow.isUploading()">
+					<div class="progress-bar" role="progressbar"
+						aria-valuenow="{{$flow.progress() * 100}}"
+						aria-valuemin="0"
+						aria-valuemax="100"
+						style="width: {{$flow.progress() * 100}}%;">
+					</div>
+				</div>
+				<div>
+					<button class="btn btn-default" flow-btn translate>action.add_attachment</button>
+					<div class="fileUpload"
+						 flow-drop
+						 flow-drag-enter="class='alert-success'"
+						 flow-drag-leave="class=''"
+						 ng-class="class">
+						<span translate>action.or_drop_file</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="form-group" ng-class="{'has-error has-feedback': libraryVersionForm.description.$invalid && !libraryVersionForm.description.$dirty}">
+			<label for="description" class="col-xs-4 control-label" translate>label.description</label>
+			<div class="col-xs-8">
+				<textarea name="description" class="form-control" ng-model="libraryVersion.description"></textarea>
+				<i ng-show="libraryVersionForm.description.$invalid && !libraryVersionForm.description.$dirty"
+					class="fa fa-exclamation-triangle form-control-feedback"
+					popover="{{libraryVersionForm.description.message}}"
+					popover-placement="left"
+					popover-trigger="mouseenter">
+				</i>
+			</div>
+		</div>
+
+		<div class="clearfix top-buffer">
+			<div class="pull-right">
+				<button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> <span translate>action.cancel</span></button>
+				<button class="btn btn-success" ng-click="create()"><i class="fa fa-check"></i> <span translate>action.create</span></button>
+			</div>
+		</div>
+	</form>
+</div>

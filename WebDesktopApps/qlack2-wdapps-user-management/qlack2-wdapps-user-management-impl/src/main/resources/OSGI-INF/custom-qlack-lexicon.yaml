@@ -1,0 +1,111 @@
+﻿groups:
+  - name: usermanagement
+    description: UserManagement application translations
+languages:
+  - name: English
+    locale: en
+  - name: Français
+    locale: fr
+translations:
+  - group: wd_apps
+    locale: en
+    keys:
+      - usermanagement.application_title: User Manager
+      - usermanagement.application_description: Manage Web Desktop users and user groups
+      # WD notifications
+      - usermanagement.user_created_title: User created
+      - usermanagement.user_created_content: User "{{user}}" was created successfully
+      - usermanagement.user_updated_title: User updated
+      - usermanagement.user_updated_content: User "{{user}}" was updated successfully
+      - usermanagement.user_deleted_title: User deleted
+      - usermanagement.user_deleted_content: User "{{user}}" was deleted successfully      
+      - usermanagement.password_reset_title: Password reset
+      - usermanagement.password_reset_content: The password of user "{{user}}" was reset successfully
+      - usermanagement.group_created_title: Group created
+      - usermanagement.group_created_content: Group "{{group}}" was created successfully
+      - usermanagement.domain_created_title: Domain created
+      - usermanagement.domain_created_content: Domain "{{group}}" was created successfully
+      - usermanagement.group_updated_title: Group updated
+      - usermanagement.group_updated_content: Group "{{group}}" was updated successfully
+      - usermanagement.domain_updated_title: Domain updated
+      - usermanagement.domain_updated_content: Domain "{{group}}" was updated successfully
+      - usermanagement.group_deleted_title: Group deleted
+      - usermanagement.group_deleted_content: Group "{{group}}" was deleted successfully
+      - usermanagement.domain_deleted_title: Domain deleted
+      - usermanagement.domain_deleted_content: Domain "{{group}}" was deleted successfully
+      - usermanagement.operations_saved_title: Permissions updated
+      - usermanagement.operations_saved_content: The permissions of {{subject}} were updated successfully
+  - group: usermanagement
+    locale: en
+    keys:
+      # Menus and window titles
+      - file: File
+      - home: Home
+      - create_user: Create user
+      - create_group: Create group
+      - create_domain: Create domain
+      - view_users: View users
+      - view_groups: View groups
+      - access_management: Access management
+      - exit: Exit
+      - help: Help
+      # Groups
+      - user_groups: User groups
+      - name: Name
+      - description: Description
+      - delete_group: Delete group
+      - delete_domain: Delete group
+      - delete_group_confirm: Are you sure you wish to delete this group?
+      - delete_domain_confirm: Are you sure you wish to delete this domain?
+      - member: Group member
+      # Users
+      - username: Username
+      - first_name: First Name
+      - last_name: Last Name
+      - email: E-mail
+      - status: Status
+      - active: Active
+      - inactive: Inactive
+      - superadmin: Superadmin
+      - "yes": "Yes"    # Use quotes since yes/no are reserved words in YAML
+      - "no": "No"
+      - password: Password
+      - verify_password: Verify password
+      - delete_user: Delete user
+      - reset_password: Reset password
+      - delete_user_confirm: Are you sure you wish to delete this user?
+      # Kendo grid filtering
+      - contains: contains
+      - filter: Filter
+      - clear: Clear
+      - filter_info: Show items with value that
+      # Actions, Buttons, etc.
+      - cancel: Cancel
+      - save: Save
+      - actions: Actions
+      - reset_password: Reset password
+      - delete: Delete
+      - add: Add
+      - remove: Remove
+      # Validation
+      - org.hibernate.validator.constraints.NotEmpty: This field is mandatory
+      - org.hibernate.validator.constraints.Length: The length of this field should be between {{min}} and {{max}} characters
+      - validation.error.passwordsShouldMatch: Verify password is not the same as Password
+      - validation.super_admin_must_not_belong_to_any_groups: Super-admin must not belong to any groups
+      - validation.domain_admin_cannot_manage_super_admin: Domain-admin cannot manage super-admin
+      - validation.domain_admin_cannot_manage_foreign_domain: Domain admin cannot manage user in foreign domain
+      - validation.user_must_belong_to_single_domain: User must belong to exactly one domain
+      - validation.user_must_belong_to_domain_admin_domain: User must belong to same domain as domain admin
+      - validation.domain_admin_cannot_manage_domain: Domain admin cannot manage top-level domain
+      - validation.domain_admin_cannot_manage_foreign_group: Domain admin cannot manage group in foreign domain
+      - validation.domain_admin_cannot_manage_foreign_users: Domain admin cannot manage users in foreign domain
+      # Configuration
+      - default: Default
+      - allowed: Allowed
+      - denied: Denied
+      - WD_MANAGE_GROUPS: Manage groups
+      - WD_MANAGE_USERS: Manage users
+      - USERMANAGEMENT_CONFIGURE: Configure application
+      - superadmin_access_rights_not_editable: This user is a superadmin and therefore their access rights cannot be edited.
+      - remove_access_subject_confirm: Are you sure you wish to remove this user / group from your access management list? Its access rights will be reverted to the default ones.
+      - remove_from_access_management: Remove from access management

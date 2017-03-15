@@ -1,0 +1,40 @@
+<div id="login">
+	<div class="ribbon-top"></div>
+	<div class="grid">
+		<div class="row cells1">
+			<div class="cell">
+				<div class="header" translate>welcome</div>
+			</div>
+		</div>
+
+		<form ng-submit="login.login()" autocomplete="off">
+			<div class="row cells1">
+				<div class="cell">
+					<input type="text" name="username" placeholder="username"
+						ng-model="login.user.username">
+				</div>
+			</div>
+			<div class="row cells1">
+				<div class="cell">
+					<input type="password" name="password" placeholder="password"
+						ng-model="login.user.password">
+				</div>
+			</div>
+			<div class="row cells6">
+				<div class="cell colspan3">
+					<button class="button primary" type="submit" translate>log_in</button>
+				</div>
+				<div class="cell colspan3">
+					<div class="dropdown-button place-right">
+						<button class="button dropdown-toggle" translate>Language</button>
+						<ul class="split-content d-menu place-right" data-role="dropdown">
+							<li ng-repeat="lg in login.languages | orderBy: 'name'">
+								<a href="#" ng-click="login.switchLg(lg.locale)">{{lg.name}}</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

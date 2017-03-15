@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint
+	xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}"
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}"
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.osgi.org/xmlns/blueprint/v1.0.0
+		http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+		http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0
+		http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0/blueprint-cm-1.0.0.xsd">
+
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.be.forms.proxy"
+		update-strategy="reload">
+	</cm:property-placeholder>
+
+	<!-- LOCAL BEANS & SERVICES -->
+	<bean id="ConfigServiceImpl"
+		class="com.eurodyn.qlack2.be.forms.proxy.impl.ConfigServiceImpl">
+		<property name="allowedOrigins" value="${allowed.origins}" />
+	</bean>
+	<service id="ConfigService" ref="ConfigServiceImpl"
+		interface="com.eurodyn.qlack2.be.forms.proxy.api.ConfigService">
+	</service>
+
+	<bean id="proxyServlet" class="com.eurodyn.qlack2.be.forms.proxy.servlet.ProxyServlet">
+		<property name="configService" ref="ConfigServiceImpl" />
+	</bean>
+	<service id="proxyService" ref="proxyServlet" interface="javax.servlet.Servlet">
+		<service-properties>
+			<!-- XXX must prepend context path here -->
+			<entry key="alias" value="/qbe/qbe-proxy/*" />
+			<entry key="init.targetUri" value="http://localhost:8181/orbeon" />
+			<entry key="init.proxy" value="&quot;http://localhost:8181/qbe/qbe-proxy/" />
+		</service-properties>
+	</service>
+</blueprint>

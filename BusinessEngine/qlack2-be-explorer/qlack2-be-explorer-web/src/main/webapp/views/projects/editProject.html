@@ -1,0 +1,31 @@
+<div ng-controller="EditProjectCtrl">
+	<div class="clearfix resourceHeading">
+		<div class="pull-left">
+			<h3>{{project.name}}</h3>
+		</div>
+		<div class="pull-right" ng-show="permissions['EXP_MANAGE_PROJECT_' + project.id]">
+			<script id="actionsListTemplate" type="text/x-kendo-template">
+				<div>
+					<i class="fa #=data.icon#"></i> <span translate>#=data.key#</span>
+				</div>
+			</script>
+			<select kendo-drop-down-list k-data-source="actionsDataSource" k-template="actionsListTemplate"
+				k-option-label="'{{'actions' | translate}}'" k-data-text-field="'key'"
+				k-on-select="executeAction(kendoEvent)"></select>
+		</div>
+	</div>
+	
+	<section class="well">
+	<form class="form-horizontal" name="projectForm" role="form" novalidate>
+		<fieldset ng-disabled="!permissions['EXP_MANAGE_PROJECT_' + project.id]">
+			<ng-include src="'views/projects/projectDetailsFragment.html'"></ng-include>
+		</fieldset>
+		<div class="clearfix">
+			<div class="pull-right" ng-show="permissions['EXP_MANAGE_PROJECT_' + project.id]">
+				<button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> Cancel</button>
+				<button class="btn btn-success" ng-click="save()"><i class="fa fa-check"></i> Save</button>
+			</div>
+		</div>
+	</form>
+	</section>
+</div>

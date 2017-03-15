@@ -1,0 +1,19 @@
+<div class="row" ng-controller="ResourcesCtrl">
+	<div class="col-sm-3 col-md-2">
+		<script id="resourcesTemplate" type="text/x-kendo-template">
+			<div>
+			#if (item.type == 'project') {#
+				<i class="fa fa-folder-open"></i>
+			#} else if (item.type == 'form') {#
+				<i class="fa fa-tasks"></i>
+			#} else if (item.type == 'category') {#
+				<i class="fa fa-tag"></i>
+			#}#
+			<span>#=item.name#</span>
+			</div>
+		</script>
+		<div id="resourceList" kendo-tree-view="resourcesTreeView" k-data-source="formResourcesDataSource" k-data-text-field="['name', 'name']" k-template="resourcesTemplate"
+			k-on-select="selectTreeNode(kendoEvent)" k-on-data-bound="expandTreeNodes(kendoEvent)"></div>
+	</div>
+	<div ui-view class="col-sm-9 col-md-10" autoscroll="false" ></div>
+</div>

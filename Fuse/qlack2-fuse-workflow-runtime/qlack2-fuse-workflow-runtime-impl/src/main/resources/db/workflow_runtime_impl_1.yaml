@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: workflow_runtime_impl_1
+      author: European Dynamics SA (eleni.giannakopoulou@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: jbpm_processcontent
+            columns:
+              - column:
+                  name: processId
+                  type: varchar(255)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: content
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: checksum
+                  type: varchar(32)
+                  constraints:
+                    nullable: false

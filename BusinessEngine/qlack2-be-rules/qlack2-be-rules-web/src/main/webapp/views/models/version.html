@@ -1,0 +1,174 @@
+<div class="well inner-well top-buffer" ng-controller="DataModelVersionCtrl">
+	<fieldset ng-disabled="!canManage || !canEditVersion">
+		<div class="row">
+			<div class="col-sm-6">
+				<select kendo-drop-down-list="versionsDropDownList"
+						k-data-source="versionsDataSource"
+						k-data-text-field="'name'"
+						k-data-value-field="'id'"
+						k-template="versionItemTemplate"
+						k-value-template="versionItemTemplate"
+						k-on-select="selectVersion(kendoEvent)"
+						ng-model="modelVersion.id">
+				</select>
+				<script id="versionItemTemplate" type="text/x-kendo-template">
+					<div>
+						#if (data.state === "FINAL") {#
+							<i class="fa fa-check-circle-o"></i> <span>#=data.name#</span>
+						#} else {#
+							<i class="fa fa-circle-o"></i> <span>#=data.name#</span>
+						#}#
+					</div>
+				</script>
+				<span ng-switch on="!!modelVersion.lockedBy">
+					<i ng-switch-when="true" class="fa fa-lock fa-lg" tooltip="{{'note.lockedBy' | translate: lockedByTooltip}}"></i>
+					<i ng-switch-when="false" class="fa fa-unlock fa-lg"></i>
+				</span>
+				<i class="fa fa-flag fa-lg" tooltip="{{'note.testing_enabled' | translate}}" ng-show="modelVersion.state == 'TESTING'"></i>
+				<p class="form-control-static text-muted small" translate
+				   translate-value-createdby="{{modelVersion.createdBy.firstName}} {{modelVersion.createdBy.lastName}}"
+				   translate-value-createdon="{{modelVersion.createdOn | qDate:'lll'}}">
+					note.createdBy
+				</p>
+				<p class="form-control-static text-muted small" translate
+				   translate-value-modifiedby="{{modelVersion.lastModifiedBy.firstName}} {{modelVersion.lastModifiedBy.lastName}}"
+				   translate-value-modifiedon="{{modelVersion.lastModifiedOn | qDate:'lll'}}">
+					note.modifiedBy
+				</p>
+			</div>
+
+			<div class="col-sm-6" ng-class="{'has-error has-feedback': modelForm['version.description'].$invalid && !modelForm['version.description'].$dirty}">
+				<div class="form-group">
+					<label class="col-sm-4 control-label" translate>label.description</label>
+					<div class="col-sm-8">
+						<textarea name="version.description" class="form-control" ng-model="modelVersion.description"></textarea>
+						<i ng-show="modelForm['version.description'].$invalid && !modelForm['version.description'].$dirty"
+							class="fa fa-exclamation-triangle form-control-feedback"
+							popover="{{modelForm['version.description'].message}}"
+							popover-placement="left"
+							popover-trigger="mouseenter">
+						</i>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label for="title" class="col-sm-4 control-label" translate>label.model.class</label>
+					<div class="col-sm-8">
+						<p class="form-control-static">{{ getDataModel().name }}</p>
+					</div>
+				</div>
+				<div class="form-group" ng-class="{'has-error has-feedback': modelForm['version.modelPackage'].$invalid && !modelForm['version.modelPackage'].$dirty}">
+					<label for="package" class="col-sm-4 control-label" translate>label.model.package</label>
+					<div class="col-sm-8">
+						<input type="text" name="version.modelPackage" class="form-control" spellcheck="false" id="package" ng-model="modelVersion.modelPackage" />
+						<i ng-show="modelForm['version.modelPackage'].$invalid && !modelForm['version.modelPackage'].$dirty"
+							class="fa fa-exclamation-triangle form-control-feedback"
+							popover="{{modelForm['version.modelPackage'].message}}"
+							popover-placement="left"
+							popover-trigger="mouseenter">
+						</i>
+					</div>
+				</div>
+				<div id="parentModelVersionDiv" class="form-group" ng-class="{'has-error has-feedback': parentHasError}">
+					<label for="parent" class="col-sm-4 control-label" translate>label.model.parent</label>
+					<div class="col-sm-8 col-md-4">
+						<select kendo-drop-down-list
+								k-data-source="parentModelsDataSource"
+								k-data-text-field="'name'"
+								k-data-value-field="'id'"
+								k-option-label="'{{'select.parent' | translate}}'"
+								k-on-change="selectParent(kendoEvent)"
+								ng-disabled="!canManage || !canEditVersion"
+								ng-model="modelVersion.parentModelId">
+						</select>
+					</div>
+					<div class="visible-sm form-group"></div> <!-- To add padding-bottom for small screens -->
+					<div class="col-sm-8 col-sm-offset-4 col-md-4 col-md-offset-0">
+						<select kendo-drop-down-list
+								k-data-source="parentModelVersionsDataSource"
+								k-data-text-field="'name'"
+								k-data-value-field="'id'"
+								k-option-label="'{{'select.parent_version' | translate}}'"
+								ng-disabled="!canManage || !canEditVersion"
+								ng-model="modelVersion.parentModelVersionId">
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="clearfix">
+			<div id="fieldsGrid"
+				 kendo-grid
+				 k-data-source="fieldsDataSource"
+				 k-sortable="true"
+				 k-resizable="true"
+				 k-editable='{"mode": "inline"}'
+				 k-toolbar="fieldsToolbar()"
+				 k-columns="fieldsColumns()"
+				 k-rebind="rebindVal"
+				 k-on-edit="editField(kendoEvent)"
+				 k-on-save="saveField(kendoEvent)"
+				 k-on-cancel="cancelField(kendoEvent)"
+				 k-on-remove="removeField(kendoEvent)"
+				 ng-class="{'has-error': fieldsHaveError}"
+				 >
+			</div>
+
+			<!--
+			<table class="table table-bordered top-buffer">
+				<thead>
+					<tr>
+						<th>uid</th>
+						<th>id</th>
+						<th>Name</th>
+						<th>Type</th>
+						<th>Type name</th>
+						<th>Type version</th>
+						<th>Type version name</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="field in fieldsDataSource.data()">
+						<td>{{field.uid}}</td>
+						<td>{{field.id}}</td>
+						<td>{{field.name}}</td>
+						<td>{{field.fieldTypeId}}</td>
+						<td>{{field.fieldTypeName}}</td>
+						<td>{{field.fieldTypeVersionId}}</td>
+						<td>{{field.fieldTypeVersionName}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="table table-bordered top-buffer">
+				<thead>
+					<tr>
+						<th>uid</th>
+						<th>id</th>
+						<th>Name</th>
+						<th>Type</th>
+						<th>Type name</th>
+						<th>Type version</th>
+						<th>Type version name</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="field in modelVersion.fields">
+						<td>{{field.uid}}</td>
+						<td>{{field.id}}</td>
+						<td>{{field.name}}</td>
+						<td>{{field.fieldTypeId}}</td>
+						<td>{{field.fieldTypeName}}</td>
+						<td>{{field.fieldTypeVersionId}}</td>
+						<td>{{field.fieldTypeVersionName}}</td>
+					</tr>
+				</tbody>
+			</table>
+			-->
+		</div>
+	</fieldset>
+</div>

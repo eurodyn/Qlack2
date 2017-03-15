@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: settings_002
+      author: European Dynamics SA
+      changes:
+        - addColumn:
+            tableName: set_setting
+            columns:
+              - column:
+                  name: password
+                  type: boolean

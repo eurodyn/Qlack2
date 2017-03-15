@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
+
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.util.jndi.alias"
+		update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="waitFor" value="5000" />
+			<cm:property name="aliases" value="" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="jndiService" interface="org.apache.karaf.jndi.JndiService"/>
+
+	<!-- BEAN & SERVICES -->
+	<bean id="JndiAliasServiceImpl"
+		class="com.eurodyn.qlack2.util.jndi.alias.internal.JndiAliasServiceImpl"
+		init-method="init">
+		<property name="waitFor" value="${waitFor}"/>
+		<property name="aliases" value="${aliases}"/>
+		<property name="jndiService" ref="jndiService"/>
+	</bean>
+
+</blueprint>

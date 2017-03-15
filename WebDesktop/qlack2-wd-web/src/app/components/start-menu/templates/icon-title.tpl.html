@@ -1,0 +1,9 @@
+<div ng-class="[tpl.iconBg, tpl.iconSize]" 
+	class="fg-white" data-role="tile" 
+	ng-click="desktop.desktopService.setApplicationAsOpen(tpl.appId); desktop.hideMenu()"
+	>
+	<div class="tile-content iconic" data-hint="nassos" data-hint-position="top">
+		<span ng-class="tpl.iconName" class="icon"></span>  
+		<span class="tile-label" translate>{{tpl.translationsGroup + "." + tpl.titleKey}}</span>
+	</div>
+</div>

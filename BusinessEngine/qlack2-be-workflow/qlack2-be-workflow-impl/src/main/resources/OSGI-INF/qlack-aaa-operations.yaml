@@ -1,0 +1,19 @@
+operations:
+  - name: WFL_VIEW_WORKFLOW
+    description: View / Export workflows
+  - name: WFL_MANAGE_WORKFLOW
+    description: Create / Update / Delete workflows and Create / Update / Delete / Finalise / Import workflow versions
+  - name: WFL_LOCK_WORKFLOW
+    description: Lock / Unlock workflow versions
+  - name: WFL_UNLOCK_ANY_WORKFLOW
+    description: Unlock workflow versions locked by other users
+  - name: WFL_MANAGE_CATEGORY
+    description: Create / Update / Delete categories
+  - name: WFL_VIEW_RUNTIME
+    description: View Runtime Environment
+  - name: WFL_EXECUTE_RUNTIME
+    description: Execute Runtime workflow actions
+  - name: WFL_CONFIGURE
+    description: Configure the Workflow Manager application
+  - name: WFL_MANAGED
+    description: User or group managed (in terms of access rights) by the Workflow Manager application

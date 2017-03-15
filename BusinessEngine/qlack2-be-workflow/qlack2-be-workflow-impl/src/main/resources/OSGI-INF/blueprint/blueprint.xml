@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="DesktopService"
+		interface="com.eurodyn.qlack2.webdesktop.api.DesktopService" />
+	<reference id="IDMService"
+		interface="com.eurodyn.qlack2.fuse.idm.api.IDMService" />
+    <reference id="SecurityService"
+		interface="com.eurodyn.qlack2.webdesktop.api.SecurityService" />
+	<reference id="DesktopUserService"
+		interface="com.eurodyn.qlack2.webdesktop.api.DesktopUserService" />
+	<reference id="DesktopGroupService"
+		interface="com.eurodyn.qlack2.webdesktop.api.DesktopGroupService" />
+	<reference id="ProjectExplorerService"
+        interface="com.eurodyn.qlack2.be.explorer.api.ProjectService"/>
+    <reference id="WorkflowRuntimeService"
+        interface="com.eurodyn.qlack2.fuse.workflow.runtime.api.WorkflowRuntimeService"/>
+    <reference-list id="WorkingSetsServiceList"
+		interface="com.eurodyn.qlack2.be.rules.api.WorkingSetsService"
+		availability="optional" />
+	<reference-list id="RulesServiceList"
+		interface="com.eurodyn.qlack2.be.rules.api.RulesService"
+		availability="optional" />
+	<reference-list id="RulesRuntimeManagementServiceList"
+		interface="com.eurodyn.qlack2.be.rules.api.RulesRuntimeManagementService"
+		availability="optional" />
+	<reference id="AuditClientService"
+		interface="com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService" />
+	<reference id="EventPublisherService"
+		interface="com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService" />
+	<reference id="AuditLoggingService"
+		interface="com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService" />
+		
+	<!-- LOCAL BEANS & SERVICES -->
+	<bean id="SecurityUtil"
+		class="com.eurodyn.qlack2.be.workflow.impl.util.SecurityUtil">
+		<property name="securityService" ref="SecurityService" />
+	</bean>
+	
+	<bean id="ConverterUtil"
+		class="com.eurodyn.qlack2.be.workflow.impl.util.ConverterUtil">
+		<property name="desktopUserService" ref="DesktopUserService" />
+		<property name="workingSetsServiceList" ref="WorkingSetsServiceList" />
+		<property name="rulesServiceList" ref="RulesServiceList" />
+	</bean>
+	
+	<bean id="RuntimeUtil"
+		class="com.eurodyn.qlack2.be.workflow.impl.util.RuntimeUtil">
+		<property name="converterUtil" ref="ConverterUtil"/>
+		<property name="auditClientService" ref="AuditClientService" />
+		<property name="workflowRuntimeService" ref="WorkflowRuntimeService"/>
+	</bean>
+	
+	<bean id="WorkflowVersionServiceImpl"
+		class="com.eurodyn.qlack2.be.workflow.impl.WorkflowVersionServiceImpl">
+		<jpa:context property="em" unitname="workflowmanager" />
+		<tx:transaction method="*" value="Required" />
+		<property name="idmService" ref="IDMService"/>
+		<property name="converterUtil" ref="ConverterUtil"/>
+		<property name="securityService" ref="SecurityService" />
+		<property name="securityUtil" ref="SecurityUtil"/>
+		<property name="auditClientService" ref="AuditClientService" />
+		<property name="eventPublisher" ref="EventPublisherService" />
+		<property name="workingSetsServiceList" ref="WorkingSetsServiceList" />
+		<property name="rulesServiceList" ref="RulesServiceList" />
+	</bean>
+	<service id="WorkflowVersionService" interface="com.eurodyn.qlack2.be.workflow.api.WorkflowVersionService"
+		ref="WorkflowVersionServiceImpl">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>			
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+	      	<entry key="org.apache.cxf.ws.address" value="ws/qbe/workflow/WorkflowVersionService"/>
+      	</service-properties>
+	</service>
+	
+	<bean id="WorkflowServiceImpl"
+		class="com.eurodyn.qlack2.be.workflow.impl.WorkflowServiceImpl">
+		<jpa:context property="em" unitname="workflowmanager" />
+		<tx:transaction method="*" value="Required" />
+		<property name="idmService" ref="IDMService"/>
+		<property name="securityService" ref="SecurityService" />
+		<property name="converterUtil" ref="ConverterUtil"/>
+		<property name="securityUtil" ref="SecurityUtil"/>
+		<property name="workflowVersionService" ref="WorkflowVersionServiceImpl"/>
+		<property name="runtimeService" ref="RuntimeServiceImpl"/>
+		<property name="auditClientService" ref="AuditClientService" />
+		<property name="eventPublisher" ref="EventPublisherService" />
+	</bean>
+	<service id="WorkflowService" interface="com.eurodyn.qlack2.be.workflow.api.WorkflowService"
+		ref="WorkflowServiceImpl">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>			
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+	      	<entry key="org.apache.cxf.ws.address" value="ws/qbe/workflow/WorkflowService"/>
+      	</service-properties>
+	</service>
+	
+	<bean id="ProjectServiceImpl"
+		class="com.eurodyn.qlack2.be.workflow.impl.ProjectServiceImpl">
+		<jpa:context property="em" unitname="workflowmanager" />
+		<tx:transaction method="*" value="Required" />
+		<property name="idmService" ref="IDMService"/>
+		<property name="converterUtil" ref="ConverterUtil"/>
+		<property name="securityService" ref="SecurityService" />
+		<property name="projectExplorerService" ref="ProjectExplorerService"/>
+		<property name="workingSetsServiceList" ref="WorkingSetsServiceList" />
+		<property name="rulesServiceList" ref="RulesServiceList" />
+		<property name="auditClientService" ref="AuditClientService" />
+	</bean>
+	<service id="ProjectService" interface="com.eurodyn.qlack2.be.workflow.api.ProjectService"
+		ref="ProjectServiceImpl">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>			
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+	      	<entry key="org.apache.cxf.ws.address" value="ws/qbe/workflow/ProjectService"/>
+      	</service-properties>
+	</service>
+	
+	<bean id="CategoryServiceImpl"
+		class="com.eurodyn.qlack2.be.workflow.impl.CategoryServiceImpl">
+		<jpa:context property="em" unitname="workflowmanager" />
+		<tx:transaction method="*" value="Required" />
+		<property name="idmService" ref="IDMService"/>
+		<property name="converterUtil" ref="ConverterUtil"/>
+		<property name="securityUtil" ref="SecurityUtil"/>
+		<property name="auditClientService" ref="AuditClientService" />
+		<property name="eventPublisher" ref="EventPublisherService" />
+	</bean>
+	<service id="CategoryService" interface="com.eurodyn.qlack2.be.workflow.api.CategoryService"
+		ref="CategoryServiceImpl">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>			
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+	      	<entry key="org.apache.cxf.ws.address" value="ws/qbe/workflow/CategoryService"/>
+      	</service-properties>
+	</service>
+	
+	<bean id="RuntimeServiceImpl"
+		class="com.eurodyn.qlack2.be.workflow.impl.RuntimeServiceImpl">
+		<jpa:context property="em" unitname="workflowmanager" />
+		<tx:transaction method="*" value="Required" />
+		<property name="idmService" ref="IDMService"/>
+		<property name="securityUtil" ref="SecurityUtil"/>
+		<property name="workflowRuntimeService" ref="WorkflowRuntimeService"/>
+		<property name="converterUtil" ref="ConverterUtil"/>
+		<property name="rulesRuntimeManagementServiceList" ref="RulesRuntimeManagementServiceList" />
+		<property name="auditClientService" ref="AuditClientService" />
+		<property name="runtimeUtil" ref="RuntimeUtil" />
+		<property name="auditLoggingService" ref="AuditLoggingService" />
+	</bean>
+	<service id="RuntimeService" 
+		interface="com.eurodyn.qlack2.be.workflow.api.RuntimeService"
+		ref="RuntimeServiceImpl">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>			
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+	      	<entry key="org.apache.cxf.ws.address" value="ws/qbe/workflow/RuntimeService"/>
+      	</service-properties>
+	</service>	
+	
+	<bean id="ConfigBean"
+		class="com.eurodyn.qlack2.be.workflow.impl.ConfigServiceImpl">
+		<property name="security" ref="SecurityService" />
+		<property name="idmService" ref="IDMService"/>
+		<property name="desktopUserService" ref="DesktopUserService" />
+		<property name="desktopGroupService" ref="DesktopGroupService" />		
+		<property name="audit" ref="AuditClientService" />
+		<jpa:context property="em" unitname="workflowmanager" />
+		<tx:transaction method="*" value="Required" />
+	</bean>
+	<service id="ConfigService" ref="ConfigBean"
+		interface="com.eurodyn.qlack2.be.workflow.api.ConfigService">
+	</service>
+	
+	<!-- QBE consumer implementations -->
+	<bean id="RulesResourceConsumerBean"
+		class="com.eurodyn.qlack2.be.workflow.impl.consumer.RulesResourceConsumerImpl">
+		<jpa:context property="em" unitname="workflowmanager" />
+		<tx:transaction method="*" value="Required" />
+	</bean>
+	<service id="RulesResourceConsumerService" ref="RulesResourceConsumerBean"
+		interface="com.eurodyn.qlack2.be.rules.api.client.RulesResourceConsumer">
+	</service>
+	
+	<!-- Event listeners -->
+	<bean id="ProjectRemovalListener"
+		class="com.eurodyn.qlack2.be.workflow.impl.listeners.ProjectRemovalListener">
+		<jpa:context property="em" unitname="workflowmanager" />
+		<tx:transaction method="*" value="Required" />
+		<property name="converterUtil" ref="ConverterUtil"/>
+		<property name="auditClientService" ref="AuditClientService" />
+		<property name="securityService" ref="SecurityService" />
+		<property name="runtimeUtil" ref="RuntimeUtil" />
+	</bean>
+	<service id="ProjectRemovalListenerService" ref="ProjectRemovalListener"
+		interface="org.osgi.service.event.EventHandler">
+		<service-properties>
+			<entry key="event.topics" value="com/eurodyn/qlack2/be/explorer/PROJECT/DELETE" />
+		</service-properties>
+	</service>
+</blueprint>

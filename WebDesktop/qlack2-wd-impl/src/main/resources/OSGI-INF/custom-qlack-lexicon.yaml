@@ -1,0 +1,70 @@
+﻿groups:
+  - name: wd
+    description: Web Desktop translations
+  - name: wd_apps
+    description: Application translations required to display an application in the Web Desktop
+languages:
+  - name: English
+    locale: en
+  - name: Français
+    locale: fr
+translations:
+  - group: wd
+    locale: en
+    keys:
+      - error_generic_request_title: Server error
+      - error_generic_request_body: The server could not process your request at this time. Please try again later.
+      - error_validation_title: Validation error
+      - error_validation_body: The data you submitted is invalid. Please correct your data and try again
+      - error_session_expired_title: Session expired
+      - error_session_expired_body: Your session has expired. Please log in again to the Web Desktop in order to continue your work.
+      - log_in: Log in
+      - authentication_failed: You entered a wrong username or password. Please try again.
+      - logout: Logout 
+      - filter: Type here to filter...
+      - audio_toggle: Toggle audio notifications
+      - audio_off: Audio off
+      - audio_on: Audio on
+      - audio_muted: Audio has been muted.
+      - audio_unmuted: Audio has been unmuted.
+      - network_established: Network connection established via {{method}}.
+        forceUpdate: true
+      - network_broken: Network connection is broken.
+      - notifications_none: No pending notifications
+      - notifications_clear: Clear
+      - desktop_open: Open
+      - desktop_remove: Remove from desktop
+      - a_components: Components
+      - x_administration: Administration
+      - application_running_title: Application already running
+      - application_running_content: Application "{{application}}" is already running.
+        forceUpdate: true
+      - application_inactive_title: Application inactive
+      - application_inactive_content: Application "{{application}}" is inactive.
+        forceUpdate: true
+  - group: wd
+    locale: fr
+    keys:
+      - log_in: Connexion
+      - logout: Déconnexion
+      - filter: Entrez ici pour filtrer...
+      - audio_toggle: Basculer les notifications sonores
+      - audio_off: Son déactivé
+      - audio_on: Son activé
+      - audio_muted: Le son à été mis en sourdine.
+      - audio_unmuted: Le son à été réactivé.
+      - network_established: Connexion réseau établie par {{method}}.
+        forceUpdate: true
+      - network_broken: La connexion de réseau est interrompue.
+      - notifications_none: Pas de notifications an attente
+      - notifications_clear: Effacer
+      - desktop_open: Ouvrir
+      - desktop_remove: Enlever
+      - a_components: Composants
+      - x_administration: Administration
+      - application_running_title: Application en cours d'exécution
+      - application_running_content: L'application "{{application}}" est déjà exécutée au niveau de la surface de travail.
+        forceUpdate: true
+      - application_inactive_title: Application déactivée
+      - application_inactive_content: L'application "{{application}}" est déactivée.
+        forceUpdate: true

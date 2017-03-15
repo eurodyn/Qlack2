@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions
+	xmlns="https://www.owasp.org/index.php/OWASP_Dependency_Check_Suppression">
+	<suppress>
+		<cpe>cpe:/a:fuse:fuse:2.0.0</cpe>
+	</suppress>
+</suppressions>

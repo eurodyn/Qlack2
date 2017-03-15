@@ -1,0 +1,11 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+
+	<persistence-unit name="webdesktop" transaction-type="JTA">
+		<jta-data-source>osgi:service/javax.sql.DataSource/(osgi.jndi.service.name=qlack2-ds)</jta-data-source>
+
+		<class>com.eurodyn.qlack2.webdesktop.impl.model.Application</class>
+		<class>com.eurodyn.qlack2.webdesktop.impl.model.DesktopIcon</class>
+	</persistence-unit>
+
+</persistence>

@@ -1,0 +1,202 @@
+groups:
+  - name: workflow_ui
+    description: Workflow Manager UI
+  - name: wd_apps
+    description: Application translations required to display an application in the Web Desktop
+languages:
+  - name: English
+    locale: en
+translations:
+  - group: wd_apps
+    locale: en
+    keys:
+      - workflow_ui.application_title: Workflow Manager
+      - workflow_ui.application_description: Manage workflow definition and execution
+       # WD notifications
+      - workflow_ui.category_updated_title: Update category
+      - workflow_ui.category_updated_content: Category "{{category}}" was updated successfully.
+      - workflow_ui.category_deleted_title: Delete category
+      - workflow_ui.category_deleted_content: Category was deleted successfully.
+      - workflow_ui.category_created_title: Create category
+      - workflow_ui.category_created_content: Category "{{category}}" was created successfully.
+      - workflow_ui.workflow_updated_title: Update workflow
+      - workflow_ui.workflow_updated_content: Workflow "{{workflow}}" was updated successfully.
+      - workflow_ui.workflow_deleted_title: Delete workflow
+      - workflow_ui.workflow_deleted_content: Workflow was deleted successfully.
+      - workflow_ui.workflow_created_title: Create workflow
+      - workflow_ui.workflow_created_content: Workflow "{{workflow}}" was created successfully.
+      - workflow_ui.workflow_import_version_title: Import workflow version
+      - workflow_ui.workflow_import_version_content: Workflow version was imported successfully.
+      - workflow_ui.workflow_version_created_title: Create workflow version
+      - workflow_ui.workflow_version_created_content: Workflow version "{{workflow_version}}" was created successfully.
+      - workflow_ui.workflow_version_deleted_title: Delete workflow version
+      - workflow_ui.workflow_version_deleted_content: Workflow version was deleted successfully.
+      - workflow_ui.workflow_version_finalised_title: Finalise workflow version
+      - workflow_ui.workflow_version_finalised_content: Workflow version was finalised successfully.
+      - workflow_ui.workflow_version_locked_title: Lock workflow version
+      - workflow_ui.workflow_version_locked_content: Workflow version "{{workflow_version}}" was locked successfully.
+      - workflow_ui.workflow_version_unlocked_title: Unlock workflow version
+      - workflow_ui.workflow_version_unlocked_content: Workflow version "{{workflow_version}}" was unlocked successfully.
+      - workflow_ui.workflow_version_enabled_testing_title: Enable testing for workflow version
+      - workflow_ui.workflow_version_enabled_testing_content: Workflow version "{{workflow_version}}" was enabled for testing successfully.
+      - workflow_ui.workflow_version_disabled_testing_title: Disable testing for workflow version
+      - workflow_ui.workflow_version_disabled_testing_content: Workflow version "{{workflow_version}}" was disabled for testing successfully.
+      - workflow_ui.workflow_version_executed_title: Execute workflow version
+      - workflow_ui.workflow_version_executed_content: Workflow instance "{{workflow_instance}}" was created successfully.
+      - workflow_ui.workflow_instance_deleted_title: Delete workflow instance
+      - workflow_ui.workflow_instance_deleted_content: Workflow instance "{{workflow_instance}}" was deleted successfully.
+      - workflow_ui.workflow_instance_suspended_title: Suspend workflow instance
+      - workflow_ui.workflow_instance_suspended_content: Workflow instance "{{workflow_instance}}" was suspended successfully.
+      - workflow_ui.workflow_instance_resumed_title: Resume workflow instance
+      - workflow_ui.workflow_instance_resumed_content: Workflow instance "{{workflow_instance}}" was resumed successfully.
+      - workflow_ui.workflow_instance_stopped_title: Stop workflow instance
+      - workflow_ui.workflow_instance_stopped_content: Workflow instance "{{workflow_instance}}" was stopped successfully.
+      - workflow_ui.operations_saved_title: Permissions updated
+      - workflow_ui.operations_saved_content: The permissions of {{subject}} were updated successfully
+  - group: workflow_ui
+    locale: en
+    keys:
+      # Menus and window titles
+      - workflow_management: Workflow Management
+      - workflow_welcome_title: Welcome to Workflow Component
+      - workflow_index_text: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.
+      - recent_projects: Recent projects
+      - workflow_menu: Menu
+      - select_project: Select project...
+      - select_action: Select action...
+      - file: File
+      - configuration: Configuration
+      - exit: Exit
+      - workflow_manager: Workflow Manager
+      - audit: Audit
+      - runtime: Runtime
+      - workflow_runtime: Runtime Instances
+      - workflow_runtime_error: Runtime Error Logging
+      - general: General
+      - welcome: Welcome
+      - help: Help
+      - ok: OK
+      - refresh: Refresh
+      - help_workflow: Workflow Manager allows you to define dynamic workflows and handle their execution engine.
+      - help_categories: Categories allow you to define categories to group your application models.
+      - create_workflow: Create workflow
+      - view_workflow: View workflow
+      - edit_workflow: Edit workflow
+      - view_categories: View categories
+      - create_category: Create category
+      - edit_category: Edit category
+      - edit_workflows: Edit Workflows
+      - access_management: Access management
+      # General translations
+      - categories: Categories
+      # Workflow
+      - workflow: Workflow
+      - delete_workflow: Delete Workflow
+      - workflow_delete_confirmation: Are you sure you wish to delete this workflow?
+      - workflow_delete_error: You are not allowed to delete this workflow, since there exist versions locked by another user.
+      - conditions: Conditions
+      - workflowName: Name
+      - workflowDescription: Description
+      - tags: Tags
+      - id: ID
+      - processId: Process
+      - startDate: Start Date
+      - endDate: End Date
+      - processInstanceId: Process Instance ID
+      - status: Status
+      - active: Active
+      - inactive: Inactive
+      - createdBy: Created by
+      - createdOn: Created on
+      - modifiedBy: Last modified by
+      - modifiedOn: Last modified on
+      - content_version: Upload content
+      - add_attachment: Add attachment
+      - or_drop_file: Or drop a file here
+      - import_version: Import workflow version
+      # Workflow versions
+      - versions: Versions
+      - versionName: Version name
+      - versionDescription: Description
+      - basedOn: Based on
+      - version_delete_confirmation: Are you sure you wish to delete this workflow version?
+      - version_finalise_confirmation: Are you sure you wish to finalize this workflow version?
+      - version_finalise_error: You are not allowed to finalise this version because non-finalised working sets/rules are being used.
+      - createdBy_text: Created by {{ createdby }} on {{ createdon }}
+      - modifiedBy_text: Last modified by {{ lastmodifiedby }} on {{ lastmodifiedon }}
+      - lockedBy_text: Locked by {{ lockedby }} on {{ lockedon }}
+      - condition_name: Name
+      - condition_type: Condition Type
+      - condition_type_0: Precondition
+      - condition_working_set: Working Set
+      - condition_rule: Rule
+      - condition_parent: Follows After
+      - add_condition: Add Condition
+      - testing_enabled: Testing functionality enabled
+      # Category
+      - categoryName: Name
+      - categoryDescription: Description
+      - delete_category: Delete Category
+      - category_delete_confirmation: Are you sure you wish to delete this category?
+      - category_delete_error: You are not allowed to delete the category, as it is assigned to resources.
+      # Actions, Buttons, etc.
+      - actions: Actions
+      - edit: Edit
+      - create: Create
+      - create_version: Create version
+      - lock: Lock
+      - unlock: Unlock
+      - import: Import
+      - export: Export
+      - save: Save
+      - execute: Execute
+      - delete: Delete
+      - delete_workflow: Delete workflow
+      - delete_version: Delete version
+      - finalize: Finalize version
+      - edit_version: Edit version
+      - activate: Activate
+      - deactivate: Deactivate
+      - cancel: Cancel
+      - select_condition_type: Select condition type...
+      - select_working_set: Select working set...
+      - select_rule: Select rule...
+      - select_parent: Select parent...
+      - select_version: Select version...
+      - delete_category: Delete category
+      - enable_testing: Enable testing
+      - disable_testing: Disable testing
+      - add: Add
+      - remove: Remove
+      # Error messages
+      - org.hibernate.validator.constraints.NotEmpty: Can not be empty
+      - javax.validation.constraints.NotNull: Can not be null
+      - org.hibernate.validator.constraints.Length: Should be between {{min}} - {{max}} characters long
+      - validation.error.category.unique.name: Another category with the same name already exists.
+      - validation.error.workflow.unique.name: Another workflow with the same name already exists.
+      - validation.error.workflow.version.unique.name: Another workflow version with the same name already exists.
+      - validation.error.condition.unique.name: Another condition with the same name already exists.
+      - validation.error.condition.is.parent: The condition is parent to another condition(s). You cannot delete it.
+      - validation.error.condition.has.parent.itself: The condition has as parent itself.
+      - validation.error.condition.missing.mandatory.fields: The condition has some missing mandatory fields.
+      - validation.error.condition.cyclic.dependency: There exist a cyclic dependency in the defined conditions.
+#       Access management
+      - WFL_VIEW_WORKFLOW: View workflow
+      - WFL_MANAGE_WORKFLOW: Create / update / delete workflow
+      - WFL_LOCK_WORKFLOW: Lock workflow
+      - WFL_UNLOCK_ANY_WORKFLOW: Unlock any workflow
+      - WFL_MANAGE_CATEGORY: Manage categories
+      - WFL_VIEW_RUNTIME: View runtime environment
+      - WFL_EXECUTE_RUNTIME: Execute workflow
+      - WFL_CONFIGURE: Configure this application
+      - projects: Projects
+      - filter: Filter
+      - default: Default
+      - allowed: Allowed
+      - denied: Denied
+      - superadmin_access_rights_not_editable: This user is a superadmin and therefore their access rights cannot be edited.
+      - remove_access_subject_confirm: Are you sure you wish to remove this user / group from your access management list? Its access rights will be reverted to the default ones.
+      - remove_from_access_management: Remove from access management
+      - generic_permissions: Generic permissions
+      - default_permissions: Default permissions
+      - resource_permissions: Resource permissions

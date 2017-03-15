@@ -1,0 +1,28 @@
+!!WDApplication:
+  identification:
+    uniqueId:           6294a3f9-3bb5-46c6-a066-bf5b8cfd89f5
+    titleKey:           application_title
+    descriptionKey:     application_description
+    version:            2.0.0
+  instantiation:
+    path:               'apps/appmanagement'
+    index:              '/'
+    multipleInstances:  false
+    restrictAccess:     true
+    translationsGroup:  appmanagement
+  menu:
+    icon:               '{icon-square}mif-tools'
+    iconSmall:          '{icon}mif-tools'
+    bgColor:            'bg-blue'
+    system:             false
+    showTitle:          true
+  window:
+    width:              800
+    minWidth:           670
+    height:             500
+    minHeight:          300
+    resizable:          true
+    maximizable:        true
+    minimizable:        true
+    closable:           true
+    draggable:          true

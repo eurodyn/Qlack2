@@ -1,0 +1,20 @@
+<div ng-controller="CreateGroupCtrl">
+	<div class="clearfix resourceHeading">
+		<div class="pull-left">
+			<h3>{{group.name}}</h3>
+		</div>
+	</div>
+	
+	<section class="well">
+		<form class="form-horizontal" role="form" name="groupForm">
+			<ng-include src="'views/groups/groupDetailsFragment.html'"></ng-include>	
+			<hr/>
+			<div class="clearfix">
+				<div class="pull-right">
+					<button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> {{'cancel' | translate}}</button>
+					<button class="btn btn-success" ng-click="save()"><i class="fa fa-check"></i> {{'save' | translate}}</button>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>

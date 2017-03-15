@@ -1,0 +1,73 @@
+<div ng-controller="ResourceAccessCtrl">	
+
+<div class="row">
+	<div class="col-sm-4 col-md-3 sidebar">
+		<div class="clearfix toolbar">
+			<form class="form-inline clearfix">
+				<div class="form-group toolbar-left">
+					<div class="input-group input-group-md">
+						<input class="form-control" placeholder="{{'filter' | translate}}" ng-model="subjectFilter" ng-blur="filterSubjects()">
+						<span class="input-group-addon"><i class="fa fa-search"></i></span>
+					</div>
+				</div>			
+				<div class="btn-group toolbar-right">			
+					<button type="button" class="btn btn-default" ng-click="togglePopover()"><i class="fa fa-plus"></i></button>
+					<div class="popover bottom htmlPopover" ng-show="showPopover">
+						<div class="arrow"></div>
+						<div class="popover-inner">
+							<div class="popover-content"><ng-include src="'views/admin/addAccessSubject.html'"></ng-include></div>
+						</div>
+					</div>
+					
+					<button type="button" class="btn btn-default" ng-click="removeSubject()" ng-disabled="selectedSubject == null || (selectedSubject.type == 'superadmin')"><i class="fa fa-minus"></i></button>
+				</div>
+			</form>
+		</div>
+		<div class="clearfix">
+			<script id="subjectTemplate" type="text/x-kendo-template">
+				<div ui-sref="access.resource.edit({resourceId: '{{resourceId}}', ownerId: '#=data.id#'})">
+				#if (data.type == 'user') {#
+					<i class="fa fa-user"></i>
+				#} else if (data.type == 'superadmin') {#
+					<i class="fa fa-star"></i>
+				#} else if (data.type == 'group') {#
+					<i class="fa fa-group"></i>
+				#} else if (data.type == 'domain') {#
+					<i class="fa fa-sitemap"></i>
+				#}#
+				<span>#=data.name#
+				#if (data.description != null) {#
+					(#=data.description#)
+				#}#
+				</span></div>
+			</script>
+			<script id="subjectAltTemplate" type="text/x-kendo-template">
+				<div class="k-alt" ui-sref="access.resource.edit({resourceId: '{{resourceId}}', ownerId: '#=data.id#'})">
+				#if (data.type == 'user') {#
+					<i class="fa fa-user"></i>
+				#} else if (data.type == 'superadmin') {#
+					<i class="fa fa-star"></i>
+				#} else if (data.type == 'group') {#
+					<i class="fa fa-group"></i>
+				#} else if (data.type == 'domain') {#
+					<i class="fa fa-sitemap"></i>
+				#}#
+				<span>#=data.name#
+				#if (data.description != null) {#
+					(#=data.description#)
+				#}#
+				</span></div>
+			</script>
+			<div kendo-list-view k-data-source="subjectsDataSource" 
+				k-template="subjectTemplate" k-alt-template="subjectAltTemplate"
+				k-selectable="true" k-on-data-bound="subjectListLoaded(kendoEvent)"
+				k-on-change="subjectChanged(kendoEvent)"
+				class="top-buffer userList iconList"></div>
+		</div>
+	</div>
+	
+	<div class="col-sm-8 col-md-9">
+		<div ui-view autoscroll="false"></div>
+	</div>
+</div>
+</div>

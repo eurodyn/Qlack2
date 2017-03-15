@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: usermanagement_1
+      author: ckask
+      changes:
+        - insert:
+            tableName: al_audit_level
+            columns:
+            - column:
+                name: id
+                value: '2345c43d-7857-484b-8f22-044e14183c38'
+            - column:
+                name: name
+                value: 'AUDIT_LEVEL_WD_USERMANAGEMENT'

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs">
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="ProjectService"
+		interface="com.eurodyn.qlack2.be.workflow.api.ProjectService" />
+
+	<reference id="WorkflowService"
+		interface="com.eurodyn.qlack2.be.workflow.api.WorkflowService" />
+
+	<reference id="WorkflowVersionService"
+		interface="com.eurodyn.qlack2.be.workflow.api.WorkflowVersionService" />
+
+	<reference id="CategoryService"
+		interface="com.eurodyn.qlack2.be.workflow.api.CategoryService" />
+	
+	<reference id="RuntimeService"
+		interface="com.eurodyn.qlack2.be.workflow.api.RuntimeService" />
+	<reference id="FileUpload" 
+		interface="com.eurodyn.qlack2.util.fileupload.api.FileUpload" />
+	<reference id="ConfigService"
+		interface="com.eurodyn.qlack2.be.workflow.api.ConfigService" />
+	<reference id="FileUploadRestService" 
+		interface="com.eurodyn.qlack2.util.fileupload.api.rest.FileUploadRest" />
+
+
+	<!-- LOCAL BEANS & SERVICES -->
+	<bean id="ProjectRest"
+		class="com.eurodyn.qlack2.be.workflow.web.rest.ProjectRest">
+		<property name="projectService" ref="ProjectService" />
+	</bean>
+
+	<bean id="WorkflowRest"
+		class="com.eurodyn.qlack2.be.workflow.web.rest.WorkflowRest">
+		<property name="workflowService" ref="WorkflowService" />
+		<property name="workflowVersionService" ref="WorkflowVersionService" />
+		<property name="fileUploadService" ref="FileUpload" />
+	</bean>
+
+	<bean id="WorkflowVersionRest"
+		class="com.eurodyn.qlack2.be.workflow.web.rest.WorkflowVersionRest">
+		<property name="workflowVersionService" ref="WorkflowVersionService" />
+	</bean>
+
+	<bean id="CategoryRest"
+		class="com.eurodyn.qlack2.be.workflow.web.rest.CategoryRest">
+		<property name="categoryService" ref="CategoryService" />
+	</bean>
+	
+	<bean id="RuntimeRest"
+		class="com.eurodyn.qlack2.be.workflow.web.rest.RuntimeRest">
+		<property name="runtimeService" ref="RuntimeService" />
+	</bean>
+	
+	<bean id="ConfigRest"
+		class="com.eurodyn.qlack2.be.workflow.web.rest.ConfigRest">
+		<property name="configService" ref="ConfigService" />
+	</bean>
+
+	<!-- CXF CONFIGURATION -->
+	<jaxrs:server id="WorkflowRestService" address="/apps/workflow">
+		<jaxrs:serviceBeans>
+			<ref component-id="ProjectRest" />
+			<ref component-id="WorkflowRest" />
+			<ref component-id="CategoryRest" />
+			<ref component-id="WorkflowVersionRest" />
+			<ref component-id="RuntimeRest" />
+			<ref component-id="FileUploadRestService" />
+			<ref component-id="ConfigRest" />
+		</jaxrs:serviceBeans>
+
+		<jaxrs:providers>
+			<bean id="MappingExceptionMapper" class="com.eurodyn.qlack2.util.validator.util.rest.MappingExceptionMapper"/>
+			<bean id="ValidationExceptionMapper" class="com.eurodyn.qlack2.util.validator.util.rest.ValidationExceptionMapper"/>
+			<bean id="GenericExceptionMapper" class="com.eurodyn.qlack2.util.rest.mapper.GenericExceptionMapper"/>
+			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+				<property name="mapper">
+					<bean id="jacksonMapper" class="com.eurodyn.qlack2.util.rest.CustomisedJackson" />
+				</property>
+			</bean>
+		</jaxrs:providers>
+	</jaxrs:server>
+</blueprint>

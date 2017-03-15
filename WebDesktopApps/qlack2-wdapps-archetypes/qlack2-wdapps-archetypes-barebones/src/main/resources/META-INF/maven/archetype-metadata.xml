@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor name="basic">
+	<fileSets>
+		<fileSet filtered="true" packaged="false">
+			<directory>src/main/resources</directory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+		<fileSet filtered="true" packaged="false">
+			<directory>src/main/webapp</directory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+	
+	<requiredProperties>
+		<requiredProperty key="uniqueId" />
+		<requiredProperty key="path" />
+		<requiredProperty key="index" />
+		<requiredProperty key="multipleInstances" />
+		<requiredProperty key="restrictAccess" />
+		<requiredProperty key="translationsGroup" />
+		<requiredProperty key="icon" />
+		<requiredProperty key="iconSmall" />
+		<requiredProperty key="bgColor" />
+		<requiredProperty key="system" />
+		<requiredProperty key="showTitle" />
+		<requiredProperty key="width" />
+		<requiredProperty key="minWidth" />
+		<requiredProperty key="height" />
+		<requiredProperty key="minHeight" />
+		<requiredProperty key="resizable" />
+		<requiredProperty key="maximizable" />
+		<requiredProperty key="minimizable" />
+		<requiredProperty key="closable" />
+		<requiredProperty key="draggable" />
+	</requiredProperties>
+</archetype-descriptor>

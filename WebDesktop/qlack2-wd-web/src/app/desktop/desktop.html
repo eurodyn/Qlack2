@@ -1,0 +1,27 @@
+<div id="desktop">
+	<!-- An overlay to disable widnow content -->
+	<div id="overlay" class="{{desktop.overlayClass}}"></div>
+	
+	<!-- Start button -->
+	<div class="tile-area no-padding">
+		<div class="tile-container">
+			<div class="tile-small bg-blue fg-white">
+				<div class="tile-content iconic" ng-click="desktop.showMenu()" accesskey="s">
+					<span class="icon mif-apps"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Start button intro -->	
+	<div class="animated bounceInRight prompt" ng-if="desktop.prompt">
+		<span class="mif-arrow-left"></span>
+		<div>Start here</div>
+	</div>
+
+	<!-- Application windows -->
+	<div id="app-window" ng-repeat="applicationInstance in desktop.desktopService.getApplicationInstances()" q-window></div>
+	
+	<!-- Start menu -->
+	<ng-include src="'app/desktop/start-menu.html'"/>
+</div>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}"
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+
+	<jpa:enable />
+	<tx:enable />
+
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.mailing" update-strategy="reload">
+		<cm:default-properties>
+			<!-- Whether to auto-start the mail queue monitor thread -->
+			<cm:property name="autostart" value="true" />
+			<!-- How often to check for new queued emails (in msec) -->
+			<cm:property name="interval" value="10000" />
+			<!-- Maximum number of tries to send a previously failed e-mail -->
+			<cm:property name="maxTries" value="3" />
+			<!-- Mail session -->
+			<cm:property name="mail.debug" value="false" />
+			<cm:property name="mail.host" value="localhost" />
+			<cm:property name="mail.port" value="25" />
+			<cm:property name="mail.user" value="" />
+			<cm:property name="mail.password" value="" />
+			<cm:property name="mail.smtp.starttls.enable" value="false" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<bean id="DistributionListServiceImpl" class="com.eurodyn.qlack2.fuse.mailing.impl.DistributionListServiceImpl">
+	</bean>
+	<service id="DistributionListService" ref="DistributionListServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.mailing.api.DistributionListService" />
+	
+	<bean id="InternalMessageServiceImpl" class="com.eurodyn.qlack2.fuse.mailing.impl.InternalMessageServiceImpl">
+	</bean>
+	<service id="InternalMessageService" ref="InternalMessageServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.mailing.api.InternalMessageService" />
+
+	<bean id="MailServiceImpl" class="com.eurodyn.qlack2.fuse.mailing.impl.MailServiceImpl">
+	</bean>
+	<service id="MailService" ref="MailServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.mailing.api.MailService" />
+
+	<bean id="MailQueueSender" class="com.eurodyn.qlack2.fuse.mailing.impl.monitor.MailQueueSender"
+		init-method="init" destroy-method="destroy">
+		<cm:managed-properties persistent-id="com.eurodyn.qlack2.fuse.mailing" update-strategy="container-managed" />
+		<property name="debug" value="${mail.debug}" />
+		<property name="host" value="${mail.host}" />
+		<property name="port" value="${mail.port}" />
+		<property name="username" value="${mail.user}" />
+		<property name="password" value="${mail.password}" />
+		<property name="starttls" value="${mail.smtp.starttls.enable}" />
+	</bean>
+	<bean id="MailQueueMonitor" class="com.eurodyn.qlack2.fuse.mailing.impl.monitor.MailQueueMonitor">
+		<cm:managed-properties persistent-id="com.eurodyn.qlack2.fuse.mailing" update-strategy="container-managed" />
+		<property name="maxTries" value="${maxTries}" />
+		<property name="sender" ref="MailQueueSender" />
+	</bean>
+	<bean id="MailQueueMonitorClockImpl" class="com.eurodyn.qlack2.fuse.mailing.impl.monitor.MailQueueMonitorClockImpl"
+		init-method="init" destroy-method="destroy">
+		<cm:managed-properties persistent-id="com.eurodyn.qlack2.fuse.mailing" update-strategy="container-managed" />
+		<property name="autostart" value="${autostart}" />
+		<property name="interval" value="${interval}" />
+		<property name="monitor" ref="MailQueueMonitor" />
+	</bean>
+	<service id="MailQueueMonitorClock" ref="MailQueueMonitorClockImpl"
+		interface="com.eurodyn.qlack2.fuse.mailing.api.MailQueueMonitorClock" />
+
+</blueprint>

@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="IDMService"
+		interface="com.eurodyn.qlack2.fuse.idm.api.IDMService" />
+
+	<reference id="SecurityService"
+		interface="com.eurodyn.qlack2.webdesktop.api.SecurityService" />
+
+	<reference id="GroupService"
+		interface="com.eurodyn.qlack2.fuse.lexicon.api.GroupService" />
+
+	<reference id="KeyService"
+		interface="com.eurodyn.qlack2.fuse.lexicon.api.KeyService" />
+
+	<reference id="LanguageService"
+		interface="com.eurodyn.qlack2.fuse.lexicon.api.LanguageService" />
+
+	<reference id="DesktopUserService"
+		interface="com.eurodyn.qlack2.webdesktop.api.DesktopUserService" />
+
+	<reference id="DesktopGroupService"
+		interface="com.eurodyn.qlack2.webdesktop.api.DesktopGroupService" />
+
+	<reference id="ProjectExplorerService"
+		interface="com.eurodyn.qlack2.be.explorer.api.ProjectService"/>
+
+	<reference-list id="WorkingSetsServiceList"
+		interface="com.eurodyn.qlack2.be.rules.api.WorkingSetsService"
+		availability="optional" />
+
+	<reference-list id="RulesServiceList"
+		interface="com.eurodyn.qlack2.be.rules.api.RulesService"
+		availability="optional" />
+
+	<reference-list id="RulesRuntimeManagementServiceList"
+		interface="com.eurodyn.qlack2.be.rules.api.RulesRuntimeManagementService"
+		availability="optional" />
+
+	<reference id="AuditClientService"
+		interface="com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService" />
+
+	<reference id="TransactionManager" interface="javax.transaction.TransactionManager" />
+
+	<reference id="EventPublisherService"
+		interface="com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService" />
+
+	<!-- LOCAL BEANS & SERVICES -->
+	<bean id="ProjectsServiceImpl"
+		class="com.eurodyn.qlack2.be.forms.impl.ProjectsServiceImpl">
+		<jpa:context property="em" unitname="formsmanager" />
+		<tx:transaction method="*" value="Required" />
+		<property name="projectExplorerService" ref="ProjectExplorerService"/>
+		<property name="idmService" ref="IDMService"/>
+		<property name="converterUtil" ref="ConverterUtil"/>
+		<property name="securityService" ref="SecurityService" />
+		<property name="workingSetsServiceList" ref="WorkingSetsServiceList" />
+		<property name="rulesServiceList" ref="RulesServiceList" />
+		<property name="auditClientService" ref="AuditClientService" />
+	</bean>
+	<service id="ProjectsService" interface="com.eurodyn.qlack2.be.forms.api.ProjectsService"
+		ref="ProjectsServiceImpl">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*" />
+			<entry key="service.exported.configs" value="org.apache.cxf.ws" />
+			<entry key="org.apache.cxf.ws.address" value="ws/qbe/forms/ProjectsService" />
+		</service-properties>
+	</service>
+
+	<bean id="FormsServiceImpl"
+		class="com.eurodyn.qlack2.be.forms.impl.FormsServiceImpl">
+		<jpa:context property="em" unitname="formsmanager" />
+		<tx:transaction method="*" value="Required" />
+		<property name="idmService" ref="IDMService"/>
+		<property name="securityService" ref="SecurityService" />
+		<property name="formVersionsService" ref="FormVersionsServiceImpl"/>
+		<property name="groupService" ref="GroupService"/>
+		<property name="keyService" ref="KeyService"/>
+		<property name="languageService" ref="LanguageService"/>
+		<property name="converterUtil" ref="ConverterUtil"/>
+		<property name="securityUtils" ref="SecurityUtils"/>
+		<property name="auditClientService" ref="AuditClientService" />
+		<property name="eventPublisher" ref="EventPublisherService" />
+	</bean>
+	<service id="FormsService"
+		interface="com.eurodyn.qlack2.be.forms.api.FormsService"
+		ref="FormsServiceImpl">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+	      	<entry key="org.apache.cxf.ws.address" value="ws/qbe/forms/FormsService"/>
+      	</service-properties>
+	</service>
+
+	<bean id="FormVersionsServiceImpl"
+		class="com.eurodyn.qlack2.be.forms.impl.FormVersionsServiceImpl">
+		<jpa:context property="em" unitname="formsmanager" />
+		<tx:transaction method="*" value="Required" />
+		<property name="groupService" ref="GroupService"/>
+		<property name="keyService" ref="KeyService"/>
+		<property name="languageService" ref="LanguageService"/>
+		<property name="idmService" ref="IDMService"/>
+		<property name="projectExplorerService" ref="ProjectExplorerService"/>
+		<property name="securityService" ref="SecurityService" />
+		<property name="converterUtil" ref="ConverterUtil"/>
+		<property name="xmlUtil" ref="XmlUtil"/>
+		<property name="securityUtils" ref="SecurityUtils"/>
+		<property name="auditClientService" ref="AuditClientService" />
+		<property name="eventPublisher" ref="EventPublisherService" />
+		<property name="workingSetsServiceList" ref="WorkingSetsServiceList" />
+	</bean>
+	<service id="FormVersionsService"
+		interface="com.eurodyn.qlack2.be.forms.api.FormVersionsService"
+		ref="FormVersionsServiceImpl">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*" />
+			<entry key="service.exported.configs" value="org.apache.cxf.ws" />
+			<entry key="org.apache.cxf.ws.address" value="ws/qbe/forms/FormVersionsService" />
+		</service-properties>
+	</service>
+
+	<bean id="CategoriesServiceImpl"
+		class="com.eurodyn.qlack2.be.forms.impl.CategoriesServiceImpl">
+		<jpa:context property="em" unitname="formsmanager" />
+		<tx:transaction method="*" value="Required" />
+		<property name="idmService" ref="IDMService"/>
+		<property name="converterUtil" ref="ConverterUtil"/>
+		<property name="securityUtils" ref="SecurityUtils"/>
+		<property name="auditClientService" ref="AuditClientService" />
+		<property name="eventPublisher" ref="EventPublisherService" />
+	</bean>
+	<service id="CategoriesService"
+		interface="com.eurodyn.qlack2.be.forms.api.CategoriesService"
+		ref="CategoriesServiceImpl">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*" />
+			<entry key="service.exported.configs" value="org.apache.cxf.ws" />
+			<entry key="org.apache.cxf.ws.address" value="ws/qbe/forms/CategoriesService" />
+		</service-properties>
+	</service>
+
+	<bean id="OrbeonServiceImpl"
+		class="com.eurodyn.qlack2.be.forms.impl.OrbeonServiceImpl">
+		<jpa:context property="em" unitname="formsmanager" />
+		<tx:transaction method="retrieve*" value="Required" />
+		<tx:transaction method="store*" value="Required" />
+		<tx:transaction method="getOrbeonFormContent" value="Never" />
+		<property name="idmService" ref="IDMService"/>
+		<property name="formVersionsService" ref="FormVersionsServiceImpl"/>
+		<property name="languageService" ref="LanguageService" />
+		<property name="converterUtil" ref="ConverterUtil"/>
+		<property name="securityUtils" ref="SecurityUtils"/>
+		<property name="transactionManager" ref="TransactionManager"/>
+		<property name="xmlUtil" ref="XmlUtil"/>
+		<property name="auditClientService" ref="AuditClientService" />
+		<property name="eventPublisher" ref="EventPublisherService" />
+		<property name="rulesRuntimeManagementServiceList" ref="RulesRuntimeManagementServiceList" />
+	</bean>
+	<service id="OrbeonService"
+		interface="com.eurodyn.qlack2.be.forms.api.OrbeonService"
+		ref="OrbeonServiceImpl">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*" />
+			<entry key="service.exported.configs" value="org.apache.cxf.ws" />
+			<entry key="org.apache.cxf.ws.address" value="ws/qbe/forms/OrbeonService" />
+		</service-properties>
+	</service>
+
+	<bean id="ConfigBean"
+		class="com.eurodyn.qlack2.be.forms.impl.ConfigServiceImpl">
+		<property name="security" ref="SecurityService" />
+		<property name="idmService" ref="IDMService"/>
+		<property name="desktopUserService" ref="DesktopUserService" />
+		<property name="desktopGroupService" ref="DesktopGroupService" />
+		<property name="audit" ref="AuditClientService" />
+		<jpa:context property="em" unitname="formsmanager" />
+		<tx:transaction method="*" value="Required" />
+	</bean>
+	<service id="ConfigService" ref="ConfigBean"
+		interface="com.eurodyn.qlack2.be.forms.api.ConfigService">
+	</service>
+
+	<bean id="ConverterUtil"
+		class="com.eurodyn.qlack2.be.forms.impl.util.ConverterUtil">
+		<property name="desktopUserService" ref="DesktopUserService" />
+		<property name="languageService" ref="LanguageService"/>
+		<property name="workingSetsServiceList" ref="WorkingSetsServiceList" />
+		<property name="rulesServiceList" ref="RulesServiceList" />
+	</bean>
+
+	<bean id="XmlUtil" class="com.eurodyn.qlack2.be.forms.impl.util.XmlUtil">
+		<property name="context" ref="blueprintBundleContext"/>
+		<property name="converterUtil" ref="ConverterUtil"/>
+	</bean>
+
+	<bean id="SecurityUtils"
+		class="com.eurodyn.qlack2.be.forms.impl.util.SecurityUtils">
+		<property name="securityService" ref="SecurityService" />
+	</bean>
+
+	<!-- QBE consumer implementations -->
+	<bean id="RulesResourceConsumerBean"
+		class="com.eurodyn.qlack2.be.forms.impl.consumer.RulesResourceConsumerImpl">
+		<jpa:context property="em" unitname="formsmanager" />
+		<tx:transaction method="*" value="Required" />
+	</bean>
+	<service id="RulesResourceConsumerService" ref="RulesResourceConsumerBean"
+		interface="com.eurodyn.qlack2.be.rules.api.client.RulesResourceConsumer">
+	</service>
+
+	<!-- Event listeners -->
+	<bean id="ProjectRemovalListener"
+		class="com.eurodyn.qlack2.be.forms.impl.listeners.ProjectRemovalListener">
+		<jpa:context property="em" unitname="formsmanager" />
+		<tx:transaction method="*" value="Required" />
+		<property name="converterUtil" ref="ConverterUtil"/>
+		<property name="auditClientService" ref="AuditClientService" />
+		<property name="securityService" ref="SecurityService" />
+		<property name="groupService" ref="GroupService"/>
+	</bean>
+	<service id="ProjectRemovalListenerService" ref="ProjectRemovalListener"
+		interface="org.osgi.service.event.EventHandler">
+		<service-properties>
+			<entry key="event.topics" value="com/eurodyn/qlack2/be/explorer/PROJECT/DELETE" />
+		</service-properties>
+	</service>
+</blueprint>

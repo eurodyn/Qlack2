@@ -1,0 +1,77 @@
+<div ng-controller="ApplicationCtrl" ng-show="application">
+	<div class="clearfix resourceHeading">
+		<div class="pull-left">
+			<h3>{{application.titleKey | translate}}</h3>
+		</div>
+	</div>
+	
+	<section class="well">
+	<form class="form-horizontal" role="form" novalidate ng-submit="save()">
+		<fieldset ng-disabled="!permissions['WD_UPDATE_APPLICATION']">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>description</label>
+						<div class="col-sm-8 controls">
+							<p class="form-control-static">{{application.descriptionKey | translate}}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>version</label>
+						<div class="col-sm-8 controls">
+							<p class="form-control-static">{{application.version}}</p>
+						</div>
+					</div>
+					<!-- <div class="form-group">
+						<label class="col-sm-4 control-label" translate>group</label>
+						<div class="col-sm-8 controls">
+							<p class="form-control-static">{{application.groupKey | translate}}</p>
+						</div>
+					</div> -->
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>status</label>
+						<div class="col-sm-8 controls">
+							<label class="radio-inline">
+								<input type="radio" value="true" name="active" id="active" 
+									ng-checked="application.active == true" ng-model="application.active">
+								<span translate>active</span>
+							</label>
+							<label class="radio-inline">
+								<input type="radio" value="false" name="active" id="inactive" 
+									ng-checked="application.active == false" ng-model="application.active">
+								<span translate>inactive</span>
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>access</label>
+						<div class="col-sm-8 controls">
+							<label class="radio-inline">
+								<input type="radio" value="false" name="restrict_access" id="public_access" 
+									ng-checked="application.restricted == false" 
+									ng-model="application.restricted">
+								<span translate>public</span>
+							</label>
+							<label class="radio-inline">
+								<input type="radio" value="true" name="restrict_access" id="restricted_access" 
+									ng-checked="application.restricted == true" 
+									ng-model="application.restricted">
+								<span translate>restricted</span>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+		<hr/>
+		<div class="clearfix" ng-show="permissions['WD_UPDATE_APPLICATION']">
+			<div class="pull-right">
+				<button type="button" class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> Cancel</button>
+				<button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Save</button>
+			</div>
+		</div>
+	</form>
+	</section>
+</div>

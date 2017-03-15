@@ -1,0 +1,32 @@
+<div  ng-controller="EditUserCtrl">
+	<div class="clearfix resourceHeading">
+		<div class="pull-left">
+			<h3>{{user.firstName}} {{user.lastName}}</h3>
+		</div>
+		<div class="pull-right" ng-show="permissions['WD_MANAGE_USERS']">
+			<script id="actionsListTemplate" type="text/x-kendo-template">
+				<div>
+					<i class="fa #=data.icon#"></i> <span translate>#=data.key#</span>
+				</div>
+			</script>
+			<select kendo-drop-down-list k-data-source="actionsDataSource" k-template="actionsListTemplate"
+				k-option-label="'{{'actions' | translate}}'"  k-data-text-field="'key'"
+				k-on-select="executeAction(kendoEvent)"></select>
+		</div>
+	</div>
+	
+	<section class="well">
+		<form class="form-horizontal" role="form" name="userForm">
+			<fieldset ng-disabled="!permissions['WD_MANAGE_USERS']">
+				<ng-include src="'views/users/userDetailsFragment.html'"></ng-include>
+			</fieldset>
+			<hr/>
+			<div class="clearfix" ng-show="permissions['WD_MANAGE_USERS']">
+				<div class="pull-right">
+					<button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> {{'cancel' | translate}}</button>
+					<button class="btn btn-success" ng-click="save()"><i class="fa fa-check"></i> {{'save' | translate}}</button>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+        xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<cm:property-placeholder 
+		persistent-id="com.eurodyn.qlack2.util.datasourcegeneric"
+		update-strategy="reload">
+	</cm:property-placeholder>
+
+	<reference id="transactionManager" interface="javax.transaction.TransactionManager" />
+
+	<bean id="configurator" class="com.eurodyn.qlack2.util.datasource.generic.Configurator"
+		init-method="refresh">
+		<property name="context" ref="blueprintBundleContext" />
+		<property name="transactionManager" ref="transactionManager" />
+		
+		<cm:managed-properties persistent-id="com.eurodyn.qlack2.util.datasourcegeneric" 
+			update-strategy="container-managed" />
+
+		<property name="driverClass" value="${driverClass}"></property>
+		<property name="datasourceType" value="${datasourceType}"></property>
+		<property name="jdbcURL" value="${jdbcURL}"></property>
+		<property name="username" value="${username}"></property>
+		<property name="password" value="${password}"></property>
+		<property name="jndiName" value="${jndiName}"></property>
+		<property name="driverParametersMapping" value="${driverParametersMapping}"></property>
+
+		<property name="initialSize" value="${pool.initialSize}" />
+		<property name="maxActive" value="${pool.maxActive}" />
+		<property name="maxIdle" value="${pool.maxIdle}" />
+		<property name="minIdle" value="${pool.minIdle}" />
+		<property name="maxWait" value="${pool.maxWait}" />
+		<property name="validationQuery" value="${pool.validationQuery}" />
+		<property name="testOnBorrow" value="${pool.testOnBorrow}" />
+		<property name="removeAbandoned" value="${pool.removeAbandoned}" />
+		<property name="removeAbandonedTimeout" value="${pool.removeAbandonedTimeout}" />
+	</bean>
+
+</blueprint>

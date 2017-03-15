@@ -1,0 +1,28 @@
+!!WDApplication:
+  identification:
+    uniqueId:           2d13cb54-b4b5-4bb7-9562-552275dccf6c
+    titleKey:           application_title
+    descriptionKey:     application_description
+    version:            2.0.0
+  instantiation:
+    path:               apps/rules
+    index:              /
+    multipleInstances:  false
+    restrictAccess:     true
+    translationsGroup:  rules
+  menu:
+    icon:               /img/app-rules-icon.png
+    iconSmall:          /img/app-rules-icon-small.png
+    type:
+      displayOn:        group
+      groupKey:         a_components
+  window:
+    width:              1000
+    minWidth:           940
+    height:             800
+    minHeight:          400
+    resizable:          true
+    maximizable:        true
+    minimizable:        true
+    closable:           true
+    draggable:          true

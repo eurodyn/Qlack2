@@ -1,0 +1,30 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" ng-controller="MenuCtrl">
+	<div class="container-fluid">
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+			<span class="sr-only">Toggle navigation</span>
+           	<span class="icon-bar"></span>
+           	<span class="icon-bar"></span>
+           	<span class="icon-bar"></span>
+        </button>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" collapse="navCollapsed">
+		<ul class="nav navbar-nav">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle"><span translate>file</span> <b class="caret"></b></a>
+				<ul class="dropdown-menu dropdown-menu-inverse">
+					<li><a ui-sref="apps"><i class="fa fa-cogs fa-fw"></i> <span translate>applications</span></a></li>
+					<li class="divider"></li>
+					<li ng-show="permissions['APPMANAGEMENT_CONFIGURE']">
+						<a ui-sref="access" ui-sref-opts="{reload: true}">
+						<i class="fa fa-group fa-fw"></i> <span translate>access_management</span></a>
+					</li>
+					<li><a ng-click="exit()"><i class="fa fa-times fa-fw"></i> <span translate>exit</span></a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	</div>
+</nav>

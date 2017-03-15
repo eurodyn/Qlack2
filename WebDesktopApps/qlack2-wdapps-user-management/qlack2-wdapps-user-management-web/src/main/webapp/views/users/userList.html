@@ -1,0 +1,36 @@
+<div class="row" ng-controller="UserListCtrl">
+	<div class="col-sm-3 col-md-2 sidebar">
+		<div class="input-group">
+			<input class="form-control" placeholder="{{'filter' | translate}}" ng-model="filter" ng-blur="filterUsers()">
+			<span class="input-group-addon"><i class="fa fa-search"></i></span>
+		</div>
+		<script id="userTemplate" type="text/x-kendo-template">
+			<div ui-sref="users.user({userId: '#=data.id#'})">
+				#if (data.superadmin) {#
+					<i class="fa fa-star"></i>
+				#} else {#
+					<i class="fa fa-user"></i>
+				#}#
+				<span>#=data.firstName# #=data.lastName# (#=data.username#)</span>
+			</div>
+		</script>
+		<script id="userAltTemplate" type="text/x-kendo-template">
+			<div class="k-alt" ui-sref="users.user({userId: '#=data.id#'})">
+				#if (data.superadmin) {#
+					<i class="fa fa-star"></i>
+				#} else {#
+					<i class="fa fa-user"></i>
+				#}#
+				<span>#=data.firstName# #=data.lastName# (#=data.username#)</span>
+			</div>
+		</script>
+		<div kendo-list-view k-data-source="userListSource"
+			k-template="userTemplate" k-alt-template="userAltTemplate"
+			k-selectable="true" k-on-data-bound="userListLoaded(kendoEvent)"
+			class="top-buffer userList iconList"></div>
+	</div>
+
+	<div class="col-sm-9 col-md-10">
+		<div ui-view autoscroll="false"></div>
+	</div>
+</div>

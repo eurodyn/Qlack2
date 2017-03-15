@@ -1,0 +1,10 @@
+{
+	"operations": [
+		{ "name": "WD_ACCESS_APPLICATION", "description": "Access a web desktop application" },
+		{ "name": "WD_UPDATE_APPLICATION", "description": "Update the details of a web desktop application" },
+		{ "name": "WD_MANAGE_GROUPS", "description": "Create / Update / Delete user groups" },
+		{ "name": "WD_MANAGE_USERS", "description": "Create / Update / Delete users" }, 
+		{ "name": "WD_CAN_VIEW_ALL_DOMAINS", "description": "Permission to view all user domains and not just the one the user belongs to" }   
+	]
+	
+}

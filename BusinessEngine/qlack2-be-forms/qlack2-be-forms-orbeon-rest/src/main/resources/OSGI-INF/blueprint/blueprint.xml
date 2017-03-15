@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs">
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="OrbeonService"
+		interface="com.eurodyn.qlack2.be.forms.api.OrbeonService" />
+
+	<!-- LOCAL BEANS & SERVICES -->
+	<bean id="OrbeonRest"
+		class="com.eurodyn.qlack2.be.forms.orbeon.rest.OrbeonRest">
+		<property name="orbeonService" ref="OrbeonService" />
+	</bean>
+
+	<!-- CXF CONFIGURATION -->
+	<jaxrs:server id="FormsManagerOrbeonRestServer" address="/apps/forms/orbeon">
+		<jaxrs:serviceBeans>
+			<ref component-id="OrbeonRest" />
+		</jaxrs:serviceBeans>
+
+		<jaxrs:providers>
+			<bean id="MappingExceptionMapper" class="com.eurodyn.qlack2.util.validator.util.rest.MappingExceptionMapper"/>
+			<bean id="ValidationExceptionMapper" class="com.eurodyn.qlack2.util.validator.util.rest.ValidationExceptionMapper"/>
+			<bean id="GenericExceptionMapper" class="com.eurodyn.qlack2.util.rest.mapper.GenericExceptionMapper"/>
+			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+				<property name="mapper">
+					<bean id="jacksonMapper" class="com.eurodyn.qlack2.util.rest.CustomisedJackson" />
+				</property>
+			</bean>
+		</jaxrs:providers>
+	</jaxrs:server>
+</blueprint>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+
+	<!--<jpa:enable />-->
+	<!--<tx:enable />-->
+
+	<!--&lt;!&ndash; EXTERNAL SERVICES &ndash;&gt;-->
+	<!--<reference id="IDMService" -->
+		<!--interface="com.eurodyn.qlack2.fuse.idm.api.IDMService" />-->
+	<!--<reference id="DesktopGroupService"-->
+		<!--interface="com.eurodyn.qlack2.webdesktop.api.DesktopGroupService" />-->
+	<!--<reference id="DesktopUserService"-->
+		<!--interface="com.eurodyn.qlack2.webdesktop.api.DesktopUserService" />-->
+	<!--<reference id="SecurityService"-->
+		<!--interface="com.eurodyn.qlack2.webdesktop.api.SecurityService" />-->
+	<!--<reference id="AuditClientService"-->
+		<!--interface="com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService" />-->
+	<!--<reference id="EventPublisherService"-->
+		<!--interface="com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService" />-->
+		<!---->
+	<!--&lt;!&ndash; LOCAL BEANS & SERVICES &ndash;&gt;-->
+	<!--<bean id="GroupBean"-->
+		<!--class="com.eurodyn.qlack2.webdesktop.apps.usermanagement.impl.GroupServiceImpl">-->
+		<!--<property name="desktopGroupService" ref="DesktopGroupService" />-->
+		<!--<property name="idmService" ref="IDMService"/>-->
+		<!--<property name="audit" ref="AuditClientService" />-->
+		<!--<property name="eventPublisher" ref="EventPublisherService" />-->
+		<!--&lt;!&ndash; <tx:transaction method="*" value="Required" /> &ndash;&gt;-->
+	<!--</bean>-->
+	<!--<bean id="UserBean"-->
+		<!--class="com.eurodyn.qlack2.webdesktop.apps.usermanagement.impl.UserServiceImpl">-->
+		<!--<property name="desktopUserService" ref="DesktopUserService" />-->
+		<!--<property name="idmService" ref="IDMService"/>-->
+		<!--<property name="audit" ref="AuditClientService" />-->
+		<!--<property name="eventPublisher" ref="EventPublisherService" />-->
+		<!--&lt;!&ndash; <tx:transaction method="*" value="Required" /> &ndash;&gt;-->
+	<!--</bean>-->
+	<!--<bean id="ConfigBean"-->
+		<!--class="com.eurodyn.qlack2.webdesktop.apps.usermanagement.impl.ConfigServiceImpl">-->
+		<!--<property name="security" ref="SecurityService" />-->
+		<!--<property name="idmService" ref="IDMService"/>-->
+		<!--<property name="desktopUserService" ref="DesktopUserService" />-->
+		<!--<property name="audit" ref="AuditClientService" />-->
+		<!--&lt;!&ndash; <tx:transaction method="*" value="Required" /> &ndash;&gt;-->
+	<!--</bean>-->
+	<!--<service id="GroupService" ref="GroupBean"-->
+		<!--interface="com.eurodyn.qlack2.webdesktop.apps.usermanagement.api.GroupService">-->
+	<!--</service>-->
+	<!--<service id="UserService" ref="UserBean"-->
+		<!--interface="com.eurodyn.qlack2.webdesktop.apps.usermanagement.api.UserService">-->
+	<!--</service>-->
+	<!--<service id="ConfigService" ref="ConfigBean"-->
+		<!--interface="com.eurodyn.qlack2.webdesktop.apps.usermanagement.api.ConfigService">-->
+	<!--</service>-->
+	
+</blueprint>

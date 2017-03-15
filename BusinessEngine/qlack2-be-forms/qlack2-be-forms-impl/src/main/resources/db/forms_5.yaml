@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: forms_5
+      author: ehond
+      changes:
+        - addColumn:
+            tableName: fmn_form_version
+            columns:
+              - column:
+                  name: enable_testing
+                  type: boolean
+                  defaultValue: false
+                  constraints:
+                    nullable: false

@@ -1,0 +1,188 @@
+groups:
+  - name: forms_ui
+    description: Forms Manager UI
+  - name: wd_apps
+    description: Application translations required to display an application in the Web Desktop
+languages:
+  - name: English
+    locale: en
+translations:
+  - group: wd_apps
+    locale: en
+    keys:
+      - forms_ui.application_title: Forms Manager
+      - forms_ui.application_description: Manage dynamic forms
+      - forms_ui.orbeon_title: Orbeon
+      # WD notifications
+      - forms_ui.category_created_title: Create category
+      - forms_ui.category_created_content: Category "{{category}}" was created successfully.
+      - forms_ui.category_updated_title: Update category
+      - forms_ui.category_updated_content: Category "{{category}}" was updated successfully.
+      - forms_ui.category_deleted_title: Delete category
+      - forms_ui.category_deleted_content: Category was deleted successfully.
+      - forms_ui.form_created_title: Create form
+      - forms_ui.form_created_content: Form "{{form}}" was created successfully.
+      - forms_ui.form_updated_title: Update form
+      - forms_ui.form_updated_content: Form "{{form}}" was updated successfully.
+      - forms_ui.form_deleted_title: Delete form
+      - forms_ui.form_deleted_content: Form was deleted successfully.
+      - forms_ui.form_version_created_title: Create form version
+      - forms_ui.form_version_created_content: Form version "{{form_version}}" was created successfully.
+      - forms_ui.form_version_deleted_title: Delete form version
+      - forms_ui.form_version_deleted_content: Form version was deleted successfully.
+      - forms_ui.form_version_finalised_title: Finalise form version
+      - forms_ui.form_version_finalised_content: Form version "{{form_version}}" was finalised successfully.
+      - forms_ui.form_version_locked_title: Lock form version
+      - forms_ui.form_version_locked_content: Form version "{{form_version}}" was locked successfully.
+      - forms_ui.form_version_unlocked_title: Unlock form version
+      - forms_ui.form_version_unlocked_content: Form version "{{form_version}}" was unlocked successfully.
+      - forms_ui.form_version_enabled_testing_title: Enable testing for form version
+      - forms_ui.form_version_enabled_testing_content: Form version "{{form_version}}" was enabled for testing successfully.
+      - forms_ui.form_version_disabled_testing_title: Disable testing for form version
+      - forms_ui.form_version_disabled_testing_content: Form version "{{form_version}}" was disabled for testing successfully.
+      - forms_ui.form_version_imported_title: Import form version
+      - forms_ui.form_version_imported_content: Form version was imported successfully.
+       # WD notifications
+      - forms_ui.operations_saved_title: Permissions updated
+      - forms_ui.operations_saved_content: The permissions of {{subject}} were updated successfully
+  - group: forms_ui
+    locale: en
+    keys:
+      # Menus and window titles
+      - menu: Menu
+      - file: File
+      - general: General
+      - access_management: Access management
+      - exit: Exit
+      - forms_manager: Manager
+      - home: Home
+      - audit: Audit
+      - help: Help
+      - create_form: Create form
+      - create_category: Create category
+      # General translations
+      - forms: Forms
+      - categories: Categories
+      # Welcome page
+      - select_project: Select project
+      - recent_projects: Recent projects
+      # Form
+      - form: Form
+      - conditions: Conditions
+      - formName: Title
+      - description: Description
+      - languages: Languages
+      - tags: Tags
+      - status: Status
+      - active: Active
+      - inactive: Inactive
+      - createdBy: Created by
+      - createdOn: Created on
+      - modifiedBy: Last modified by
+      - modifiedOn: Last modified on
+      - form_tab: Form
+      - conditions_tab: Conditions
+      - translations_tab: Translations
+      # Form versions
+      - versions: Versions
+      - versionName: Version name
+      - basedOn: Based on
+      - createdBy_text: Created by {{ createdby }} on {{ createdon }}
+        forceUpdate: true
+      - lastModifiedBy_text: Last modified by {{ lastmodifiedby }} on {{ lastmodifiedon }}
+      - lockedBy_text: Locked by {{ lockedby }} on {{ lockedon }}
+        forceUpdate: true
+      - select_version: Select version
+      - testing_enabled: Testing enabled
+      - import_version_content: Upload content
+      - add_attachment: Add attachment
+      - or_drop_file: Or drop a file here
+      # Conditions
+      - condition_name: Name
+      - condition_type: Condition type
+      - condition_working_set: Working set
+      - condition_rule: Rule
+      - condition_parent: Follows after
+      - select_condition_type: Select condition type
+      - select_working_set: Select working sets
+      - select_rule: Select rule
+      - select_parent_condition: Select parent condition
+      - condition_type_0: Precondition
+      - condition_type_1: Post condition
+      - condition_type_2: Default validation
+      - condition_type_3: Validation
+      # Translations
+      - create_translations: Add translation
+        forceUpdate: true
+      - translations: Translations
+      - translation_key: Key
+      - translation_value: Value
+      - language: Language
+      - select_language: Select language
+      # Category
+      - categoryName: Title
+      # Actions, Buttons, etc.
+      - actions: Actions
+      - edit: Edit forms
+      - new_version: Create new version
+      - lock: Lock
+      - unlock: Unlock
+      - import: Import
+      - import_version: Import version
+      - export: Export
+      - save: Save
+      - create: Create
+      - delete: Delete
+      - delete_form: Delete form
+      - delete_version: Delete version
+      - finalise: Finalise
+      - finalise_version: Finalise version
+      - enable_testing: Enable testing
+      - disable_testing: Disable testing
+      - open_form_builder: Open Form Builder
+      - cancel: Cancel
+      - delete_category: Delete category
+      - ok: OK
+      - add: Add
+      - remove: Remove
+      # Confirmations
+      - confirm_delete_category: Are you sure you wish to delete this category?
+      - confirm_delete_form: Are you sure you wish to delete this form?
+      - confirm_delete_form_version: Are you sure you wish to delete the selected form version?
+      - confirm_finalise_form_version: Are you sure you wish to finalise the selected form version?
+      - confirm_delete_form_version_translations: All translations for the selected translated key will be deleted. Are you sure you want to proceed with the deletion?
+      # Error messages
+      - error_delete_category: You are not allowed to delete the category, as it is assigned to resources.
+      - error_delete_form: You are not allowed to delete the form, since there exist versions locked by another user.
+      - error_finalise_form_version: You are not allowed to finalise the form version, since it contains non-finalised working sets.
+      - org.hibernate.validator.constraints.NotEmpty: Can not be empty
+      - javax.validation.constraints.NotNull: Can not be null
+      - org.hibernate.validator.constraints.Length: Should be between {{min}} - {{max}} characters long
+      - validation.error.category.unique.name: Another category with the same name already exists.
+      - validation.error.form.unique.name: Another form with the same name already exists.
+      - validation.error.form.version.unique.name: Another form version with the same name already exists.
+      - validation.error.condition.unique.name: Another condition with the same name already exists.
+      - validation.error.condition.parent.not.exists: The parent condition does not exist.
+      - validation.error.condition.cyclic.dependency: There exist a cyclic dependency in the defined conditions.
+      - validation.error.translation.unique.name: Another translation with the same key already exists.
+      - validation.error.translation.unique.language: Another translation value for the same language already exists.
+      - validation.error.upload.xml: The uploaded file is not an xml file.
+#       Access management
+      - FRM_VIEW_FORM: View form
+      - FRM_VIEW_RENDERED_FORM: View orbeon rendered form
+      - FRM_MANAGE_FORM: Create / update / delete form
+      - FRM_LOCK_FORM: Lock form
+      - FRM_UNLOCK_ANY_FORM: Unlock any form
+      - FRM_MANAGE_CATEGORY: Manage categories
+      - FRM_CONFIGURE: Configure this application
+      - projects: Projects
+      - filter: Filter
+      - default: Default
+      - allowed: Allowed
+      - denied: Denied
+      - superadmin_access_rights_not_editable: This user is a superadmin and therefore their access rights cannot be edited.
+      - remove_access_subject_confirm: Are you sure you wish to remove this user / group from your access management list? Its access rights will be reverted to the default ones.
+      - remove_from_access_management: Remove from access management
+      - generic_permissions: Generic permissions
+      - default_permissions: Default permissions
+      - resource_permissions: Resource permissions

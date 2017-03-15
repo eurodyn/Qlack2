@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: lexicon_2
+      author: European Dynamics SA (christina.kaskoura@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: lex_application
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: symbolic_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: checksum
+                  type: varchar(32)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: executed_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: lex_key
+            columnNames: name, group_id
+            constraintName: name_group
+        - dropForeignKeyConstraint:
+            baseTableName: lex_key
+            constraintName: fk_lex_key_lex_group
+        - addForeignKeyConstraint:
+            constraintName: fk_lex_key_lex_group
+            baseTableName: lex_key
+            baseColumnNames: group_id
+            referencedTableName: lex_group
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade

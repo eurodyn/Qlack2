@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: workflow-server_5
+      author: egian
+      changes:
+        - insert:
+            tableName: al_audit_level
+            columns:
+            - column:
+                name: id
+                value: '121a3710-0691-11e4-9191-0800200c9a66'
+            - column:
+                name: name
+                value: 'AUDIT_LEVEL_QBE_WORKFLOW'

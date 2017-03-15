@@ -1,0 +1,70 @@
+<div class="well inner-well top-buffer" ng-controller="RuleVersionCtrl">
+	<fieldset ng-disabled="!canManage || !canEditVersion">
+		<div class="row">
+			<div class="col-sm-6">
+				<select kendo-drop-down-list="versionsDropDownList"
+						k-data-source="versionsDataSource"
+						k-data-text-field="'name'"
+						k-data-value-field="'id'"
+						k-template="versionItemTemplate"
+						k-value-template="versionItemTemplate"
+						k-on-select="selectVersion(kendoEvent)"
+						ng-model="ruleVersion.id">
+				</select>
+				<script id="versionItemTemplate" type="text/x-kendo-template">
+					<div>
+						#if (data.state === "FINAL") {#
+							<i class="fa fa-check-circle-o"></i> <span>#=data.name#</span>
+						#} else {#
+							<i class="fa fa-circle-o"></i> <span>#=data.name#</span>
+						#}#
+					</div>
+				</script>
+				<span ng-switch on="!!ruleVersion.lockedBy">
+					<i ng-switch-when="true" class="fa fa-lock fa-lg" tooltip="{{'note.lockedBy' | translate: lockedByTooltip}}"></i>
+					<i ng-switch-when="false" class="fa fa-unlock fa-lg"></i>
+				</span>
+				<i class="fa fa-flag fa-lg" tooltip="{{'note.testing_enabled' | translate}}" ng-show="ruleVersion.state == 'TESTING'"></i>
+				<p class="form-control-static text-muted small" translate
+				   translate-value-createdby="{{ruleVersion.createdBy.firstName}} {{ruleVersion.createdBy.lastName}}"
+				   translate-value-createdon="{{ruleVersion.createdOn | qDate:'lll'}}">
+					note.createdBy
+				</p>
+				<p class="form-control-static text-muted small" translate
+				   translate-value-modifiedby="{{ruleVersion.lastModifiedBy.firstName}} {{ruleVersion.lastModifiedBy.lastName}}"
+				   translate-value-modifiedon="{{ruleVersion.lastModifiedOn | qDate:'lll'}}">
+					note.modifiedBy
+				</p>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group" ng-class="{'has-error has-feedback': ruleForm['version.description'].$invalid && !ruleForm['version.description'].$dirty}">
+					<label class="col-sm-4 control-label" translate>label.description</label>
+					<div class="col-sm-8">
+						<textarea name="version.description" class="form-control" ng-model="ruleVersion.description"></textarea>
+						<i ng-show="ruleForm['version.description'].$invalid && !ruleForm['version.description'].$dirty"
+							class="fa fa-exclamation-triangle form-control-feedback"
+							popover="{{ruleForm['version.description'].message}}"
+							popover-placement="left"
+							popover-trigger="mouseenter">
+						</i>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group" ng-class="{'has-error has-feedback': ruleForm['version.content'].$invalid && !ruleForm['version.content'].$dirty}">
+					<textarea name="version.content" class="form-control" rows="12" ng-model="ruleVersion.content"></textarea>
+					<i ng-show="ruleForm['version.content'].$invalid && !ruleForm['version.content'].$dirty"
+						class="fa fa-exclamation-triangle form-control-feedback"
+						popover="{{ruleForm['version.content'].message}}"
+						popover-placement="left"
+						popover-trigger="mouseenter">
+					</i>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+</div>

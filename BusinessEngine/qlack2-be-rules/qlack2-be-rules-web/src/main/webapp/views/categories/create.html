@@ -1,0 +1,76 @@
+<div ng-controller="CategoryCreateCtrl">
+	<div class="clearfix resourceHeading">
+		<div class="pull-left">
+			<h3 translate>title.create_category</h3>
+		</div>
+	</div>
+
+	<section class="well">
+	<form name="categoryForm" class="form-horizontal" role="form" novalidate>
+		<fieldset>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group" ng-class="{'has-error has-feedback': categoryForm.name.$invalid && !categoryForm.name.$dirty}">
+						<label for="name" class="col-sm-4 control-label" translate>label.title</label>
+						<div class="col-sm-8">
+							<input type="text" name="name" class="form-control" ng-model="category.name">
+							<i ng-show="categoryForm.name.$invalid && !categoryForm.name.$dirty"
+								class="fa fa-exclamation-triangle form-control-feedback"
+								popover="{{categoryForm.name.message}}"
+								popover-placement="left"
+								popover-trigger="mouseenter">
+							</i>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{'has-error has-feedback': categoryForm.description.$invalid && !categoryForm.description.$dirty}">
+						<label for="description" class="col-sm-4 control-label" translate>label.description</label>
+						<div class="col-sm-8">
+							<textarea name="description" class="form-control" ng-model="category.description"></textarea>
+							<i ng-show="categoryForm.description.$invalid && !categoryForm.description.$dirty"
+								class="fa fa-exclamation-triangle form-control-feedback"
+								popover="{{categoryForm.description.message}}"
+								popover-placement="left"
+								popover-trigger="mouseenter">
+							</i>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>label.createdBy</label>
+						<div class="col-sm-8 controls">
+							<p class="form-control-static">{{category.createdBy.firstName}} {{category.createdBy.lastName}}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>label.createdOn</label>
+						<div class="col-sm-8">
+							<p class="form-control-static">{{ category.createdOn | qDate:'lll' }}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>label.modifiedBy</label>
+						<div class="col-sm-8">
+							<p class="form-control-static">{{category.lastModifiedBy.firstName}} {{category.lastModifiedBy.lastName}}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>label.modifiedOn</label>
+						<div class="col-sm-8">
+							<p class="form-control-static">{{ category.lastModifiedOn | qDate:'lll' }}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+
+		<div class="clearfix">
+			<div class="pull-right">
+				<button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> <span translate>action.cancel</span></button>
+				<button class="btn btn-success" ng-click="create()"><i class="fa fa-check"></i> <span translate>action.create</span></button>
+			</div>
+		</div>
+	</form>
+	</section>
+</div>

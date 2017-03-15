@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+feature:repo-add mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-karaf-features/LATEST/xml/features
+-->
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0"	name="QLACK2-WD">
+	<!-- External repositories needed for this features set -->
+	<!--<repository>mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/${qlack2.util.version}/xml/features</repository>-->
+	<!--<repository>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/${qlack2.fuse.version}/xml/features</repository>-->
+	<!--<repository>mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/${qlack2.common.version}/xml/features</repository>-->
+	<repository>mvn:org.apache.cxf.karaf/apache-cxf/${karaf.cxf.version}/xml/features</repository>
+
+	<!-- This is a top-level feature installing a complete WD mainly for quick
+	demo purposes. Probably not what you need/want if you are re-using WD into
+	another project. -->
+	<feature description="Qlack - Webdesktop" name="qlack2-wd" version="${project.version}">
+		<feature dependency="true">qlack2-wd-deps</feature>
+		<feature>qlack2-util-cluster-dummy</feature>
+		<feature>pax-jdbc-mysql</feature>
+		<feature>qlack2-wd-back-end</feature>
+		<feature>qlack2-wd-front-end</feature>
+	</feature>
+
+	<feature description="Qlack - Webdesktop Front-end" name="qlack2-wd-front-end" version="${project.version}">
+		<feature>war</feature>
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-web/${project.version}/zip/distribution</bundle>
+	</feature>
+
+	<feature description="Qlack - Webdesktop Back-end" name="qlack2-wd-back-end" version="${project.version}">
+		<configfile finalname="/etc/com.eurodyn.qlack2.wd.impl.cfg">mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-impl/${project.version}/cfg/config-admin</configfile>
+		<feature dependency="true">qlack2-wd-deps</feature>
+		
+		<feature>qlack2-wd-api</feature>
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-impl/${project.version}</bundle>
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-web-api/${project.version}</bundle>
+	</feature>
+
+	<feature description="Qlack - Webdesktop API" name="qlack2-wd-api" version="${project.version}">
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-api/${project.version}</bundle>
+	</feature>
+	
+	<feature description="Qlack - Webdesktop dependencies" name="qlack2-wd-deps" version="${project.version}">
+		<feature prerequisite="true">qlack2-util-repack-cxf-conf</feature>
+		<feature>cxf-jaxrs</feature>
+		<feature>cxf-rs-security-cors</feature>
+		<feature>pax-cdi</feature>
+		<feature>eventadmin</feature>
+		<feature>qlack2-util-repack-jpadb</feature>
+
+		<bundle>mvn:commons-collections/commons-collections/${commons.collections.version}</bundle>
+		<bundle>mvn:commons-beanutils/commons-beanutils/${commons.beanutils.version}</bundle>
+		<bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+		<feature>qlack2-util-liquibase</feature>
+		<feature>qlack2-fuse-AAA</feature>
+		<feature>qlack2-fuse-lexicon</feature>
+		<feature>qlack2-common-util</feature>
+		<feature>qlack2-util-rest</feature>
+		<feature>qlack2-util-atmosphere</feature>
+		<feature>qlack2-util-repack-jackson-rs</feature>
+		<feature>qlack2-util-repack-querydsl</feature>
+		<feature>qlack2-fuse-idm</feature>
+		<feature>qlack2-fuse-auditing</feature>
+		<feature>qlack2-fuse-settings</feature>
+		<feature>qlack2-fuse-security-proxy</feature>
+		<feature>qlack2-fuse-AAA-shell</feature>
+		<feature>qlack2-fuse-security-proxy</feature>	
+	</feature>
+
+	<!-- Configuration files -->
+	<feature name="qlack2-wd-config" version="${project.version}">
+		<feature prerequisite="true">qlack2-util-repack-cxf-conf</feature>
+		<configfile finalname="/etc/com.eurodyn.qlack2.util.liquibase.cfg">mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-config/${project.version}/cfg/liquibase</configfile>
+		<configfile finalname="/etc/org.ops4j.datasource-wd.cfg">mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-config/${project.version}/cfg/database</configfile>
+		<configfile finalname="/etc/com.eurodyn.qlack2.wd.web.api.cfg">mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-config/${project.version}/cfg/wdapi</configfile>
+		<configfile finalname="/etc/com.eurodyn.qlack2.fuse.security.proxy.cfg">mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-config/${project.version}/cfg/securityproxy</configfile>
+	</feature>
+</features>

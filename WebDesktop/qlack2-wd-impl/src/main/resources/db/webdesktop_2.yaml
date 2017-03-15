@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: webdesktop_2
+      author: European Dynamics SA (christina.kaskoura@eurodyn.com)
+      changes:
+        - addColumn:
+            tableName: application
+            columns:
+            - column:
+                name: translations_group
+                type: varchar(255)
+                constraints:
+                  nullable: false
+            - column:
+                name: bundle_symbolic_name
+                type: varchar(255)
+                constraints:
+                  nullable: true
+        - dropColumn:
+            tableName: application
+            columnName: implementing_service_id

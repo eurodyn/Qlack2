@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ng-app="rules">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	<title>Rules Management</title>
+	<link rel="stylesheet" media="screen" href="../../css/wd-app.css">
+	<link rel="stylesheet" media="screen" href="../../css/wd-app-theme.css">
+	<link rel="stylesheet" media="screen" href="css/rules-vendor.css" />
+	<link rel="stylesheet" media="screen" href="css/rules.css" />
+
+	<script src="js/rules-vendor.js"></script>
+	<script src="js/rules.js"></script>
+</head>
+<body flow-prevent-drop class="fixed-nav" ng-controller="IndexCtrl">
+	<ng-include src="'views/menu.html'"></ng-include>
+
+	<div ui-view class="container-fluid" autoscroll="false"></div>
+
+	<div ng-controller="WindowCtrl">
+		<div ng-if="window != null">
+			<div kendo-window="modalWindow" id="modalWindow"
+				k-modal="true"
+				k-visible="false"
+				k-title="'{{window.titleKey | translate}}'"
+				k-content="window.content"
+				k-width="window.width"
+				k-on-refresh="windowOpen(kendoEvent)"
+				k-on-close="windowClose(kendoEvent)"
+				k-max-width="400">
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,285 @@
+databaseChangeLog:
+  - changeSet:
+      id: chat_01
+      author: European Dynamics SA (stephan.schreck@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: cha_rooms
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title  
+                  type: varchar(512)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by  
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: group_id
+                  type: varchar(36)	
+        - createTable:
+            tableName: cha_room_has_messages
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id  
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: message
+                  type: varchar(2048)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sent_on  
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: room_id
+                  type: varchar(36)	
+                  constraints:
+                    nullable: false				  
+        - createIndex:
+              indexName: fk_cha_messages_cha_rooms1
+              tableName: cha_room_has_messages
+              columns:
+                - column:
+                   name: room_id  
+        - addForeignKeyConstraint:
+              constraintName: fk_cha_messages_cha_rooms1
+              baseTableName: cha_room_has_messages
+              baseColumnNames: room_id
+              referencedTableName: cha_rooms
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade			  
+        - createTable:
+            tableName: cha_properties
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: property_name
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: property_value
+                  type: varchar(255)
+              - column:
+                  name: room_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false		
+        - createIndex:
+              indexName: fk_cha_properties_cha_rooms1
+              tableName: cha_properties
+              columns:
+                - column:
+                   name: room_id				
+        - addForeignKeyConstraint:
+              constraintName: fk_cha_properties_cha_rooms1
+              baseTableName: cha_properties
+              baseColumnNames: room_id
+              referencedTableName: cha_rooms
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade		   
+        - createTable:
+             tableName: cha_room_has_participants
+             columns:
+               - column:
+                   name: id
+                   type: varchar(36)
+                   constraints:
+                     primaryKey: true
+                     nullable: false
+               - column:
+                   name: room_id
+                   type: varchar(36)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: user_id
+                   type: varchar(36)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: joined_on
+                   type: bigint
+                   constraints:
+                     nullable: false
+        - createIndex:
+              indexName: fk_cha_room_has_par_cha_rooms1
+              tableName: cha_room_has_participants
+              columns:
+                - column:
+                   name: room_id	
+        - createIndex:
+              indexName: fk_charooms_
+              tableName: cha_room_has_participants
+              columns:
+                - column:
+                   name: user_id		  
+        - addForeignKeyConstraint:
+              constraintName: fk_cha_room_has_par_cha_rooms1
+              baseTableName: cha_room_has_participants
+              baseColumnNames: room_id
+              referencedTableName: cha_rooms
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade	  
+        - createTable:
+             tableName: cha_im
+             columns:
+               - column:
+                   name: id
+                   type: varchar(36)
+                   constraints:
+                     primaryKey: true
+                     nullable: false
+               - column:
+                   name: sent_on
+                   type: bigint
+                   constraints:
+                     nullable: false
+               - column:
+                   name: message
+                   type: varchar(1024)
+                   constraints:
+                     nullable: false  
+               - column:
+                   name: from_user_id
+                   type: varchar(36)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: to_user_id
+                   type: varchar(36)
+                   constraints:
+                     nullable: false	
+        - createIndex:
+              indexName: idx_sent_on
+              tableName: cha_im
+              columns:
+                - column:
+                   name: sent_on  
+        - createIndex:
+              indexName: idx_cha_fromID
+              tableName: cha_im
+              columns:
+                - column:
+                   name: from_user_id  
+        - createIndex:
+              indexName: idx_cha_toID
+              tableName: cha_im
+              columns:
+                - column:
+                   name: to_user_id  				   
+        - createTable:
+             tableName: cha_action_on_user
+             columns:
+               - column:
+                   name: id
+                   type: varchar(36)
+                   constraints:
+                     primaryKey: true
+                     nullable: false
+               - column:
+                   name: user_id
+                   type: varchar(36)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: room_id
+                   type: varchar(36)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: action_id
+                   type: varchar(36)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: reason
+                   type: varchar(2048)
+               - column:
+                   name: created_on
+                   type: bigint
+                   constraints:
+                     nullable: false   
+               - column:
+                   name: action_period
+                   type: bigint				 
+        - createIndex:
+              indexName: fk_action_cha_rooms1
+              tableName: cha_action_on_user
+              columns:
+                - column:
+                   name: room_id  
+        - addForeignKeyConstraint:
+              constraintName: fk_action_cha_rooms1
+              baseTableName: cha_action_on_user
+              baseColumnNames: room_id
+              referencedTableName: cha_rooms
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade
+        - createTable:
+             tableName: cha_word_filter
+             columns:
+               - column:
+                   name: id
+                   type: varchar(36)
+                   constraints:
+                     primaryKey: true
+                     nullable: false
+               - column:
+                   name: room_id
+                   type: varchar(36)
+                   constraints:
+                     nullable: false
+               - column:
+                   name: filter
+                   type: text
+                   constraints:
+                     nullable: false 
+        - createIndex:
+              indexName: fk_cha_filter_cha_rooms1
+              tableName: cha_word_filter
+              columns:
+                - column:
+                   name: room_id  
+        - addForeignKeyConstraint:
+              constraintName: fk_cha_filter_cha_rooms1
+              baseTableName: cha_word_filter
+              baseColumnNames: room_id
+              referencedTableName: cha_rooms
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade
+      

@@ -1,0 +1,117 @@
+<div ng-controller="FormCtrl">
+	<div class="clearfix resourceHeading">
+		<div class="pull-left">
+			<h3>{{ form.name }}</h3>
+		</div>
+		<div class="pull-right">
+			<script id="actionsListTemplate" type="text/x-kendo-template">
+			<div class="#=data.cssClass#">
+				<i class="fa #=data.icon#"></i> <span translate>#=data.name#</span>
+			</div>
+		</script>
+			<select kendo-drop-down-list k-data-source="actionsDataSource" k-data-text-field="'name'" k-data-value-field="'value'"
+				k-template="actionsListTemplate" k-option-label="'{{'actions' | translate}}'" k-on-select="executeFormAction(kendoEvent)"></select>
+		</div>
+	</div>
+
+	<section class="well">
+	<form class="form-horizontal" role="form" name="formForm" novalidate>
+		<fieldset ng-disabled="!canManageForm">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group" ng-class="{'has-error has-feedback': formForm.name.$invalid && !formForm.name.$dirty}">
+						<label for="name" class="col-sm-4 control-label" translate>formName</label>
+						<div class="col-sm-8">
+							<input id="name" name="name" type="text" class="form-control" ng-model="form.name"/>
+							<i ng-show="formForm.name.$invalid && !formForm.name.$dirty"
+								class="fa fa-exclamation-triangle form-control-feedback"
+								popover="{{formForm.name.message}}"
+								popover-placement="left"
+								popover-trigger="mouseenter"></i>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{'has-error has-feedback': formForm.description.$invalid && !formForm.description.$dirty}">
+						<label for="description" class="col-sm-4 control-label" translate>description</label>
+						<div class="col-sm-8">
+							<textarea id="description" name="description" class="form-control" ng-model="form.description"></textarea>
+							<i ng-show="formForm.description.$invalid && !formForm.description.$dirty"
+								class="fa fa-exclamation-triangle form-control-feedback"
+								popover="{{formForm.description.message}}"
+								popover-placement="left"
+								popover-trigger="mouseenter"></i>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="categories" class="col-sm-4 control-label" translate>categories</label>
+						<div class="col-sm-8">
+							<select id="categories" name="categories" kendo-multi-select="categoriesMS" k-data-source="categoriesDataSource"
+									k-data-text-field="'name'" k-data-value-field="'id'" ng-disabled="!canManageForm" ng-model="form.categories"></select>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{'has-error has-feedback': formForm.locales.$invalid && !formForm.locales.$dirty}">
+						<label for="locales" class="col-sm-4 control-label" translate>languages</label>
+						<div class="col-sm-8">
+							<select kendo-multi-select name="locales" ng-model="form.locales" k-data-source="languageDataSource"
+									k-data-value-field="'locale'" k-data-text-field="'name'" ng-disabled="!canManageForm"></select>
+							<i ng-show="formForm.locales.$invalid && !formForm.locales.$dirty"
+								class="fa fa-exclamation-triangle form-control-feedback"
+								popover="{{formForm.locales.message}}"
+								popover-placement="left" popover-trigger="mouseenter"></i>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>status</label>
+						<div class="col-sm-8 controls">
+							<label class="radio-inline">
+								<input type="radio" value="true" ng-checked="form.active==true" ng-model="form.active">
+								<span translate>active</span>
+							</label>
+							<label class="radio-inline">
+								<input type="radio" value="false" ng-checked="form.active==false" ng-model="form.active">
+								<span translate>inactive</span>
+							</label>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>createdBy</label>
+						<div class="col-sm-8 controls">
+							<p class="form-control-static">{{form.createdBy.firstName}} {{form.createdBy.lastName}}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>createdOn</label>
+						<div class="col-sm-8">
+							<p class="form-control-static">{{ form.createdOn  | qDate:'lll'}}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>modifiedBy</label>
+						<div class="col-sm-8">
+							<p class="form-control-static">{{form.lastModifiedBy.firstName}} {{form.lastModifiedBy.lastName}}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>modifiedOn</label>
+						<div class="col-sm-8">
+							<p class="form-control-static">{{ form.lastModifiedOn  | qDate:'lll'}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Form version -->
+			<div ui-view autoscroll="false"></div>
+		</fieldset>
+		<div class="clearfix">
+			<div class="pull-left">
+				<button class="btn btn-primary" ng-click="openOrbeonBuilder($event)" ng-hide="!canManageForm || !canEditVersion"><i class="fa fa-edit"></i> <span translate>open_form_builder</span></button>
+			</div>
+			<div class="pull-right">
+				<button class="btn btn-danger" ng-click="cancel($event)" ng-hide="!canManageForm"><i class="fa fa-ban"></i> <span translate>cancel</span></button>
+				<button class="btn btn-success" ng-click="save()" ng-hide="!canManageForm"><i class="fa fa-check"></i> <span translate>save</span></button>
+			</div>
+		</div>
+	</form>
+	</section>
+</div>

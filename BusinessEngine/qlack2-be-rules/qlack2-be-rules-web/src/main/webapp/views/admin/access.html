@@ -1,0 +1,24 @@
+<div class="row" ng-controller="AccessCtrl">
+	<script id="accessTreeTemplate" type="text/x-kendo-template">
+		#if (!item.composite || (item.type === 'Project')) {#
+			<span class="inner" ui-sref="access.resource({resourceId: '#=item.id#'})" ui-sref-opts="{reload: true}">
+		#} else {#
+			<span class="inner">
+		#}#
+			<i class="#=item.icon#"></i>
+			#if (item.name != null) {#
+				#=item.name#
+			#} else {#
+				<span translate>#=item.key#</span>
+			#}#
+		</span>
+	</script>
+		
+	<div class="col-sm-4 col-md-3 sidebar">
+		<div id="accessTree" kendo-tree-view="accessTree" k-data-source="accessTreeSource" 
+			k-template="accessTreeTemplate" 
+			k-on-data-bound="initTree(kendoEvent)" k-on-select="selectResource(kendoEvent)"></div>
+	</div>
+	
+	<div class="col-sm-8 col-md-9" ui-view autoscroll="false"></div>
+</div>

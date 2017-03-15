@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+
+		<script type="text/javascript" src="https://git.eurodyn.com/raw/Qlack2-Bower-pubsub.git/master/dist!qlack2-bower-pubsub.min.js"></script>
+		<script type="text/javascript" src="https://git.eurodyn.com/raw/Qlack2-Bower-angular-pubsub.git/master/dist!qlack2-bower-angular-pubsub.min.js"></script>
+		<script type="text/javascript" src="https://cdn.rawgit.com/Atmosphere/atmosphere-javascript/javascript-project-2.3.1/modules/javascript/src/main/webapp/javascript/atmosphere.js"></script>
+		<script type="text/javascript" src="https://git.eurodyn.com/raw/Qlack2-Bower-angular-atmosphere.git/master/src!QAtmosphereSrvProvider.js"></script>
+		
+		<script type="text/javascript" src="js/app.js"></script>
+	</head>
+
+	<body ng-app="demoMsg">
+		<div ng-controller="MainCtrl">
+			<h2>JS-based interapp messaging</h2>
+			<input type="text" id="fe_channel" placeholder="enter channel name"><br>
+			<button ng-click="fe_sub()">Subscribe</button>
+			<button ng-click="fe_unsub()">Unsubscribe</button>
+			<br><br>
+			<input type="text" id="fe_msg_channel" placeholder="message channel"><br>
+			<input type="text" id="fe_msg" placeholder="enter a message"><br>
+			<button ng-click="fe_post()">Post</button>
+			
+			<h2>App to Web Desktop</h2>
+			<input type="text" id="wd_notification" placeholder="enter a notification"><br>
+			<button ng-click="wd_notification()">Post</button>
+		</div>
+	</body>
+
+</html>

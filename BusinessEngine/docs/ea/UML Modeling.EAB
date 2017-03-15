@@ -1,0 +1,9 @@
+<BranchVCSpec>
+	<PkgGUID>{FA70143A-EE45-4a38-BC39-EC83193A30BA}</PkgGUID>
+	<XMLPath>UML Modeling.xml</XMLPath>
+	<Config>
+		<GUID>QBE</GUID>
+		<LocalPath>%QBE%</LocalPath>
+		<Type>2</Type>
+	</Config>
+</BranchVCSpec>

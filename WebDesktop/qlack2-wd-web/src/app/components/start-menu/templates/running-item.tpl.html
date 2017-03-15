@@ -1,0 +1,13 @@
+<div ng-class="[desktop.desktopService.getApplication(appInstance.appID).menu.bgColor, 'tile-small']" 
+	class="fg-white" data-role="tile">	
+	<div class="tile-content iconic">
+		<span ng-click="desktop.raiseWindow(appInstance.instanceID); desktop.hideMenu()" 
+			ng-class="appInstance.iconName" 
+			class="icon"></span>  			
+		<button class="button cycle-button mini-button" 
+			ng-click="desktop.desktopService.setApplicationAsClosed(app.identification.uniqueId);">
+			<span class="mif-cross"></span>
+		</button>
+		<!-- {{appInstance.appID}} -->
+	</div>
+</div>

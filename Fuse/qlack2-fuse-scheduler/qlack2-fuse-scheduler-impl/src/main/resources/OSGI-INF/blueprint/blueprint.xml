@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+		   xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
+		   xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}"
+		   xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.scheduler" update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="scheduler.idleWaitTime" value="10000" />
+			<cm:property name="threadPool.threadCount" value="4" />
+
+			<cm:property name="jobStore.class" value="org.quartz.impl.jdbcjobstore.JobStoreCMT" />
+			<cm:property name="jobStore.driverDelegateClass" value="org.quartz.impl.jdbcjobstore.StdJDBCDelegate" />
+			<cm:property name="jobStore.isClustered" value="false" />
+
+			<cm:property name="dataSource.jndiURL" value="osgi:service/qlack2-ds" />
+			<cm:property name="dataSource.nonManagedTX.jndiURL" value="osgi:service/qlack2-ds" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<bean id="SchedulerProvider" class="com.eurodyn.qlack2.fuse.scheduler.impl.SchedulerProvider"
+		init-method="startScheduler" destroy-method="shutdownScheduler">
+		<cm:managed-properties persistent-id="com.eurodyn.qlack2.fuse.scheduler" update-strategy="container-managed" />
+		<property name="schedulerIdleWaitTime" value="${scheduler.idleWaitTime}" />
+		<property name="threadPoolThreadCount" value="${threadPool.threadCount}" />
+
+		<property name="jobStoreClass" value="${jobStore.class}" />
+		<property name="jobStoreDriverDelegateClass" value="${jobStore.driverDelegateClass}" />
+		<property name="jobStoreIsClustered" value="${jobStore.isClustered}" />
+
+		<property name="dataSourceJndiURL" value="${dataSource.jndiURL}" />
+		<property name="dataSourceNonManagedTXJndiURL" value="${dataSource.nonManagedTX.jndiURL}" />
+	</bean>
+
+	<bean id="SchedulerServiceImpl" class="com.eurodyn.qlack2.fuse.scheduler.impl.SchedulerServiceImpl">
+		<property name="schedulerProvider" ref="SchedulerProvider" />
+		<!--<tx:transaction method="*" value="Required" />-->
+	</bean>
+
+	<service id="SchedulerService" ref="SchedulerServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.scheduler.api.SchedulerService" />
+
+</blueprint>

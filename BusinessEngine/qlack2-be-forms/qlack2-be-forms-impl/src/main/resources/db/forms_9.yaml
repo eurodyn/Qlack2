@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: forms_9
+      author: ehond
+      changes:
+        - createTable:
+            tableName: fmn_form_has_language
+            columns:
+              - column:
+                  name: form
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: locale
+                  type: varchar(5)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: fmn_form_has_language
+            columnNames: form, locale
+        - addForeignKeyConstraint:
+            constraintName: fk_fmn_form_has_lang_fmn_form
+            baseTableName: fmn_form_has_language
+            baseColumnNames: form
+            referencedTableName: fmn_form
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade

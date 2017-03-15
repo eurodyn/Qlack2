@@ -1,0 +1,108 @@
+@actions-line-height: 52px;
+@border-radius-base: 4px;
+
+#welcome {
+	padding: 0 20px;
+
+	.project {
+		padding: 10px;
+		margin-bottom: 20px;
+		border-radius: @border-radius-base;
+
+		.btn {
+			white-space: normal;
+		}
+	}
+
+	.actions {
+		line-height: @actions-line-height;
+	}
+}
+
+.resourceHeading {
+	h3 {
+		margin-top: 0px;
+	}
+}
+
+#lock-status {
+	margin-left: 10px;
+	cursor: default;
+}
+
+
+#accessTree {
+	.inner {
+		padding: 0;
+	}
+}
+
+.userList {
+	border: none;
+	
+	& div{
+		padding: 5px;
+		
+		&:hover {
+			cursor: pointer;
+		}
+		
+		& span {
+			display: block;
+			clear: both;
+		}
+	}
+			
+	&.iconList {
+		i {
+			float: left; 
+			margin-right: 5px;
+		}
+		
+		span {
+			display: table-row;
+		}
+	}
+}
+
+p.formMessage {
+	padding: 10px;
+}
+
+// Assign z-index to toolbar in order to correctly display popovers in Chrome
+.toolbar {
+	position: absolute;
+	z-index: 1000;
+	padding-right: 10px;	
+	
+	& + div {
+		padding-top: 20px;
+	}
+	
+	.toolbar-left {
+		float: left;
+		margin-right: 50px;
+	}
+	.toolbar-right {
+		margin-left: -46px;
+		position: fixed;
+	}
+
+	.htmlPopover {
+		&.popover {
+			display:block; 
+			width: 300px; 
+			top: 21px; 
+			left:-10px;
+			
+			.arrow {
+				margin-left: 0; 
+				left: 10px;
+			}
+		}
+	}
+}
+
+.separator {
+	border-top: 1px solid black;
+}

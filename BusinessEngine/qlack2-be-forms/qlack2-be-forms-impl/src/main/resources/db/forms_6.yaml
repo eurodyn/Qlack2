@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: forms_6
+      author: ehond
+      changes:
+        - dropColumn:
+            tableName: fmn_form_version
+            columnName: enable_testing

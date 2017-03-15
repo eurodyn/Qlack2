@@ -1,0 +1,24 @@
+<div ng-controller="WorkflowRuntimeErrorCtrl">
+	<div class="clearfix resourceHeading">
+		<div class="pull-left">
+			<h3>Runtime Error </h3>
+		</div>
+	</div>
+	<section class="well">
+		<form class="form-horizontal" role="form" name="workflowRuntimeErrorForm" novalidate>
+			<div class="top-buffer">
+				<script id="detailsTemplate" type="text/x-kendo-template">
+					<div class="tabstrip">
+        				<ul>
+            				<li class="k-state-active">Error Details</li>
+       					</ul>
+        				<div>
+            				<div id="error.details">#=data.traceData#</div>
+        				</div>
+					</div>
+				</script>
+				<div id="errorLogsGrid" kendo-grid k-columns='setGridColumns()' k-options="workflowErrorLogsGrid"></div>
+			</div>		
+		</form>
+	</section>
+</div>

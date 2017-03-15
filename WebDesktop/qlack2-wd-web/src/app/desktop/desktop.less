@@ -1,0 +1,124 @@
+#desktop {
+	.prompt {
+		font-size: 40px;
+		text-shadow: 1px 1px #aaa;
+		color: #fff;
+		position: absolute;
+		top: 15px;
+		left: 80px;
+		div {
+			display: inline;
+		}
+	}
+	
+	#app-window {
+		&.ng-leave {
+			-webkit-animation: fadeOut 0.3s;
+			-moz-animation: fadeOut 0.3s;
+			-ms-animation: fadeOut 0.3s;
+			animation: fadeOut 0.3s;
+		}
+	}
+	
+	.start-menu {
+		width: 80%;
+		max-width: 800px;
+		height: 80%;
+		max-height: 500px;
+		background: url(../assets/images/bg-menu.png) no-repeat center center fixed;		
+
+		border-radius: 2px;
+		overflow: scroll;
+		overflow-x: hidden;
+		
+		position: fixed;
+		top:-100%; right:-100%; left:-100%; bottom:-100%;
+		margin:auto;
+		z-index:9999;
+		
+		box-shadow: 0px 0px 10px 1px rgba(119, 119, 119, 0.75);
+		-moz-box-shadow: 0px 0px 10px 1px rgba(119, 119, 119, 0.75);
+		-webkit-box-shadow: 0px 0px 10px 1px rgba(119, 119, 119, 0.75);
+		
+		padding: 5px 0 5px 20px;		
+	}
+	
+	.icons-area {
+		.area {
+			font-size: 22px;
+			color: #fff;
+			font-family: "Raleway";
+			padding: 15px 0 0 0px;
+		}	
+	}
+	
+	#overlay {
+		width: 100%;
+		height: 100%;
+		background: linear-gradient(
+			rgba(0, 0, 0, 0.3), 
+			rgba(0, 0, 0, 0.5)
+		);
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: 9998;
+	}
+	
+	.info-area {
+		.user {
+			font-size: 20px;
+			color: #fff;
+			padding: 5px;
+		}
+		.user-over {
+			color: #fff;
+			padding: 5px;
+			background-color: RGBA(0, 0, 0, 0.2);
+		}
+		
+		.clock-tile {
+			background-color: transparent;
+			box-shadow: none !important;
+			border: none !important;
+			* {
+				box-shadow: none !important;
+				border: none !important;
+			}
+			.clock {
+				.tile-content {
+					padding: 5px;
+				}
+			}
+			.date {
+				color: #fff;
+				text-align: center;
+				font-size: 24px;
+			}
+		}
+	}
+	
+	#openapps {
+		.openapp {
+			button {
+				position: absolute;
+				right: 3px;
+				top: 0;
+				height: 15px;
+				width: 15px;
+				display: none;
+			}
+			.cycle-button.mini-button {
+				font-size: 7px;
+				padding-left: 1px;
+			}	
+		}
+		
+		.openapp:hover {
+			button {
+				display:block;
+			}
+		}
+		
+	}
+}

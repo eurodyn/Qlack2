@@ -1,0 +1,28 @@
+<div class="row" ng-controller="AccessCtrl">
+	<script id="accessTreeTemplate" type="text/x-kendo-template">
+		#if (item.type != 'root') {#
+			<span class="inner" ui-sref="access.project({projectId: '#=item.id#'})" ui-sref-opts="{reload: true}">
+		#} else {#
+			<span class="inner">
+		#}#
+			#if (item.type == 'generic') {#
+				<i class="fa fa-group"></i>
+			#} else if ((item.type == 'project') || (item.type == 'root')) {#
+				<i class="fa fa-folder-open"></i>
+			#}#
+			#if (item.name != null) {#
+				#=item.name#
+			#} else {#
+				<span translate>#=item.key#</span>
+			#}#
+		</span>
+	</script>
+		
+	<div class="col-sm-3 col-md-2 sidebar">
+		<div id="accessTree" kendo-tree-view="accessTree" k-data-source="accessTreeSource" 
+			k-data-image-url-field="'icon'" k-template="accessTreeTemplate" 
+			k-on-data-bound="initTree(kendoEvent)" k-on-select="selectResource(kendoEvent)"></div>
+	</div>
+	
+	<div class="col-sm-9 col-md-10" ui-view autoscroll="false"></div>
+</div>

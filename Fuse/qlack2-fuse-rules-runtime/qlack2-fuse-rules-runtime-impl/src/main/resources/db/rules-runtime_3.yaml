@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: rules-runtime_3
+      author: European Dynamics SA (georgios.sapountzis@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: rul_runtime_kglobal
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: global_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: state
+                  type: longblob
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ksession_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            constraintName: uq_rul_rt_kglobal_global_id
+            tableName: rul_runtime_kglobal
+            columnNames: ksession_id, global_id
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_rt_kglobal_ksession
+            baseTableName: rul_runtime_kglobal
+            baseColumnNames: ksession_id
+            referencedTableName: rul_runtime_ksession
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade

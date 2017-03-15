@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint
+	xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}"
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+	
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.be.rules" update-strategy="reload">
+		<cm:default-properties>
+			<!-- Maximum allowed file size (in MB) -->
+			<cm:property name="maxFileSize" value="10" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="AuditClientService" interface="com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService" />
+	<reference id="IdmService" interface="com.eurodyn.qlack2.fuse.idm.api.IDMService" />
+	<reference id="SecurityService" interface="com.eurodyn.qlack2.webdesktop.api.SecurityService" />
+	<reference id="DesktopUserService" interface="com.eurodyn.qlack2.webdesktop.api.DesktopUserService" />
+	<reference id="DesktopGroupService" interface="com.eurodyn.qlack2.webdesktop.api.DesktopGroupService" />
+	<reference id="ProjectExplorerService" interface="com.eurodyn.qlack2.be.explorer.api.ProjectService" />
+    <reference id="RulesRuntimeService" interface="com.eurodyn.qlack2.fuse.rules.api.RulesRuntimeService"/>
+	<reference id="EventPublisherService" interface="com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService" />
+
+    <!-- Rules consumers -->
+    <reference-list id="ConsumerServiceList"
+		interface="com.eurodyn.qlack2.be.rules.api.client.RulesResourceConsumer"
+		availability="optional" />
+
+	<!-- LOCAL SERVICES & BEANS -->
+	<bean id="ConverterUtil" class="com.eurodyn.qlack2.be.rules.impl.util.ConverterUtil">
+		<property name="desktopUserService" ref="DesktopUserService" />
+	</bean>
+	<bean id="XmlConverterUtil" class="com.eurodyn.qlack2.be.rules.impl.util.XmlConverterUtil">
+	</bean>
+	<bean id="AuditConverterUtil" class="com.eurodyn.qlack2.be.rules.impl.util.AuditConverterUtil">
+	</bean>
+	<bean id="SecurityUtils" class="com.eurodyn.qlack2.be.rules.impl.util.SecurityUtils">
+		<property name="securityService" ref="SecurityService" />
+	</bean>
+	<bean id="VersionStateUtils" class="com.eurodyn.qlack2.be.rules.impl.util.VersionStateUtils">
+	</bean>
+	<bean id="DataModelsJarUtil" class="com.eurodyn.qlack2.be.rules.impl.util.DataModelsJarUtil">
+		<jpa:context property="em" unitname="rulesPU" />
+	</bean>
+	<bean id="KnowledgeBaseUtil" class="com.eurodyn.qlack2.be.rules.impl.util.KnowledgeBaseUtil">
+		<property name="audit" ref="AuditClientService" />
+		<property name="dataModelsJarUtil" ref="DataModelsJarUtil" />
+		<property name="rulesRuntimeService" ref="RulesRuntimeService" />
+		<jpa:context property="em" unitname="rulesPU" />
+	</bean>
+
+	<bean id="ProjectsServiceImpl" class="com.eurodyn.qlack2.be.rules.impl.ProjectsServiceImpl">
+		<property name="idmService" ref="IdmService" />
+		<property name="mapper" ref="ConverterUtil" />
+		<property name="audit" ref="AuditClientService" />
+		<property name="auditMapper" ref="AuditConverterUtil" />
+		<property name="securityUtils" ref="SecurityUtils" />
+		<property name="projectExplorerService" ref="ProjectExplorerService" />
+		<jpa:context property="em" unitname="rulesPU" />
+		<tx:transaction method="*" value="Required" />
+	</bean>
+	<bean id="CategoriesServiceImpl" class="com.eurodyn.qlack2.be.rules.impl.CategoriesServiceImpl">
+		<property name="idmService" ref="IdmService" />
+		<property name="mapper" ref="ConverterUtil" />
+		<property name="audit" ref="AuditClientService" />
+		<property name="auditMapper" ref="AuditConverterUtil" />
+		<property name="eventPublisher" ref="EventPublisherService" />
+		<property name="securityUtils" ref="SecurityUtils" />
+		<jpa:context property="em" unitname="rulesPU" />
+		<tx:transaction method="*" value="Required" />
+	</bean>
+	<bean id="WorkingSetsServiceImpl" class="com.eurodyn.qlack2.be.rules.impl.WorkingSetsServiceImpl">
+		<property name="idmService" ref="IdmService" />
+		<property name="securityService" ref="SecurityService" />
+		<property name="mapper" ref="ConverterUtil" />
+		<property name="xmlMapper" ref="XmlConverterUtil" />
+		<property name="audit" ref="AuditClientService" />
+		<property name="auditMapper" ref="AuditConverterUtil" />
+		<property name="eventPublisher" ref="EventPublisherService" />
+		<property name="securityUtils" ref="SecurityUtils" />
+		<property name="versionStateUtils" ref="VersionStateUtils" />
+		<property name="rulesService" ref="RulesServiceImpl" />
+		<property name="dataModelsService" ref="DataModelsServiceImpl" />
+		<property name="libraryVersionService" ref="LibraryVersionServiceImpl" />
+		<property name="dataModelsJarUtil" ref="DataModelsJarUtil" />
+		<property name="knowledgeBaseUtil" ref="KnowledgeBaseUtil" />
+		<property name="consumers" ref="ConsumerServiceList" />
+		<jpa:context property="em" unitname="rulesPU" />
+		<tx:transaction method="*" value="Required" />
+	</bean>
+	<bean id="RulesServiceImpl" class="com.eurodyn.qlack2.be.rules.impl.RulesServiceImpl">
+		<property name="idmService" ref="IdmService" />
+		<property name="securityService" ref="SecurityService" />
+		<property name="mapper" ref="ConverterUtil" />
+		<property name="xmlMapper" ref="XmlConverterUtil" />
+		<property name="audit" ref="AuditClientService" />
+		<property name="auditMapper" ref="AuditConverterUtil" />
+		<property name="eventPublisher" ref="EventPublisherService" />
+		<property name="securityUtils" ref="SecurityUtils" />
+		<property name="versionStateUtils" ref="VersionStateUtils" />
+		<property name="knowledgeBaseUtil" ref="KnowledgeBaseUtil" />
+		<property name="consumers" ref="ConsumerServiceList" />
+		<jpa:context property="em" unitname="rulesPU" />
+		<tx:transaction method="*" value="Required" />
+	</bean>
+	<bean id="DataModelsServiceImpl" class="com.eurodyn.qlack2.be.rules.impl.DataModelsServiceImpl">
+		<property name="idmService" ref="IdmService" />
+		<property name="securityService" ref="SecurityService" />
+		<property name="mapper" ref="ConverterUtil" />
+		<property name="xmlMapper" ref="XmlConverterUtil" />
+		<property name="audit" ref="AuditClientService" />
+		<property name="auditMapper" ref="AuditConverterUtil" />
+		<property name="eventPublisher" ref="EventPublisherService" />
+		<property name="securityUtils" ref="SecurityUtils" />
+		<property name="versionStateUtils" ref="VersionStateUtils" />
+		<property name="knowledgeBaseUtil" ref="KnowledgeBaseUtil" />
+		<jpa:context property="em" unitname="rulesPU" />
+		<tx:transaction method="*" value="Required" />
+	</bean>
+	<bean id="LibraryServiceImpl" class="com.eurodyn.qlack2.be.rules.impl.LibraryServiceImpl">
+		<property name="idmService" ref="IdmService" />
+		<property name="securityService" ref="SecurityService" />
+		<property name="libraryVersionService" ref="LibraryVersionServiceImpl"/>
+		<property name="mapper" ref="ConverterUtil" />
+		<property name="audit" ref="AuditClientService" />
+		<property name="auditMapper" ref="AuditConverterUtil" />
+		<property name="eventPublisher" ref="EventPublisherService" />
+		<property name="securityUtils" ref="SecurityUtils" />
+		<jpa:context property="em" unitname="rulesPU" />
+		<tx:transaction method="*" value="Required" />
+	</bean>
+	<bean id="LibraryVersionServiceImpl" class="com.eurodyn.qlack2.be.rules.impl.LibraryVersionServiceImpl">
+		<property name="idmService" ref="IdmService" />
+		<property name="mapper" ref="ConverterUtil" />
+		<property name="xmlMapper" ref="XmlConverterUtil" />
+		<property name="audit" ref="AuditClientService" />
+		<property name="auditMapper" ref="AuditConverterUtil" />
+		<property name="eventPublisher" ref="EventPublisherService" />
+		<property name="securityUtils" ref="SecurityUtils" />
+		<property name="versionStateUtils" ref="VersionStateUtils" />
+		<property name="knowledgeBaseUtil" ref="KnowledgeBaseUtil" />
+		<jpa:context property="em" unitname="rulesPU" />
+		<tx:transaction method="*" value="Required" />
+		<cm:managed-properties persistent-id="com.eurodyn.qlack2.be.rules" 
+					update-strategy="container-managed" />
+		<property name="maxFileSize" value="${maxFileSize}" />
+	</bean>
+
+	<bean id="RulesRuntimeManagementServiceImpl" class="com.eurodyn.qlack2.be.rules.impl.RulesRuntimeManagementServiceImpl">
+		<property name="idmService" ref="IdmService" />
+		<property name="audit" ref="AuditClientService" />
+		<property name="securityUtils" ref="SecurityUtils" />
+		<property name="rulesRuntimeService" ref="RulesRuntimeService" />
+		<property name="knowledgeBaseUtil" ref="KnowledgeBaseUtil" />
+
+		<jpa:context property="em" unitname="rulesPU" />
+		<tx:transaction method="*" value="Required" />
+	</bean>
+
+	<bean id="ConfigServiceImpl" class="com.eurodyn.qlack2.be.rules.impl.ConfigServiceImpl">
+		<property name="security" ref="SecurityService" />
+		<property name="idmService" ref="IdmService"/>
+		<property name="desktopUserService" ref="DesktopUserService" />
+		<property name="desktopGroupService" ref="DesktopGroupService" />
+		<property name="audit" ref="AuditClientService" />
+		
+		<jpa:context property="em" unitname="rulesPU" />
+		<tx:transaction method="*" value="Required" />
+	</bean>
+
+	<service id="ProjectsService" ref="ProjectsServiceImpl"
+		interface="com.eurodyn.qlack2.be.rules.api.ProjectsService">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+			<entry key="org.apache.cxf.ws.address" value="ws/qbe/rules/ProjectsService"/>
+		</service-properties>
+	</service>
+	<service id="CategoriesService" ref="CategoriesServiceImpl"
+		interface="com.eurodyn.qlack2.be.rules.api.CategoriesService">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+			<entry key="org.apache.cxf.ws.address" value="ws/qbe/rules/CategoriesService"/>
+		</service-properties>
+	</service>
+	<service id="WorkingSetsService" ref="WorkingSetsServiceImpl"
+		interface="com.eurodyn.qlack2.be.rules.api.WorkingSetsService">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+			<entry key="org.apache.cxf.ws.address" value="ws/qbe/rules/WorkingSetsService"/>
+		</service-properties>
+	</service>
+	<service id="RulesService" ref="RulesServiceImpl"
+		interface="com.eurodyn.qlack2.be.rules.api.RulesService">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+			<entry key="org.apache.cxf.ws.address" value="ws/qbe/rules/RulesService"/>
+		</service-properties>
+	</service>
+	<service id="DataModelsService" ref="DataModelsServiceImpl"
+		interface="com.eurodyn.qlack2.be.rules.api.DataModelsService">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+			<entry key="org.apache.cxf.ws.address" value="ws/qbe/rules/DataModelsService"/>
+		</service-properties>
+	</service>
+	<service id="LibraryService" ref="LibraryServiceImpl"
+		interface="com.eurodyn.qlack2.be.rules.api.LibraryService">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+			<entry key="org.apache.cxf.ws.address" value="ws/qbe/rules/LibraryService"/>
+		</service-properties>
+	</service>
+	<service id="LibraryVersionService" ref="LibraryVersionServiceImpl"
+		interface="com.eurodyn.qlack2.be.rules.api.LibraryVersionService">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+			<entry key="org.apache.cxf.ws.address" value="ws/qbe/rules/LibraryVersionService"/>
+		</service-properties>
+	</service>
+	<service id="RulesRuntimeManagementService" ref="RulesRuntimeManagementServiceImpl"
+		interface="com.eurodyn.qlack2.be.rules.api.RulesRuntimeManagementService">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+			<entry key="org.apache.cxf.ws.address" value="ws/qbe/rules/RulesRuntimeManagementService"/>
+		</service-properties>
+	</service>
+
+	<service id="ConfigService" ref="ConfigServiceImpl" auto-export="interfaces" />
+
+	<!-- Event listeners -->
+	<bean id="ProjectRemovalListener"
+		class="com.eurodyn.qlack2.be.rules.impl.listeners.ProjectRemovalListener">
+		<property name="audit" ref="AuditClientService" />
+		<property name="securityService" ref="SecurityService" />
+		<property name="rulesRuntimeService" ref="RulesRuntimeService" />
+		<jpa:context property="em" unitname="rulesPU" />
+		<tx:transaction method="*" value="Required" />
+	</bean>
+	<service id="ProjectRemovalListenerService" ref="ProjectRemovalListener"
+		interface="org.osgi.service.event.EventHandler">
+		<service-properties>
+			<entry key="event.topics" value="com/eurodyn/qlack2/be/explorer/PROJECT/DELETE" />
+		</service-properties>
+	</service>
+
+</blueprint>

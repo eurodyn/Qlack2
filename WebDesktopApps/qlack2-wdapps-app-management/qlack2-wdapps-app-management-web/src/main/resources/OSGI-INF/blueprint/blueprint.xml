@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
+
+	<!-- MANAGED PROPERTIES - Use the ones of WD API -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.wd.web.api"
+		update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="ticket.header.name" value="X-Qlack-Fuse-IDM-Token-WD" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="ApplicationService"
+		interface="com.eurodyn.qlack2.webdesktop.apps.appmanagement.api.ApplicationService" />
+	<reference id="ConfigService"
+		interface="com.eurodyn.qlack2.webdesktop.apps.appmanagement.api.ConfigService" />
+		
+	<!-- LOCAL BEANS & SERVICES -->
+	<bean id="ApplicationRest"
+		class="com.eurodyn.qlack2.webdesktop.apps.appmanagement.web.rest.ApplicationRest">
+		<property name="applicationService" ref="ApplicationService" />
+	</bean>
+	<bean id="ConfigRest"
+		class="com.eurodyn.qlack2.webdesktop.apps.appmanagement.web.rest.ConfigRest">
+		<property name="configService" ref="ConfigService" />
+	</bean>
+
+	<bean id="ExtractTicketInterceptor"
+		class="com.eurodyn.qlack2.fuse.security.proxy.impl.util.ExtractTicketInterceptor">
+		<property name="ticketHeaderName" value="${ticket.header.name}" />
+	</bean><bean id="CleanTicketInterceptor"
+		class="com.eurodyn.qlack2.fuse.security.proxy.impl.util.CleanTicketInterceptor"/>
+
+	<!-- CXF CONFIGURATION -->
+	<bean id="jacksonMapper" class="com.eurodyn.qlack2.util.rest.CustomisedJackson">
+	</bean>
+	<jaxrs:server id="AppManagementRestServer" address="/apps/appmanagement">
+		<jaxrs:serviceBeans>
+			<ref component-id="ApplicationRest" />
+			<ref component-id="ConfigRest" />
+		</jaxrs:serviceBeans>
+
+		<jaxrs:inInterceptors>
+			<ref component-id="ExtractTicketInterceptor" />
+		</jaxrs:inInterceptors>
+		<jaxrs:outInterceptors>
+			<ref component-id="CleanTicketInterceptor" />
+		</jaxrs:outInterceptors>
+
+		<jaxrs:providers>
+			<bean id="MappingExceptionMapper" class="com.eurodyn.qlack2.util.validator.util.rest.MappingExceptionMapper"/>
+			<bean id="ValidationExceptionMapper" class="com.eurodyn.qlack2.util.validator.util.rest.ValidationExceptionMapper"/>
+			<bean id="GenericExceptionMapper" class="com.eurodyn.qlack2.util.rest.mapper.GenericExceptionMapper"/>
+			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+				<property name="mapper">
+					<bean id="jacksonMapper" class="com.eurodyn.qlack2.util.rest.CustomisedJackson" />
+				</property>
+			</bean>
+		</jaxrs:providers>
+	</jaxrs:server>
+
+</blueprint>

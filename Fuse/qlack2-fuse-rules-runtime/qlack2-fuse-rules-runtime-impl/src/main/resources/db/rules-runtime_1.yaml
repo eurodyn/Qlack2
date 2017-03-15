@@ -1,0 +1,46 @@
+databaseChangeLog:
+  - changeSet:
+      id: rules-runtime_1
+      author: European Dynamics SA (georgios.sapountzis@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: rul_runtime_kbase_state
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: state
+                  type: longblob
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: rul_runtime_kbase_library
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: library
+                  type: longblob
+                  constraints:
+                    nullable: false
+              - column:
+                  name: kbase_state_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_rt_kb_lbr_kb_state
+            baseTableName: rul_runtime_kbase_library
+            baseColumnNames: kbase_state_id
+            referencedTableName: rul_runtime_kbase_state
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade

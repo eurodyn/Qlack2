@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: rules_2
+      author: gsapo
+      changes:
+        # use ordinal for enum
+        - modifyDataType:
+            tableName: rul_data_model_field
+            columnName: field_primitive_type
+            newDataType: tinyint
+        # add state enum
+        - addColumn:
+            tableName: rul_rule_version
+            columns:
+              - column:
+                  name: state
+                  type: tinyint
+                  constraints:
+                    nullable: false
+        - addColumn:
+            tableName: rul_data_model_version
+            columns:
+              - column:
+                  name: state
+                  type: tinyint
+                  constraints:
+                    nullable: false
+        - addColumn:
+            tableName: rul_library_version
+            columns:
+              - column:
+                  name: state
+                  type: tinyint
+                  constraints:
+                    nullable: false

@@ -1,0 +1,19 @@
+﻿groups:
+  - name: myphoto
+    description: My Photo application translations
+
+languages:
+  - name: English
+    locale: en
+
+translations:
+  - group: wd_apps
+    locale: en
+    keys:
+      - myphoto.application_title: My Photo2
+      - myphoto.application_description: Change your photograph or avatar
+  - group: myphoto
+    locale: en
+    keys:
+      - choose_a_new_photo: Choose a new photo
+      - photo_updated: Your photo has been updated

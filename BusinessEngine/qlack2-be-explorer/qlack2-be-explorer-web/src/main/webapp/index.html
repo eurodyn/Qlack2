@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html ng-app="explorer" id="ng-app">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Explorer</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width">
+		<link rel="stylesheet" media="screen" href="css/explorer-vendor.css">
+		<link rel="stylesheet" media="screen" href="css/explorer.css">
+		<!-- Avoid console errors for older browsers -->
+		<script>
+			if (!window.console)
+				window.console = {};
+			if (!window.console.log)
+				window.console.log = function() {
+				};
+			if (!window.console.debug)
+				window.console.debug = function() {
+				};
+		</script>
+		<script src="js/explorer-vendor.js"></script>
+		<script src="js/explorer.js"></script>
+	</head>
+	<body class="fixed-nav">
+		<ng-include src="'views/menu.html'"></ng-include>	
+		
+		<div ui-view class="container-fluid" autoscroll="false"></div>
+		
+		<div ng-controller="WindowCtrl">
+			<div ng-if="window != null">
+				<div kendo-window="modalWindow" id="modalWindow"
+					k-visible="false" k-modal="true"
+					k-title="'{{window.titleKey | translate}}'" k-content="window.content" 
+					k-on-refresh="windowOpen(kendoEvent)" k-on-close="windowClose(kendoEvent)"
+					k-max-width="400"></div>
+			</div>
+		</div>
+	</body>
+</html>

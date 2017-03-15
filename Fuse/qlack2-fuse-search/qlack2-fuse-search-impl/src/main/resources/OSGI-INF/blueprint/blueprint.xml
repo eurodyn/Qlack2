@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
+	
+	<jpa:enable />
+	<tx:enable />
+	
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.search" update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="es.hosts" value="127.0.0.1:9300" />
+			<cm:property name="es.clusterName" value="escpCluster" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+	
+	<!-- EXTERNAL SERVICES -->
+
+	<!-- LOCAL BEANS & SERVICES -->
+	<bean id="ESClient" class="com.eurodyn.qlack2.fuse.search.impl.util.ESClient" 
+		init-method="init" destroy-method="shutdown">
+		<property name="esHosts" value="${es.hosts}" />
+		<property name="esClusterName" value="${es.clusterName}" />
+	</bean>
+
+</blueprint>

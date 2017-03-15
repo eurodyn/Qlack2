@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs">
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="ProjectsService"
+		interface="com.eurodyn.qlack2.be.forms.api.ProjectsService" />
+
+	<reference id="FormsService"
+		interface="com.eurodyn.qlack2.be.forms.api.FormsService" />
+
+	<reference id="FormVersionsService"
+		interface="com.eurodyn.qlack2.be.forms.api.FormVersionsService" />
+
+	<reference id="CategoriesService"
+		interface="com.eurodyn.qlack2.be.forms.api.CategoriesService" />
+
+	<reference id="ConfigService"
+		interface="com.eurodyn.qlack2.be.forms.api.ConfigService" />
+
+	<reference id="FileUpload"
+		interface="com.eurodyn.qlack2.util.fileupload.api.FileUpload" />
+
+	<reference id="FileUploadRestService"
+		interface="com.eurodyn.qlack2.util.fileupload.api.rest.FileUploadRest" />
+
+	<!-- LOCAL BEANS & SERVICES -->
+	<bean id="ProjectsRest"
+		class="com.eurodyn.qlack2.be.forms.web.rest.ProjectsRest">
+		<property name="projectsService" ref="ProjectsService" />
+	</bean>
+
+	<bean id="FormsRest"
+		class="com.eurodyn.qlack2.be.forms.web.rest.FormsRest">
+		<property name="formsService" ref="FormsService" />
+		<property name="formVersionsService" ref="FormVersionsService" />
+		<property name="fileUpload" ref="FileUpload" />
+	</bean>
+
+	<bean id="FormVersionsRest"
+		class="com.eurodyn.qlack2.be.forms.web.rest.FormVersionsRest">
+		<property name="formVersionsService" ref="FormVersionsService" />
+	</bean>
+
+	<bean id="CategoriesRest"
+		class="com.eurodyn.qlack2.be.forms.web.rest.CategoriesRest">
+		<property name="categoriesService" ref="CategoriesService" />
+	</bean>
+
+	<bean id="ConfigRest"
+		class="com.eurodyn.qlack2.be.forms.web.rest.ConfigRest">
+		<property name="configService" ref="ConfigService" />
+	</bean>
+
+
+
+	<!-- CXF CONFIGURATION -->
+	<jaxrs:server id="FormsManagerRestServer" address="/apps/forms">
+		<jaxrs:serviceBeans>
+			<ref component-id="ProjectsRest" />
+			<ref component-id="FormsRest" />
+			<ref component-id="FormVersionsRest" />
+			<ref component-id="CategoriesRest" />
+			<ref component-id="ConfigRest" />
+			<ref component-id="FileUploadRestService" />
+		</jaxrs:serviceBeans>
+
+		<jaxrs:providers>
+			<bean id="MappingExceptionMapper" class="com.eurodyn.qlack2.util.validator.util.rest.MappingExceptionMapper"/>
+			<bean id="ValidationExceptionMapper" class="com.eurodyn.qlack2.util.validator.util.rest.ValidationExceptionMapper"/>
+			<bean id="GenericExceptionMapper" class="com.eurodyn.qlack2.util.rest.mapper.GenericExceptionMapper"/>
+			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+				<property name="mapper">
+					<bean id="jacksonMapper" class="com.eurodyn.qlack2.util.rest.CustomisedJackson" />
+				</property>
+			</bean>
+		</jaxrs:providers>
+	</jaxrs:server>
+</blueprint>

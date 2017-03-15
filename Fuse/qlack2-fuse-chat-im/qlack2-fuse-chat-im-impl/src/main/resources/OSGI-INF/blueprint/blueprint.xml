@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}"
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}"
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs">
+
+	<jpa:enable />
+	<tx:enable />
+	
+	<bean id="IMMessageServiceImpl" class="com.eurodyn.qlack2.fuse.chatim.impl.IMMessageServiceImpl">
+	</bean>
+	<bean id="MessageServiceImpl" class="com.eurodyn.qlack2.fuse.chatim.impl.MessageServiceImpl">
+	</bean>
+	<bean id="RoomServiceImpl" class="com.eurodyn.qlack2.fuse.chatim.impl.RoomServiceImpl">
+	</bean>
+	<bean id="ChatUserServiceImpl" class="com.eurodyn.qlack2.fuse.chatim.impl.ChatUserServiceImpl">
+	</bean>
+	<bean id="VotingServiceImpl" class="com.eurodyn.qlack2.fuse.chatim.impl.VotingServiceImpl">
+	</bean>
+
+	<service id="IMMessageService" ref="IMMessageServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.chatim.api.IMMessageService"/>
+	<service id="MessageService" ref="MessageServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.chatim.api.MessageService"/>
+	<service id="RoomService" ref="RoomServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.chatim.api.RoomService"/>
+	<service id="ChatUserService" ref="ChatUserServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.chatim.api.ChatUserService"/>
+	<service id="VotingService" ref="VotingServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.chatim.api.VotingService"/>
+
+</blueprint>

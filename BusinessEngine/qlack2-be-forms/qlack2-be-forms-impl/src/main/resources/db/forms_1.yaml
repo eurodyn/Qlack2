@@ -1,0 +1,299 @@
+databaseChangeLog:
+  - changeSet:
+      id: forms_1
+      author: ehond
+      changes:
+        - createTable:
+            tableName: fmn_category
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: project_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: fmn_category
+            columnNames: project_id, name
+            constraintName: uq_fmn_category_name
+        - createTable:
+            tableName: fmn_form
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: project_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: fmn_form
+            columnNames: project_id, name
+            constraintName: uq_fmn_form_name
+        - createTable:
+            tableName: fmn_form_version
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: form
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: content
+                  type: text
+                  constraints:
+                    nullable: true
+              - column:
+                  name: document_id
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: state
+                  type: tinyint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: locked_on
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: locked_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_fmn_form_version_fmn_form
+            baseTableName: fmn_form_version
+            baseColumnNames: form
+            referencedTableName: fmn_form
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addUniqueConstraint:
+            tableName: fmn_form_version
+            columnNames: form, name
+            constraintName: uq_fmn_form_version_name
+        - createTable:
+            tableName: fmn_condition
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: form_version
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: condition_type
+                  type: tinyint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: working_set_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rule_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent
+                  type: varchar(36)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_fmn_cond_fmn_form_version
+            baseTableName: fmn_condition
+            baseColumnNames: form_version
+            referencedTableName: fmn_form_version
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_fmn_condition_fmn_condition
+            baseTableName: fmn_condition
+            baseColumnNames: parent
+            referencedTableName: fmn_condition
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addUniqueConstraint:
+            tableName: fmn_condition
+            columnNames: form_version, name
+            constraintName: uq_fmn_condition_name
+        - createTable:
+            tableName: fmn_form_has_category
+            columns:
+              - column:
+                  name: form
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            constraintName: pk_fmn_form_has_category
+            tableName: fmn_form_has_category
+            columnNames: form, category
+        - addForeignKeyConstraint:
+            constraintName: fk_fmn_frm_has_ctg_fmn_frm
+            baseTableName: fmn_form_has_category
+            baseColumnNames: form
+            referencedTableName: fmn_form
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_fmn_frm_has_ctg_fmn_ctg
+            baseTableName: fmn_form_has_category
+            baseColumnNames: category
+            referencedTableName: fmn_category
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade

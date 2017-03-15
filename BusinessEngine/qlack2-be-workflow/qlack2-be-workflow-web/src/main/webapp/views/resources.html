@@ -1,0 +1,11 @@
+<div class="row" ng-controller="TreeManagerCtrl">
+	<div class="col-sm-3 col-md-2 sidebar">
+		<script id="resourcesTemplate" type="text/x-kendo-template">
+			<div>
+				<i class="#=item.icon#"></i><span>#=item.name#</span>
+			</div>
+		</script>
+		<div kendo-tree-view="workflowsTreeView" k-options="workflowNodes"></div>
+	</div>
+	<div ui-view class="col-sm-9 col-md-10" autoscroll="false" ></div>
+</div>

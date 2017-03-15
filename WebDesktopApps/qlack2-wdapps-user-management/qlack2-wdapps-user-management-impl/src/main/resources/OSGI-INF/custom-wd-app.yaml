@@ -1,0 +1,28 @@
+!!WDApplication:
+  identification:
+    uniqueId:           88c24a3b-b897-407a-8946-af17c442a92c
+    titleKey:           application_title
+    descriptionKey:     application_description
+    version:            2.0.0
+  instantiation:
+    path:               ''
+    index:              apps/usermanagement/
+    multipleInstances:  false
+    restrictAccess:     true
+    translationsGroup:  usermanagement
+  menu:
+    icon:               '{icon-square}mif-user'
+    iconSmall:          '{icon}mif-user'
+    bgColor:            'bg-indigo'
+    system:             false
+    showTitle:          true
+  window:
+    width:              800
+    minWidth:           470
+    height:             500
+    minHeight:          450
+    resizable:          true
+    maximizable:        true
+    minimizable:        true
+    closable:           true
+    draggable:          true

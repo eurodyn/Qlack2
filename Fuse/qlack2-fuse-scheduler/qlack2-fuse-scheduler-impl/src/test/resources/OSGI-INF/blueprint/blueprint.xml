@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+
+	<bean id="TestJob" class="com.eurodyn.qlack2.fuse.scheduler.impl.TestJob"/>
+
+	<service id="TestJobService" ref="TestJob" auto-export="interfaces">
+		<service-properties>
+			<entry key="qlack2.job.qualifier" value="someTestJob"/>
+		</service-properties>
+	</service>
+
+</blueprint>

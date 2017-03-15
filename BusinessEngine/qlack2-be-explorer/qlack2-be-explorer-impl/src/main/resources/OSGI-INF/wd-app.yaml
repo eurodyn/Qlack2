@@ -1,0 +1,28 @@
+!!WDApplication:
+  identification:
+    uniqueId:           a059a169-2247-408b-a25f-34b9a74d3dd3
+    titleKey:           application_title
+    descriptionKey:     application_description
+    version:            2.0.0
+  instantiation:
+    path:               apps/explorer
+    index:              /
+    multipleInstances:  false
+    restrictAccess:     true
+    translationsGroup:  explorer
+  menu:
+    icon:               '{icon-square}mif-list2'
+    iconSmall:          '{icon}mif-list2'
+    bgColor:            'bg-pink'
+    system:             false
+    showTitle:          true
+  window:
+    width:              800
+    minWidth:           650
+    height:             550
+    minHeight:          450
+    resizable:          true
+    maximizable:        true
+    minimizable:        true
+    closable:           true
+    draggable:          true

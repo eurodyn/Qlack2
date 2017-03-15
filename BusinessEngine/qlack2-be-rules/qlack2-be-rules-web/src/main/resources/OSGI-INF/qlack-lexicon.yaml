@@ -1,0 +1,347 @@
+﻿groups:
+  - name: wd_apps
+    description: Application translations required to display an application in the Web Desktop
+  - name: rules
+    description: Rules Manager
+languages:
+  - name: English
+    locale: en
+translations:
+  - group: wd_apps
+    locale: en
+    keys:
+      # Application
+      - rules.application_title: Rules Manager
+      - rules.application_description: Manage rules and models
+      # Categories
+      - rules.category_created_title: Create category
+      - rules.category_created_content: Category "{{category}}" was created successfully.
+      - rules.category_updated_title: Update category
+      - rules.category_updated_content: Category "{{category}}" was updated successfully.
+      - rules.category_deleted_title: Delete category
+      - rules.category_deleted_content: Category was deleted successfully.
+      # Rules
+      - rules.rule_created_title: Create rule
+      - rules.rule_created_content: Rule "{{rule}}" was created successfully.
+      - rules.rule_updated_title: Update rule
+      - rules.rule_updated_content: Rule "{{rule}}" was updated successfully.
+      - rules.rule_deleted_title: Delete rule
+      - rules.rule_deleted_content: Rule was deleted successfully.
+      # Rule versions
+      - rules.rule_version_created_title: Create rule version
+      - rules.rule_version_created_content: Rule version "{{version}}" was created successfully.
+      - rules.rule_version_deleted_title: Delete rule version
+      - rules.rule_version_deleted_content: Rule version was deleted successfully.
+      - rules.rule_version_locked_title: Lock rule version
+      - rules.rule_version_locked_content: Rule version "{{version}}" was locked successfully.
+      - rules.rule_version_unlocked_title: Unlock rule version
+      - rules.rule_version_unlocked_content: Rule version "{{version}}" was unlocked successfully.
+      - rules.rule_version_enabled_testing_title: Enable testing rule version
+      - rules.rule_version_enabled_testing_content: Rule version "{{version}}" was enabled for testing successfully.
+      - rules.rule_version_disabled_testing_title: Disable testing rule version
+      - rules.rule_version_disabled_testing_content: Rule version "{{version}}" was disabled for testing successfully.
+      - rules.rule_version_finalised_title: Finalise rule version
+      - rules.rule_version_finalised_content: Rule version was finalised successfully.
+      - rules.rule_version_imported_title: Import rule version
+      - rules.rule_version_imported_content: Rule version was imported successfully.
+      # Libraries
+      - rules.library_created_title: Create library
+      - rules.library_created_content: Library "{{library}}" was created successfully.
+      - rules.library_updated_title: Update library
+      - rules.library_updated_content: Library "{{library}}" was updated successfully.
+      - rules.library_deleted_title: Delete library
+      - rules.library_deleted_content: Library was deleted successfully.
+      # Library versions
+      - rules.library_version_created_title: Create library version
+      - rules.library_version_created_content: Library version "{{version}}" was created successfully.
+      - rules.library_version_content_updated_title: Update library version content
+      - rules.library_version_content_updated_content: Library version content was updated successfully.
+      - rules.library_version_deleted_title: Delete library version
+      - rules.library_version_deleted_content: Library version was deleted successfully.
+      - rules.library_version_locked_title: Lock library version
+      - rules.library_version_locked_content: Library version "{{version}}" was locked successfully.
+      - rules.library_version_unlocked_title: Unlock library version
+      - rules.library_version_unlocked_content: Library version "{{version}}" was unlocked successfully.
+      - rules.library_version_enabled_testing_title: Enable testing library version
+      - rules.library_version_enabled_testing_content: Library version "{{version}}" was enabled for testing successfully.
+      - rules.library_version_disabled_testing_title: Disable testing library version
+      - rules.library_version_disabled_testing_content: Library version "{{version}}" was disabled for testing successfully.
+      - rules.library_version_finalised_title: Finalise library version
+      - rules.library_version_finalised_content: Library version was finalised successfully.
+      - rules.library_version_imported_title: Import library version
+      - rules.library_version_imported_content: Library version was imported successfully.
+      # Data models
+      - rules.data_model_created_title: Create data model
+      - rules.data_model_created_content: Data model "{{model}}" was created successfully.
+      - rules.data_model_updated_title: Update data model
+      - rules.data_model_updated_content: Data model "{{model}}" was updated successfully.
+      - rules.data_model_deleted_title: Delete data model
+      - rules.data_model_deleted_content: Data model was deleted successfully.
+      # Data model versions
+      - rules.data_model_version_created_title: Create data model version
+      - rules.data_model_version_created_content: Data model version "{{version}}" was created successfully.
+      - rules.data_model_version_deleted_title: Delete data model version
+      - rules.data_model_version_deleted_content: Data model version was deleted successfully.
+      - rules.data_model_version_locked_title: Lock data model version
+      - rules.data_model_version_locked_content: Data model version "{{version}}" was locked successfully.
+      - rules.data_model_version_unlocked_title: Unlock data model version
+      - rules.data_model_version_unlocked_content: Data model version "{{version}}" was unlocked successfully.
+      - rules.data_model_version_enabled_testing_title: Enable testing data model version
+      - rules.data_model_version_enabled_testing_content: Data model version "{{version}}" was enabled for testing successfully.
+      - rules.data_model_version_disabled_testing_title: Disable testing data model version
+      - rules.data_model_version_disabled_testing_content: Data model version "{{version}}" was disabled for testing successfully.
+      - rules.data_model_version_finalised_title: Finalise data model version
+      - rules.data_model_version_finalised_content: Data model version was finalised successfully.
+      - rules.data_model_version_imported_title: Import data model version
+      - rules.data_model_version_imported_content: Data model version was imported successfully.
+      # Working sets
+      - rules.working_set_created_title: Create working set
+      - rules.working_set_created_content: Working set "{{set}}" was created successfully.
+      - rules.working_set_updated_title: Update working set
+      - rules.working_set_updated_content: Working set "{{set}}" was updated successfully.
+      - rules.working_set_deleted_title: Delete working set
+      - rules.working_set_deleted_content: Working set was deleted successfully.
+      # Working set versions
+      - rules.working_set_version_created_title: Create working set version
+      - rules.working_set_version_created_content: Working set version "{{version}}" was created successfully.
+      - rules.working_set_version_deleted_title: Delete working set version
+      - rules.working_set_version_deleted_content: Working set version was deleted successfully.
+      - rules.working_set_version_locked_title: Lock working set version
+      - rules.working_set_version_locked_content: Working set version "{{version}}" was locked successfully.
+      - rules.working_set_version_unlocked_title: Unlock working set version
+      - rules.working_set_version_unlocked_content: Working set version "{{version}}" was unlocked successfully.
+      - rules.working_set_version_enabled_testing_title: Enable testing working set version
+      - rules.working_set_version_enabled_testing_content: Working set version "{{version}}" was enabled for testing successfully.
+      - rules.working_set_version_disabled_testing_title: Disable testing working set version
+      - rules.working_set_version_disabled_testing_content: Working set version "{{version}}" was disabled for testing successfully.
+      - rules.working_set_version_finalised_title: Finalise working set version
+      - rules.working_set_version_finalised_content: Working set version was finalised successfully.
+      - rules.working_set_version_imported_title: Import working set version
+      - rules.working_set_version_imported_content: Working set version was imported successfully.
+      # Access management
+      - rules.operations_saved_title: Permissions updated
+      - rules.operations_saved_content: The permissions of {{subject}} were updated successfully
+  - group: rules
+    locale: en
+    keys:
+      # Menu
+      - menu.file: File
+      - menu.home: Home
+      - menu.configuration: Configuration
+      - menu.exit: Exit
+      - menu.audit: Audit
+      - menu.help: Help
+      - menu.access_management: Access management
+      # Titles
+      - title.create_category: Create category
+      - title.delete_category: Delete category
+      - title.create_rule: Create rule
+      - title.delete_rule: Delete rule
+      - title.create_data_model: Create data model
+      - title.delete_data_model: Delete data model
+      - title.create_library: Create library
+      - title.delete_library: Delete library
+      - title.create_working_set: Create working set
+      - title.delete_working_set: Delete working set
+      # Labels
+      - label.title: Title
+      - label.description: Description
+      - label.categories: Categories
+      - label.status: Status
+      - label.active: Active
+      - label.inactive: Inactive
+      - label.createdBy: Created by
+      - label.createdOn: Created on
+      - label.modifiedBy: Last modified by
+      - label.modifiedOn: Last modified on
+      - note.createdBy: Created by {{createdby}} on {{createdon}}
+      - note.modifiedBy: Last modified by {{modifiedby}} on {{modifiedon}}
+      - note.lockedBy: Locked by {{lockedby}} on {{lockedon}}
+      - note.testing_enabled: Testing enabled
+      - label.model.class: Class
+      - label.model.package: Package
+      - label.model.parent: Parent
+      - label.project.recent: Recent projects
+      - label.version_name: Version name
+      - label.based_on: Based on
+      - label.upload_jar: Upload JAR
+      - label.upload_xml: Upload XML
+      - header.name: Name
+      - header.package: Package
+      - header.type: Type
+      - header.version: Version
+      - select.project: Select project ...
+      - select.action: Select action ...
+      - select.version: Select version ...
+      - select.parent: Select parent ...
+      - select.parent_version: Select parent version ...
+      - select.type: Select type ...
+      - select.type_version: Select type version ...
+      - select.rule: Select rule ...
+      - select.rule_version: Select rule version ...
+      - select.data_model: Select data model ...
+      - select.data_model_version: Select data model version ...
+      - select.library: Select library ...
+      - select.library_version: Select library version ...
+      # Actions
+      - action.create: Create
+      - action.delete: Delete
+      - action.edit: Edit
+      - action.save: Save
+      - action.update: Update
+      - action.finalize: Finalise
+      - action.ok: Ok
+      - action.cancel: Cancel
+      - action.lock: Lock
+      - action.unlock: Unlock
+      - action.import: Import
+      - action.export: Export
+      - action.create_version: Create version
+      - action.delete_version: Delete version
+      - action.update_version_content: Update version content
+      - action.enable_testing: Enable testing
+      - action.disable_testing: Disable testing
+      - action.finalize_version: Finalise version
+      - action.download_models_jar: Download data models JAR
+      - action.add_field: Add field
+      - action.add_rule_version: Add rule version
+      - action.add_data_model_version: Add data model version
+      - action.add_library_version: Add library version
+      - action.add_attachment: Add attachment
+      - action.or_drop_file: Or drop a file here
+      - action.add: Add
+      - action.remove: Remove
+      # Messages
+      - category.delete_confirm: Are you sure ?
+      - category.delete_not_allowed: Not allowed!
+      - category.delete_assigned_to_resources: "You are not allowed to delete this category, as it is assigned to resources."
+      - rule.delete_confirm: Are you sure ?
+      - rule.delete_not_allowed: Not allowed!
+      - rule.delete_contained_in: "This rule has versions contained in working sets."
+      - rule.delete_locked_by_other: "This rule has versions locked by other users."
+      - rule.delete_used_by_other: "This rule has versions used by other QBE components."
+      - rule.delete_version_confirm: Are you sure ?
+      - rule.delete_version_not_allowed: Not allowed!
+      - rule.delete_version_contained_in: "This version is contained in the following working set versions:"
+      - rule.delete_version_used_by_other: "This version is used by other QBE components."
+      - rule.enable_testing_version_not_allowed: Not allowed!
+      - rule.enable_testing_version_name_conflict: "The rule name of this version is the same as the following versions:"
+      - rule.disable_testing_version_not_allowed: Not allowed!
+      - rule.disable_testing_version_contained_in: "This version is contained in the following working set versions with testing enabled:"
+      - rule.disable_testing_version_used_by_other: "This version is used by other QBE components."
+      - rule.finalize_version_confirm: Are you sure ?
+      - rule.finalize_version_not_allowed: Not allowed!
+      - rule.finalize_version_name_conflict: "The rule name of this version is the same as the following versions:"
+      - data_model.delete_confirm: Are you sure ?
+      - data_model.delete_not_allowed: Not allowed!
+      - data_model.delete_contained_in: "This data model has versions contained in working sets."
+      - data_model.delete_parent_of: "This data model has versions which are parents of other data model versions."
+      - data_model.delete_contained_in_fields: "This data model has versions which are types of fields contained in other data model versions."
+      - data_model.delete_locked_by_other: "This data model has versions locked by other users."
+      - data_model.delete_version_confirm: Are you sure ?
+      - data_model.delete_version_not_allowed: Not allowed!
+      - data_model.delete_version_contained_in: "This version is contained in the following working set versions:"
+      - data_model.delete_version_parent_of: "This version is the parent of the following data model versions:"
+      - data_model.delete_version_contained_in_fields: "This version is the type of a field contained in the following data model versions:"
+      - data_model.update_version_not_allowed: Not allowed!
+      - data_model.update_version_working_sets_restrict: "The following working set versions must contain the data model version parent and field types:"
+      - data_model.enable_testing_version_confirm: Are you sure ?
+      - data_model.enable_testing_version_cascade: "The following versions will also be enabled for testing:"
+      - data_model.enable_testing_version_not_allowed: Not allowed!
+      - data_model.disable_testing_version_not_allowed: Not allowed!
+      - data_model.disable_testing_version_contained_in: "This version is contained in the following working set versions with testing enabled:"
+      - data_model.disable_testing_version_used_by_other: "This version is used by other QBE components."
+      - data_model.finalize_version_confirm: Are you sure ?
+      - data_model.finalize_version_cascade: "The following versions will also be finalized:"
+      - data_model.finalize_version_not_allowed: Not allowed!
+      - library.delete_confirm: Are you sure ?
+      - library.delete_not_allowed: Not allowed!
+      - library.delete_contained_in: "This library has versions contained in working sets."
+      - library.delete_locked_by_other: "This library has versions locked by other users."
+      - library.delete_version_confirm: Are you sure ?
+      - library.delete_version_not_allowed: Not allowed!
+      - library.delete_version_contained_in: "This version is contained in the following working set versions:"
+      - library.disable_testing_version_not_allowed: Not allowed!
+      - library.disable_testing_version_contained_in: "This version is contained in the following working set versions with testing enabled:"
+      - library.disable_testing_version_used_by_other: "This version is used by other QBE components."
+      - library.finalize_version_confirm: Are you sure ?
+      - working_set.delete_confirm: Are you sure ?
+      - working_set.delete_not_allowed: Not allowed!
+      - working_set.delete_locked_by_other: "This working set has versions locked by other users."
+      - working_set.delete_used_by_other: "This working set has versions used by other QBE components."
+      - working_set.delete_version_confirm: Are you sure ?
+      - working_set.delete_version_not_allowed: Not allowed!
+      - working_set.delete_version_used_by_other: "This version is used by other QBE components."
+      - working_set.update_version_not_allowed: Not allowed!
+      - working_set.update_version_rules_restrict: "The following rule versions must also be enabled for testing:"
+      - working_set.update_version_data_models_restrict: "The following data model versions must also be enabled for testing:"
+      - working_set.update_version_libraries_restrict: "The following library versions must also be enabled for testing:"
+      - working_set.update_version_data_models_not_contained: "The working set should also contain the following data models:"
+      - working_set.enable_testing_version_confirm: Are you sure ?
+      - working_set.enable_testing_version_not_allowed: Not allowed!
+      - working_set.enable_testing_version_rules_cascade: "The following rule versions will also be enabled for testing:"
+      - working_set.enable_testing_version_data_models_cascade: "The following data model versions will also be enabled for testing:"
+      - working_set.enable_testing_version_libraries_cascade: "The following library versions will also be enabled for testing:"
+      - working_set.enable_testing_version_data_models_not_contained: "The working set should also contain the following data models:"
+      - working_set.disable_testing_version_not_allowed: Not allowed!
+      - working_set.disable_testing_version_used_by_other: "This version is used by other QBE components."
+      - working_set.finalize_version_confirm: Are you sure ?
+      - working_set.finalize_version_not_allowed: Not allowed!
+      - working_set.finalize_version_rules_cascade: "The following rule versions will also be finalized:"
+      - working_set.finalize_version_data_models_cascade: "The following data model versions will also be finalized:"
+      - working_set.finalize_version_libraries_cascade: "The following library versions will also be finalized:"
+      - working_set.finalize_version_data_models_not_contained: "The working set should also contain the following data models:"
+      - working_set.download_models_jar_not_allowed: Not allowed!
+      - working_set.download_models_jar_data_models_permission_denied: "You do not have the required permissions on the contained data models:"
+      # Validation messages
+      - javax.validation.constraints.NotNull: Can not be null
+      - org.hibernate.validator.constraints.NotEmpty: Can not be empty
+      - org.hibernate.validator.constraints.Length: Must be between {{min}} and {{max}} characters long
+      - qlack.validation.UniqueName: This name is already used.
+      - qlack.validation.MaxFileSize: The size of uploaded file exceeds the maximum allowed file size.
+      - qlack.validation.JarFile: The uploaded file is not a JAR file.
+      - qlack.validation.XmlFile: The uploaded file is not an XML file.
+      - qlack.validation.JavaIdentifier: Must be a valid Java identifier.
+      - qlack.validation.JavaPackage: Must be a valid Java package name.
+      - qlack.validation.dataModel.version.parent.InheritanceCycle: The parent data model version creates a cycle in the inheritance hierarchy.
+      - qlack.validation.dataModel.version.fields.UniqueNames: The data model contains multiple fields with the same name.
+      - qlack.validation.workingSet.version.RuleNotFound: The working set contains a rule version that does not exist.
+      - qlack.validation.workingSet.version.DataModelNotFound: The working set contains a data model version that does not exist.
+      - qlack.validation.workingSet.version.LibraryNotFound: The working set contains a library version that does not exist.
+      - qlack.validation.workingSet.version.RulesUnique: The working set contains multiple versions of the same rule.
+      - qlack.validation.workingSet.version.DataModelsUnique: The working set contains multiple versions of the same data model.
+      - qlack.validation.workingSet.version.LibrariesUnique: The working set contains multiple versions of the same library.
+      - qlack.validation.rules.NoDroolsRule: Cannot find any rule definitions.
+      - qlack.validation.rules.MultipleDroolsRules: Multiple rule definitions found.
+      - qlack.validation.rules.NonUniqueDroolsRuleName: The rule definition name is already used by another rule in the same project.
+#       Access management
+      - RUL_VIEW_WORKING_SET: View working set
+      - RUL_MANAGE_WORKING_SET: Create / update / delete working set
+      - RUL_LOCK_WORKING_SET: Lock working set
+      - RUL_UNLOCK_ANY_WORKING_SET: Unlock any working set
+      - RUL_VIEW_RULE: View rule
+      - RUL_MANAGE_RULE: Create / update / delete rule
+      - RUL_LOCK_RULE: Lock rule
+      - RUL_UNLOCK_ANY_RULE: Unlock any rule
+      - RUL_VIEW_DATA_MODEL: View data model
+      - RUL_MANAGE_DATA_MODEL: Create / update / delete data model
+      - RUL_LOCK_DATA_MODEL: Lock data model
+      - RUL_UNLOCK_ANY_DATA_MODEL: Unlock any data model
+      - RUL_VIEW_LIBRARY: View library
+      - RUL_MANAGE_LIBRARY: Create / update / delete library
+      - RUL_LOCK_LIBRARY: Lock library
+      - RUL_UNLOCK_ANY_LIBRARY: Unlock any library
+      - RUL_EXECUTE_WORKING_SET: Execute operations on the Rules Runtime for the working set
+      - RUL_MANAGE_CATEGORY: Manage categories
+      - RUL_CONFIGURE: Configure this application
+      - projects: Projects
+      - filter: Filter
+      - default: Default
+      - allowed: Allowed
+      - denied: Denied
+      - superadmin_access_rights_not_editable: This user is a superadmin and therefore their access rights cannot be edited.
+      - remove_access_subject_confirm: Are you sure you wish to remove this user / group from your access management list? Its access rights will be reverted to the default ones.
+      - remove_from_access_management: Remove from access management
+      - generic_permissions: Generic permissions
+      - default_permissions: Default permissions
+      - resource_permissions: Resource permissions

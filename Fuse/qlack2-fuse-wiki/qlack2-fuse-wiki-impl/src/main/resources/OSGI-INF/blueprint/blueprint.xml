@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}"
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs">
+
+	<jpa:enable />
+	<tx:enable />
+
+	<bean id="WikiEntryServiceImpl" class="com.eurodyn.qlack2.fuse.wiki.impl.WikiEntryServiceImpl">
+		<property name="tagService" ref="WikiTagServiceImpl" />
+	</bean>
+	<bean id="WikiServiceImpl" class="com.eurodyn.qlack2.fuse.wiki.impl.WikiServiceImpl">
+	</bean>
+	<bean id="WikiTagServiceImpl" class="com.eurodyn.qlack2.fuse.wiki.impl.WikiTagServiceImpl">
+	</bean>
+
+	<service id="WikiEntryService" ref="WikiEntryServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.wiki.api.WikiEntryService" />
+	<service id="WikiService" ref="WikiServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.wiki.api.WikiService" />
+	<service id="WikiTagService" ref="WikiTagServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.wiki.api.WikiTagService" />
+
+</blueprint>

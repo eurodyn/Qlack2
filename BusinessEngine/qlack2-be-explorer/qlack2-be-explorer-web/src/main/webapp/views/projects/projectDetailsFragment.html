@@ -1,0 +1,116 @@
+<div class="row">
+	<div class="col-sm-6">
+		<div class="form-group" ng-class="{'has-error has-feedback': projectForm.name.$invalid && !projectForm.name.$dirty}">
+			<label for="name" class="col-sm-4 control-label" translate>name</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" id="name" name="name" ng-model="project.name">
+				<i ng-show="projectForm.name.$invalid && !projectForm.name.$dirty"
+					class="fa fa-exclamation-triangle form-control-feedback"
+					popover="{{projectForm.name.message}}"
+					popover-placement="left" popover-trigger="mouseenter"></i>
+			</div>
+		</div>
+		<div class="form-group" ng-class="{'has-error has-feedback': projectForm.description.$invalid && !projectForm.description.$dirty}">
+			<label for="description" class="col-sm-4 control-label" translate>description</label>
+			<div class="col-sm-8">
+				<textarea class="form-control" id="description" name="description" ng-model="project.description"></textarea>
+				<i ng-show="projectForm.description.$invalid && !projectForm.description.$dirty"
+					class="fa fa-exclamation-triangle form-control-feedback"
+					popover="{{projectForm.description.message}}"
+					popover-placement="left" popover-trigger="mouseenter"></i>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" translate>status</label>
+			<div class="col-sm-8 controls">
+				<label class="radio-inline">
+					<input type="radio" value="true" name="active"
+						ng-checked="project.active == true" ng-model="project.active">
+					{{'active' | translate}}
+				</label>
+				<label class="radio-inline">
+					<input type="radio" value="false" name="active"
+						ng-checked="project.active == false" ng-model="project.active">
+					{{'inactive' | translate}}
+				</label>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-6" ng-show="!newProject">
+		<div class="form-group">
+			<label class="col-sm-4 control-label" translate>created_by</label>
+			<div class="col-sm-8 controls">
+				<p class="form-control-static">{{project.createdBy.firstName}} {{project.createdBy.lastName}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" translate>created_on</label>
+			<div class="col-sm-8">
+				<p class="form-control-static">{{ project.createdOn | qDate:'lll' }}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" translate>last_modified_by</label>
+			<div class="col-sm-8">
+				<p class="form-control-static">{{project.lastModifiedBy.firstName}} {{project.lastModifiedBy.lastName}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-4 control-label" translate>last_modified_on</label>
+			<div class="col-sm-8">
+				<p class="form-control-static">{{ project.lastModifiedOn | qDate:'lll' }}</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="well inner-well top-buffer">
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="form-group">
+				<label class="col-sm-4 control-label" translate>rules</label>
+				<div class="col-sm-8 controls">
+					<label class="radio-inline">
+						<input type="radio" value="true" name="rules"
+							ng-checked="project.rules == true" ng-model="project.rules">
+						{{'active' | translate}}
+					</label>
+					<label class="radio-inline">
+						<input type="radio" value="false" name="rules"
+							ng-checked="project.rules == false" ng-model="project.rules">
+						{{'inactive' | translate}}
+					</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" translate>workflows</label>
+				<div class="col-sm-8 controls">
+					<label class="radio-inline">
+						<input type="radio" value="true" name="workflows"
+							ng-checked="project.workflows == true" ng-model="project.workflows">
+						{{'active' | translate}}
+					</label>
+					<label class="radio-inline">
+						<input type="radio" value="false" name="workflows"
+							ng-checked="project.workflows == false" ng-model="project.workflows">
+						{{'inactive' | translate}}
+					</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-4 control-label" translate>forms</label>
+				<div class="col-sm-8 controls">
+					<label class="radio-inline">
+						<input type="radio" value="true" name="forms"
+							ng-checked="project.forms == true" ng-model="project.forms">
+						{{'active' | translate}}
+					</label>
+					<label class="radio-inline">
+						<input type="radio" value="false" name="forms"
+							ng-checked="project.forms == false" ng-model="project.forms">
+						{{'inactive' | translate}}
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

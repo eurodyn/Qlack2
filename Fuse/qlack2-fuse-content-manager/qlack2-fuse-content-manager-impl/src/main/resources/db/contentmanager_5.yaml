@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: contentmanager_5
+      author: European Dynamics SA
+      changes:
+        - addColumn:
+            tableName: cm_version
+            columns:
+              - column:
+                  name: size
+                  type: bigint
+        - addColumn: 
+            tableName: cm_node
+            columns:
+              - column:
+                  name: mimetype
+                  type: varchar(36)
+              - column:
+                  name: size
+                  type: bigint

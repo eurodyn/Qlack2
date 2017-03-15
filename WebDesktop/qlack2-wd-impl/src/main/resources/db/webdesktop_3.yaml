@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: webdesktop_3
+      author: European Dynamics SA (christina.kaskoura@eurodyn.com)
+      changes:
+        - renameTable:
+            oldTableName: application
+            newTableName: wd_application
+        - renameTable:
+            oldTableName: desktop_icon
+            newTableName: wd_desktop_icon

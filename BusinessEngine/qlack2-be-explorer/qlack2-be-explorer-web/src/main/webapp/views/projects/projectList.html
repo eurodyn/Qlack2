@@ -1,0 +1,19 @@
+<div class="row" ng-controller="ProjectListCtrl">		
+	<div class="col-sm-3 col-md-2">
+		<script id="projectTemplate" type="text/x-kendo-template">
+			<div ui-sref="projects.project({projectId: '#=data.id#'})">#=data.name#</div>
+		</script>
+		<script id="projectAltTemplate" type="text/x-kendo-template">
+			<div class="k-alt" ui-sref="projects.project({projectId: '#=data.id#'})">#=data.name#</div>
+		</script> 
+		<div kendo-list-view k-data-source="projectListSource" 
+			ng-show="projectListSource._data.length > 0"
+			k-template="projectTemplate" k-alt-template="projectAltTemplate"
+			k-selectable="true" k-on-data-bound="projectListLoaded(kendoEvent)"
+			class="top-buffer projectList"></div>
+	</div>
+	
+	<div class="col-sm-9 col-md-10">
+		<div ui-view autoscroll="false"></div>
+	</div>
+</div>

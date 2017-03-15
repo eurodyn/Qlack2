@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
+	
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.caching.memcached"
+		update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="directIP" value="" />
+			<cm:property name="directPort" value="11211" />
+			<cm:property name="localIp" value="" />
+			<cm:property name="expirationTime" value="36000000" />
+			<cm:property name="active" value="false" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<!-- LOCAL BEANS & SERVICES -->
+	<bean id="CacheServiceImpl"
+		class="com.eurodyn.qlack2.fuse.caching.memcached.impl.CacheServiceImpl"
+		destroy-method="destroy" init-method="init">
+		<property name="directIp" value="${directIp}" />
+		<property name="directPort" value="${directPort}" />
+		<property name="localIp" value="${localIp}" />
+		<property name="expirationTime" value="${expirationTime}"/>
+		<property name="active" value="${active}" />
+	</bean>
+	<service id="CacheService" ref="CacheServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.caching.memcached.api.CacheService">
+	</service>
+
+</blueprint>

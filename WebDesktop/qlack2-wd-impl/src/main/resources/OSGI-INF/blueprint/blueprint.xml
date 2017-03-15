@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
+	xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0">
+
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.wd.impl"
+		update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="atmosphere.alias" value="/atmosphere" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="QlackClusterService"
+		interface="com.eurodyn.qlack2.util.cluster.core.QlackClusterService" />
+	<reference id="IDMService"
+		interface="com.eurodyn.qlack2.fuse.idm.api.IDMService"/>
+
+	<!-- ASPECTS -->
+	<bean id="ValidateTicketHolderAspect" factory-method="aspectOf"
+		class="com.eurodyn.qlack2.fuse.idm.api.aspects.ValidateTicketHolderAspect">
+		<property name="idmService" ref="IDMService"/>
+	</bean>
+
+	<!-- Atmosphere configuration -->
+	<reference id="httpService" interface="org.osgi.service.http.HttpService" />
+	<!-- <bean id="AtmosphereSecurityServiceImpl"
+		class="com.eurodyn.qlack2.webdesktop.impl.AtmosphereSecurityServiceImpl">
+		<property name="idmService" ref="IDMService" />
+	</bean> -->
+	<bean id="AtmosphereSecurityInterceptor"
+		class="com.eurodyn.qlack2.util.atmosphere.impl.interceptor.AtmosphereSecurityInterceptor">
+		<property name="securityService" ref="atmosphereSecurityServiceImpl" />
+	</bean>
+	<bean id="AtmosphereHandler"
+		class="com.eurodyn.qlack2.util.atmosphere.impl.handler.AtmosphereHandler">
+		<property name="securityService" ref="atmosphereSecurityServiceImpl" />
+	</bean>
+	
+	<bean id="AtmosphereServiceImpl"
+		class="com.eurodyn.qlack2.util.atmosphere.impl.AtmosphereServiceImpl"
+		init-method="init" destroy-method="destroy">
+		<property name="alias" value="${atmosphere.alias}" />
+		<property name="http" ref="httpService" />
+		<property name="handler" ref="AtmosphereHandler" />
+		<property name="securityInterceptor" ref="AtmosphereSecurityInterceptor"/>
+		<property name="clusterService" ref="QlackClusterService" />
+	</bean>
+	<service id="atmosphereService" ref="AtmosphereServiceImpl"
+		interface="com.eurodyn.qlack2.util.atmosphere.api.AtmosphereService" />
+
+	<!--<bean id="bootstrap" class="com.eurodyn.qlack2.webdesktop.impl.bootstrap.Bootstrap"-->
+		  <!--ext:field-injection="true" init-method="init">-->
+		<!--<property name="bundleContext" ref="blueprintBundleContext"/>-->
+		<!--<property name="bundleUpdateService" ref="bundleUpdateService"/>-->
+		<!--<property name="liquibaseBootMigrationsDoneService" ref="liquibaseBootMigrationsDoneService"/>-->
+	<!--</bean>-->
+	<!--<reference id="liquibaseBootMigrationsDoneService"-->
+			   <!--interface="com.eurodyn.qlack2.util.liquibase.LiquibaseBootMigrationsDoneService"/>-->
+
+</blueprint>

@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: rules_8
+      author: gsapo
+      changes:
+        - addColumn:
+            tableName: rul_working_set_version
+            columns:
+              - column:
+                  name: data_model_versions_jar
+                  type: longblob

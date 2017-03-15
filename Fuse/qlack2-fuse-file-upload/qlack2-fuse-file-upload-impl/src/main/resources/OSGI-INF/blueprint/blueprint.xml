@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}"
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
+
+	<jpa:enable />
+	<tx:enable />
+
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.fileupload"
+		update-strategy="reload">
+		<cm:default-properties>
+			<!-- Enables the abandoned files cleanup service -->
+			<cm:property name="enableCleanup" value="true" />
+			<!-- How often should we try to clean files (msec)? -->
+			<cm:property name="cleanupInterval" value="60000" />
+			<!-- The threshold to consider a file as abandoned (msec) -->
+			<cm:property name="cleanupThreshold" value="3600000" />
+			<!-- The listening address of ClamAV -->
+			<cm:property name="clamAV" value="localhost:3310" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="IDMService" interface="com.eurodyn.qlack2.fuse.idm.api.IDMService" />
+
+	<!-- Note that although none of the QLACK Fuse components perform any kind 
+		of ticket validation (they expect your application to do so before calling 
+		them) an exception is made for File Upload. This is due to the reason that 
+		File Upload provides its own REST implementation which (via the respective 
+		IMPL implementation) directly writes a file to the database. In order to 
+		not allow uncontrolled write-access to the database, the ticket of the user 
+		is explicitly checked. -->
+	<bean id="ValidateTicketHolderAspect" factory-method="aspectOf"
+		class="com.eurodyn.qlack2.fuse.idm.api.aspects.ValidateTicketHolderAspect">
+		<property name="idmService" ref="IDMService" />
+	</bean>
+
+	<!-- LOCAL SERVICES & BEANS -->
+	<!-- <bean id="FileUploadImpl" class="com.eurodyn.qlack2.fuse.fileupload.impl.FileUploadImpl"> 
+		<property name="idmService" ref="IDMService" /> <property name="clamAV" value="${clamAV}" 
+		/> </bean> <service id="FileUploadService" interface="com.eurodyn.qlack2.fuse.fileupload.api.FileUpload" 
+		ref="FileUploadImpl" /> -->
+	<bean id="CleanupBean"
+		class="com.eurodyn.qlack2.fuse.fileupload.impl.cleanup.CleanupBean"
+		init-method="init" destroy-method="destroy">
+		<property name="enableCleanup" value="${enableCleanup}" />
+		<property name="cleanupInterval" value="${cleanupInterval}" />
+		<property name="cleanupThreshold" value="${cleanupThreshold}" />
+		<property name="fileUploadService" ref="fileUploadImpl" />
+	</bean>
+</blueprint>

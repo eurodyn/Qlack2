@@ -1,0 +1,555 @@
+databaseChangeLog:
+  - changeSet:
+      id: aaa_1
+      author: European Dynamics SA (christina.kaskoura@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: aaa_user
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: pswd
+                  type: varchar(32)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: salt
+                  type: varchar(16)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: tinyint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: superadmin
+                  type: boolean
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: aaa_user_attributes
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data
+                  type: varchar(1024)
+              - column:
+                  name: bindata
+                  type: longblob
+              - column:
+                  name: content_type
+                  type: varchar(255)
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_user_attr_aaa_user
+            baseTableName: aaa_user_attributes
+            baseColumnNames: user_id
+            referencedTableName: aaa_user
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addUniqueConstraint:
+            tableName: aaa_user_attributes
+            columnNames: user_id, name
+            constraintName: user_name
+        - createTable:
+            tableName: aaa_session
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: terminated_on
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: application_session_id
+                  type: varchar(255)
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - createIndex:
+            indexName: idx_application_session_id
+            tableName: aaa_session
+            columns:
+            - column:
+                name: application_session_id
+                type: varchar(255)
+            unique: false
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_session_aaa_user
+            baseTableName: aaa_session
+            baseColumnNames: user_id
+            referencedTableName: aaa_user
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - createTable:
+            tableName: aaa_session_attributes
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: session_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: value
+                  type: varchar(1024)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_sessattr_aaa_session
+            baseTableName: aaa_session_attributes
+            baseColumnNames: session_id
+            referencedTableName: aaa_session
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addUniqueConstraint:
+            tableName: aaa_session_attributes
+            columnNames: session_id, name
+            constraintName: session_name
+        - createTable:
+            tableName: aaa_group
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: description
+                  type: varchar(1024)
+              - column:
+                  name: object_id
+                  type: varchar(36)
+                  constraints:
+                    unique: true
+              - column:
+                  name: parent
+                  type: varchar(36)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_group_aaa_group
+            baseTableName: aaa_group
+            baseColumnNames: parent
+            referencedTableName: aaa_group
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - createTable:
+            tableName: aaa_user_has_group
+            columns:
+              - column:
+                  name: user_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: group_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            constraintName: pk_aaa_user_has_group
+            tableName: aaa_user_has_group
+            columnNames: user_id, group_id
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_uhg_aaa_user
+            baseTableName: aaa_user_has_group
+            baseColumnNames: user_id
+            referencedTableName: aaa_user
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_uhg_aaa_group
+            baseTableName: aaa_user_has_group
+            baseColumnNames: group_id
+            referencedTableName: aaa_group
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - createTable:
+            tableName: aaa_operation
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: description
+                  type: varchar(1024)
+              - column:
+                  name: dynamic
+                  type: boolean
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dynamic_code
+                  type: text
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: aaa_resource
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+              - column:
+                  name: object_id
+                  type: varchar(36)
+                  constraints:
+                    unique: true
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: aaa_user_has_operation
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: operation
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: resource_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: deny
+                  type: boolean
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: aaa_user_has_operation
+            columnNames: user_id, operation, resource_id
+            constraintName: user_operation_resource
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_uho_aaa_user
+            baseTableName: aaa_user_has_operation
+            baseColumnNames: user_id
+            referencedTableName: aaa_user
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_uho_aaa_operation
+            baseTableName: aaa_user_has_operation
+            baseColumnNames: operation
+            referencedTableName: aaa_operation
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_uho_aaa_resource
+            baseTableName: aaa_user_has_operation
+            baseColumnNames: resource_id
+            referencedTableName: aaa_resource
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - createTable:
+            tableName: aaa_group_has_operation
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: group_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: operation
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: resource_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: deny
+                  type: boolean
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: aaa_group_has_operation
+            columnNames: group_id, operation, resource_id
+            constraintName: group_operation_resource
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_gho_aaa_group
+            baseTableName: aaa_group_has_operation
+            baseColumnNames: group_id
+            referencedTableName: aaa_group
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_gho_aaa_operation
+            baseTableName: aaa_group_has_operation
+            baseColumnNames: operation
+            referencedTableName: aaa_operation
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_gho_aaa_resource
+            baseTableName: aaa_group_has_operation
+            baseColumnNames: resource_id
+            referencedTableName: aaa_resource
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade                    
+        - createTable:
+            tableName: aaa_op_template
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: description
+                  type: varchar(1024)
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: aaa_op_template_has_operation
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: template
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: operation
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: resource_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: deny
+                  type: boolean
+                  defaultValue: false
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: aaa_op_template_has_operation
+            columnNames: template, operation, resource_id
+            constraintName: template_operation_resource
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_otho_aaa_op_template
+            baseTableName: aaa_op_template_has_operation
+            baseColumnNames: template
+            referencedTableName: aaa_op_template
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_otho_aaa_operation
+            baseTableName: aaa_op_template_has_operation
+            baseColumnNames: operation
+            referencedTableName: aaa_operation
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_otho_aaa_resource
+            baseTableName: aaa_op_template_has_operation
+            baseColumnNames: resource_id
+            referencedTableName: aaa_resource
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade  
+        - createTable:
+            tableName: aaa_application
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: symbolic_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: checksum
+                  type: varchar(32)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: executed_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false

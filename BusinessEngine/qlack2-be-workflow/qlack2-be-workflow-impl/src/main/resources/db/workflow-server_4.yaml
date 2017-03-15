@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: workflow-server_4
+      author: egian
+      changes:
+        - addColumn:
+            tableName: wfl_workflow_version
+            columns:
+              - column:
+                  name: processId
+                  type: varchar(255)

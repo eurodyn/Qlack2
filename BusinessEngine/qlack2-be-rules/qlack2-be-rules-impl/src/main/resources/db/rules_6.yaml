@@ -1,0 +1,26 @@
+databaseChangeLog:
+  - changeSet:
+      id: rules_6
+      author: gsapo
+      changes:
+        - createTable:
+            tableName: rul_working_set_version_kbase
+            columns:
+              - column:
+                  name: working_set_version_id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: knowledge_base_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_wr_st_vrs_klb_wr_st_vrs
+            baseTableName: rul_working_set_version_kbase
+            baseColumnNames: working_set_version_id
+            referencedTableName: rul_working_set_version
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade

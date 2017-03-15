@@ -1,0 +1,17 @@
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12 current-photo text-center">
+			<img class="img-circle" http-src="{{main.photo}}">
+			<div class="new-photo" flow-init
+				flow-name="main.files"
+				flow-files-submitted="$flow.upload()">
+				<span flow-btn flow-attrs="{accept:'image/*'}"
+					flow-complete="main.submit()"
+					class="btn btn-success"
+					ng-class="main.spinner ? 'disabled' : ''" translate>
+					choose_a_new_photo 
+					<i ng-if="main.spinner" class="glyphicon glyphicon-refresh fast-right-spinner"></i></span>
+			</div>
+		</div>
+	</div>
+</div>

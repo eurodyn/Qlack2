@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}"
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+
+	<jpa:enable />
+	<tx:enable />
+	
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder
+		persistent-id="com.eurodyn.qlack2.fuse.aaa"
+		update-strategy="reload">
+		<cm:default-properties>
+			<!-- TODO fix in OperationServiceImpl -->
+			<cm:property name="permission.prioritisePositive" value="false" />
+			<cm:property name="ldap.enable" value="false" />
+			<cm:property name="ldap.url" value="ldap://localhost" />
+			<cm:property name="ldap.baseDN" value="dc=example,dc=com" />
+			<cm:property name="ldap.mapping.uid" value="uid" />
+			<cm:property name="ldap.mapping.gid" value="gid" />
+			<cm:property name="ldap.mapping.attrs" value="email-mail,firstName-givenName,lastName-sn" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<bean id="LdapUserUtil"
+		  class="com.eurodyn.qlack2.fuse.aaa.impl.LdapUserUtil">
+		<property name="ldapEnable" value="${ldap.enable}" />
+		<property name="ldapUrl" value="${ldap.url}" />
+		<property name="ldapBaseDN" value="${ldap.baseDN}" />
+		<property name="ldapMappingUid" value="${ldap.mapping.uid}" />
+		<property name="ldapMappingGid" value="${ldap.mapping.gid}" />
+		<property name="ldapMappingAttrs" value="${ldap.mapping.attrs}" />
+	</bean>
+
+</blueprint>

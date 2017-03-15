@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: contentmanager_2
+      author: European Dynamics SA
+      changes:
+        - dropNotNullConstraint:
+            columnDataType: varchar(255)
+            columnName: mimetype
+            tableName: cm_version
+        - createTable:
+            tableName: cm_version_bin
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: version_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: chunk_index
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: bin_content
+                  type: longblob
+                  constraints:
+                    nullable: false
+              - column:
+                  name: chunk_size
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_cm_vbin_v1
+            baseTableName: cm_version_bin
+            baseColumnNames: version_id
+            referencedTableName: cm_version
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade

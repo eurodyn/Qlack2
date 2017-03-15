@@ -1,0 +1,651 @@
+databaseChangeLog:
+  - changeSet:
+      id: rules_1
+      author: gsapo
+      changes:
+
+        #
+        # Category
+        #
+        - createTable:
+            tableName: rul_category
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: project_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            constraintName: uq_rul_category_name
+            tableName: rul_category
+            columnNames: project_id, name
+
+        #
+        # Rule
+        #
+        - createTable:
+            tableName: rul_rule
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: project_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            constraintName: uq_rul_rule_name
+            tableName: rul_rule
+            columnNames: project_id, name
+
+        - createTable:
+            tableName: rul_rule_version
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rule_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: content
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: locked_on
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: locked_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_rule_version_rule
+            baseTableName: rul_rule_version
+            baseColumnNames: rule_id
+            referencedTableName: rul_rule
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addUniqueConstraint:
+            constraintName: uq_rul_rule_version_name
+            tableName: rul_rule_version
+            columnNames: rule_id, name
+
+        - createTable:
+            tableName: rul_rules_categories
+            columns:
+              - column:
+                  name: rule_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            constraintName: pk_rul_rules_categories
+            tableName: rul_rules_categories
+            columnNames: rule_id, category_id
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_rules_categories_rule
+            baseTableName: rul_rules_categories
+            baseColumnNames: rule_id
+            referencedTableName: rul_rule
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_rules_categories_categ
+            baseTableName: rul_rules_categories
+            baseColumnNames: category_id
+            referencedTableName: rul_category
+            referencedColumnNames: id
+            onDelete: restrict
+            onUpdate: cascade
+
+        #
+        # Data Model
+        #
+        - createTable:
+            tableName: rul_data_model
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: project_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            constraintName: uq_rul_data_model_name
+            tableName: rul_data_model
+            columnNames: project_id, name
+
+        - createTable:
+            tableName: rul_data_model_version
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data_model_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: package
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_model_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: locked_on
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: locked_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_dt_model_vrs_dt_model
+            baseTableName: rul_data_model_version
+            baseColumnNames: data_model_id
+            referencedTableName: rul_data_model
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_dt_model_vrs_prnt_model
+            baseTableName: rul_data_model_version
+            baseColumnNames: parent_model_id
+            referencedTableName: rul_data_model_version
+            referencedColumnNames: id
+            onDelete: restrict
+            onUpdate: cascade
+        - addUniqueConstraint:
+            constraintName: uq_rul_dt_model_vrs_name
+            tableName: rul_data_model_version
+            columnNames: data_model_id, name
+            
+        - createTable:
+            tableName: rul_data_model_field
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: container_model_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  # exclusive or with model type
+                  name: field_primitive_type
+                  type: varchar(8)
+                  constraints:
+                    nullable: true
+              - column:
+                  # exclusive or with primitive type
+                  name: field_model_type_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_dt_md_fld_dt_md_vrs_cnt
+            baseTableName: rul_data_model_field
+            baseColumnNames: container_model_id
+            referencedTableName: rul_data_model_version
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_dt_md_fl_dt_md_vr_fl_tp
+            baseTableName: rul_data_model_field
+            baseColumnNames: field_model_type_id
+            referencedTableName: rul_data_model_version
+            referencedColumnNames: id
+            onDelete: restrict
+            onUpdate: cascade
+        - addUniqueConstraint:
+            constraintName: uq_rul_dt_md_fld_name
+            tableName: rul_data_model_field
+            columnNames: container_model_id, name
+
+        - createTable:
+            tableName: rul_data_models_categories
+            columns:
+              - column:
+                  name: data_model_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            constraintName: pk_rul_data_mdls_categories
+            tableName: rul_data_models_categories
+            columnNames: data_model_id, category_id
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_dt_md_ct_data_model
+            baseTableName: rul_data_models_categories
+            baseColumnNames: data_model_id
+            referencedTableName: rul_data_model
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_dt_models_ct_category
+            baseTableName: rul_data_models_categories
+            baseColumnNames: category_id
+            referencedTableName: rul_category
+            referencedColumnNames: id
+            onDelete: restrict
+            onUpdate: cascade
+
+        #
+        # Library
+        #
+        - createTable:
+            tableName: rul_library
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: project_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            constraintName: uq_rul_library_name
+            tableName: rul_library
+            columnNames: project_id, name
+
+        - createTable:
+            tableName: rul_library_version
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: library_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: content_jar
+                  type: longblob
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: locked_on
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: locked_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: true
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_library_vrs_library
+            baseTableName: rul_library_version
+            baseColumnNames: library_id
+            referencedTableName: rul_library
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addUniqueConstraint:
+            constraintName: uq_rul_library_version_name
+            tableName: rul_library_version
+            columnNames: library_id, name
+
+        - createTable:
+            tableName: rul_libraries_categories
+            columns:
+              - column:
+                  name: library_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            constraintName: pk_rul_libraries_categories
+            tableName: rul_libraries_categories
+            columnNames: library_id, category_id
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_lbr_categories_library
+            baseTableName: rul_libraries_categories
+            baseColumnNames: library_id
+            referencedTableName: rul_library
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_rul_lbr_categories_category
+            baseTableName: rul_libraries_categories
+            baseColumnNames: category_id
+            referencedTableName: rul_category
+            referencedColumnNames: id
+            onDelete: restrict
+            onUpdate: cascade

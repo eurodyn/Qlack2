@@ -1,0 +1,46 @@
+<div ng-controller="CreateCategoryCtrl">
+	<div class="clearfix resourceHeading">
+		<div class="pull-left">
+			<h3 translate>create_category</h3>
+		</div>
+	</div>
+	
+	<section class="well">
+		<form class="form-horizontal" role="form" name="newCategoryForm" ng-submit="save()" novalidate>
+			<fieldset>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group" ng-class="{'has-error has-feedback': newCategoryForm.name.$invalid && !newCategoryForm.name.$dirty}">
+							<label for="name" class="col-sm-4 control-label" translate>categoryName</label>
+							<div class="col-sm-8">
+								<input id="name" name="name" type="text" class="form-control" ng-model="category.name">
+								<i ng-show="newCategoryForm.name.$invalid && !newCategoryForm.name.$dirty"
+									class="fa fa-exclamation-triangle form-control-feedback"
+									popover="{{newCategoryForm.name.message}}"
+									popover-placement="left"
+									popover-trigger="mouseenter"></i>
+							</div>
+						</div>
+						<div class="form-group" ng-class="{'has-error has-feedback': newCategoryForm.description.$invalid && !newCategoryForm.description.$dirty}">
+							<label for="description" class="col-sm-4 control-label" translate>categoryDescription</label>
+							<div class="col-sm-8">
+								<textarea id="description" class="form-control" ng-model="category.description"></textarea>
+								<i ng-show="newCategoryForm.description.$invalid && !newCategoryForm.description.$dirty"
+									class="fa fa-exclamation-triangle form-control-feedback"
+									popover="{{newCategoryForm.description.message}}"
+									popover-placement="left"
+									popover-trigger="mouseenter"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</fieldset>
+			<div class="clearfix">
+				<div class="pull-right">
+					<button class="btn btn-success"><i class="fa fa-check"></i> <span translate>create</span></button>
+					<button class="btn btn-danger" ng-click="cancel($event)"><i class="fa fa-ban"></i> <span translate>cancel</span></button>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>

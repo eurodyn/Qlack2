@@ -1,0 +1,57 @@
+<div class="container-fluid" ng-controller="WorkingSetVersionCreateCtrl">
+	<form name="workingSetVersionForm" class="form-horizontal" role="form" novalidate>
+		<div class="form-group" ng-class="{'has-error has-feedback': workingSetVersionForm.name.$invalid && !workingSetVersionForm.name.$dirty}">
+			<label class="col-xs-4 control-label" translate>label.version_name</label>
+			<div class="col-xs-8">
+				<input type="text" name="name" class="form-control" ng-model="workingSetVersion.name">
+				<i ng-show="workingSetVersionForm.name.$invalid && !workingSetVersionForm.name.$dirty"
+					class="fa fa-exclamation-triangle form-control-feedback"
+					popover="{{workingSetVersionForm.name.message}}"
+					popover-placement="left"
+					popover-trigger="mouseenter">
+				</i>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-4 control-label" translate>label.based_on</label>
+			<div class="col-xs-8">
+				<select kendo-drop-down-list
+						k-data-source="versionsDataSource"
+						k-data-text-field="'name'"
+						k-data-value-field="'id'"
+						k-option-label="'{{'select.version' | translate}}'"
+						k-template="basedOnListItemTemplate"
+						ng-model="workingSetVersion.basedOnId" >
+				</select>
+			</div>
+			<script id="basedOnListItemTemplate" type="text/x-kendo-template">
+				<div>
+					#if (data.state === "FINAL") {#
+						<i class="fa fa-check-circle-o"></i> <span>#=data.name#</span>
+					#} else {#
+						<i class="fa fa-circle-o"></i> <span>#=data.name#</span>
+					#}#
+				</div>
+			</script>
+		</div>
+		<div class="form-group" ng-class="{'has-error has-feedback': workingSetVersionForm.description.$invalid && !workingSetVersionForm.description.$dirty}">
+			<label for="description" class="col-xs-4 control-label" translate>label.description</label>
+			<div class="col-xs-8">
+				<textarea name="description" class="form-control" ng-model="workingSetVersion.description"></textarea>
+				<i ng-show="workingSetVersionForm.description.$invalid && !workingSetVersionForm.description.$dirty"
+					class="fa fa-exclamation-triangle form-control-feedback"
+					popover="{{workingSetVersionForm.description.message}}"
+					popover-placement="left"
+					popover-trigger="mouseenter">
+				</i>
+			</div>
+		</div>
+
+		<div class="clearfix top-buffer">
+			<div class="pull-right">
+				<button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> <span translate>action.cancel</span></button>
+				<button class="btn btn-success" ng-click="create()"><i class="fa fa-check"></i> <span translate>action.create</span></button>
+			</div>
+		</div>
+	</form>
+</div>

@@ -1,0 +1,343 @@
+databaseChangeLog:
+  - changeSet:
+      id: simm_01
+      author: European Dynamics SA (stephan.schreck@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: sim_group
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name  
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: logo
+                  type: longblob
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: privacy
+                  type: tinyint
+                  remarks: "Private(By default)/Public To determine who can join this group (Public - Yes, Private - Invited Users only, Managed - Users request for joining group - Group admin allow/disallow user) \n0-Private\n1-Public\n2-Invited Only\n3-managed User Only"
+              - column:
+                  name: tags
+                  type: text
+                  remarks: "Private(By default)/Public To determine who can join this group (Public - Yes, Private - Invited Users only, Managed - Users request for joining group - Group admin allow/disallow user) \n0-Private\n1-Public\n2-Invited Only\n3-managed User Only"
+              - column:
+                  name: status
+                  type: tinyint
+                  remarks: "Private(By default)/Public To determine who can join this group (Public - Yes, Private - Invited Users only, Managed - Users request for joining group - Group admin allow/disallow user) \n0-Private\n1-Public\n2-Invited Only\n3-managed User Only"
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_group_id
+                  type: uuid
+              - column:
+                  name: created_on
+                  type: bigint  
+                  constraints:
+                    nullable: false 
+        - createIndex:
+              indexName: fk_sim_group_sim_group1
+              tableName: sim_group
+              columns:
+                - column:
+                   name: parent_group_id
+        - createIndex:
+              indexName: idx_name
+              tableName: sim_group
+              columns:
+                - column:
+                   name: name 
+        - createIndex:
+              indexName: idx_status
+              tableName: sim_group
+              columns:
+                - column:
+                   name: status    
+        - addForeignKeyConstraint:
+              constraintName: fk_sim_group_sim_group1
+              baseTableName: sim_group
+              baseColumnNames: parent_group_id
+              referencedTableName: sim_group
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: no action
+        - createTable:
+            tableName: sim_group_has_user
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: group_id  
+                  type: uuid
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: user_id
+                  type: uuid
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: status
+                  type: tinyint
+                  remarks:  "status can have following flag:\n0-User added but need to    approve it\n1-Approved from Moderator\n2-Leave the Group\n3-Rejected by Moderator\n4-Rejected from User"
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: joined_on_date
+                  type: bigint
+                  constraints:
+                    nullable: false  
+        - createIndex:
+              indexName: fk_sim_group_users_sim_group
+              tableName: sim_group_has_user
+              columns:
+                - column:
+                   name: group_id
+        - createIndex:
+              indexName: fk_sim_group_user_id
+              tableName: sim_group_has_user
+              columns:
+                - column:
+                   name: user_id
+                - column:
+                   name: status
+        - addForeignKeyConstraint:
+              constraintName: fk_sim_group_users_sim_group
+              baseTableName: sim_group_has_user
+              baseColumnNames: group_id
+              referencedTableName: sim_group
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: no action  
+        - createTable:
+            tableName: sim_homepage_activity
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: homepage_id  
+                  type: uuid
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: created_by_user_id
+                  type: uuid
+              - column:
+                  name: status
+                  type: tinyint
+                  remarks: "0-Blocked\n1-Approved\n2-Abused\n"
+              - column:
+                  name: parent_hpage_actvt_id
+                  type: uuid
+              - column:
+                  name: title  
+                  type: varchar(2048)
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: link
+                  type: varchar(1024)
+              - column:
+                  name: category_id
+                  type: uuid
+              - column:
+                  name: category_icon
+                  type: varchar(512)
+        - createIndex:
+              indexName: fk_sim_homepage_activity1
+              tableName: sim_homepage_activity
+              columns:
+                - column:
+                   name: parent_hpage_actvt_id
+        - createIndex:
+              indexName: fk_sim_homepage_synth1
+              tableName: sim_homepage_activity
+              columns:
+                - column:
+                   name: homepage_id   
+                - column:
+                   name: status   
+                - column:
+                   name: category_id   
+        - addForeignKeyConstraint:
+              constraintName: fk_sim_homepage_activity1
+              baseTableName: sim_homepage_activity
+              baseColumnNames: parent_hpage_actvt_id
+              referencedTableName: sim_homepage_activity
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: no action
+        - createTable:
+            tableName: sim_notification
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(512)
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: to_user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: status
+                  type: tinyint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: from_user_id
+                  type: uuid
+                  constraints:
+                    nullable: false
+              - column:
+                  name: link
+                  type: varchar(512)
+              - column:
+                  name: created_on
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: notf_type
+                  type: varchar(255)
+              - column:
+                  name: notf_icon
+                  type: varchar(512)
+        - createIndex:
+              indexName: idx_from_user
+              tableName: sim_notification
+              columns:
+                - column:
+                   name: from_user_id
+        - createIndex:
+              indexName: idx_to_user
+              tableName: sim_notification
+              columns:
+                - column:
+                   name: to_user_id
+        - createIndex:
+              indexName: idx_user_date
+              tableName: sim_notification
+              columns:
+                - column:
+                   name: to_user_id
+                - column:
+                   name: created_on
+        - createTable:
+            tableName: sim_friends
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id  
+                  type: uuid
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: friend_id
+                  type: uuid
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: confirmed_on
+                  type: bigint
+        - createIndex:
+              indexName: sf_ea_idx
+              tableName: sim_friends
+              columns:
+                - column:
+                   name: user_id
+        - createIndex:
+              indexName: sf_eb_idx
+              tableName: sim_friends
+              columns:
+                - column:
+                   name: friend_id
+        - createIndex:
+              indexName: sf_co_idx
+              tableName: sim_friends
+              columns:
+                - column:
+                   name: confirmed_on
+        - createTable:
+            tableName: sim_homepage_activity_bin
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: activity_id  
+                  type: uuid
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: bin_order
+                  type: int
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: bin_data
+                  type: longblob
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false 
+        - createIndex:
+              indexName: fk_hab_ha_id
+              tableName: sim_homepage_activity_bin
+              columns:
+                - column:
+                   name: activity_id          
+        - addForeignKeyConstraint:
+              constraintName: fk_hab_ha_id
+              baseTableName: sim_homepage_activity_bin
+              baseColumnNames: activity_id
+              referencedTableName: sim_homepage_activity
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade

@@ -1,0 +1,48 @@
+<div ng-controller="AddAccessSubjectCtrl">
+	<div class="clearfix">
+		<!--  Kendo templates need to be outside the tabset in order
+		for them to be correctly picked up -->
+		<script id="addUserTemplate" type="text/x-kendo-template">
+			<div>#=data.firstName# #=data.lastName# (#=data.username#)
+			</div>
+		</script>
+		<script id="addUserAltTemplate" type="text/x-kendo-template">
+			<div class="k-alt">#=data.firstName# #=data.lastName# (#=data.username#)
+			</div>
+		</script>
+		<script id="addGroupTreeTemplate" type="text/kendo-ui-template">
+			<div>
+				<i class="fa fa-#=item.icon#"></i><span>#=item.name#</span>
+			</div>
+		</script>
+		<tabset>
+			<tab heading="Users">
+				<div class="top-buffer">
+					<div class="input-group">
+						<input class="form-control" placeholder="{{'filter' | translate}}" ng-model="addUserFilter.text" ng-blur="filterAddUsers()">
+						<span class="input-group-addon"><i class="fa fa-search"></i></span>
+					</div>
+					<div kendo-list-view="lists.userList" class="top-buffer userList"
+						k-data-source="userListSource" k-template="userTemplate" 
+						k-alt-template="userAltTemplate" k-selectable="true" 
+						k-on-change="changeUser()"></div>
+				</div>
+			</tab>
+			<tab heading="Groups">
+				<div class="top-buffer">
+	 				<div kendo-tree-view="lists.groupList" k-data-source="groupTreeSource"
+						k-template="groupTreeTemplate"
+						k-on-data-bound="groupTreeLoaded(kendoEvent)"
+						k-on-select="selectGroup()"></div>
+				</div>
+			</tab>
+		</tabset>
+	</div>
+	<hr/>
+	<div class="clearfix">
+		<div class="pull-right">
+			<button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> <span translate>cancel</span></button>
+			<button class="btn btn-success" ng-click="add()"><i class="fa fa-check"></i> <span translate>add</span></button>
+		</div>
+	</div> 
+</div>

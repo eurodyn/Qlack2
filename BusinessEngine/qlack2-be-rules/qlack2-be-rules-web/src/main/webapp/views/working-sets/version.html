@@ -1,0 +1,172 @@
+<div class="well inner-well top-buffer" ng-controller="WorkingSetVersionCtrl">
+	<fieldset ng-disabled="!canManage || !canEditVersion">
+		<div class="row">
+			<div class="col-sm-6">
+				<select kendo-drop-down-list="versionsDropDownList"
+						k-data-source="versionsDataSource"
+						k-data-text-field="'name'"
+						k-data-value-field="'id'"
+						k-template="versionItemTemplate"
+						k-value-template="versionItemTemplate"
+						k-on-select="selectVersion(kendoEvent)"
+						ng-model="workingSetVersion.id">
+				</select>
+				<script id="versionItemTemplate" type="text/x-kendo-template">
+					<div>
+						#if (data.state === "FINAL") {#
+							<i class="fa fa-check-circle-o"></i> <span>#=data.name#</span>
+						#} else {#
+							<i class="fa fa-circle-o"></i> <span>#=data.name#</span>
+						#}#
+					</div>
+				</script>
+				<span ng-switch on="!!workingSetVersion.lockedBy">
+					<i ng-switch-when="true" class="fa fa-lock fa-lg" tooltip="{{'note.lockedBy' | translate: lockedByTooltip}}"></i>
+					<i ng-switch-when="false" class="fa fa-unlock fa-lg"></i>
+				</span>
+				<i class="fa fa-flag fa-lg" tooltip="{{'note.testing_enabled' | translate}}" ng-show="workingSetVersion.state == 'TESTING'"></i>
+				<p class="form-control-static text-muted small" translate
+				   translate-value-createdby="{{workingSetVersion.createdBy.firstName}} {{workingSetVersion.createdBy.lastName}}"
+				   translate-value-createdon="{{workingSetVersion.createdOn | qDate:'lll'}}">
+					note.createdBy
+				</p>
+				<p class="form-control-static text-muted small" translate
+				   translate-value-modifiedby="{{workingSetVersion.lastModifiedBy.firstName}} {{workingSetVersion.lastModifiedBy.lastName}}"
+				   translate-value-modifiedon="{{workingSetVersion.lastModifiedOn | qDate:'lll'}}">
+					note.modifiedBy
+				</p>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group" ng-class="{'has-error has-feedback': workingSetForm['version.description'].$invalid && !workingSetForm['version.description'].$dirty}">
+					<label class="col-sm-4 control-label" translate>label.description</label>
+					<div class="col-sm-8">
+						<textarea name="version.description" class="form-control" ng-model="workingSetVersion.description"></textarea>
+						<i ng-show="workingSetForm['version.description'].$invalid && !workingSetForm['version.description'].$dirty"
+							class="fa fa-exclamation-triangle form-control-feedback"
+							popover="{{workingSetForm['version.description'].message}}"
+							popover-placement="left"
+							popover-trigger="mouseenter">
+						</i>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12 top-buffer">
+				<div id="ruleVersionsGrid"
+					 kendo-grid
+					 k-data-source="ruleVersionsDataSource"
+					 k-sortable="true"
+					 k-resizable="true"
+					 k-editable='{"mode": "inline"}'
+					 k-toolbar="ruleVersionsToolbar()"
+					 k-columns="ruleVersionsColumns()"
+					 k-rebind="rebindVal"
+					 k-on-edit="editRule(kendoEvent)"
+					 k-on-save="saveRule(kendoEvent)"
+					 k-on-cancel="cancelRule(kendoEvent)"
+					 k-on-remove="removeRule(kendoEvent)"
+					 ng-class="{'has-error': ruleVersionsHaveError}"
+					 >
+				</div>
+			</div>
+			<div class="col-md-12 top-buffer">
+				<div id="modelVersionsGrid"
+					 kendo-grid
+					 k-data-source="modelVersionsDataSource"
+					 k-sortable="true"
+					 k-resizable="true"
+					 k-editable='{"mode": "inline"}'
+					 k-toolbar="modelVersionsToolbar()"
+					 k-columns="modelVersionsColumns()"
+					 k-rebind="rebindVal"
+					 k-on-edit="editDataModel(kendoEvent)"
+					 k-on-save="saveDataModel(kendoEvent)"
+					 k-on-cancel="cancelDataModel(kendoEvent)"
+					 k-on-remove="removeDataModel(kendoEvent)"
+					 ng-class="{'has-error': modelVersionsHaveError}"
+					 >
+				</div>
+			</div>
+			<div class="col-md-12 top-buffer">
+				<div id="libraryVersionsGrid"
+					 kendo-grid
+					 k-data-source="libraryVersionsDataSource"
+					 k-sortable="true"
+					 k-resizable="true"
+					 k-editable='{"mode": "inline"}'
+					 k-toolbar="libraryVersionsToolbar()"
+					 k-columns="libraryVersionsColumns()"
+					 k-rebind="rebindVal"
+					 k-on-edit="editLibrary(kendoEvent)"
+					 k-on-save="saveLibrary(kendoEvent)"
+					 k-on-cancel="cancelLibrary(kendoEvent)"
+					 k-on-remove="removeLibrary(kendoEvent)"
+					 ng-class="{'has-error': libraryVersionsHaveError}"
+					 >
+				</div>
+			</div>
+		</div>
+
+		<!--
+		<div class="row">
+			<div class="col-md-12 top-buffer">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>kendo id</th>
+							<th>rule id</th>
+							<th>version id</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="version in ruleVersionsDataSource.data()">
+							<td>{{version.kendoId}}</td>
+							<td>{{version.ruleId}} ({{version.ruleName}})</td>
+							<td>{{version.versionId}} ({{version.versionName}})</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-12 top-buffer">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>kendo id</th>
+							<th>rule id</th>
+							<th>version id</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="version in workingSetVersion.rules">
+							<td>{{version.kendoId}}</td>
+							<td>{{version.ruleId}} ({{version.ruleName}})</td>
+							<td>{{version.versionId}} ({{version.versionName}})</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-12 top-buffer">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>kendo id</th>
+							<th>model id</th>
+							<th>version id</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="version in modelVersionsDataSource.data()">
+							<td>{{version.kendoId}}</td>
+							<td>{{version.dataModelId}} ({{version.dataModelName}})</td>
+							<td>{{version.versionId}} ({{version.versionName}})</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		-->
+	</fieldset>
+</div>

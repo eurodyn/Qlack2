@@ -1,0 +1,294 @@
+databaseChangeLog:
+  - changeSet:
+      id: workflow-server_1
+      author: egian
+      changes:
+        - createTable:
+            tableName: wfl_workflow
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: project_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: active
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false                    
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: wfl_workflow
+            columnNames: project_id, name
+            constraintName: uq_wfl_workflow_name      
+        - createTable:
+            tableName: wfl_category
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: project_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: wfl_category
+            columnNames: project_id, name
+            constraintName: uq_wfl_category_name
+        - createTable:
+            tableName: wfl_workflow_has_category
+            columns:
+              - column:
+                  name: workflow
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            constraintName: pk_wfl_workflow_has_category
+            tableName: wfl_workflow_has_category
+            columnNames: workflow, category
+        - addForeignKeyConstraint:
+            constraintName: fk_wfl_wfl_has_ctg_wfl_wfl
+            baseTableName: wfl_workflow_has_category
+            baseColumnNames: workflow
+            referencedTableName: wfl_workflow
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_wfl_wfl_has_ctg_wfl_ctg
+            baseTableName: wfl_workflow_has_category
+            baseColumnNames: category
+            referencedTableName: wfl_category
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - createTable:
+            tableName: wfl_workflow_version
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: workflow
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: state
+                  type: tinyint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content
+                  type: text
+                  constraints:
+                    nullable: true
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false                    
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: locked_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: true                    
+              - column:
+                  name: locked_on
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_wfl_wfl_vrs_wfl_wfl
+            baseTableName: wfl_workflow_version
+            baseColumnNames: workflow
+            referencedTableName: wfl_workflow
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addUniqueConstraint:
+            tableName: wfl_workflow_version
+            columnNames: workflow, name
+            constraintName: uq_wfl_workflow_vrs_name
+        - createTable:
+            tableName: wfl_condition
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: workflow_version
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: condition_type
+                  type: tinyint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: working_set_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: rule_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent
+                  type: varchar(36)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_wfl_cndt_wfl_wfl_vrs
+            baseTableName: wfl_condition
+            baseColumnNames: workflow_version
+            referencedTableName: wfl_workflow_version
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addForeignKeyConstraint:
+            constraintName: fk_wfl_cndt_wfl_cndt
+            baseTableName: wfl_condition
+            baseColumnNames: parent
+            referencedTableName: wfl_condition
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addUniqueConstraint:
+            tableName: wfl_condition
+            columnNames: workflow_version, name
+            constraintName: uq_wfl_condition_name       

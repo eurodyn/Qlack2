@@ -1,0 +1,13 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+
+	<persistence-unit name="workflowmanager" transaction-type="JTA">
+		<jta-data-source>osgi:service/javax.sql.DataSource/(osgi.jndi.service.name=qlack2-ds)</jta-data-source>
+		<class>com.eurodyn.qlack2.be.workflow.impl.model.Category</class>
+		<class>com.eurodyn.qlack2.be.workflow.impl.model.Workflow</class>
+		<class>com.eurodyn.qlack2.be.workflow.impl.model.WorkflowVersion</class>
+		<class>com.eurodyn.qlack2.be.workflow.impl.model.Condition</class>
+		<class>com.eurodyn.qlack2.be.workflow.impl.model.RecentProject</class>
+	</persistence-unit>
+
+</persistence>

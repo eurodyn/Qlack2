@@ -1,0 +1,47 @@
+operations:
+  # Category
+  - name: RUL_MANAGE_CATEGORY
+    description: Create / Update / Delete categories
+  # Working Set
+  - name: RUL_VIEW_WORKING_SET
+    description: View / Export working sets
+  - name: RUL_MANAGE_WORKING_SET
+    description: Create / Update / Delete working sets and Create / Update / Delete / Finalise / Import working set versions
+  - name: RUL_LOCK_WORKING_SET
+    description: Lock / Unlock working set versions
+  - name: RUL_UNLOCK_ANY_WORKING_SET
+    description: Unlock working set versions locked by other users
+  # Rule
+  - name: RUL_VIEW_RULE
+    description: View / Export rules
+  - name: RUL_MANAGE_RULE
+    description: Create / Update / Delete rules and Create / Update / Delete / Finalise / Import rule versions
+  - name: RUL_LOCK_RULE
+    description: Lock / Unlock rule versions
+  - name: RUL_UNLOCK_ANY_RULE
+    description: Unlock rule versions locked by other users
+  # Data Model
+  - name: RUL_VIEW_DATA_MODEL
+    description: View / Export data models
+  - name: RUL_MANAGE_DATA_MODEL
+    description: Create / Update / Delete data models and Create / Update / Delete / Finalise / Import data model versions
+  - name: RUL_LOCK_DATA_MODEL
+    description: Lock / Unlock data model versions
+  - name: RUL_UNLOCK_ANY_DATA_MODEL
+    description: Unlock data model versions locked by other users
+  # Library
+  - name: RUL_VIEW_LIBRARY
+    description: View / Export libraries
+  - name: RUL_MANAGE_LIBRARY
+    description: Create / Update / Delete libraries and Create / Update / Delete / Finalise / Import library versions
+  - name: RUL_LOCK_LIBRARY
+    description: Lock / Unlock library versions
+  - name: RUL_UNLOCK_ANY_LIBRARY
+    description: Unlock library versions locked by other users
+  # Other
+  - name: RUL_EXECUTE_WORKING_SET
+    description: Execute operations on the Rules Runtime for a working set version
+  - name: RUL_CONFIGURE
+    description: Configure the Rules Manager application
+  - name: RUL_MANAGED
+    description: User or group managed (in terms of access rights) by the Rules Manager application

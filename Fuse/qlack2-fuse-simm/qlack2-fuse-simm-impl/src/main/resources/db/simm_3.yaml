@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: simm_03
+      author: European Dynamics SA (theodora.chasapopoulou@eurodyn.com)
+      changes:
+        - createTable:
+           tableName: sim_group_attributes
+           columns:
+             - column:
+                 name: id
+                 type: uuid
+                 constraints:
+                   primaryKey: true
+                   nullable: false
+             - column:
+                 name: group_id
+                 type: uuid
+                 constraints:
+                   nullable: false
+             - column:
+                 name: name
+                 type: varchar(255)
+                 constraints:
+                   nullable: false
+             - column:
+                 name: data
+                 type: varchar(1024)
+             - column:
+                 name: bindata
+                 type: longblob
+             - column:
+                 name: content_type
+                 type: varchar(255)
+             - column:
+                 name: dbversion
+                 type: bigint
+                 constraints:
+                   nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_sim_group_attr_sim_group
+            baseTableName: sim_group_attributes
+            baseColumnNames: group_id
+            referencedTableName: sim_group
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade
+        - addUniqueConstraint:
+            tableName: sim_group_attributes
+            columnNames: group_id, name
+            constraintName: group_name

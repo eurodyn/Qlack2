@@ -1,0 +1,19 @@
+<div class="row" ng-controller="AppsCtrl">
+	<script id="appTreeTemplate" type="text/x-kendo-template">
+		<span class="inner" translate>
+			#if (item.translationsGroup != null) {#
+				#=item.translationsGroup#.#=item.key#
+			#} else {#
+				#=item.key#
+			#}#
+		</span>
+	</script>
+		
+	<div class="col-sm-3 col-md-2 sidebar">
+		<div id="appList" kendo-tree-view="appTree" k-data-source="appTreeSource" 
+			k-template="appTreeTemplate" 
+			k-on-data-bound="initTree(kendoEvent)" k-on-select="selectApp(kendoEvent)"></div>
+	</div>
+	
+	<div class="col-sm-9 col-md-10" ui-view autoscroll="false"></div>
+</div>

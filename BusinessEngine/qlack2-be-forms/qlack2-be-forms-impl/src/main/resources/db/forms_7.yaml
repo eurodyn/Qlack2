@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: forms_7
+      author: ehond
+      changes:
+        - insert:
+            tableName: al_audit_level
+            columns:
+            - column:
+                name: id
+                value: '1d8a8d90-e0ec-11e3-8b68-0800200c9a66'
+            - column:
+                name: name
+                value: 'AUDIT_LEVEL_QBE_FORMS'

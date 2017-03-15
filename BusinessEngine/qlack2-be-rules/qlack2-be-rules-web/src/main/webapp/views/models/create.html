@@ -1,0 +1,101 @@
+<div ng-controller="DataModelCreateCtrl">
+	<div class="clearfix resourceHeading">
+		<div class="pull-left">
+			<h3 translate>title.create_data_model</h3>
+		</div>
+	</div>
+
+	<section class="well">
+	<form name="modelForm" class="form-horizontal" role="form" novalidate>
+		<fieldset>
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="form-group" ng-class="{'has-error has-feedback': modelForm.name.$invalid && !modelForm.name.$dirty}">
+						<label for="name" class="col-sm-4 control-label" translate>label.title</label>
+						<div class="col-sm-8">
+							<input type="text" name="name" class="form-control" ng-model="model.name"/>
+							<i ng-show="modelForm.name.$invalid && !modelForm.name.$dirty"
+								class="fa fa-exclamation-triangle form-control-feedback"
+								popover="{{modelForm.name.message}}"
+								popover-placement="left"
+								popover-trigger="mouseenter">
+							</i>
+						</div>
+					</div>
+					<div class="form-group" ng-class="{'has-error has-feedback': modelForm.description.$invalid && !modelForm.description.$dirty}">
+						<label for="description" class="col-sm-4 control-label" translate>label.description</label>
+						<div class="col-sm-8">
+							<textarea name="description" class="form-control" ng-model="model.description"></textarea>
+							<i ng-show="modelForm.description.$invalid && !modelForm.description.$dirty"
+								class="fa fa-exclamation-triangle form-control-feedback"
+								popover="{{modelForm.description.message}}"
+								popover-placement="left"
+								popover-trigger="mouseenter">
+							</i>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="categories" class="col-sm-4 control-label" translate>label.categories</label>
+						<div class="col-sm-8">
+							<select name="categories"
+									kendo-multi-select
+									k-data-source="categoriesDataSource"
+									k-data-text-field="'name'"
+									k-data-value-field="'id'" 
+									ng-model="model.categoryIds">
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>label.status</label>
+						<div class="col-sm-8 controls">
+							<label class="radio-inline">
+								<input type="radio" name="active" ng-model="model.active" ng-value="true" />
+								<span translate>label.active</span>
+							</label>
+							<label class="radio-inline">
+								<input type="radio" name="active" ng-model="model.active" ng-value="false" />
+								<span translate>label.inactive</span>
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6">
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>label.createdBy</label>
+						<div class="col-sm-8 controls">
+							<p class="form-control-static">{{model.createdBy.firstName}} {{model.createdBy.lastName}}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>label.createdOn</label>
+						<div class="col-sm-8">
+							<p class="form-control-static">{{ model.createdOn | qDate:'lll' }}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>label.modifiedBy</label>
+						<div class="col-sm-8">
+							<p class="form-control-static">{{model.lastModifiedBy.firstName}} {{model.lastModifiedBy.lastName}}</p>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-4 control-label" translate>label.modifiedOn</label>
+						<div class="col-sm-8">
+							<p class="form-control-static">{{ model.lastModifiedOn | qDate:'lll' }}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</fieldset>
+	
+		<div class="clearfix">
+			<div class="pull-right">
+				<button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> <span translate>action.cancel</span></button>
+				<button class="btn btn-success" ng-click="create()"><i class="fa fa-check"></i> <span translate>action.create</span></button>
+			</div>
+		</div>
+	</form>
+	</section>
+</div>

@@ -1,0 +1,18 @@
+<div class="row" ng-controller="ProjectTreeCtrl">
+	<div class="col-sm-3 col-md-2 sidebar">
+		<script id="projectTreeItemTemplate" type="text/x-kendo-template">
+			<div>
+				<i class="#=item.icon#"></i><span>#=item.name#</span>
+			</div>
+		</script>
+		<div kendo-tree-view="projectTreeView"
+			 k-data-source="projectTreeDataSource"
+			 k-data-text-field="['name', 'name']"
+			 k-template="projectTreeItemTemplate"
+			 k-on-select="selectResource(kendoEvent)"
+			 k-on-data-bound="expandTreeNodes(kendoEvent)">
+		</div>
+	</div>
+
+	<div ui-view class="col-sm-9 col-md-10" autoscroll="false"></div>
+</div>

@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1484832769854
+Build-Jdk: 1.8.0_102
+Built-By: nassos
+Bundle-Description: qlack2-wdapps-demo-security-external
+Bundle-ManifestVersion: 2
+Bundle-Name: qlack2-wdapps-demo-security-external
+Bundle-SymbolicName: com.eurodyn.qlack2.webdesktop.apps.demo.qlack2-wd
+ apps-demo-security-external
+Bundle-Version: 2.0.0
+Created-By: Apache Maven Bundle Plugin
+Tool: Bnd-3.2.0.201605172007

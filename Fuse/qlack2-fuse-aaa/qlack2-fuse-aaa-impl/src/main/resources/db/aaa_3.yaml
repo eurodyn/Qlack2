@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: aaa_3
+      author: European Dynamics SA
+      changes:
+        - createTable:
+            tableName: aaa_verification
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false      
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: expires_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: data
+                  type: varchar(1024)
+                  constraints:
+                    nullable: true     
+        - createIndex:
+            indexName: idx_verif_expires
+            tableName: aaa_verification
+            columns:
+            - column:
+                name: expires_on
+                type: bigint
+            unique: false

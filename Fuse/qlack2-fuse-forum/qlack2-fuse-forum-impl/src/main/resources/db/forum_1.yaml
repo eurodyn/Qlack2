@@ -1,0 +1,260 @@
+databaseChangeLog:
+  - changeSet:
+      id: forum_01
+      author: European Dynamics SA (stephan.schreck@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: frm_forum
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title  
+                  type: varchar(254)
+                  constraints:
+                    nullable: false  	  
+              - column:
+                  name: description
+                  type: varchar(1000)
+              - column:
+                  name: logo
+                  type: longblob
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false   
+              - column:
+                  name: status
+                  type: smallint
+                  remarks: "0(locked), 1(unlocked)"
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: moderated
+                  type: smallint
+                  remarks: "0(no), 1(yes), 2(supports moderation)"
+                  defaultValueNumeric: 2
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: archived
+                  type: boolean
+                  constraints:
+                    nullable: false  						
+        - createIndex:
+              indexName: title_UNIQUE
+              tableName: frm_forum
+              columns:
+                - column:
+                   name: title
+              unique: true
+        - createIndex:
+              indexName: status_INDEX
+              tableName: frm_forum
+              columns:
+                - column:
+                   name: status 
+        - createTable:
+            tableName: frm_topic
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title  
+                  type: varchar(254)
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: description
+                  type: varchar(1000)
+              - column:
+                  name: logo
+                  type: longblob
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: status
+                  type: smallint
+                  remarks: "0(locked), 1(unlocked)"
+                  constraints:
+                    nullable: false    
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false  	
+              - column:
+                  name: frm_forum_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false  	
+              - column:
+                  name: moderated
+                  type: boolean
+                  remarks: "0(no), 1(yes)"
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: archived
+                  type: boolean
+                  constraints:
+                    nullable: false 
+              - column:
+                  name: moderation_status
+                  type: smallint
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false 	
+        - createIndex:
+              indexName: fk_frm_thread_frm_forum1
+              tableName: frm_topic
+              columns:
+                - column:
+                   name: frm_forum_id
+        - createIndex:
+              indexName: status_INDEX
+              tableName: frm_topic
+              columns:
+                - column:
+                   name: status 
+        - addForeignKeyConstraint:
+              constraintName: fk_frm_thread_frm_forum1
+              baseTableName: frm_topic
+              baseColumnNames: frm_forum_id
+              referencedTableName: frm_forum
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: no action  
+        - createTable:
+            tableName: frm_message
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: text  
+                  type: text
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: moderation_status
+                  type: smallint
+                  remarks: "0(rejected). 1(accepted), 2(pending)"
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: parent_id
+                  type: varchar(36)
+              - column:
+                  name: frm_topic_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false  					
+        - createIndex:
+              indexName: fk_frm_thread_message_frm_thread_message
+              tableName: frm_message
+              columns:
+                - column:
+                   name: parent_id
+        - createIndex:
+              indexName: fk_frm_message_frm_topic1
+              tableName: frm_message
+              columns:
+                - column:
+                   name: frm_topic_id 
+        - createIndex:
+              indexName: status_INDEX
+              tableName: frm_message
+              columns:
+                - column:
+                   name: moderation_status 
+        - addForeignKeyConstraint:
+              constraintName: fk_frm_thread_message_frm_thread_message1
+              baseTableName: frm_message
+              baseColumnNames: parent_id
+              referencedTableName: frm_message
+              referencedColumnNames: id
+              onDelete: no action
+              onUpdate: no action
+        - addForeignKeyConstraint:
+              constraintName: fk_frm_message_frm_topic1
+              baseTableName: frm_message
+              baseColumnNames: frm_topic_id
+              referencedTableName: frm_topic
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: no action			  
+        - createTable:
+            tableName: frm_attachment
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: content
+                  type: longblob
+                  constraints:
+                    nullable: false
+              - column:
+                  name: frm_message_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false	
+              - column:
+                  name: filename
+                  type: varchar(255)
+                  constraints:
+                    nullable: false	
+              - column:
+                  name: mimetype
+                  type: varchar(255)
+                  constraints:
+                    nullable: false	
+        - createIndex:
+              indexName: fk_frm_attachment_frm_message1
+              tableName: frm_attachment
+              columns:
+                - column:
+                   name: frm_message_id
+        - addForeignKeyConstraint:
+              constraintName: fk_frm_attachment_frm_message1
+              baseTableName: frm_attachment
+              baseColumnNames: frm_message_id
+              referencedTableName: frm_message
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: no action

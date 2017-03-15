@@ -1,0 +1,63 @@
+.qwin-component {
+	@active-window-color: RGBA(27, 110, 174, 1);
+	@inactive-window-color: RGBA(126, 148, 196, 1.00);
+	
+	position: absolute;
+	width: 300px;
+	height: 500px;
+	background-color:white;
+	
+	.qwin-panel {
+		height: 100%;
+		width: 100%;
+		overflow: hidden;
+		background-color: #eee;
+	}
+	
+	.qwin-content {
+		background:none;
+		height: 100%;
+		width: 100%;
+		display: block;
+		iframe {
+			border: 0;
+			height: 100%;
+			width: 100%;
+		}
+	}
+	
+	.qwin-heading {
+		background-color: @inactive-window-color; 
+		box-shadow: none !important;
+		.actions {
+			margin-right: 10px;
+			.icon:hover {
+				cursor: pointer;
+			}
+		}
+		
+		.icon {
+			background-color: @inactive-window-color;
+		}
+	}
+	
+	&.active {
+		.qwin-heading {
+			background-color: @active-window-color;
+			.icon {
+				background-color: @active-window-color;
+			}
+		}
+	}
+	
+	&.minimised {
+		height: 50px !important;
+	}
+	
+	&.maximised {
+		top: 0px !important;
+		left: 0px !important;
+		width: 100% !important;
+		height: 100% !important;
+	}
+}

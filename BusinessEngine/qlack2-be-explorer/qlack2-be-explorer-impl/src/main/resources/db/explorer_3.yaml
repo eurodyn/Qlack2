@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: explorer_3
+      author: ehond
+      changes:
+        - dropTable:
+            tableName: exp_project_has_language
+            cascadeConstraints: true

@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: forms_4
+      author: ehond
+      changes:
+        - createTable:
+            tableName: fmn_recent_project
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: project_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_accessed_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_accessed_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            tableName: fmn_recent_project
+            columnNames: project_id, last_accessed_by
+            constraintName: uq_fmn_recent_proj_user_proj

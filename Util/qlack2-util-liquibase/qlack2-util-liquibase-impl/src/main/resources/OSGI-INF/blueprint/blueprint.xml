@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+           xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
+    <bean id="settings"
+          class="com.eurodyn.qlack2.util.liquibase.impl.Settings">
+        <cm:managed-properties persistent-id="com.eurodyn.qlack2.util.liquibase"
+                               update-strategy="component-managed"
+                               update-method="setConfigAdmin"/>
+    </bean>
+
+    <reference id="configurationAdmin"
+               interface="org.osgi.service.cm.ConfigurationAdmin"/>
+</blueprint>

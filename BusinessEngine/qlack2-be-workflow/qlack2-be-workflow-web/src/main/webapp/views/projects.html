@@ -1,0 +1,12 @@
+<div ng-controller="IndexCtrl">
+	<div id="pageContent" class="row">
+		<div class="small-2 columns">
+			<div id="projectSelect">
+				<select kendo-drop-down-list k-options="projects" k-option-label="'{{'select_project' | translate}}'" ng-model="selectedProjectId"></select>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div ui-view></div>
+	</div>
+</div>

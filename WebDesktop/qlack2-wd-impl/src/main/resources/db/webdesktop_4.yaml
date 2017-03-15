@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: webdesktop_4
+      author: European Dynamics SA
+      changes:
+        - addColumn:
+            tableName: wd_application
+            columns:
+            - column:
+                name: bg_color
+                type: varchar(32)
+                constraints:
+                  nullable: false
+        - dropColumn:
+            tableName: wd_application
+            columnName: group_key
+        - dropColumn:
+            tableName: wd_application
+            columnName: display_on
+        - dropColumn:
+            tableName: wd_application
+            columnName: config_path

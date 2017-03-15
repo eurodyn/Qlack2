@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: appmanagement_1
+      author: ckask
+      changes:
+        - insert:
+            tableName: al_audit_level
+            columns:
+            - column:
+                name: id
+                value: 'bef701c1-827f-4a9d-9dad-5b4a43495f06'
+            - column:
+                name: name
+                value: 'AUDIT_LEVEL_WD_APPMANAGEMENT'

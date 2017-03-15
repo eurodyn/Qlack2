@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	feature:repo-add mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-karaf-features/LATEST/xml/features
+-->
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0"	name="QLACK2-WD-APPS">
+
+	<feature description="Qlack2 - WebDesktop - AppManagement" name="qlack2-webdesktop-appmanagement" version="${project.version}">
+		<feature>qlack2-fuse-idm</feature>
+		<feature>qlack2-fuse-auditing-client</feature>
+		<feature>qlack2-fuse-auditing</feature>
+		<feature>qlack2-wd-api</feature>
+		<bundle>mvn:org.yaml/snakeyaml/${snakeyaml.version}</bundle>
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-app-management-api/${project.version}</bundle>
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-app-management-impl/${project.version}</bundle>
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-app-management-web/${project.version}</bundle>
+	</feature>
+
+	<feature description="Qlack2 - WebDesktop - UserManagement" name="qlack2-webdesktop-usermanagement" version="${project.version}">
+		<feature>war</feature>
+		<feature>qlack2-fuse-idm</feature>
+		<feature>qlack2-util-validator-util</feature>
+		<feature>qlack2-fuse-auditing-client</feature>
+		<feature>qlack2-fuse-auditing</feature>
+		<feature>qlack2-wd-api</feature>
+		<bundle>mvn:org.yaml/snakeyaml/${snakeyaml.version}</bundle>
+		<bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-user-management-api/${project.version}</bundle>
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-user-management-impl/${project.version}</bundle>
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-user-management-web/${project.version}</bundle>
+	</feature>
+
+	<!--TODO remove-->
+	<feature description="Qlack2 - WebDesktop - SampleApp" name="qlack2-webdesktop-sample-app" version="${project.version}">
+		<feature>qlack2-fuse-idm</feature>
+		<feature>qlack2-util-validator-util</feature>
+		<feature>qlack2-util-fileupload</feature>
+		<feature>qlack2-wd-api</feature>
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-sample-app-api/${project.version}</bundle>
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-sample-app-impl/${project.version}/jar/${}</bundle>
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-sample-app-web/${project.version}</bundle>
+	</feature>
+	
+	<feature description="Qlack2 - WebDesktop - MyPhotoApp" name="qlack2-webdesktop-my-photo" version="${project.version}">
+		<feature>qlack2-fuse-fileupload</feature>
+		<feature>qlack2-fuse-imaging</feature>
+		<bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-my-photo-impl/${project.version}</bundle>
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-my-photo-web/${project.version}/zip/distribution</bundle>
+	</feature>
+
+	<feature description="Qlack2 - WebDesktop - MyPhotoApp" name="qlack2-webdesktop-messaging-demo" version="${project.version}">
+		<bundle>mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-messaging-demo/${project.version}</bundle>
+	</feature>
+
+</features>

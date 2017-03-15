@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: wiki_03
+      author: European Dynamics SA (ioannis.arampatzis@eurodyn.com)
+      changes:
+        - addColumn:
+            tableName: wik_entry_version
+            columns:
+              - column:
+                  name: page_content
+                  type: text

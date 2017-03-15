@@ -1,0 +1,151 @@
+databaseChangeLog:
+  - changeSet:
+      id: contentmanager_4_MYSQL
+      author: European Dynamics SA
+      preConditions:
+        - onFail: MARK_RAN
+        - dbms:
+            type: mysql
+      changes:
+        - sql:
+            endDelimiter: \\
+            sql: |-
+               CREATE PROCEDURE flu_to_version_bin(flu_file_ID varchar(36), version_ID varchar(36)) BEGIN DECLARE c_id varchar(36); DECLARE c_order bigint(20); DECLARE c_data longblob;DECLARE c_size bigint(20); DECLARE c_dbv bigint(20); DECLARE done INT DEFAULT FALSE; DECLARE cur CURSOR FOR SELECT id, chunk_order, chunk_data, chunk_size, dbversion FROM flu_file f WHERE f.id = flu_file_ID; DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE; OPEN cur; read_loop: LOOP     FETCH cur INTO c_id, c_order, c_data, c_size, c_dbv ;     IF done THEN       LEAVE read_loop;     END IF;     INSERT INTO cm_version_bin (id, version_id, chunk_index, bin_content, chunk_size, dbversion)     VALUES ((uuid()), version_ID,  c_order, c_data, c_size, c_dbv);   END LOOP;  CLOSE cur; END;\\
+  - changeSet:
+      id: contentmanager_4_ORACLE
+      author: European Dynamics SA
+      preConditions:
+        - onFail: MARK_RAN
+        - dbms:
+            type: oracle
+      changes:
+        - sql:
+            endDelimiter: \\
+            sql: |-
+               CREATE PROCEDURE flu_to_version_bin( flu_file_ID VARCHAR2, version_ID  VARCHAR2 ) AS CURSOR cur IS SELECT id, f.chunk_order, f.chunk_data, f.chunk_size FROM flu_file f WHERE f.id = flu_file_ID; BEGIN FOR flu_rec IN cur LOOP INSERT INTO cm_version_bin ( id, version_id, chunk_index, bin_content, chunk_size ) VALUES ( ( sys_guid() ) , version_ID, flu_rec.chunk_order, flu_rec.chunk_data, flu_rec.chunk_size ); END LOOP; END;
+  - changeSet:
+      id: contentmanager_4_hsqldb
+      author: European Dynamics SA
+      preConditions:
+        - onFail: MARK_RAN
+        - dbms:
+            type: hsqldb
+      changes:
+# The table is created only in HSQLDB so as be used from the tests. In the app, it is normally created by the fileupload module. 
+        - createTable:
+            tableName: flu_file
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: chunk_order
+                  type: bigint
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: uploaded_by
+                  type: varchar(36)
+              - column:
+                  name: file_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: uploaded_at
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: expected_chunks
+                  type: bigint
+                  constraints:
+                    nullable: true
+              - column:
+                  name: file_size
+                  type: bigint
+              - column:
+                  name: chunk_data
+                  type: longblob
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: chunk_size
+                  type: bigint
+        - createIndex:
+            tableName: flu_file
+            indexName: idx_flu_file1
+            columns:
+                - column:
+                    name: id
+      
+      
+        - sql:
+            endDelimiter: \\
+            sql: |-
+               CREATE PROCEDURE flu_to_version_bin(flu_file_ID varchar(36), version_ID varchar(36)) 
+               BEGIN ATOMIC
+                DECLARE c_id varchar(36);
+                DECLARE c_order integer;
+                DECLARE c_data binary;
+                DECLARE c_size integer; 
+                DECLARE c_dbv integer;
+                DECLARE done integer; 
+                DECLARE cur CURSOR FOR SELECT id, chunk_order, chunk_data, chunk_size, dbversion FROM flu_file f WHERE f.id = flu_file_ID; 
+                DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1; 
+                OPEN cur; 
+                read_loop: LOOP     
+                 FETCH cur INTO c_id, c_order, c_data, c_size, c_dbv ;   
+                  IF done
+                   THEN     
+                   LEAVE read_loop;    
+                 END IF;    
+                 INSERT INTO cm_version_bin (id, version_id, chunk_index, bin_content, chunk_size, dbversion)    
+                  VALUES ((uuid()), version_ID,  c_order, c_data, c_size, c_dbv);   
+                END LOOP;  
+                CLOSE cur;
+                END;\\
+  - changeSet:
+      id: contentmanager_4_POSTGRESQL
+      author: European Dynamics SA
+      preConditions:
+        - onFail: MARK_RAN
+        - dbms:
+            type: postgresql
+      changes:
+        - sql:
+            endDelimiter: \\
+            sql: |-
+               CREATE OR REPLACE FUNCTION flu_to_version_bin(_flu_file_id VARCHAR(36), _version_id  VARCHAR(36))
+                RETURNS integer AS
+                $BODY$
+                BEGIN
+                    INSERT INTO cm_version_bin (
+                        id,
+                        version_id,
+                        chunk_index,
+                        bin_content,
+                        chunk_size,
+                        dbversion
+                     )
+                      SELECT
+                         uuid_generate_v1mc(),     
+                         _version_id,
+                         chunk_order,
+                         chunk_data,
+                         chunk_size,
+                         dbversion
+                     FROM   flu_file f
+                     WHERE  f.id = flu_file_id;
+                     return 1;
+                end;
+                $BODY$
+                  LANGUAGE plpgsql VOLATILE
+                  COST 100; \\  

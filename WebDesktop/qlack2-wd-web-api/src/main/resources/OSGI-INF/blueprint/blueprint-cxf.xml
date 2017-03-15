@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs">
+
+	<!-- Security proxy reference -->
+	<reference id="SecurityProxyRest"
+			   interface="com.eurodyn.qlack2.fuse.security.proxy.api.SecurityProxy" />
+
+	<!-- Support for CORS -->
+	<bean id="cors-filter"
+		  class="org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter" />
+
+	<!-- Mapper for security exceptions -->
+	<bean id="SecurityExceptionMapper" class="com.eurodyn.qlack2.util.rest.mapper.SecurityExceptionMapper"/>
+
+	<!-- Generic mapper for exceptions not specially handled above -->
+	<bean id="GenericExceptionMapper" class="com.eurodyn.qlack2.util.rest.mapper.GenericExceptionMapper"/>
+
+	<!-- A configurable Jackson provider -->
+	<bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+		<!--<property name="mapper">-->
+			<!--<bean class="com.eurodyn.qlack2.util.rest.CustomisedJackson" />-->
+		<!--</property>-->
+	</bean>
+
+	<!-- Validation -->
+	<jaxrs:server id="WDRestServer" address="/rest-wd">
+		<jaxrs:serviceBeans>
+			<ref component-id="SecurityProxyRest" />
+			<ref component-id="desktopResource" />
+			<ref component-id="settingsResource" />
+			<ref component-id="i18nResource" />
+			<ref component-id="userProfileResource" />
+		</jaxrs:serviceBeans>
+
+		<jaxrs:inInterceptors>
+			<ref component-id="ExtractTicketInterceptor" />
+		</jaxrs:inInterceptors>
+		<jaxrs:outInterceptors>
+			<ref component-id="CleanTicketInterceptor" />
+		</jaxrs:outInterceptors>
+		
+		<jaxrs:providers>
+			<ref component-id="cors-filter" />
+			<ref component-id="SecurityExceptionMapper"/>
+			<ref component-id="GenericExceptionMapper"/>
+			<!--<ref component-id="jsonProvider"/>-->
+			<bean id="jsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+		</jaxrs:providers>
+	</jaxrs:server>
+
+</blueprint>

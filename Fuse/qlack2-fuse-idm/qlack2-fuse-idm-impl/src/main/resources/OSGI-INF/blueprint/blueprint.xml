@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+
+	<jpa:enable />
+	<tx:enable />
+	
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.idm"
+		update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="secret" value="P2_65jGU~Cpf%5EpHne/a5h,pg>+R;E7" />
+			<cm:property name="ticketValidUntil" value="3600000" />
+			<cm:property name="ticketAutoExtendValidUntil" value="0" />
+			<cm:property name="ticketAutoExtendDuration" value="3600000" />
+			<cm:property name="validUserStatus" value="1" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="TicketServerService"
+		interface="com.eurodyn.qlack2.fuse.ticketserver.api.TicketServerService" />
+	<reference id="UserService"
+		interface="com.eurodyn.qlack2.fuse.aaa.api.UserService" />
+	<reference id="CryptoService"
+		interface="com.eurodyn.qlack2.fuse.crypto.api.CryptoService" />
+
+	<!-- LOCAL SERVICES & BEANS -->
+	<bean id="IDMService"
+		class="com.eurodyn.qlack2.fuse.idm.impl.IDMServiceImpl">
+		<property name="ticketService" ref="TicketServerService"/>
+		<property name="userService" ref="UserService"/>
+		<property name="cryptoService" ref="CryptoService"/>
+		<cm:managed-properties persistent-id="com.eurodyn.qlack2.fuse.idm" update-strategy="container-managed" />
+		<property name="secret" value="${secret}"/>
+		<property name="ticketValidUntil" value="${ticketValidUntil}" />
+		<property name="ticketAutoExtendValidUntil" value="${ticketAutoExtendValidUntil}" />
+		<property name="ticketAutoExtendDuration" value="${ticketAutoExtendDuration}" />
+		<property name="validUserStatus" value="${validUserStatus}"/>
+	</bean>
+	<service
+		interface="com.eurodyn.qlack2.fuse.idm.api.IDMService"
+		ref="IDMService">
+		<service-properties>
+			<entry key="service.exported.interfaces" value="*"/>			
+			<entry key="service.exported.configs" value="org.apache.cxf.ws"/>
+	      	<entry key="org.apache.cxf.ws.address" value="/ws/fuse/IDMService"/>
+      	</service-properties>
+	</service>
+
+</blueprint>

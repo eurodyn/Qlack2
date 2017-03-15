@@ -1,0 +1,34 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+			<span class="sr-only">Toggle navigation</span>
+           	<span class="icon-bar"></span>
+           	<span class="icon-bar"></span>
+           	<span class="icon-bar"></span>
+        </button>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" collapse="navCollapsed" ng-controller="MenuCtrl">
+		<ul class="nav navbar-nav">
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle"><span translate>file</span> <b class="caret"></b></a>
+				<ul class="dropdown-menu dropdown-menu-inverse">
+					<li><a ui-sref="projects" ui-sref-opts="{reload: true}"><i class="fa fa-folder-open"></i> <span translate>view_projects</span></a></li>
+					<li ng-show="permissions['EXP_MANAGE_PROJECT']">
+						<a ui-sref="projects.create" ui-sref-opts="{reload: true}"><i class="fa fa-folder-open"> </i> <span translate>create_project</span></a></li>
+					<li class="divider"></li>
+					<li ng-show="permissions['EXP_CONFIGURE']">
+						<a ui-sref="access" ui-sref-opts="{reload: true}"><i class="fa fa-group"></i> <span translate>access_management</span></a>
+					</li>
+					<li><a ng-click="exit()"><i class="fa fa-times"></i> <span translate>exit</span></a></li>
+				</ul>
+			</li>
+		</ul>
+		<!-- <ul class="nav navbar-nav navbar-right">		
+			<li><a><span translate>help</span></a></li>
+		</ul> -->
+	</div>
+	</div>
+</nav>

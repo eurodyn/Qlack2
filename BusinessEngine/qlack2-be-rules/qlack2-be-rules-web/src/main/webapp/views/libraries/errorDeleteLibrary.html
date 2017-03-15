@@ -1,0 +1,19 @@
+<div class="container-fluid" ng-controller="LibraryDeleteCtrl">
+	<div class="row">
+		<div class="col-xs-4"><i class="fa fa-exclamation-circle fa-3x"></i></div>
+		<div class="col-xs-8">
+			<p translate>library.delete_not_allowed</p>
+			<div ng-show="getData().containedInWorkingSet">
+				<p translate>library.delete_contained_in</p>
+			</div>
+			<div ng-show="getData().lockedByOtherUser">
+				<p translate>library.delete_locked_by_other</p>
+			</div>
+		</div>
+	</div>
+	<div class="clearfix top-buffer">
+		<div class="pull-right">
+			<button class="btn btn-danger" ng-click="cancel()"><i class="fa fa-ban"></i> <span translate>action.ok</span></button>
+		</div>
+	</div>
+</div>

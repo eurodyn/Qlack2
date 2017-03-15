@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+	xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:orm="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd
+						http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
+
+	<persistence-unit name="org.drools.persistence.jpa" transaction-type="JTA">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>osgi:service/javax.sql.DataSource/(osgi.jndi.service.name=qlack2-ds)</jta-data-source>
+
+		<!-- drools -->
+		<class>org.drools.persistence.info.SessionInfo</class>
+		<class>org.drools.persistence.info.WorkItemInfo</class>
+
+		<!-- app -->
+		<class>com.eurodyn.qlack2.fuse.rules.impl.model.RuntimeBaseState</class>
+		<class>com.eurodyn.qlack2.fuse.rules.impl.model.RuntimeBaseLibrary</class>
+		<class>com.eurodyn.qlack2.fuse.rules.impl.model.RuntimeSession</class>
+		<class>com.eurodyn.qlack2.fuse.rules.impl.model.RuntimeGlobal</class>
+		<exclude-unlisted-classes>true</exclude-unlisted-classes>
+
+		<properties>
+			<!--
+			<property name="hibernate.hbm2ddl.auto" value="create" />
+			-->
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.format_sql" value="true" />
+			<property name="hibernate.max_fetch_depth" value="3" />
+			<!-- BZ 841786: AS7/EAP 6/Hib 4 uses new (sequence) generators which seem to cause problems -->
+			<property name="hibernate.id.new_generator_mappings" value="false" />
+
+			<property name="hibernate.ejb.naming_strategy" value="com.eurodyn.qlack2.fuse.rules.impl.PrefixNamingStrategy" />
+		</properties>
+	</persistence-unit>
+</persistence>

@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: forms_3
+      author: ehond
+      changes:
+        - createTable:
+            tableName: fmn_attachment
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: form_version
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: file_content
+                  type: longblob
+                  constraints:
+                    nullable: false
+              - column:
+                  name: content_type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: dbversion
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_fmn_attach_fmn_frm_version
+            baseTableName: fmn_attachment
+            baseColumnNames: form_version
+            referencedTableName: fmn_form_version
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade

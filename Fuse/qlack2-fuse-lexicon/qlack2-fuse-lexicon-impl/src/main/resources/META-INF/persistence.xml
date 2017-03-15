@@ -1,0 +1,17 @@
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+
+	<persistence-unit name="fuse-lexicon" transaction-type="JTA">
+		<jta-data-source>osgi:service/javax.sql.DataSource/(osgi.jndi.service.name=qlack2-ds)</jta-data-source>
+		
+		<class>com.eurodyn.qlack2.fuse.lexicon.impl.model.Application</class>
+		<class>com.eurodyn.qlack2.fuse.lexicon.impl.model.Data</class>
+		<class>com.eurodyn.qlack2.fuse.lexicon.impl.model.Group</class>
+		<class>com.eurodyn.qlack2.fuse.lexicon.impl.model.Key</class>
+		<class>com.eurodyn.qlack2.fuse.lexicon.impl.model.Language</class>
+		<class>com.eurodyn.qlack2.fuse.lexicon.impl.model.Template</class>
+		
+	</persistence-unit>
+
+</persistence>

@@ -1,0 +1,30 @@
+<section id="welcome" class="well" ng-controller="IndexCtrl">
+	<div class="clearfix">
+		<h3 translate>workflow_welcome_title</h3>
+		<p><span translate>workflow_index_text</span></p>
+	</div>
+	<div class="clearfix">
+		<div class="pull-left">
+			<h3 translate>recent_projects</h3>
+		</div>
+		<div class="pull-right actions">
+			<select kendo-drop-down-list k-options="projects" k-option-label="'{{'select_project' | translate}}'" ng-model="selectedProjectId"></select>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-lg-3" ng-repeat="recentProject in recentProjects" repeat-done>
+				<div class="project bg-info">
+					<h4>{{ recentProject.name }}</h4>
+					<div class="row">
+						<div class="col-xs-8">
+							<div class="clearfix"><label translate>createdOn</label> {{ recentProject.createdOn  | qDate:'lll'}}</div>
+							<div class="clearfix"><label translate>createdBy</label> {{recentProject.createdBy.firstName}} {{recentProject.createdBy.lastName}}</div>
+						</div>
+						<div class="small-4 columns">
+							<a ui-sref='resources({projectId: recentProject.id })' class="btn btn-primary"><span translate>edit_workflows</span></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</section>

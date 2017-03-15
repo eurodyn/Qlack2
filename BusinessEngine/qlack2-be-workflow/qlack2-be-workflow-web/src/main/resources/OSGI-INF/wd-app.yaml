@@ -1,0 +1,28 @@
+!!WDApplication:
+  identification:
+    uniqueId:           ed96ef9e-0fed-42d2-9fcb-a1134ec07f50
+    titleKey:           application_title
+    descriptionKey:     application_description
+    version:            2.0.0
+  instantiation:
+    path:               apps/workflow
+    index:              /
+    multipleInstances:  false
+    restrictAccess:     true
+    translationsGroup:  workflow_ui
+  menu:
+    icon:               /img/workflow-icon.png
+    iconSmall:          /img/workflow-icon-small.png
+    type:
+      displayOn:        group
+      groupKey:         a_components
+  window:
+    width:              1000
+    minWidth:           940
+    height:             600
+    minHeight:          400
+    resizable:          true
+    maximizable:        true
+    minimizable:        true
+    closable:           true
+    draggable:          true

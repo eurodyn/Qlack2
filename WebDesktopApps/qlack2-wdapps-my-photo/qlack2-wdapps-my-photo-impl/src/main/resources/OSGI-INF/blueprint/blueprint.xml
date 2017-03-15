@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs">
+
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.wd.web.api"
+		update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="ticket.header.name" value="X-Qlack-Fuse-IDM-Token-WD" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="IDMService" interface="com.eurodyn.qlack2.fuse.idm.api.IDMService" />
+	<reference id="SecurityProxyRest"
+		interface="com.eurodyn.qlack2.fuse.security.proxy.api.SecurityProxy" />
+	<reference id="FileUploadRest"
+		interface="com.eurodyn.qlack2.fuse.fileupload.api.rest.FileUploadRest" />
+
+	<!-- ASPECTS -->
+	<bean id="ValidateTicketHolderAspect" factory-method="aspectOf"
+		class="com.eurodyn.qlack2.fuse.idm.api.aspects.ValidateTicketHolderAspect">
+		<property name="idmService" ref="IDMService" />
+	</bean>
+	
+	<!-- Ticket Interceptor -->
+	<bean id="ExtractTicketInterceptor"
+		class="com.eurodyn.qlack2.fuse.security.proxy.impl.util.ExtractTicketInterceptor">
+		<property name="ticketHeaderName" value="${ticket.header.name}" />
+	</bean>
+	<bean id="CleanTicketInterceptor"
+		class="com.eurodyn.qlack2.fuse.security.proxy.impl.util.CleanTicketInterceptor"/>
+
+	<!-- CXF CONFIGURATION -->
+	<jaxrs:server id="MyPhotoRestServer" address="/apps/myphoto">
+		<jaxrs:serviceBeans>
+			<ref component-id="myPhotoResource" />
+			<ref component-id="FileUploadRest" />
+			<ref component-id="SecurityProxyRest" />
+		</jaxrs:serviceBeans>
+
+		<jaxrs:inInterceptors>
+			<ref component-id="ExtractTicketInterceptor" />
+		</jaxrs:inInterceptors>
+		
+		<jaxrs:outInterceptors>
+			<ref component-id="CleanTicketInterceptor" />
+		</jaxrs:outInterceptors>
+
+		<jaxrs:providers>
+			<!-- Support for CORS -->
+			<bean id="cors-filter"
+				class="org.apache.cxf.rs.security.cors.CrossOriginResourceSharingFilter" />
+			<!-- Mapper for security exceptions -->
+			<bean id="SecurityExceptionMapper" class="com.eurodyn.qlack2.util.rest.mapper.SecurityExceptionMapper"/>
+			<!-- Generic mapper for exceptions not specially handled above -->
+			<bean id="GenericExceptionMapper" class="com.eurodyn.qlack2.util.rest.mapper.GenericExceptionMapper"/>
+			
+			<!-- A configurable Jackson provider -->
+			<bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider">
+				<property name="mapper">
+					<bean id="jacksonMapper" class="com.eurodyn.qlack2.util.rest.CustomisedJackson" />
+				</property>
+			</bean>
+		</jaxrs:providers>
+	</jaxrs:server>	
+	
+</blueprint>

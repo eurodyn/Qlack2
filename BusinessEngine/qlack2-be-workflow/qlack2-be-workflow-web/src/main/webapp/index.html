@@ -1,0 +1,38 @@
+<!doctype html>
+<html class="no-js" lang="en" ng-app="workflowApp">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width"/>
+	<title><span translate>workflow_management</span></title>
+	<link rel="stylesheet" media="screen" href="../../css/wd-app.css">
+	<link rel="stylesheet" media="screen" href="../../css/wd-app-theme.css">
+	<link rel="stylesheet" media="screen" href="css/workflow-vendor.css" />
+	<link rel="stylesheet" media="screen" href="css/workflow-index.css" />
+	<!-- Avoid console errors for older browsers -->
+	<script>
+		if (!window.console)
+			window.console = {};
+		if (!window.console.log)
+			window.console.log = function() {
+			};
+		if (!window.console.debug)
+			window.console.debug = function() {
+			};
+	</script>
+	<script src="js/workflow-vendor.js"></script>
+	<script src="js/workflow.js"></script>
+</head>
+<body ng-controller="ParentCtrl" class="fixed-nav">
+	<ng-include src="'views/menu.html'"></ng-include>
+	<div ui-view class="container-fluid"></div>
+	<div ng-controller="WindowCtrl">
+		<div ng-if="window != null">
+			<div kendo-window="modalWindow" id="modalWindow"
+				k-visible="false" k-modal="true"
+				k-title="'{{window.titleKey | translate}}'" k-content="window.content"
+				k-on-refresh="windowOpen(kendoEvent)" k-on-close="windowClose(kendoEvent)"
+				k-max-width="400"></div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,166 @@
+databaseChangeLog:
+  - changeSet:
+      id: componentlibrary_01
+      author: European Dynamics SA (qlack2-dev@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: cmp_gadget
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: author
+                  type: varchar(255)
+              - column:
+                  name: info_link
+                  type: varchar(255)
+              - column:
+                  name: box_link
+                  type: varchar(255)
+                  constraints:
+                    nullable: false 
+              - column:
+                  name: page_link
+                  type: varchar(255) 
+              - column:
+                  name: registered_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: icon_link
+                  type: varchar(255) 
+              - column:
+                  name: owner
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: enabled
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: config_page
+                  type: varchar(255)
+              - column:
+                  name: private_key
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - createIndex:
+              indexName: idx_ag_pkey
+              tableName: cmp_gadget
+              columns:
+                - column:
+                   name: private_key
+        - createTable:
+            tableName: cmp_gadget_has_permission
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: gadget
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: permission
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: enabled
+                  type: boolean
+        - createIndex:
+              indexName: fk_cmp_gadgets_has_cmp_permissions_cmp_gadgets
+              tableName: cmp_gadget_has_permission
+              columns:
+                - column:
+                   name: gadget
+        - createIndex:
+              indexName: idx_aghp_perm
+              tableName: cmp_gadget_has_permission
+              columns:
+                - column:
+                   name: permission
+        - createIndex:
+              indexName: ifx_aghp_userid
+              tableName: cmp_gadget_has_permission
+              columns:
+                - column:
+                   name: user_id
+        - addForeignKeyConstraint:
+              constraintName: fk_cmd_gadgets_has_cmd_permissions_cmd_gadgets
+              baseTableName: cmp_gadget_has_permission
+              baseColumnNames: gadget
+              referencedTableName: cmp_gadget
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade
+        - createTable:
+            tableName: cmp_gadget_has_user
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: gadget
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: display_order
+                  type: tinyint
+              - column:
+                  name: state
+                  type: tinyint
+        - createIndex:
+              indexName: fk_cmp_gadget_has_users_cmp_gadgets1
+              tableName: cmp_gadget_has_user
+              columns:
+                - column:
+                   name: gadget
+        - createIndex:
+              indexName: fk_cmp_gadget_user_id
+              tableName: cmp_gadget_has_user
+              columns:
+                - column:
+                   name: user_id
+        - addForeignKeyConstraint:
+              constraintName: fk_cmp_gadget_has_users_cmp_gadgets1
+              baseTableName: cmp_gadget_has_user
+              baseColumnNames: gadget
+              referencedTableName: cmp_gadget
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade

@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: mailing_02
+      author: European Dynamics SA (georgios.sapountzis@eurodyn.com)
+      changes:
+        - dropTable:
+            tableName: mai_newsletter_has_dl
+        - dropTable:
+            tableName: mai_newsletter_schedule
+        - dropTable:
+            tableName: mai_newsletter
+

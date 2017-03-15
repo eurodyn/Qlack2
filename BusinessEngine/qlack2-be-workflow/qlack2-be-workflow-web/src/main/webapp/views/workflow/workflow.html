@@ -1,0 +1,103 @@
+<div ng-controller="WorkflowCtrl">
+	<div class="clearfix resourceHeading">
+		<div class="pull-left">
+			<h3>{{workflow.name}}</h3>
+		</div>
+		<div class="pull-right">
+			<script id="actionsListTemplate" type="text/x-kendo-template">
+				<div class="#=data.cssClass#">
+					<i class="fa #=data.icon#"></i> <span translate>#=data.name#</span>
+				</div>
+			</script>
+			<select kendo-drop-down-list k-option-label="'{{'select_action' | translate}}'" k-data-source="wflActions"
+				k-data-text-field="'name'" k-data-value-field="'value'" k-template="actionsListTemplate" 
+				k-on-select="selectWorkflowAction(kendoEvent)"></select>
+		</div>
+	</div>
+	<section class="well">
+		<form class="form-horizontal" role="form" name="workflowForm" novalidate>
+			<fieldset ng-disabled="!canManageWorkflow">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="form-group" ng-class="{'has-error has-feedback': workflowForm.name.$invalid && !workflowForm.name.$dirty}">
+							<label for="name" class="col-sm-4 control-label" translate>workflowName</label>
+							<div class="col-sm-8">
+								<input id="name" name="name" type="text" class="form-control" ng-model="workflow.name"/>
+								<i ng-show="workflowForm.name.$invalid && !workflowForm.name.$dirty"
+									class="fa fa-exclamation-triangle form-control-feedback"
+									popover="{{workflowForm.name.message}}"
+									popover-placement="left"
+									popover-trigger="mouseenter"></i>
+							</div>
+						</div>
+						<div class="form-group" ng-class="{'has-error has-feedback': workflowForm.description.$invalid && !workflowForm.description.$dirty}">
+							<label for="description" class="col-sm-4 control-label" translate>workflowDescription</label>
+							<div class="col-sm-8">
+								<textarea id="description" name="description" class="form-control" ng-model="workflow.description"></textarea>
+								<i ng-show="workflowForm.description.$invalid && !workflowForm.description.$dirty"
+									class="fa fa-exclamation-triangle form-control-feedback"
+									popover="{{workflowForm.description.message}}"
+									popover-placement="left"
+									popover-trigger="mouseenter"></i>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="categories" class="col-sm-4 control-label" translate>categories</label>
+							<div class="col-sm-8">
+								<select id="categories" name="categories" kendo-multi-select ng-disable="canManageWorkflow" k-options="workflowCategories" ng-model="workflow.categories"></select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" translate>status</label>
+							<div class="col-sm-8 controls">
+								<label class="radio-inline">
+									<input id="radio1" type="radio" name="active" value="true" ng-checked="workflow.active==true" ng-model="workflow.active"></input>
+									<span translate>active</span>
+								</label>
+								<label class="radio-inline">
+									<input id="radio2" type="radio" name="active" value="false" ng-checked="workflow.active==false" ng-model="workflow.active"></input>
+									<span translate>inactive</span>
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group">
+							<label class="col-sm-4 control-label" translate>createdBy</label>
+							<div class="col-sm-8 controls">
+								<p class="form-control-static">{{workflow.createdBy.firstName}} {{workflow.createdBy.lastName}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" translate>createdOn</label>
+							<div class="col-sm-8">
+								<p class="form-control-static">{{ workflow.createdOn  | qDate:'lll'}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" translate>modifiedBy</label>
+							<div class="col-sm-8">
+								<p class="form-control-static">{{ workflow.lastModifiedBy.firstName}} {{workflow.lastModifiedBy.lastName}}</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" translate>modifiedOn</label>
+							<div class="col-sm-8">
+								<p class="form-control-static">{{ workflow.lastModifiedOn  | qDate:'lll'}}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Workflow version -->
+			<div ui-view autoscroll="false"></div>					
+		</fieldset>
+		<div class="clearfix">
+			<div class="pull-right">
+				<button class="btn btn-info" ng-click="runWorkflow($event)" ng-hide="!(canExecuteWorkflow && canExecuteVersion)"><i class="fa fa-bolt"></i><span translate>execute</span></button>
+				<button class="btn btn-success" ng-click="save($event)" ng-hide="!canManageWorkflow"><i class="fa fa-check"></i><span translate>save</span></button>
+				<button class="btn btn-danger" ng-click="cancel($event)" ng-hide="!canManageWorkflow"><i class="fa fa-ban"></i> <span translate>cancel</span></button>
+			</div>
+		</div>
+	</form>
+</section>
+</div>

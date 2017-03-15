@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: workflow-server_3
+      author: egian
+      changes:
+        - addColumn:
+            tableName: wfl_workflow_version
+            columns:
+              - column:
+                  name: enable_testing
+                  type: boolean
+                  defaultValue: false
+                  constraints:
+                    nullable: false

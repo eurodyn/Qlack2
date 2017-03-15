@@ -1,0 +1,10 @@
+<div ng-class="[tpl.iconBg, tpl.iconSize]" 
+	class="fg-white" data-role="tile" 
+	ng-click="desktop.desktopService.setApplicationAsOpen(tpl.appId); desktop.hideMenu()">
+	<div class="tile-content zooming">
+		<div class="slide">
+			<img http-src="{{tpl.iconName}}"/>
+		</div>
+		<span ng-if="tpl.showTitle" class="tile-label" translate>{{tpl.translationsGroup + "." + tpl.titleKey}}</span>
+	</div>
+</div>

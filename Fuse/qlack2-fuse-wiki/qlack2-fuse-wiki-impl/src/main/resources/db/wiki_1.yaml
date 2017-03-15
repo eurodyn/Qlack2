@@ -1,0 +1,222 @@
+databaseChangeLog:
+  - changeSet:
+      id: wiki_01
+      author: European Dynamics SA (stephan.schreck@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: wik_tag
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name  
+                  type: varchar(45) 
+                  constraints:
+                    nullable: false 
+              - column:
+                  name: description  
+                  type: varchar(45)    
+        - createIndex:
+              indexName: wik_tag_name_UNIQUE
+              tableName: wik_tag
+              columns:
+                - column:
+                   name: name
+              unique: true
+        - createTable:
+            tableName: wik_wiki
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name  
+                  type: varchar(45)
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: description
+                  type: varchar(1000)
+              - column:
+                  name: logo
+                  type: longblob
+        - createIndex:
+              indexName: wik_wiki_name_UNIQUE
+              tableName: wik_wiki
+              columns:
+                - column:
+                   name: name
+              unique: true  
+        - createTable:
+            tableName: wik_entry
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: page_content  
+                  type: text
+              - column:
+                  name: namespace
+                  type: varchar(1000)
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: dt_last_modified
+                  type: bigint
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+              - column:
+                  name: dt_created
+                  type: bigint
+              - column:
+                  name: created_by  
+                  type: varchar(36)  
+              - column:
+                  name: url  
+                  type: varchar(45)  
+              - column:
+                  name: locked
+                  type: boolean
+              - column:
+                  name: locked_by  
+                  type: varchar(36) 	  
+              - column:
+                  name: wiki_id  
+                  type: varchar(36)
+                  constraints:
+                    nullable: false  	
+              - column:
+                  name: title  
+                  type: varchar(255) 
+                  constraints:
+                    nullable: false  	
+        - createIndex:
+              indexName: idx_wik_entry_wik_wiki
+              tableName: wik_entry
+              columns:
+                - column:
+                   name: wiki_id
+        - addForeignKeyConstraint:
+              constraintName: fk_wik_entry_wik_wiki
+              baseTableName: wik_entry
+              baseColumnNames: wiki_id
+              referencedTableName: wik_wiki
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: no action
+        - createTable:
+            tableName: wik_entry_has_tag
+            columns:
+              - column:
+                  name: wik_entry_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: wik_tag_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false			  	
+        - createIndex:
+              indexName: idx_wik_entry_has_wik_entry1
+              tableName: wik_entry_has_tag
+              columns:
+                - column:
+                   name: wik_entry_id
+        - createIndex:
+              indexName: idx_wik_entry_has_wik_tag1
+              tableName: wik_entry_has_tag
+              columns:
+                - column:
+                   name: wik_tag_id
+        - createIndex:
+              indexName: unique_entry_tag
+              tableName: wik_entry_has_tag
+              columns:
+                - column:
+                   name: wik_entry_id
+                - column:
+                   name: wik_tag_id       
+              unique: true 
+        - addForeignKeyConstraint:
+              constraintName: fk_wik_entry_has_wik_entry1
+              baseTableName: wik_entry_has_tag
+              baseColumnNames: wik_entry_id
+              referencedTableName: wik_entry
+              referencedColumnNames: id
+              onDelete: no action
+              onUpdate: no action
+        - addForeignKeyConstraint:
+              constraintName: fk_wik_entry_has_wik_tag1
+              baseTableName: wik_entry_has_tag
+              baseColumnNames: wik_tag_id
+              referencedTableName: wik_tag
+              referencedColumnNames: id
+              onDelete: no action
+              onUpdate: no action
+        - createTable:
+            tableName: wik_entry_version
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: entry_version  
+                  type: int
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: dt_created
+                  type: bigint
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: wik_entry_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: comment
+                  type: varchar(255)
+                  constraints:
+                    nullable: false  	
+        - createIndex:
+              indexName: idx_wik_entry_version1
+              tableName: wik_entry_version
+              columns:
+                - column:
+                   name: wik_entry_id	
+        - addForeignKeyConstraint:
+              constraintName: fk_wik_entry_version1
+              baseTableName: wik_entry_version
+              baseColumnNames: wik_entry_id
+              referencedTableName: wik_entry
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: no action		  

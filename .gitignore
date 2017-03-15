@@ -71,3 +71,6 @@ RemoteSystemsTempFiles
 /nbactions.xml
 /nb-configuration.xml
 *.iml
+*.releaseBackup
+*.versionsBackup
+release.properties

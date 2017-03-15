@@ -1,0 +1,20 @@
+{
+  "operations": [
+    {
+      "name": "EXP_VIEW_PROJECT",
+      "description": "View project"
+    },
+    {
+      "name": "EXP_MANAGE_PROJECT",
+      "description": "Create and delete projects / Update project metadata"
+    },
+    {
+      "name": "EXP_CONFIGURE",
+      "description": "Configure the Projects Explorer application including access management of the application"
+    },
+    {
+      "name": "EXP_MANAGED",
+      "description": "User or group managed (in terms of access rights) by the Projects Explorer application"
+    }
+  ]
+}

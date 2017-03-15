@@ -1,0 +1,79 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width" />
+	<title>Forms Management</title>
+	<!-- <script src="http://code.jquery.com/jquery-1.9.1.min.js" data-semver="2.0.3" data-require="jquery"></script> -->
+	<script src="../../js/forms-orbeon.js"></script>
+</head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			token = sessionStorage.getItem("X-Qlack-Fuse-IDM-Token");
+			user = JSON.parse(token);
+
+			var formVersionId = getUrlVars()["formVersionId"];
+			console.log(formVersionId);
+
+			$.ajaxPrefilter(function(requestOptions, ajaxOptions, jqXHR) {
+				jqXHR.setRequestHeader("X-Qlack-Fuse-IDM-Token", JSON.stringify(user.ticket));
+			});
+
+			//url = "http://localhost:8181/orbeon/fr/orbeon/builder/new?orbeon-embeddable=true";
+
+			// url = "http://localhost:8181/orbeon/fr/orbeon/builder/edit/" + formVersionId + "?orbeon-embeddable=true";
+
+			url = "/qbe/qbe-proxy/fr/orbeon/builder/edit/" + formVersionId + "?orbeon-embeddable=true";
+
+
+
+			//url = "http://localhost:8181/api/apps/forms/orbeon/orbeon/form/788e6f2e-a0dd-45c1-9afe-5ee5305f7b0e?orbeon-embeddable=true"
+
+
+			$("#internalEditor").load(url, function() {
+				console.log("ORBEON" + ORBEON);
+				if ((typeof ORBEON !== "undefined" && ORBEON !== null) && !document.all) {
+					ORBEON.xforms.Init.document();
+				}
+
+				YAHOO.util.Connect.initHeader("X-Qlack-Fuse-IDM-Token", JSON.stringify(user.ticket), true);
+
+				//TODO hide new button
+				//In order to hide this specific button you should do the following:
+				//Open the WEB-INF/lib/orbeon-form-builder.jar and edit the forms/orbeon/builder/form/form.xhtml file.
+				//Locate line <xh:div class="fr-buttons"> and add an id to the <xf:trigger> element for the New button.
+				//Repack the orbeon-form-builder.jar and the orbeon.war and update the orbeon bundle in karaf
+				$("#fr-button-summary").hide();
+				$("#fb-test-button-group").hide();
+				$("#fb-publish-button").hide();
+				
+				//the following lines hide the toolbars that provide 
+				//features of the orbeon professional edition
+				$("#xf-350").hide(); //TODO remove the following lines 
+				$("#xf-406").parent().parent().hide();
+				$("#xf-436").parent().hide();
+				$("#xf-450").parent().hide();
+				$("#xf-464").parent().hide();
+				
+			});
+
+		});
+
+		function getUrlVars()
+		{
+			var vars = [], hash;
+			var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+			for(var i = 0; i < hashes.length; i++)
+			{
+				hash = hashes[i].split('=');
+				vars.push(hash[0]);
+				vars[hash[0]] = hash[1];
+			}
+			return vars;
+		}
+	</script>
+	<div id="internalEditor"></div>
+</body>
+</html>

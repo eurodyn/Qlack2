@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+        xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<!-- <cm:property-placeholder 
+		persistent-id="com.eurodyn.qlack2.util.datasourcegeneric"
+		update-strategy="reload">
+	</cm:property-placeholder> -->
+
+	<!-- <reference id="transactionManager" interface="javax.transaction.TransactionManager" /> -->
+
+	<bean id="configurator" class="com.eurodyn.qlack2.util.datasource.mongodb.Configurator"
+		init-method="refresh">
+		<property name="context" ref="blueprintBundleContext" />
+		<!-- <property name="transactionManager" ref="transactionManager" /> -->
+		
+		<!-- <property name="driverClass" value="${driverClass}"></property> -->
+	</bean>
+
+</blueprint>

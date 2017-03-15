@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: aaa_2
+      author: European Dynamics SA (georgios.sapountzis@eurodyn.com)
+      changes:
+        - addColumn:
+            tableName: aaa_user
+            columns:
+              - column:
+                  name: external
+                  type: boolean

@@ -1,0 +1,101 @@
+databaseChangeLog:
+  - changeSet:
+      id: contentmanager_3_MYSQL
+      author: European Dynamics SA
+      preConditions:
+        - onFail: MARK_RAN
+        - dbms:
+            type: mysql
+      changes:
+        - createTable:
+            tableName: cm_version_deleted
+            columns:
+              - column:
+                  name: version_id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+        - sql:
+            endDelimiter: \\
+            sql: |-
+               CREATE TRIGGER cm_version_deleted AFTER DELETE on cm_version
+                  FOR EACH ROW
+                  BEGIN 
+                    insert into cm_version_deleted(version_id) values (old.id);
+                  END;\\
+  - changeSet:
+      id: contentmanager_3_ORACLE
+      author: European Dynamics SA
+      preConditions:
+        - onFail: MARK_RAN
+        - dbms:
+            type: oracle
+      changes:
+        - createTable:
+            tableName: cm_version_deleted
+            columns:
+              - column:
+                  name: version_id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+        - sql:
+            endDelimiter: \\
+            sql: |-
+               CREATE TRIGGER cm_version_deleted AFTER DELETE on cm_version
+                  FOR EACH ROW
+                  BEGIN 
+                    insert into cm_version_deleted(version_id) values (old.id);
+                  END;\\
+  - changeSet:
+      id: contentmanager_3_HSQLDB
+      author: European Dynamics SA
+      preConditions:
+        - onFail: MARK_RAN
+        - dbms:
+            type: hsqldb
+      changes:
+        - createTable:
+            tableName: cm_version_deleted
+            columns:
+              - column:
+                  name: version_id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+        - sql:
+            endDelimiter: \\
+            sql: |-
+               CREATE TRIGGER cm_version_deleted AFTER DELETE on cm_version
+                REFERENCING OLD ROW AS OLD
+                  FOR EACH ROW
+                  BEGIN ATOMIC
+                    insert into cm_version_deleted(version_id) values (old.id);
+                  END;\\
+  - changeSet:
+      id: contentmanager_3_POSTGRESQL
+      author: European Dynamics SA
+      preConditions:
+        - onFail: MARK_RAN
+        - dbms:
+            type: postgresql
+      changes:
+        - createTable:
+            tableName: cm_version_deleted
+            columns:
+              - column:
+                  name: version_id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+        - sql:
+            endDelimiter: \\
+            sql: |-
+               CREATE FUNCTION cm_version_deleted() RETURNS trigger AS $cm_version_deleted$
+                   BEGIN
+                       insert into cm_version_deleted(version_id) values (old.id);
+                       RETURN NEW;
+                   END;
+               $cm_version_deleted$ LANGUAGE plpgsql;
+               CREATE TRIGGER cm_version_deleted BEFORE DELETE ON cm_version
+                   FOR EACH ROW EXECUTE PROCEDURE cm_version_deleted();            

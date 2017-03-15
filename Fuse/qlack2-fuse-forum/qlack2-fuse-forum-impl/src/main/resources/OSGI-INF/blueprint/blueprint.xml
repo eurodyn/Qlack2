@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+
+	<jpa:enable />
+	<tx:enable />
+
+	<bean id="ForumServiceImpl" class="com.eurodyn.qlack2.fuse.forum.impl.ForumServiceImpl">
+	</bean>
+	<bean id="MessageServiceImpl" class="com.eurodyn.qlack2.fuse.forum.impl.MessageServiceImpl">
+	</bean>
+	<bean id="TopicServiceImpl" class="com.eurodyn.qlack2.fuse.forum.impl.TopicServiceImpl">
+	</bean>
+
+	<service id="ForumService" ref="ForumServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.forum.api.ForumService" />
+	<service id="MessageService" ref="MessageServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.forum.api.MessageService" />
+	<service id="TopicService" ref="TopicServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.forum.api.TopicService" />
+
+</blueprint>

@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: rules_7
+      author: gsapo
+      changes:
+        - addColumn:
+            tableName: rul_rule_version
+            columns:
+              - column:
+                  name: rule_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false

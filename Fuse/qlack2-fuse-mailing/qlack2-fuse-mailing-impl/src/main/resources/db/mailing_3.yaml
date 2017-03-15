@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - changeSet:
+      id: mailing_03
+      author: European Dynamics SA (georgios.sapountzis@eurodyn.com)
+      changes:
+        - dropTable:
+            tableName: mai_template

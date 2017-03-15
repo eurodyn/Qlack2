@@ -1,0 +1,41 @@
+<div class="start-menu flex-grid {{desktop.startMenuClass}}">
+	<div class="row">
+		<div class="cell size12">
+			<button class="button primary align-right"
+				ng-click="desktop.hideMenu()">
+				<span class="mif-cross"></span>
+			</button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="icons-area cell size8">
+			<!-- Currently running applications -->
+			<div id="openapps" ng-show="desktop.applicationInstances.length">
+				<div class="area">Running</div>
+				<div class="tile-area no-padding">
+					<div class="tile-container">
+						<div class="openapp" ng-repeat="appInstance in desktop.applicationInstances" 
+							q-start-menu-running-item></div>
+					</div>
+				</div>
+			</div>
+						
+			<!-- All available apps -->
+			<div class="area" ng-show="desktop.desktopService.getApplications().length"></div>
+			<div class="tile-area no-padding">
+				<div class="tile-container">
+					<div ng-repeat="app in desktop.desktopService.getApplications() | filter: {menu: {system: false}}" q-start-menu-item></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Standard apps/functionality -->
+		<div class="info-area cell size4">
+			<div class="tile-area no-padding">
+				<div class="tile-container">
+					<div ng-repeat="app in desktop.desktopService.getApplications() | filter: {menu: {system: true}}" q-start-menu-item></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

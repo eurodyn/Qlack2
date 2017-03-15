@@ -1,0 +1,9 @@
+<BranchVCSpec>
+	<PkgGUID>{9346025D-631B-45be-BF6F-751F863D7C37}</PkgGUID>
+	<XMLPath>ea7\751F863D7C37.xml</XMLPath>
+	<Config>
+		<GUID>QBE</GUID>
+		<LocalPath>%QBE%</LocalPath>
+		<Type>2</Type>
+	</Config>
+</BranchVCSpec>

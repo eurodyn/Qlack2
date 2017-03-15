@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}"
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs">
+
+	<jpa:enable />
+	<tx:enable />
+
+	<bean id="BlogServiceImpl"
+		  class="com.eurodyn.qlack2.fuse.blog.impl.BlogServiceImpl">
+			<property name="postService" ref="PostServiceImpl"/>
+	</bean>
+	<bean id="CategoryServiceImpl"
+		  class="com.eurodyn.qlack2.fuse.blog.impl.CategoryServiceImpl">
+	</bean>
+	<bean id="CommentServiceImpl"
+		  class="com.eurodyn.qlack2.fuse.blog.impl.CommentServiceImpl">
+	</bean>
+	<bean id="LayoutServiceImpl"
+		  class="com.eurodyn.qlack2.fuse.blog.impl.LayoutServiceImpl">
+	</bean>
+	<bean id="PostServiceImpl"
+		  class="com.eurodyn.qlack2.fuse.blog.impl.PostServiceImpl">
+	</bean>
+	<bean id="TagServiceImpl"
+		  class="com.eurodyn.qlack2.fuse.blog.impl.TagServiceImpl">
+	</bean>
+
+	<service id="BlogService" ref="BlogServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.blog.api.BlogService"/>
+	<service id="CategoryService" ref="CategoryServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.blog.api.CategoryService"/>
+	<service id="CommentService" ref="CommentServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.blog.api.CommentService"/>
+	<service id="LayoutService" ref="LayoutServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.blog.api.LayoutService"/>
+	<service id="PostService" ref="PostServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.blog.api.PostService"/>
+	<service id="TagService" ref="TagServiceImpl"
+			interface="com.eurodyn.qlack2.fuse.blog.api.TagService"/>
+
+</blueprint>

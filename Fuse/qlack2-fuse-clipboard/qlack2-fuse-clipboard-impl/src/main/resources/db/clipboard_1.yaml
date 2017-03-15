@@ -1,0 +1,82 @@
+databaseChangeLog:
+  - changeSet:
+      id: clipboard_01
+      author: European Dynamics SA (stephan.schreck@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: clb_entry
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: owner_id  
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: object_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false  
+              - column:
+                  name: title
+                  type: varchar(128)
+              - column:
+                  name: description
+                  type: varchar(1024)
+              - column:
+                  name: type_id
+                  type: varchar(36)
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false  		  
+        - createIndex:
+              indexName: user_id_INDEX
+              tableName: clb_entry
+              columns:
+                - column:
+                   name: owner_id  
+        - createTable:
+            tableName: clb_metadata
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: clb_content_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: meta_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false	
+              - column:
+                  name: meta_value
+                  type: varchar(255)
+                  constraints:
+                    nullable: false	
+        - createIndex:
+              indexName: fk_clb_metaData_clb_content1
+              tableName: clb_metadata
+              columns:
+                - column:
+                   name: clb_content_id
+        - addForeignKeyConstraint:
+              constraintName: fk_clb_metaData_clb_content1
+              baseTableName: clb_metadata
+              baseColumnNames: clb_content_id
+              referencedTableName: clb_entry
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade

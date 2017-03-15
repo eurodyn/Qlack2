@@ -1,0 +1,17 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+
+	<persistence-unit name="formsmanager" transaction-type="JTA">
+		<jta-data-source>osgi:service/javax.sql.DataSource/(osgi.jndi.service.name=qlack2-ds)</jta-data-source>
+
+		<class>com.eurodyn.qlack2.be.forms.impl.model.Category</class>
+		<class>com.eurodyn.qlack2.be.forms.impl.model.Form</class>
+		<class>com.eurodyn.qlack2.be.forms.impl.model.FormVersion</class>
+		<class>com.eurodyn.qlack2.be.forms.impl.model.Condition</class>
+		<class>com.eurodyn.qlack2.be.forms.impl.model.Attachment</class>
+		<class>com.eurodyn.qlack2.be.forms.impl.model.RecentProject</class>
+		<class>com.eurodyn.qlack2.be.forms.impl.model.FormVersionRequestInfo</class>
+
+	</persistence-unit>
+
+</persistence>

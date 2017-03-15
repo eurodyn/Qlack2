@@ -1,0 +1,28 @@
+!!WDApplication:
+  identification:
+    uniqueId:           137123bf-9391-47fe-a8db-d23373a95bff
+    titleKey:           application_title
+    descriptionKey:     application_description
+    version:            1.0.0
+  instantiation:
+    path:               'http://localhost:3000'
+    index:              '/'
+    multipleInstances:  false
+    restrictAccess:     false
+    translationsGroup:  securityExternal
+  menu:
+    icon:               '{icon-wide}mif-key'
+    iconSmall:          '{icon}mif-key'
+    bgColor:            'bg-steel'
+    system:             false
+    showTitle:          true
+  window:
+    width:              800
+    minWidth:           600
+    height:             600
+    minHeight:          400
+    resizable:          true
+    maximizable:        true
+    minimizable:        true
+    closable:           true
+    draggable:          true

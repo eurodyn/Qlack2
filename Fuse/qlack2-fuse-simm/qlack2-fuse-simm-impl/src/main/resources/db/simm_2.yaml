@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: simm_02
+      author: European Dynamics SA (theodora.chasapopoulou@eurodyn.com)
+      changes:
+        - addColumn:
+            columns:
+            - column:
+                name: slygify
+                type: varchar(256)
+            tableName: sim_group         

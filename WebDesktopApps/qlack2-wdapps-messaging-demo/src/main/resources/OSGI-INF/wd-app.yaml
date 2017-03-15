@@ -1,0 +1,28 @@
+!!WDApplication:
+  identification:
+    uniqueId:           'd5bb6c2e-f7b1-4856-a2ac-9624a97d9b9a'
+    titleKey:           application_title
+    descriptionKey:     application_description
+    version:            1.0.0
+  instantiation:
+    path:               'apps/demo-msg'
+    index:              '/'
+    multipleInstances:  true
+    restrictAccess:     false
+    translationsGroup:  demoMsg
+  menu:
+    icon:               '{icon-square}mif-broadcast'
+    iconSmall:          '{icon}mif-broadcast'
+    bgColor:            'bg-green'
+    system:             false
+    showTitle:          true
+  window:
+    width:              640
+    minWidth:           320
+    height:             480
+    minHeight:          240
+    resizable:          true
+    maximizable:        true
+    minimizable:        true
+    closable:           true
+    draggable:          true

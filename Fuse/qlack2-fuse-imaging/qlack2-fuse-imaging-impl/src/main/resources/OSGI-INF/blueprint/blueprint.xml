@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
+
+
+	<!-- LOCAL BEANS & SERVICES -->
+	<bean id="ImageServiceImpl" class="com.eurodyn.qlack2.fuse.imaging.impl.ImageServiceImpl">
+	</bean>
+	<service id="ImageService" ref="ImageServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.imaging.api.ImageService" />
+
+</blueprint>

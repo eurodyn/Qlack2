@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}" 
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}">
+
+	<jpa:enable />
+	<tx:enable />
+	
+	<!-- MANAGED PROPERTIES -->
+	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.auditingclient"
+		update-strategy="reload">
+		<cm:default-properties>
+			<cm:property name="commit.synchronous" value="true" />
+			<cm:property name="client.enabled" value="false" />
+			<cm:property name="client.traceData.enabled" value="true" />
+		</cm:default-properties>
+	</cm:property-placeholder>
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="AuditLoggingService" interface="com.eurodyn.qlack2.fuse.auditing.api.AuditLoggingService" />
+	<reference id="EventPublisherService" interface="com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService" />
+
+	<!-- LOCAL BEANS & SERVICES -->
+	<bean id="AuditClientServiceImpl"
+		class="com.eurodyn.qlack2.fuse.auditclient.impl.AuditClientServiceImpl">
+		<!-- Allow property update directly from the config admin -->
+		<!-- <cm:managed-properties persistent-id="com.eurodyn.qlack2.fuse.auditclient" update-strategy="container-managed" /> -->
+		<!-- Allow property update through the property placeholder -->
+		<property name="synchronous" value="${commit.synchronous}" />
+		<property name="enabled" value="${client.enabled}" />
+		<property name="traceEnabled" value="${client.traceData.enabled}" />
+		<property name="auditLoggingService" ref="AuditLoggingService" />
+		<property name="eventPublisherService" ref="EventPublisherService" />
+	</bean>
+	<service id="AuditClientService" ref="AuditClientServiceImpl"
+		interface="com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService" />
+
+</blueprint>

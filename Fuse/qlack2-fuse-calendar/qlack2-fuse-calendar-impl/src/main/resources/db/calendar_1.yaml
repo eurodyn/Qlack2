@@ -1,0 +1,254 @@
+databaseChangeLog:
+  - changeSet:
+      id: calendar_01
+      author: European Dynamics SA (stephan.schreck@eurodyn.com)
+      changes:
+        - createTable:
+            tableName: cal_calendar
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: owner_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false	
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false	
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false	 
+              - column:
+                  name: active
+                  type: boolean    
+                  constraints:
+                    nullable: false	   
+        - createIndex:
+              indexName: owner_id_INDEX
+              tableName: cal_calendar
+              columns:
+                - column:
+                   name: owner_id
+        - createIndex:
+              indexName: is_active_INDEX
+              tableName: cal_calendar
+              columns:
+                - column:
+                   name: active	 
+        - createTable:
+            tableName: cal_item
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: calendar_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false	
+              - column:
+                  name: name
+                  type: varchar(1024)
+                  constraints:
+                    nullable: false	
+              - column:
+                  name: description
+                  type: varchar(1024)
+              - column:
+                  name: location
+                  type: varchar(1024)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: contact_id
+                  type: varchar(36)
+              - column:
+                  name: start_time
+                  type: bigint
+                  constraints:
+                    nullable: false	
+              - column:
+                  name: end_time
+                  type: bigint
+                  constraints:
+                    nullable: false	
+              - column:
+                  name: all_day
+                  type: boolean
+                  constraints:
+                    nullable: false		
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false		
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_on
+                  type: BIGINT
+                  constraints:
+                    nullable: false		
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false							
+        - createIndex:
+              indexName: fk_cal_item_cal_calendar1
+              tableName: cal_item
+              columns:
+                - column:
+                   name: calendar_id
+        - createIndex:
+              indexName: start_time_INDEX
+              tableName: cal_item
+              columns:
+                - column:
+                   name: start_time
+        - createIndex:
+              indexName: end_time_INDEX
+              tableName: cal_item
+              columns:
+                - column:
+                   name: end_time
+        - addForeignKeyConstraint:
+              constraintName: fk_cal_item_cal_calendar1
+              baseTableName: cal_item
+              baseColumnNames: calendar_id
+              referencedTableName: cal_calendar
+              referencedColumnNames: id
+              onDelete: no action
+              onUpdate: no action				   
+        - createTable:
+            tableName: cal_participant
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: item_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: participant_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false	
+              - column:
+                  name: status
+                  type: smallint
+                  remarks: "0 (not attending), 1 (attending), 2 (pending), 3(tentative)"
+                  constraints:
+                    nullable: false	
+        - createIndex:
+              indexName: fk_cal_participant_cal_item1
+              tableName: cal_participant
+              columns:
+                - column:
+                   name: item_id
+        - addForeignKeyConstraint:
+              constraintName: fk_cal_participant_cal_item1
+              baseTableName: cal_participant
+              baseColumnNames: item_id
+              referencedTableName: cal_item
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade
+        - createTable:
+            tableName: cal_supporting_object
+            columns:
+              - column:
+                  name: id
+                  type: varchar(36)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: item_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: supporting_object_category_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false	
+              - column:
+                  name: object_id
+                  type: varchar(36)
+              - column:
+                  name: link
+                  type: varchar(1024)
+              - column:
+                  name: filename
+                  type: varchar(256)
+              - column:
+                  name: mimetype
+                  type: varchar(255)
+              - column:
+                  name: object_data
+                  type: longblob  
+              - column:
+                  name: created_on
+                  type: bigint
+                  constraints:
+                    nullable: false		  
+              - column:
+                  name: created_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false		  
+              - column:
+                  name: last_modified_on
+                  type: bigint
+                  constraints:
+                    nullable: false			  
+              - column:
+                  name: last_modified_by
+                  type: varchar(36)
+                  constraints:
+                    nullable: false		  	  
+        - createIndex:
+              indexName: fk_cal_supp_object_cal_item1
+              tableName: cal_supporting_object
+              columns:
+                - column:
+                   name: item_id
+        - addForeignKeyConstraint:
+              constraintName: fk_cal_supp_object_cal_item1
+              baseTableName: cal_supporting_object
+              baseColumnNames: item_id
+              referencedTableName: cal_item
+              referencedColumnNames: id
+              onDelete: cascade
+              onUpdate: cascade	  
