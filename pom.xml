@@ -28,15 +28,16 @@
         <connection>scm:git:git@github.com:eurodyn/Qlack2.git</connection>
         <developerConnection>scm:git:git@github.com:eurodyn/Qlack2.git</developerConnection>
         <url>https://github.com/eurodyn/Qlack2</url>
+    <tag>2.2.0</tag>
   </scm>
 
     <modules>
-        <module>../Qlack2Fuse</module>
-        <module>../Qlack2Util</module>
-        <module>../Qlack2WebDesktop</module>
-        <module>../Qlack2WebDesktopApps</module>
-        <module>../Qlack2BusinessEngine</module>
-        <module>../Qlack2Common</module>
+        <module>Fuse</module>
+        <module>Util</module>
+        <module>WebDesktop</module>
+        <module>WebDesktopApps</module>
+        <module>BusinessEngine</module>
+        <module>Common</module>
     </modules>
 
     <properties>
