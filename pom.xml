@@ -8,6 +8,7 @@
 
     <name>${project.groupId}:${project.artifactId}</name>
     <description>QLACK project</description>
+    <url>https://github.com/eurodyn/Qlack2</url>
     <licenses>
         <license>
             <name>European Union Public Licence (EUPL v.1.1)</name>
@@ -28,8 +29,14 @@
         <connection>scm:git:git@github.com:eurodyn/Qlack2.git</connection>
         <developerConnection>scm:git:git@github.com:eurodyn/Qlack2.git</developerConnection>
         <url>https://github.com/eurodyn/Qlack2</url>
-    <tag>2.2.0</tag>
-  </scm>
+        <tag>2.2.0</tag>
+    </scm>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <modules>
         <module>Fuse</module>
@@ -256,17 +263,6 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                    <!-- Temporary until new tests are properly introduced -->
-                    <arguments>-DskipTests</arguments>
-                </configuration>
-            </plugin>
-
             <!-- Although producing Javadoc slightly delays development
             builds, we keep it as part of the standard build plugins to
             ensure developers commit code that is compliant to javadoc
@@ -432,12 +428,24 @@
             </build>
         </profile>
 
-        <!-- Sign produced artifacts. This is necessary only when about to
-        officially release. -->
+        <!-- Prepare and release artifacts profile -->
         <profile>
-            <id>sign</id>
+            <id>release</id>
             <build>
                 <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
@@ -454,6 +462,18 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.7</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <!-- Promote releases automatically to Central -->
+                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
