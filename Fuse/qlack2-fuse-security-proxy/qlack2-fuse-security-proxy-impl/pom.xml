@@ -1,0 +1,80 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.eurodyn.qlack2.fuse</groupId>
+		<artifactId>qlack2-fuse-security-proxy</artifactId>
+		<version>2.2.0</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<artifactId>qlack2-fuse-security-proxy-impl</artifactId>
+	<packaging>bundle</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-Description>Helpers for integrating IDM (and AAA) with front-end applications - IMPL</Bundle-Description>
+						<Export-Package>com.eurodyn.qlack2.fuse.security.proxy.impl.util</Export-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.zeroturnaround</groupId>
+				<artifactId>jrebel-maven-plugin</artifactId>
+				<configuration>
+					<web>
+						<resources>
+							<resource>
+								<target>/</target>
+								<directory>${basedir}/src/main/resources</directory>
+							</resource>
+						</resources>
+					</web>
+				</configuration>
+			</plugin>
+		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.eurodyn.qlack2.fuse</groupId>
+			<artifactId>qlack2-fuse-security-proxy-api</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eurodyn.qlack2.fuse</groupId>
+			<artifactId>qlack2-fuse-aaa-api</artifactId>
+			<version>2.2.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.eurodyn.qlack2.fuse</groupId>
+			<artifactId>qlack2-fuse-idm-api</artifactId>
+			<version>2.2.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.eurodyn.qlack2.util</groupId>
+			<artifactId>qlack2-util-validator-util</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons.lang3.version}</version>
+		</dependency>
+	</dependencies>
+
+</project>

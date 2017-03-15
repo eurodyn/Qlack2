@@ -1,0 +1,160 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.eurodyn.qlack2.util</groupId>
+		<artifactId>qlack2-util-parent</artifactId>
+		<version>2.2.0</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<artifactId>qlack2-util-orbeon-runtime</artifactId>
+
+	<properties>
+		<orbeon.version>4.5.0.201404080036-CE</orbeon.version>
+		<pax.logging.version>1.8.3</pax.logging.version>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.10</version>
+				<executions>
+					<execution>
+						<id>copy</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.ops4j.pax.logging</groupId>
+									<artifactId>pax-logging-api</artifactId>
+									<version>${pax.logging.version}</version>
+									<type>jar</type>
+									<overWrite>false</overWrite>
+									<outputDirectory>${project.build.directory}/</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Modify binaries -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>extract-orbeon-war-qbe</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<tasks>
+								<echo message="Extracting Orbeon WAR" />
+								<unzip src="${basedir}/non-packaged-resources/lib/orbeon-${orbeon.version}.zip" dest="${basedir}/target/" />
+								<unzip src="${basedir}/target/orbeon-${orbeon.version}/orbeon.war" dest="${basedir}/target/orbeon-war/" />
+								<echo message="Extracting Orbeon resources private" />
+								<unzip src="${basedir}/target/orbeon-war/WEB-INF/lib/orbeon-resources-private.jar" dest="${basedir}/target/orbeon-resources-private/" />
+								<echo message="Extracting PAX Logging" />
+								<unzip src="${basedir}/target/pax-logging-api-${pax.logging.version}.jar" dest="${basedir}/target/pax-logging/" />
+								<echo message="Modifying Orbeon resources private" />
+								<copy todir="${basedir}/target/orbeon-resources-private">
+									<fileset dir="${basedir}/non-packaged-resources/custom-submit" />
+								</copy>
+								<echo message="Recreating resources private" />
+								<zip destfile="${basedir}/target/orbeon-resources-private.jar" basedir="${basedir}/target/orbeon-resources-private" />
+								<echo message="Modifying Orbeon WAR (standalone)" />
+								<copy todir="${basedir}/target/orbeon-war">
+									<fileset dir="${basedir}/non-packaged-resources/standalone" />
+								</copy>
+								<echo message="Recreating Orbeon WAR" />
+								<zip destfile="${basedir}/target/orbeon-standalone.war" basedir="${basedir}/target/orbeon-war" />
+								<echo message="Modifying Orbeon WAR (QBE)" />
+								<copy todir="${basedir}/target/orbeon-war/WEB-INF/lib" file="${basedir}/target/orbeon-resources-private.jar" />
+								<copy todir="${basedir}/target/orbeon-war">
+									<fileset dir="${basedir}/non-packaged-resources/qbe" />
+								</copy>
+								<echo message="Recreating Orbeon WAR" />
+								<zip destfile="${basedir}/target/orbeon-qbe.war" basedir="${basedir}/target/orbeon-war" />
+								<echo message="Augmenting PAX logging" />
+								<copy todir="${basedir}/target/pax-logging">
+									<fileset dir="${basedir}/non-packaged-resources/pax-logging" />
+								</copy>
+								<echo message="Recreating PAX logging" />
+								<zip destfile="${basedir}/target/pax-logging.jar" basedir="${basedir}/target/pax-logging" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Deploy modified binaries -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<id>attach-artifacts-orbeon-standalone</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${basedir}/target/orbeon-standalone.war</file>
+									<type>war</type>
+									<classifier>standalone</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+					<execution>
+						<id>attach-artifacts-orbeon-qbe</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${basedir}/target/orbeon-qbe.war</file>
+									<type>war</type>
+									<classifier>qbe</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+					<execution>
+						<id>attach-artifacts-pax-logging</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${basedir}/target/pax-logging.jar</file>
+									<type>jar</type>
+									<classifier>pax</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>

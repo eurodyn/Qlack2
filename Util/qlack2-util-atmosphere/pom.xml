@@ -1,0 +1,20 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.eurodyn.qlack2.util</groupId>
+		<artifactId>qlack2-util-parent</artifactId>
+		<version>2.2.0</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<artifactId>qlack2-util-atmosphere</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>qlack2-util-atmosphere-api</module>
+		<module>qlack2-util-atmosphere-impl</module>
+		<module>qlack2-util-atmosphere-commands</module>
+	</modules>
+
+</project>

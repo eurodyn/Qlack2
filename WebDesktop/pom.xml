@@ -1,0 +1,78 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.eurodyn.qlack2</groupId>
+		<artifactId>qlack2</artifactId>
+		<version>2.2.0</version>
+		<relativePath>../</relativePath>
+	</parent>
+
+	<groupId>com.eurodyn.qlack2.webdesktop</groupId>
+	<artifactId>qlack2-wd</artifactId>
+	<packaging>pom</packaging>
+
+	<scm>
+		<connection>scm:git:git@github.com:eurodyn/Qlack2-WebDesktop.git</connection>
+		<developerConnection>scm:git:git@github.com:eurodyn/Qlack2-WebDesktop.git</developerConnection>
+		<url>https://github.com/eurodyn/Qlack2-WebDesktop</url>
+    <tag>2.2.0</tag>
+  </scm>
+
+	<modules>
+		<module>qlack2-wd-api</module>
+		<module>qlack2-wd-config</module>
+		<module>qlack2-wd-docs</module>
+		<module>qlack2-wd-impl</module>
+		<module>qlack2-wd-karaf-features</module>
+		<module>qlack2-wd-web-api</module>
+		<module>qlack2-wd-web</module>
+	</modules>
+
+	<!--QLACK2 dependencies ONLY -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.eurodyn.qlack2.common</groupId>
+				<artifactId>qlack2-common-util</artifactId>
+				<version>2.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.eurodyn.qlack2.fuse</groupId>
+				<artifactId>qlack2-fuse-idm-api</artifactId>
+				<version>2.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.eurodyn.qlack2.fuse</groupId>
+				<artifactId>qlack2-fuse-aaa-api</artifactId>
+				<version>2.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.eurodyn.qlack2.fuse</groupId>
+				<artifactId>qlack2-fuse-settings-api</artifactId>
+				<version>2.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.eurodyn.qlack2.fuse</groupId>
+				<artifactId>qlack2-fuse-lexicon-api</artifactId>
+				<version>2.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.eurodyn.qlack2.util</groupId>
+				<artifactId>qlack2-util-atmosphere-api</artifactId>
+				<version>2.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.eurodyn.qlack2.util</groupId>
+				<artifactId>qlack2-util-liquibase-api</artifactId>
+				<version>2.2.0</version>
+			</dependency>
+			<dependency>
+				<groupId>com.eurodyn.qlack2.util</groupId>
+				<artifactId>qlack2-util-rest</artifactId>
+				<version>2.2.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+</project>

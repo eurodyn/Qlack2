@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.eurodyn.qlack2.webdesktop.apps</groupId>
+		<artifactId>qlack2-wdapps-app-management</artifactId>
+		<version>2.2.0</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<artifactId>qlack2-wdapps-app-management-web</artifactId>
+	<packaging>bundle</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>${javax.ws.rs-api.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eurodyn.qlack2.util</groupId>
+			<artifactId>qlack2-util-validator-util</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.eurodyn.qlack2.util</groupId>
+			<artifactId>qlack2-util-rest</artifactId>
+		</dependency>		<dependency>
+			<groupId>com.eurodyn.qlack2.webdesktop.apps</groupId>
+			<artifactId>qlack2-wdapps-app-management-api</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+
+		<!-- WEBJARs dependencies -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>1.9.1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<Web-ContextPath>apps/appmanagement</Web-ContextPath>
+						<_wab>src/main/webapp,${project.build.directory}/wro</_wab>
+						<Bundle-Description>QLACK2 :: Web Desktop :: Apps :: Application management :: web</Bundle-Description>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+		
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+</project>

@@ -1,0 +1,92 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.eurodyn.qlack2.webdesktop</groupId>
+		<artifactId>qlack2-wd</artifactId>
+		<version>2.2.0</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<artifactId>qlack2-wd-config</artifactId>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>${build-helper-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>config-security-proxy</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${basedir}/src/main/resources/com.eurodyn.qlack2.fuse.security.proxy.cfg</file>
+									<type>cfg</type>
+									<classifier>securityproxy</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>config-liquibase</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${basedir}/src/main/resources/com.eurodyn.qlack2.util.liquibase.cfg</file>
+									<type>cfg</type>
+									<classifier>liquibase</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>config-wd-web-api</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${basedir}/src/main/resources/com.eurodyn.qlack2.wd.web.api.cfg</file>
+									<type>cfg</type>
+									<classifier>wdapi</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>config-db</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>${basedir}/src/main/resources/org.ops4j.datasource-wd.cfg</file>
+									<type>cfg</type>
+									<classifier>database</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

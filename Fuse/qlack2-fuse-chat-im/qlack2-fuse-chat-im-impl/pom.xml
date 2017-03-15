@@ -1,0 +1,104 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.eurodyn.qlack2.fuse</groupId>
+		<artifactId>qlack2-fuse-chat-im</artifactId>
+		<version>2.2.0</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<artifactId>qlack2-fuse-chat-im-impl</artifactId>
+	<packaging>bundle</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<Bundle-Description>QLACK2 :: Fuse :: ChatIM :: impl</Bundle-Description>
+						<Meta-Persistence>META-INF/persistence.xml</Meta-Persistence>
+						<!-- For hibernate runtime enhancement -->
+						<DynamicImport-Package>
+							org.hibernate.proxy,
+							javassist.util.proxy,
+							org.hibernate,
+							weblogic.jndi
+						</DynamicImport-Package>
+						<Q-Liquibase-ChangeLog>db/qlack2-fuse-chat-im-impl.liquibase.changelog.xml</Q-Liquibase-ChangeLog>
+					</instructions>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.aries.blueprint</groupId>
+				<artifactId>blueprint-maven-plugin</artifactId>
+				<version>${blueprint.maven.plugin}</version>
+				<configuration>
+					<scanPaths>
+						<scanPath>com.eurodyn.qlack2.fuse.chatim.impl.bootstrap</scanPath>
+					</scanPaths>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>blueprint-generate</goal>
+						</goals>
+						<phase>process-classes</phase>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.eurodyn.qlack2.fuse</groupId>
+			<artifactId>qlack2-fuse-chat-im-api</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
+			<version>${javax.persistence.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>javax.transaction-api</artifactId>
+			<version>${javax.transaction.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons.lang3.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+			<version>${osgi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.eurodyn.qlack2.util</groupId>
+			<artifactId>qlack2-util-liquibase-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.ops4j.pax.cdi</groupId>
+			<artifactId>pax-cdi-api</artifactId>
+			<version>${pax.cdi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>${javax.inject.version}</version>
+		</dependency>
+	</dependencies>
+</project>

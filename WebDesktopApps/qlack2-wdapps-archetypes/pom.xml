@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.eurodyn.qlack2.webdesktop.apps</groupId>
+		<artifactId>qlack2-wdapps</artifactId>
+        <version>2.2.0</version>
+		<relativePath>../</relativePath>
+	</parent>
+
+	<artifactId>qlack2-wdapps-archetypes</artifactId>
+	<packaging>pom</packaging>
+
+	<profiles>
+		<profile>
+			<id>qlack2-wdapps-archetypes-barebones</id>
+			<activation>
+				<file>
+					<exists>qlack2-wdapps-archetypes-barebones/pom.xml</exists>
+				</file>
+			</activation>
+			<modules>
+				<module>qlack2-wdapps-archetypes-barebones</module>
+			</modules>
+		</profile>
+	</profiles>
+
+</project>
