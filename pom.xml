@@ -31,12 +31,12 @@
   </scm>
 
     <modules>
-        <module>../Qlack2-Fuse</module>
-        <module>../Qlack2-Util</module>
-        <module>../Qlack2-WebDesktop</module>
-        <module>../Qlack2-WebDesktopApps</module>
-        <module>../Qlack2-BusinessEngine</module>
-        <module>../Qlack2-Common</module>
+        <module>../Qlack2Fuse</module>
+        <module>../Qlack2Util</module>
+        <module>../Qlack2WebDesktop</module>
+        <module>../Qlack2WebDesktopApps</module>
+        <module>../Qlack2BusinessEngine</module>
+        <module>../Qlack2Common</module>
     </modules>
 
     <properties>
