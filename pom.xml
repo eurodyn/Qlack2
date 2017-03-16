@@ -484,8 +484,8 @@
                         <configuration>
                             <serverId>ossrh</serverId>
                             <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <!-- Promote releases automatically to Central -->
-                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                            <!-- Promote releases automatically (to Central) -->
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
                 </plugins>
