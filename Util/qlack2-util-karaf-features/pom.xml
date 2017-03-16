@@ -42,7 +42,7 @@
 						<configuration>
 							<groupId>${project.groupId}</groupId>
 							<artifactId>${project.artifactId}</artifactId>
-							<version>2.2.0-SNAPSHOT</version>
+                            <version>${project.version}</version>
 							<packaging>xml</packaging>
 							<file>target/classes/features/features.xml</file>
 							<classifier>features</classifier>

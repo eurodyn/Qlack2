@@ -4,20 +4,20 @@
 feature:repo-add mvn:com.eurodyn.qlack2.be/qlack2-be-karaf-features/LATEST/xml/features
  -->
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0"	name="QLACK2-QBE">
-	<!--<repository>mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/${qlack2.common.version}/xml/features</repository>-->
-	<!--<repository>mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/${qlack2.util.version}/xml/features</repository>-->
-	<!--<repository>mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/${qlack2.util.version}/xml/features</repository>-->
-	<!--<repository>mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-karaf-features/${qlack2.util.version}/xml/features</repository>-->
+	<repository>mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/${project.version}/xml/features</repository>
+	<repository>mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/${project.version}/xml/features</repository>
+	<repository>mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/${project.version}/xml/features</repository>
+	<repository>mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-karaf-features/${project.version}/xml/features</repository>
 
 	<feature description="QLACK Business Engine" name="qlack2-qbe" version="${project.version}">
 		<feature>qlack2-util-repack-cxf-conf</feature>
 		<feature>qlack2-wd</feature>
 		<feature>qlack2-webdesktop-appmanagement</feature>
 		<feature>qlack2-webdesktop-usermanagement</feature>
-		<!--<feature>qlack2-be-explorer</feature>-->
-		<!--<feature>qlack2-be-rules</feature>-->
-		<!--<feature>qlack2-be-forms</feature>-->
-		<!--<feature>qlack2-be-workflow</feature>-->
+		<feature>qlack2-be-explorer</feature>
+		<feature>qlack2-be-rules</feature>
+		<feature>qlack2-be-forms</feature>
+		<feature>qlack2-be-workflow</feature>
 	</feature>
 
 	<feature description="Qlack Business Engine - Explorer" name="qlack2-be-explorer" version="${project.version}">
@@ -50,10 +50,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.be/qlack2-be-karaf-features/LATEST/xml/f
 		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-rules-impl/${project.version}</bundle>
 		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-rules-web/${project.version}</bundle>
 	</feature>
-
-	<!-- <feature description="Qlack Business Engine - Forms" name="qlack2-be-test" version="${project.version}">
-		<configfile finalname="/etc/com.eurodyn.qlack2.be.forms.proxy.cfg">mvn:com.eurodyn.qlack2.be/qlack2-be-forms-orbeon-proxy/${project.version}/cfg/config-admin</configfile>
-	</feature> -->
 
 	<feature description="Qlack Business Engine - Forms" name="qlack2-be-forms" version="${project.version}">
 		<configfile finalname="/etc/com.eurodyn.qlack2.be.forms.proxy.cfg">mvn:com.eurodyn.qlack2.be/qlack2-be-forms-orbeon-proxy/${project.version}/cfg/config-admin</configfile>

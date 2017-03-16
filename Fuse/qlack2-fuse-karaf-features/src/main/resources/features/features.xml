@@ -5,8 +5,8 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
  -->
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0"	name="QLACK2-FUSE">
 	<!-- External repos -->
-	<!--<repository>mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/${qlack2.util.version}/xml/features</repository>-->
-	<!--<repository>mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/${qlack2.common.version}/xml/features</repository>-->
+	<repository>mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/${project.version}/xml/features</repository>
+	<repository>mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/${project.version}/xml/features</repository>
 
 	<feature description="QLACK2 Fuse - Search" name="qlack2-fuse-search" version="${project.version}">
 		<configfile finalname="/etc/com.eurodyn.qlack2.fuse.search.cfg">mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-search-impl/${project.version}/cfg/config-admin</configfile>

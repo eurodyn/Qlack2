@@ -5,9 +5,9 @@ feature:repo-add mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-karaf-features/LATE
 -->
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0"	name="QLACK2-WD">
 	<!-- External repositories needed for this features set -->
-	<!--<repository>mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/${qlack2.util.version}/xml/features</repository>-->
-	<!--<repository>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/${qlack2.fuse.version}/xml/features</repository>-->
-	<!--<repository>mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/${qlack2.common.version}/xml/features</repository>-->
+	<repository>mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/${project.version}/xml/features</repository>
+	<repository>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/${project.version}/xml/features</repository>
+	<repository>mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/${project.version}/xml/features</repository>
 	<repository>mvn:org.apache.cxf.karaf/apache-cxf/${karaf.cxf.version}/xml/features</repository>
 
 	<!-- This is a top-level feature installing a complete WD mainly for quick

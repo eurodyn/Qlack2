@@ -34,57 +34,57 @@
 			<dependency>
 				<groupId>com.eurodyn.qlack2.common</groupId>
 				<artifactId>qlack2-common-util</artifactId>
-				<version>2.2.2-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.eurodyn.qlack2.fuse</groupId>
 				<artifactId>qlack2-fuse-idm-api</artifactId>
-				<version>2.2.2-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.eurodyn.qlack2.webdesktop</groupId>
 				<artifactId>qlack2-wd-api</artifactId>
-				<version>2.2.2-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.eurodyn.qlack2.fuse</groupId>
 				<artifactId>qlack2-fuse-auditing-client-api</artifactId>
-				<version>2.2.2-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.eurodyn.qlack2.fuse</groupId>
 				<artifactId>qlack2-fuse-event-publisher-api</artifactId>
-				<version>2.2.2-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.eurodyn.qlack2.util</groupId>
 				<artifactId>qlack2-util-validator-util</artifactId>
-				<version>2.2.2-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.eurodyn.qlack2.util</groupId>
 				<artifactId>qlack2-util-rest</artifactId>
-				<version>2.2.2-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.eurodyn.qlack2.fuse</groupId>
 				<artifactId>qlack2-fuse-lexicon-api</artifactId>
-				<version>2.2.2-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.eurodyn.qlack2.fuse</groupId>
 				<artifactId>qlack2-fuse-rules-runtime-api</artifactId>
-				<version>2.2.2-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.eurodyn.qlack2.fuse</groupId>
 				<artifactId>qlack2-fuse-workflow-runtime-api</artifactId>
-				<version>2.2.2-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.eurodyn.qlack2.fuse</groupId>
 				<artifactId>qlack2-fuse-file-upload-api</artifactId>
-				<version>2.2.2-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
