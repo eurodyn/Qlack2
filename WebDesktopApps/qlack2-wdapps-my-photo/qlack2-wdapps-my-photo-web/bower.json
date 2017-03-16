@@ -14,8 +14,8 @@
     "angular-translate-storage-local": "2.11.0",
     "angular-translate-storage-cookie": "2.11.0",
     "angular-translate-loader-url": "2.11.0",
-    "qlack2-bower-angular-security-idm": "https://git.eurodyn.com/git/Qlack2-Bower-angular-security-idm.git",
-    "qlack2-bower-angular-pubsub": "https://git.eurodyn.com/git/Qlack2-Bower-angular-pubsub.git",
+    "qlack2-bower-angular-security-idm": "1.0.1",
+    "qlack2-bower-angular-pubsub": "1.0.7",
     "angular-img-http-src": "0.1.0"
   },
   "devDependencies": {
