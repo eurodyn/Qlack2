@@ -96,6 +96,7 @@ public class AuditLevelServiceImpl implements AuditLevelService {
 		LOGGER.log(Level.FINER, "Updating Audit level ''{0}'',", level);
 		AuditLevel lev = ConverterUtil.convertToAuditLevelModel(level);
 		em.merge(lev);
+		clearAuditLevelCache();
 	}
 
 	/**
@@ -111,6 +112,14 @@ public class AuditLevelServiceImpl implements AuditLevelService {
 		LOGGER.log(Level.FINER, "Searching Audit level by name ''{0}''.",
 				levelName);
 		return ConverterUtil.convertToAuditLevelDTO(AuditLevel.findByName(em, levelName));
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void clearAuditLevelCache() {
+		AuditLevel.clearCache();
 	}
 
 	/**

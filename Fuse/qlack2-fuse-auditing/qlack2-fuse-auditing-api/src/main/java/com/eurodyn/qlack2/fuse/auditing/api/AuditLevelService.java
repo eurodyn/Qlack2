@@ -57,6 +57,11 @@ public interface AuditLevelService {
     AuditLevelDTO getAuditLevelByName(String levelName);
 
     /**
+     * To clear cache of audit levels by name.
+     */
+    void clearAuditLevelCache();
+
+    /**
      * To get all audit levels present in system.
      * @return List of AuditLevels.
      */

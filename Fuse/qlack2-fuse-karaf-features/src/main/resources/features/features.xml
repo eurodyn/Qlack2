@@ -133,6 +133,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 		<feature>qlack2-util-repack-jpadb</feature>
 		<feature>eventadmin</feature>
 		<feature>qlack2-common-util</feature>
+		<bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
 		<bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
 		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-auditing-api/${project.version}</bundle>
 		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-auditing-impl/${project.version}</bundle>
