@@ -51,6 +51,11 @@
 			<groupId>com.eurodyn.qlack2.util</groupId>
 			<artifactId>qlack2-util-liquibase-api</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${google-guava.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
