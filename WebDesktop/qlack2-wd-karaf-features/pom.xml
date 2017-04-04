@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.eurodyn.qlack2.webdesktop</groupId>
 		<artifactId>qlack2-wd</artifactId>
-		<version>2.2.3-SNAPSHOT</version>
+		<version>2.2.2-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
@@ -11,40 +11,47 @@
 	<packaging>pom</packaging>
 
 	<build>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/feature</directory>
+                <filtering>true</filtering>
+                 <targetPath>${project.build.directory}/feature</targetPath>
+            </resource>
+        </resources>
+
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>${maven.resources.plugin.version}</version>
-				<configuration>
-					<encoding>UTF-8</encoding>
-				</configuration>
-				<executions>
-					<execution>
-						<id>filter-resources</id>
-						<goals>
-							<goal>resources</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven.resources.plugin.version}</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>filter</id>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>            
+             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>${build-helper-maven-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>attach-artifacts</id>
-                        <phase>package</phase>
+                        <phase>package</phase> 
                         <goals>
                             <goal>attach-artifact</goal>
                         </goals>
                         <configuration>
                             <artifacts>
                                 <artifact>
-                                    <file>target/classes/features/features.xml</file>
-                                    <type>xml</type>
+                                    <file>target/feature/feature.xml</file>
                                     <classifier>features</classifier>
+                                    <type>xml</type>
                                 </artifact>
                             </artifacts>
                         </configuration>
@@ -52,13 +59,6 @@
                 </executions>
             </plugin>
 		</plugins>
-
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
 	</build>
 
 </project>
