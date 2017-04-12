@@ -81,6 +81,12 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 	</feature>
 
 	<feature description="QLACK2 Fuse - Lexicon" name="qlack2-fuse-lexicon" version="${project.version}">
+        <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-lexicon-api/${project.version}</bundle>
+		<feature>qlack2-fuse-lexicon-impl</feature>
+	</feature>
+
+    <feature description="QLACK2 Fuse - Lexicon (only impl part)"
+             name="qlack2-fuse-lexicon-impl" version="${project.version}">
 		<feature>eventadmin</feature>
 		<feature>qlack2-util-repack-jpadb</feature>
 		<feature>qlack2-common-util</feature>
@@ -90,7 +96,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 		<bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
 		<bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
 		<bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.poi/${apache.poi.servicemix.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-lexicon-api/${project.version}</bundle>
 		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-lexicon-impl/${project.version}</bundle>
 	</feature>
 
