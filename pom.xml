@@ -106,7 +106,6 @@
         <jbpm.version>6.2.0.Final</jbpm.version>
         <jedis.version>2.7.3</jedis.version>
         <joda.version>2.2</joda.version>
-        <jpa-features.version>2.5.0</jpa-features.version>
         <junit.version>4.12</junit.version>
         <karaf.cxf.version>3.1.8</karaf.cxf.version>
         <karaf.hibernate.validator.version>5.0.3.Final</karaf.hibernate.validator.version>

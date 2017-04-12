@@ -18,9 +18,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/L
  -->
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0"
           name="QLACK2-UTIL-REPACK">
-    <!-- External repositories needed for this features set -->
-    <repository>mvn:org.apache.aries.jpa/jpa-features/${jpa-features.version}/xml/features</repository>
-
     <feature description="Qlack - Repack - Jackson (with RS support)"
              name="qlack2-util-repack-jackson-rs" version="${project.version}">
         <feature>qlack2-util-repack-jackson</feature>
