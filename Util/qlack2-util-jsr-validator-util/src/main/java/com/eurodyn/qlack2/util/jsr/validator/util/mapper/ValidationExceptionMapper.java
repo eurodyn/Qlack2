@@ -1,20 +1,20 @@
 package com.eurodyn.qlack2.util.jsr.validator.util.mapper;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import com.eurodyn.qlack2.util.jsr.validator.util.ValidationError;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
-
-import com.eurodyn.qlack2.util.jsr.validator.util.ValidationError;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * Handler for ConstraintViolations.
+ * Handler for ConstraintViolations (as these manifest from processing classes
+ * with @Valid annotations).
  * 
  * @author European Dynamics SA
  *
