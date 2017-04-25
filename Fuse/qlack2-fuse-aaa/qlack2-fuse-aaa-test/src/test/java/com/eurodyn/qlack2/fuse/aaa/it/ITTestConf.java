@@ -62,7 +62,6 @@ public abstract class ITTestConf {
                 keepRuntimeFolder(),
                 copyITConf("etc/com.eurodyn.qlack2.util.liquibase.cfg"),
                 copyITConf("etc/org.ops4j.datasource-qlack2.cfg"),
-                copyITConf("etc/org.ops4j.pax.url.mvn.cfg"),
                 logLevel(LogLevelOption.LogLevel.INFO),
                 configureConsole().ignoreLocalConsole(),
                 configureConsole().ignoreRemoteShell(),
