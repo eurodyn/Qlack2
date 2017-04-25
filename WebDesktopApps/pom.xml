@@ -12,13 +12,6 @@
 	<artifactId>qlack2-wdapps</artifactId>
 	<packaging>pom</packaging>
 
-	<scm>
-		<connection>scm:git:git@github.com:eurodyn/Qlack2-WebDesktopApps.git</connection>
-		<developerConnection>scm:git:git@github.com:eurodyn/Qlack2-WebDesktopApps.git</developerConnection>
-		<url>https://github.com/eurodyn/Qlack2-WebDesktopApps</url>
-    <tag>2.2.1</tag>
-  </scm>
-
 	<modules>
 		<module>qlack2-wdapps-app-management</module>
 		<module>qlack2-wdapps-archetypes</module>

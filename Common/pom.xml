@@ -12,13 +12,6 @@
 	<artifactId>qlack2-common-parent</artifactId>
 	<packaging>pom</packaging>
 
-	<scm>
-		<connection>scm:git:git@github.com:eurodyn/Qlack2-Common.git</connection>
-		<developerConnection>scm:git:git@github.com:eurodyn/Qlack2-Common.git</developerConnection>
-		<url>https://github.com/eurodyn/Qlack2-Common</url>
-    <tag>2.2.1</tag>
-  </scm>
-
 	<modules>
 		<module>qlack2-common-karaf-features</module>
 		<module>qlack2-common-util</module>

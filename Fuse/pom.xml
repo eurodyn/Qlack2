@@ -12,13 +12,6 @@
 	<artifactId>qlack2-fuse</artifactId>
 	<packaging>pom</packaging>
 
-	<scm>
-		<connection>scm:git:git@github.com:eurodyn/Qlack2-Fuse.git</connection>
-		<developerConnection>scm:git:git@github.com:eurodyn/Qlack2-Fuse.git</developerConnection>
-		<url>https://github.com/eurodyn/Qlack2-Fuse</url>
-    <tag>2.2.1</tag>
-  </scm>
-
 	<modules>
 		<module>qlack2-fuse-aaa</module>
 		<module>qlack2-fuse-auditing</module>

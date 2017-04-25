@@ -12,13 +12,6 @@
 	<artifactId>qlack2-be</artifactId>
 	<packaging>pom</packaging>
 
-	<scm>
-		<connection>scm:git:git@github.com:eurodyn/Qlack2-BusinessEngine.git</connection>
-		<developerConnection>scm:git:git@github.com:eurodyn/Qlack2-BusinessEngine.git</developerConnection>
-		<url>https://github.com/eurodyn/Qlack2-BusinessEngine</url>
-    <tag>2.2.1</tag>
-  </scm>
-
 	<modules>
 		<module>qlack2-be-explorer</module>
 		<module>qlack2-be-forms</module>

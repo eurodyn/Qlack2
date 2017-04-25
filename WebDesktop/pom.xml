@@ -12,13 +12,6 @@
 	<artifactId>qlack2-wd</artifactId>
 	<packaging>pom</packaging>
 
-	<scm>
-		<connection>scm:git:git@github.com:eurodyn/Qlack2-WebDesktop.git</connection>
-		<developerConnection>scm:git:git@github.com:eurodyn/Qlack2-WebDesktop.git</developerConnection>
-		<url>https://github.com/eurodyn/Qlack2-WebDesktop</url>
-    <tag>2.2.1</tag>
-  </scm>
-
 	<modules>
 		<module>qlack2-wd-api</module>
 		<module>qlack2-wd-config</module>

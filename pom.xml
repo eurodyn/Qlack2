@@ -29,7 +29,7 @@
         <connection>scm:git:git@github.com:eurodyn/Qlack2.git</connection>
         <developerConnection>scm:git:git@github.com:eurodyn/Qlack2.git</developerConnection>
         <url>https://github.com/eurodyn/Qlack2</url>
-        <tag>2.2.1</tag>
+        <tag>2.2.2</tag>
     </scm>
     <distributionManagement>
         <snapshotRepository>
