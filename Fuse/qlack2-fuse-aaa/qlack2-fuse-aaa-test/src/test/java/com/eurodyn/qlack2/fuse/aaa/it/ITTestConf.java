@@ -42,6 +42,7 @@ public abstract class ITTestConf {
                 .classifier("features")
                 .type("xml");
 
+
         MavenArtifactUrlReference karafStandardFeaturesUrl = maven()
                 .groupId("org.apache.karaf.features")
                 .artifactId("standard")
