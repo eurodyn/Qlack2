@@ -11,7 +11,6 @@ import static com.eurodyn.qlack2.fuse.aaa.TestUtil.copyITConf;
 import static org.ops4j.pax.exam.CoreOptions.maven;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.*;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.karafDistributionConfiguration;
-import org.ops4j.pax.exam.karaf.options.KarafDistributionOption;
 
 
 public abstract class ITTestConf {
@@ -53,8 +52,6 @@ public abstract class ITTestConf {
 
 
         return new Option[]{
-                //for debug
-                //KarafDistributionOption.debugConfiguration("5005", true),
                 karafDistributionConfiguration()
                         .frameworkUrl(karafUrl)
                         .unpackDirectory(new File("target", "exam"))
