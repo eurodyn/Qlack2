@@ -15,7 +15,6 @@
 		<module>qlack2-fuse-aaa-api</module>
 		<module>qlack2-fuse-aaa-impl</module>
 		<module>qlack2-fuse-aaa-commands</module>
-		<module>qlack2-fuse-aaa-test</module>
 	</modules>
 
 </project>
