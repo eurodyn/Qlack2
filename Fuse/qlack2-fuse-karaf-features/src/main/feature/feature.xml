@@ -21,7 +21,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 	<feature description="QLACK2 Fuse - AAA" name="qlack2-fuse-AAA" version="${project.version}">
 		<configfile finalname="/etc/com.eurodyn.qlack2.fuse.aaa.cfg">mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-aaa-impl/${project.version}/cfg/config-admin</configfile>
 		<feature>eventadmin</feature>
-		<feature>wrap</feature>
+		<feature prerequisite="true">wrap</feature>
 		<feature>qlack2-common-util</feature>
 		<feature>qlack2-util-repack-jpadb</feature>
 		<feature>qlack2-util-repack-jackson</feature>
