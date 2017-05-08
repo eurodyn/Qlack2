@@ -3,6 +3,8 @@ package com.eurodyn.qlack2.fuse.aaa.impl;
 import com.eurodyn.qlack2.fuse.aaa.impl.model.Group;
 import com.eurodyn.qlack2.fuse.aaa.impl.model.User;
 import com.eurodyn.qlack2.fuse.aaa.impl.model.UserAttribute;
+
+import javax.inject.Singleton;
 import javax.naming.AuthenticationException;
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
@@ -14,6 +16,8 @@ import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchResult;
 import javax.persistence.EntityManager;
 
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -23,6 +27,8 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+@Singleton
+@OsgiServiceProvider(classes = { LdapUserUtil.class })
 public class LdapUserUtil {
 
   private static final Logger LOGGER = Logger.getLogger(LdapUserUtil.class.getName());
