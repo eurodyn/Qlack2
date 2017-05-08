@@ -58,7 +58,9 @@ public class User implements Serializable {
 
 	private boolean superadmin;
 
-	private Boolean external;
+  /** An indicator that this user's password is not held in the database of AAA.
+   */
+	private Boolean external = false;
 
 	//bi-directional many-to-one association to UserHasOperation
 	@OneToMany(mappedBy="user")
