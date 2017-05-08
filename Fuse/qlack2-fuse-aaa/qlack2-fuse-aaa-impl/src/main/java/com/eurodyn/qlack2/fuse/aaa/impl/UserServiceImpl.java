@@ -81,6 +81,7 @@ public class UserServiceImpl implements UserService {
   @Inject
   private AccountingService accountingService;
 
+  @Inject
   private LdapUserUtil ldapUserUtil;
 
   private static final int saltLength = 16;
