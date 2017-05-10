@@ -45,10 +45,10 @@ public class AllITTests{
         dockerClient = DockerClientBuilder.getInstance(config).build();
         dockerClient.pullImageCmd(DB_IMAGE).exec(new PullImageResultCallback()).awaitSuccess();
         Ports portBindings = new Ports();
-        portBindings.bind(ExposedPort.tcp(DB_PORT), Ports.Binding.bindPort(DB_PORT));
+        portBindings.bind(ExposedPort.tcp(DB_PORT), Ports.Binding.bindPort(DB_PORT + 1));
         String containerName = "TEST-" + UUID.randomUUID().toString();
         CreateContainerResponse createContainerResponse = dockerClient.createContainerCmd(DB_IMAGE)
-                .withExposedPorts(ExposedPort.tcp(DB_PORT))
+                .withExposedPorts(ExposedPort.tcp(DB_PORT + 1))
                 .withPortBindings(portBindings)
                 .withName(containerName)
                 .withEnv("MYSQL_ROOT_PASSWORD=root")
