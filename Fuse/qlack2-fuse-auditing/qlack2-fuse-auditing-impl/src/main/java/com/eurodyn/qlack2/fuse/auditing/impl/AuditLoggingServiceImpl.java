@@ -115,13 +115,15 @@ public class AuditLoggingServiceImpl implements
     if (startDate != null) {
       Expression expression = root.get("createdOn");
       cq.where(cb.greaterThanOrEqualTo(expression,startDate.getTime()));
+      if (endDate != null) {
+        cq.where(cb.and(cq.getRestriction(), cb.lessThanOrEqualTo(expression, endDate.getTime())));
+      }
     }
     if (endDate != null) {
       Expression expression = root.get("createdOn");
-      if (startDate == null) {
-        cq.where(cb.lessThanOrEqualTo(expression, endDate.getTime()));
-      } else {
-        cq.where(cb.and(cq.getRestriction(), cb.lessThanOrEqualTo(expression, endDate.getTime())));
+      cq.where(cb.lessThanOrEqualTo(expression,endDate.getTime()));
+      if (startDate != null) {
+        cq.where(cb.and(cq.getRestriction(),cb.greaterThanOrEqualTo(expression, startDate.getTime())));
       }
     }
 
