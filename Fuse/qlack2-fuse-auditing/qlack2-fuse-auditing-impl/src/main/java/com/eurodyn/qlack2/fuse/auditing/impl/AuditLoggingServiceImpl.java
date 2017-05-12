@@ -112,13 +112,18 @@ public class AuditLoggingServiceImpl implements
 			cq = addPredicate(cq, cb, pr);
 		}
 
-		if (startDate != null) {
-			Expression expression = cb.parameter(Date.class, "createdOn");
-			cq.where(cb.greaterThanOrEqualTo(expression, startDate));
-		} else if (endDate != null) {
-			Expression expression = cb.parameter(Date.class, "createdOn");
-			cq.where(cb.lessThanOrEqualTo(expression, endDate));
-		}
+    if (startDate != null) {
+      Expression expression = root.get("createdOn");
+      cq.where(cb.greaterThanOrEqualTo(expression,startDate.getTime()));
+    }
+    if (endDate != null) {
+      Expression expression = root.get("createdOn");
+      if (startDate == null) {
+        cq.where(cb.lessThanOrEqualTo(expression, endDate.getTime()));
+      } else {
+        cq.where(cb.and(cq.getRestriction(), cb.lessThanOrEqualTo(expression, endDate.getTime())));
+      }
+    }
 
 		return cq;
 	}
