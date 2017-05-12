@@ -282,7 +282,6 @@ public class AuditLoggingServiceImplTest extends ITTestConf {
         Calendar endCale = new GregorianCalendar(2017, 9, 21);
         Date endDate = endCale.getTime();
 
-
         AuditLevelDTO auditLevelDTO = new AuditLevelDTO();
         auditLevelDTO.setId(UUID.randomUUID().toString());
         auditLevelDTO.setName("testName01");
@@ -302,7 +301,6 @@ public class AuditLoggingServiceImplTest extends ITTestConf {
         String auditLogID = auditLoggingService.logAudit(auditLogDTO);
         Assert.assertNotNull(auditLogID);
 
-
         List<String> levelNames = new ArrayList();
         levelNames.add(auditLevelDTO.getName());
 
@@ -312,9 +310,10 @@ public class AuditLoggingServiceImplTest extends ITTestConf {
         List<String> referenceID = new ArrayList();
         referenceID.add(auditLogDTO.getReferenceId());
 
-
-        auditLoggingService.listAudits(levelNames, referenceID, groupNames, startDate, endDate, true, pagingParams);
-        //Assert.assertNotNull(auditLoggingService.listAudits(levelNames, referenceID, groupNames, startDate, endDate, true, pagingParams));
+        Assert.assertNotNull(auditLoggingService.listAudits(levelNames, referenceID, groupNames, null, null, true, pagingParams));
+        Assert.assertNotNull(auditLoggingService.listAudits(levelNames, referenceID, groupNames, startDate, endDate, true, pagingParams));
+        Assert.assertNotNull(auditLoggingService.listAudits(levelNames, referenceID, groupNames, null, endDate, true, pagingParams));
+        Assert.assertNotNull(auditLoggingService.listAudits(levelNames, referenceID, groupNames, startDate, null, true, pagingParams));
     }
 
     @Test
@@ -400,7 +399,11 @@ public class AuditLoggingServiceImplTest extends ITTestConf {
         List sortList = new ArrayList();
         sortList.add(sortDTO);
 
-        Assert.assertNotNull(auditLoggingService.listAuditLogs(searchList,startDate,endDate,sortList,pagingParams));
+        Assert.assertNotNull(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,null,null));
+        Assert.assertNotNull(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,startDate,endDate));
+        Assert.assertNotNull(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,null,endDate));
+        Assert.assertNotNull(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,startDate,null));
+        Assert.assertTrue(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,startDate,endDate) != 0);
     }
 
     @Test
