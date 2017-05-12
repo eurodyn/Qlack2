@@ -135,6 +135,8 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 	</feature>
 
 	<feature description="QLACK2 Fuse - Auditing" name="qlack2-fuse-auditing" version="${project.version}">
+		<feature prerequisite="true">wrap</feature>
+		<feature>qlack2-util-repack-jackson</feature>
 		<feature>qlack2-util-repack-jpadb</feature>
 		<feature>eventadmin</feature>
 		<feature>qlack2-common-util</feature>
