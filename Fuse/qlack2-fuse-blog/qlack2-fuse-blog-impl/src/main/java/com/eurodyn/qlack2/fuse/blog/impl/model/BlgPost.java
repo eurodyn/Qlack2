@@ -249,7 +249,7 @@ public class BlgPost implements java.io.Serializable {
 	}
     
     public static List<BlgPost> getPostsByBlogAndCategory(EntityManager em, String blogId, String categoryId, boolean includeNotPublished) {
-    	String queryString = "SELECT p FROM BlgPost p LEFT JOIN p.blgPostHasCategories h LEFT JOIN h.categoryId c "
+    	String queryString = "SELECT p FROM BlgPost p LEFT JOIN p.blgPostHasCategories c "
 				+ "WHERE p.blogId.id = :blogId AND c.id = :categoryId";
 		if (!includeNotPublished) {
 			queryString = queryString.concat(" AND p.published = '1'");
