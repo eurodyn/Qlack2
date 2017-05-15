@@ -14,6 +14,7 @@
 	<modules>
 		<module>qlack2-fuse-blog-api</module>
 		<module>qlack2-fuse-blog-impl</module>
+		<module>qlack2-fuse-blog-test</module>
 	</modules>
 
 </project>
