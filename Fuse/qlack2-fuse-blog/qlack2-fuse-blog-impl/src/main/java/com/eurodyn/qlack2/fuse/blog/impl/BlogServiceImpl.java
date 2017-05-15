@@ -51,6 +51,8 @@ import com.eurodyn.qlack2.fuse.blog.impl.model.BlgLayout;
 import com.eurodyn.qlack2.fuse.blog.impl.model.BlgPost;
 import com.eurodyn.qlack2.fuse.blog.impl.model.BlgTag;
 import com.eurodyn.qlack2.fuse.blog.impl.util.ConverterUtil;
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
 
 /**
  * @author European Dynamics SA
@@ -257,13 +259,13 @@ public class BlogServiceImpl implements BlogService {
 		StringWriter xml = new StringWriter();
 
 		try {
-			BlogDashboardDTO dto = getDashBoard(blogId, pagingParams);
-			JAXBContext context;
-			context = JAXBContext.newInstance(BlogDashboardDTO.class);
-			Marshaller marshaller = context.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			marshaller.marshal(dto, xml);
-			xml.flush();
+      BlogDashboardDTO dto = getDashBoard(blogId, pagingParams);
+      JAXBContext context;
+      context = JAXBContext.newInstance(BlogDashboardDTO.class);
+      Marshaller marshaller = context.createMarshaller();
+      marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+      marshaller.marshal(new JAXBElement<>( new QName("", "BlogDashboardDTO"), BlogDashboardDTO.class, null, dto), xml);
+      xml.flush();
 		} catch (JAXBException ex) {
 			LOGGER.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
 			throw new QJAXBError(ex.getLocalizedMessage());
