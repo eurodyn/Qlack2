@@ -361,6 +361,10 @@ public class AuditLoggingServiceImplTest extends ITTestConf {
 
         Assert.assertNotNull(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,startDate,endDate));
         Assert.assertTrue(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,startDate,endDate) != 0);
+        Assert.assertNotNull(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,startDate,endDate));
+        Assert.assertNotNull(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,null,endDate));
+        Assert.assertNotNull(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,startDate,null));
+        Assert.assertNotNull(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,null,null));
     }
 
     @Test
@@ -399,11 +403,7 @@ public class AuditLoggingServiceImplTest extends ITTestConf {
         List sortList = new ArrayList();
         sortList.add(sortDTO);
 
-        Assert.assertNotNull(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,null,null));
-        Assert.assertNotNull(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,startDate,endDate));
-        Assert.assertNotNull(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,null,endDate));
-        Assert.assertNotNull(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,startDate,null));
-        Assert.assertTrue(auditLoggingService.countAudits(listLevel,referenceIds,groupNames,startDate,endDate) != 0);
+        Assert.assertNotNull(auditLoggingService.listAuditLogs(searchList,startDate,endDate,sortList,pagingParams));
     }
 
     @Test
