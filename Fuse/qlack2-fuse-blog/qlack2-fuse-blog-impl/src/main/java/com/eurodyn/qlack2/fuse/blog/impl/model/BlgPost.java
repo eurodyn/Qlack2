@@ -265,9 +265,9 @@ public class BlgPost implements java.io.Serializable {
 	}
     
     public static List<BlgPost> getPostsByBlogAndTag(EntityManager em, String blogId, String tagId, boolean includeNotPublished) {
-    	String queryString = "SELECT p FROM BlgPostHasTag pht INNER JOIN pht.postId p"
-				+ " WHERE p.blogId.id = :blogId AND pht.tagId.id = :tagId";
-		if (!includeNotPublished) {
+    	String queryString = "SELECT p FROM BlgPost p LEFT JOIN p.blgPostHasTags t"
+        + " WHERE p.blogId.id = :blogId AND t.id = :tagId";
+      if (!includeNotPublished) {
 			queryString = queryString.concat(" AND p.published = '1'");
 		}
 		queryString = queryString.concat(" ORDER BY p.datePosted DESC");
