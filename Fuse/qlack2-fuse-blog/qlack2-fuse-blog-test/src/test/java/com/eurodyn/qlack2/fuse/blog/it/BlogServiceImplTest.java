@@ -4,6 +4,7 @@ import com.eurodyn.qlack2.common.util.search.PagingParams;
 import com.eurodyn.qlack2.fuse.blog.api.BlogService;
 import com.eurodyn.qlack2.fuse.blog.api.TagService;
 import com.eurodyn.qlack2.fuse.blog.api.CategoryService;
+import com.eurodyn.qlack2.fuse.blog.api.PostService;
 import com.eurodyn.qlack2.fuse.blog.api.dto.*;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,6 +15,8 @@ import org.ops4j.pax.exam.spi.reactors.PerMethod;
 import org.ops4j.pax.exam.util.Filter;
 import javax.inject.Inject;
 import java.util.UUID;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author European Dynamics SA
@@ -33,6 +36,10 @@ public class BlogServiceImplTest extends ITTestConf {
     @Inject
     @Filter(timeout = 1200000)
     CategoryService categoryService;
+
+    @Inject
+    @Filter(timeout = 1200000)
+    PostService postService;
 
     @Test
     public void createBlog(){
@@ -144,11 +151,22 @@ public class BlogServiceImplTest extends ITTestConf {
         String blogID = blogService.createBlog(blogDTO);
         Assert.assertNotNull(blogID);
 
-        BlogTagDTO blogTagDTO = TestUtilities.createBlogTagDTO();
-        String blogTagID = tagService.createTag(blogTagDTO);
-        Assert.assertNotNull(blogTagID);
+        BlogTagDTO tagDTO = TestUtilities.createBlogTagDTO();
+        tagDTO.setPosts(1);
+        String tagID = tagService.createTag(tagDTO);
+        Assert.assertNotNull(tagID);
+
+        List<String> blogTagID = new ArrayList();
+        blogTagID.add(tagID);
+
+        BlogPostDTO blogPostDTO = TestUtilities.createBlogPostDTO();
+        blogPostDTO.setBlgTags(blogTagID);
+        blogPostDTO.setBlogId(blogID);
+        String blogPostID = postService.createPost(blogPostDTO);
+        Assert.assertNotNull(blogPostID);
 
         Assert.assertNotNull(blogService.getTagsForBlog(blogID,false));
+        Assert.assertFalse(blogService.getTagsForBlog(blogID,false).isEmpty());
     }
 
     @Test
