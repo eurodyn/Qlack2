@@ -14,6 +14,7 @@
 	<modules>
 		<module>qlack2-fuse-chat-im-api</module>
 		<module>qlack2-fuse-chat-im-impl</module>
+		<module>qlack2-fuse-chat-im-test</module>
 	</modules>
 
 </project>
