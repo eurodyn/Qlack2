@@ -91,9 +91,9 @@ public class ActionOnUserDTO extends BaseDTO {
     }
 
     /**
-     * @param action the action to set
+     * @param actionId the action to set
      */
-    public void setActionId(String action) {
+    public void setActionId(String actionId) {
         this.actionId = actionId;
     }
 
@@ -139,5 +139,4 @@ public class ActionOnUserDTO extends BaseDTO {
         this.reason = reason;
     }
 }
-
 
