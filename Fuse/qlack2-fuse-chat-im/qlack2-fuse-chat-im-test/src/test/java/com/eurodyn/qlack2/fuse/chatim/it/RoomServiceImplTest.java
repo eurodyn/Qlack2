@@ -33,15 +33,21 @@ public class RoomServiceImplTest extends ITTestConf {
         Assert.assertNotNull(roomID);
     }
 
-    @Test
+    @Test(expected=NoResultException.class)
     public void removeRoom(){
         RoomDTO roomDTO = TestUtilities.createRoomDTO();
         roomDTO.setId(UUID.randomUUID().toString());
         String roomID = roomService.createRoom(roomDTO);
         Assert.assertNotNull(roomID);
 
-        //remove room
+        RoomWordFilterDTO roomWordFilterDTO = TestUtilities.createRoomWordFilterDTO();
+        roomWordFilterDTO.setRoomId(roomID);
+        roomService.setRoomFilter(roomWordFilterDTO);
+
         roomService.removeRoom(roomID);
+
+        //expect no NoResultException, roomID doesnt exist
+        Assert.assertNotNull(roomService.getRoomFilter(roomID,roomDTO.getSrcUserId()));
     }
 
     @Test
