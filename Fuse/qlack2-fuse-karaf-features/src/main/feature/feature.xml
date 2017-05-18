@@ -193,11 +193,13 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 	</feature>
 
 	<feature description="QLACK2 Fuse - Calendar" name="qlack2-fuse-calendar" version="${project.version}">
+		<feature prerequisite="true">wrap</feature>
 		<feature>qlack2-util-repack-jpadb</feature>
 		<feature>qlack2-common-util</feature>
 		<bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
 		<bundle>mvn:commons-lang/commons-lang/${commons.lang.version}</bundle>
 		<bundle>mvn:org.mnode.ical4j/ical4j/${ical4j.version}</bundle>
+		<bundle>mvn:org.apache.geronimo.bundles/backport-util-concurrent/${backport.version}</bundle>
 		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-calendar-api/${project.version}</bundle>
 		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-calendar-impl/${project.version}</bundle>
 	</feature>
