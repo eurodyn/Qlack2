@@ -232,6 +232,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 	</feature>
 	
 	<feature description="QLACK2 Fuse - ChatIM" name="qlack2-fuse-chat-im" version="${project.version}">
+		<feature prerequisite="true">wrap</feature>
 		<feature>qlack2-util-repack-jpadb</feature>
 		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-chat-im-api/${project.version}</bundle>
 		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-chat-im-impl/${project.version}</bundle>
