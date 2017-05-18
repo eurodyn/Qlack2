@@ -320,15 +320,15 @@ public class RoomServiceImpl implements RoomService {
 	/**
 	 * {@inheritDoc}
 	 *
-	 * @param roomDTO
+	 * @param roomID
 	 *            {@inheritDoc}
 	 * @throws QChatIMException
 	 *             {@inheritDoc}
 	 */
 	@Override
-	public void removeRoom(RoomDTO roomDTO) throws QChatIMException {
+	public void removeRoom(String roomID) throws QChatIMException {
 		// Get the requested room.
-		ChaRooms chatRoom = LookupHelper.getRoom(em, roomDTO.getId());
+		ChaRooms chatRoom = LookupHelper.getRoom(em, roomID);
 
 		// remove the room
 		em.remove(chatRoom);

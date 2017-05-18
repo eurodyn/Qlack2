@@ -43,13 +43,13 @@ public interface RoomService {
 	/**
 	 * Removes a room from the system.
 	 *
-	 * @param roomDTO
+	 * @param roomID
 	 *            The room to be deleted
 	 * @throws QChatIMException
 	 *             If there is an error during the creation of the notification
 	 *             for this action.
 	 */
-	public void removeRoom(RoomDTO roomDTO) throws QChatIMException;
+	public void removeRoom(String roomID) throws QChatIMException;
 
 	/**
 	 * Join a room.
