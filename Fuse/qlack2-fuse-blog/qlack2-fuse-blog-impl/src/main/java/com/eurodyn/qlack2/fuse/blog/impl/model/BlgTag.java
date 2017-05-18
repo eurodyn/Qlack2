@@ -33,87 +33,88 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name="blg_tag")
 public class BlgTag  implements java.io.Serializable {
-	private static final long serialVersionUID = 4750564945989267287L;
+  private static final long serialVersionUID = 4750564945989267287L;
 
-	@Id
-    private String id;
-    
-	@Column(name="name")
-	private String name;
-    
-	@Column(name="description")
-	private String description;
-    
-	// bi-directional many-to-many association to Workflow
-	@ManyToMany(mappedBy = "blgPostHasTags")
-	private List<BlgPost> blgPostHasTags;
+  @Id
+  private String id;
 
-    public BlgTag() {
-    	id = java.util.UUID.randomUUID().toString();
+  @Column(name="name")
+  private String name;
+
+  @Column(name="description")
+  private String description;
+
+  // bi-directional many-to-many association to Workflow
+  @ManyToMany(mappedBy = "blgPostHasTags")
+  private List<BlgPost> blgPostHasTags;
+
+  public BlgTag() {
+    id = java.util.UUID.randomUUID().toString();
+  }
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public List<BlgPost> getBlgPostHasTags() {
+    return blgPostHasTags;
+  }
+
+  public void setBlgPostHasTags(List<BlgPost> blgPostHasTags) {
+    this.blgPostHasTags = blgPostHasTags;
+  }
+
+  public static BlgTag find(EntityManager em, String id) {
+    return em.find(BlgTag.class, id);
+  }
+
+  public static List<BlgTag> findByBlog(EntityManager em, String blogId) {
+    Query query = em.createQuery("select distinct tags "+
+      "from BlgTag tags "+
+      "JOIN tags.blgPostHasTags tag_posts "+
+      "JOIN tag_posts.blgPostHasTags post_tags "+
+      "where tags.id=post_tags.id and tag_posts.blogId.id =:blogId");
+    query.setParameter("blogId", blogId);
+    return query.getResultList();
+  }
+
+  public static BlgTag findByName(EntityManager em, String name) {
+    String myQuery = "SELECT g FROM BlgTag g WHERE g.name=:name";
+
+    try {
+      return em.createQuery(myQuery, BlgTag.class).setParameter("name", name).getSingleResult();
+    } catch (NoResultException e) {
+      return null;
     }
-		
-	public String getId() {
-		return id;
-	}
+  }
 
-    public void setId(String id) {
-        this.id = id;
+  public static List<BlgTag> findAll(EntityManager em) {
+    String myQuery = "SELECT g FROM BlgTag g";
+
+    try {
+      return em.createQuery(myQuery, BlgTag.class).getResultList();
+    } catch (NoResultException e) {
+      return null;
     }
-
-    public String getName() {
-		return name;
-	}
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-		return description;
-	}
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-	public List<BlgPost> getBlgPostHasTags() {
-		return blgPostHasTags;
-	}
-
-    public void setBlgPostHasTags(List<BlgPost> blgPostHasTags) {
-        this.blgPostHasTags = blgPostHasTags;
-    }
-    
-    public static BlgTag find(EntityManager em, String id) {
-		return em.find(BlgTag.class, id);
-	}
-    
-    public static List<BlgTag> findByBlog(EntityManager em, String blogId) {
-		Query query = em.createQuery("select distinct bts from BlgTag bts, BlgPostHasTag bpht, BlgPost bp "
-						+ " where bts.id=bpht.tagId.id and bpht.postId.id = bp.id and bp.blogId.id =:blogId");
-		query.setParameter("blogId", blogId);
-        return query.getResultList();
-	}
-       
-    public static BlgTag findByName(EntityManager em, String name) {
-		String myQuery = "SELECT g FROM BlgTag g WHERE g.name=:name";
-
-		try {
-			return em.createQuery(myQuery, BlgTag.class).setParameter("name", name).getSingleResult();
-		} catch (NoResultException e) {
-			return null;
-		}
-	}
-    
-    public static List<BlgTag> findAll(EntityManager em) {
-		String myQuery = "SELECT g FROM BlgTag g";
-
-		try {
-			return em.createQuery(myQuery, BlgTag.class).getResultList();
-		} catch (NoResultException e) {
-			return null;
-		}
-    }
+  }
 }
-
-
