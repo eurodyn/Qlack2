@@ -48,8 +48,6 @@ public abstract class ITTestConf {
         String localRepository = System.getProperty("org.ops4j.pax.url.mvn.localRepository");
 
         return new Option[]{
-                //for debug
-                //KarafDistributionOption.debugConfiguration("5005", true),
                 karafDistributionConfiguration()
                         .frameworkUrl(karafUrl)
                         .unpackDirectory(new File("target", "exam"))
@@ -66,7 +64,6 @@ public abstract class ITTestConf {
                 features(karafStandardFeaturesUrl, "wrap"),
                 features(projectFeaturesRepo, "pax-jdbc-mysql"),
                 features(projectFeaturesRepoUtil, "qlack2-util-liquibase"),
-                //features(projectFeaturesRepo, "qlack2-fuse-AAA"),
                 features(projectFeaturesRepo, "qlack2-fuse-clipboard")
         };
 
