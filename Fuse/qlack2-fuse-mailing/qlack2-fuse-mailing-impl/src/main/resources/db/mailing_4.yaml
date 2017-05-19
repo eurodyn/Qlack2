@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: mailing_04
+      author: European Dynamics SA (isidoros.zalakoudis@eurodyn.com)
+      changes:
+        - addColumn:
+            tableName: mai_email
+            columns:
+              - column:
+                  name: reply_to_emails  
+                  type: varchar(1024)

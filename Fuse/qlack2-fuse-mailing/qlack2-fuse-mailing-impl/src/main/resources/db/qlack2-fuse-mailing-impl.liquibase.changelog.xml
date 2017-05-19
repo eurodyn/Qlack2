@@ -9,5 +9,6 @@
     <include file="db/mailing_1.yaml"/>
     <include file="db/mailing_2.yaml"/>
     <include file="db/mailing_3.yaml"/>
+    <include file="db/mailing_4.yaml"/>
 
 </databaseChangeLog>
