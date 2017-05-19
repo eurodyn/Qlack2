@@ -56,6 +56,9 @@ public class Email implements java.io.Serializable {
 
 	@Column(name = "bcc_emails", length = 1024)
 	private String bccEmails;
+	
+	@Column(name = "reply_to_emails", length = 1024)
+	private String replyToEmails;
 
 	@Column(name = "email_type", length = 64)
 	private String emailType;
@@ -189,6 +192,14 @@ public class Email implements java.io.Serializable {
 
 	public void setBccEmails(String bccEmails) {
 		this.bccEmails = bccEmails;
+	}
+
+	public String getReplyToEmails() {
+		return replyToEmails;
+	}
+
+	public void setReplyToEmails(String replyToEmails) {
+		this.replyToEmails = replyToEmails;
 	}
 
 	public String getStatus() {

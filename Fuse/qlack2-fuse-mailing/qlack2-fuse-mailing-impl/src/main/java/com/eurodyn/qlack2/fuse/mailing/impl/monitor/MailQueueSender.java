@@ -127,6 +127,12 @@ public class MailQueueSender {
 				msg.setRecipients(Message.RecipientType.BCC,
 						stringListToAddressList(bccAddresses));
 			}
+			
+			// Set the Reply-To field.
+			List<String> replyToAddresses = vo.getReplytToContact();
+			if (replyToAddresses != null && !replyToAddresses.isEmpty()) {
+				msg.setReplyTo(stringListToAddressList(replyToAddresses));
+			}
 
 			// Set the subject and date.
 			msg.setSubject(vo.getSubject(), "utf-8");
