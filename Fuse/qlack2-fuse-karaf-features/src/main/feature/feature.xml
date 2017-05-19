@@ -239,7 +239,9 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 	</feature>
 	
 	<feature description="QLACK2 Fuse - Clipboard" name="qlack2-fuse-clipboard" version="${project.version}">
+	    <feature prerequisite="true">wrap</feature>
 		<feature>qlack2-util-repack-jpadb</feature>
+		<feature>qlack2-common-util</feature>
 		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-clipboard-api/${project.version}</bundle>
 		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-clipboard-impl/${project.version}</bundle>
 	</feature>
