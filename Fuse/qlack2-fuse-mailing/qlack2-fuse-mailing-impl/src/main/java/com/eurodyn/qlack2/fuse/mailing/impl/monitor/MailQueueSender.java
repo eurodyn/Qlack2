@@ -129,7 +129,7 @@ public class MailQueueSender {
 			}
 			
 			// Set the Reply-To field.
-			List<String> replyToAddresses = vo.getReplytToContact();
+			List<String> replyToAddresses = vo.getReplyToContact();
 			if (replyToAddresses != null && !replyToAddresses.isEmpty()) {
 				msg.setReplyTo(stringListToAddressList(replyToAddresses));
 			}

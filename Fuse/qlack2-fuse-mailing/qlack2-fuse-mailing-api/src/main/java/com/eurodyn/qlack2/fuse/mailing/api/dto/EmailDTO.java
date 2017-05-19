@@ -38,7 +38,7 @@ public class EmailDTO implements Serializable {
 	private List<String> toContact;
 	private List<String> ccContact;
 	private List<String> bccContact;
-	private List<String> replytToContact;
+	private List<String> replyToContact;
 	private EMAIL_TYPE emailType;
 	private String status;
 	private List<AttachmentDTO> attachments;
@@ -123,12 +123,12 @@ public class EmailDTO implements Serializable {
 		this.bccContact = bccContact;
 	}
 
-	public List<String> getReplytToContact() {
-		return replytToContact;
+	public List<String> getReplyToContact() {
+		return replyToContact;
 	}
 
-	public void setReplytToContact(List<String> replytToContact) {
-		this.replytToContact = replytToContact;
+	public void setReplyToContact(List<String> replyToContact) {
+		this.replyToContact = replyToContact;
 	}
 
 	public EMAIL_TYPE getEmailType() {

@@ -68,7 +68,7 @@ public class MailServiceImpl implements MailService {
 		email.setToEmails(ConverterUtil.createRecepientlist(emailDto.getToContact()));
 		email.setCcEmails(ConverterUtil.createRecepientlist(emailDto.getCcContact()));
 		email.setBccEmails(ConverterUtil.createRecepientlist(emailDto.getBccContact()));
-		email.setReplyToEmails(ConverterUtil.createRecepientlist(emailDto.getReplytToContact()));
+		email.setReplyToEmails(ConverterUtil.createRecepientlist(emailDto.getReplyToContact()));
 		email.setEmailType(emailDto.getEmailType().toString());
 
 		email.setTries((byte) 0);

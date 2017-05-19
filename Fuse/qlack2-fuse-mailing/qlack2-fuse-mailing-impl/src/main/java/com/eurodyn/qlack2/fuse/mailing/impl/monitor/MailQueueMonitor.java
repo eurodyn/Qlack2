@@ -110,7 +110,7 @@ public class MailQueueMonitor {
 				dto.setBccContact(ConverterUtil.createRecepientlist(email.getBccEmails()));
 			}
 			if (email.getReplyToEmails() != null) {
-				dto.setReplytToContact(ConverterUtil.createRecepientlist(email.getReplyToEmails()));
+				dto.setReplyToContact(ConverterUtil.createRecepientlist(email.getReplyToEmails()));
 			}
 			if (email.getEmailType().equals("HTML")) {
 				dto.setEmailType(EmailDTO.EMAIL_TYPE.HTML);
