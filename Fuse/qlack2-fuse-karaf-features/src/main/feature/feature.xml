@@ -246,6 +246,16 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-clipboard-impl/${project.version}</bundle>
 	</feature>
 	
+	<feature description="QLACK2 Fuse - Component Library" name="qlack2-fuse-component-library" version="${project.version}">
+		<feature prerequisite="true">wrap</feature>
+		<feature>qlack2-util-repack-jpadb</feature>
+		<feature>qlack2-common-util</feature>
+		<bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+		<bundle>mvn:commons-lang/commons-lang/${commons.lang.version}</bundle>
+		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-component-library-api/${project.version}</bundle>
+		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-component-library-impl/${project.version}</bundle>
+	</feature>
+
 	<feature description="QLACK2 Fuse - Forum" name="qlack2-fuse-forum" version="${project.version}">
 		<feature>qlack2-util-repack-jpadb</feature>
 		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-forum-api/${project.version}</bundle>
