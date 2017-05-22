@@ -20,6 +20,8 @@ import com.eurodyn.qlack2.fuse.componentlibrary.api.exception.QComponentLibraryE
 import com.eurodyn.qlack2.fuse.componentlibrary.impl.model.ApiGadget;
 import com.eurodyn.qlack2.fuse.componentlibrary.impl.model.ApiGadgetHasUser;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -187,25 +189,27 @@ public class RegistrationServiceImpl implements RegistrationService {
 	@Override
 	@Transactional(TxType.REQUIRED)
 	public String getGadgetIDFromGadgetUserKey(String gadgetUserKey) {
-		String retVal = null;
-		ApiGadgetHasUser ghu = em.find(ApiGadgetHasUser.class, gadgetUserKey);
-		if (ghu != null) {
-			retVal = ghu.getGadget().getId();
-		}
-
-		return retVal;
+    List<String> retVal = new ArrayList<>();
+    Query q = em.createQuery("select g from ApiGadgetHasUser g where g.userId = :gadgetUserKey");
+    q.setParameter("gadgetUserKey", gadgetUserKey);
+    for (Iterator<ApiGadgetHasUser> i = q.getResultList().iterator(); i.hasNext();) {
+      ApiGadgetHasUser a = i.next();
+      retVal.add(a.getGadget().getId());
+    }
+    return retVal.toString();
 	}
 
 	@Override
 	@Transactional(TxType.REQUIRED)
 	public String getUserIDFromGadgetUserKey(String gadgetUserKey) {
-		String retVal = null;
-		ApiGadgetHasUser ghu = em.find(ApiGadgetHasUser.class, gadgetUserKey);
-		if (ghu != null) {
-			retVal = ghu.getUserId();
-		}
-
-		return retVal;
+    List<String> retVal = new ArrayList<>();
+    Query q = em.createQuery("select g from ApiGadgetHasUser g where g.userId = :gadgetUserKey");
+    q.setParameter("gadgetUserKey", gadgetUserKey);
+    for (Iterator<ApiGadgetHasUser> i = q.getResultList().iterator(); i.hasNext();) {
+      ApiGadgetHasUser a = i.next();
+      retVal.add(a.getUserId());
+    }
+    return retVal.toString();
 	}
 
 	@Override
