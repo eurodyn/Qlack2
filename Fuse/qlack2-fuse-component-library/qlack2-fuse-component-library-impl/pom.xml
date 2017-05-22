@@ -27,9 +27,29 @@
 							org.hibernate,
 							weblogic.jndi
 						</DynamicImport-Package>
+            <Q-Liquibase-ChangeLog>db/qlack2-fuse-component-library-impl.liquibase.changelog.xml</Q-Liquibase-ChangeLog>
 					</instructions>
 				</configuration>
 			</plugin>
+      <plugin>
+        <groupId>org.apache.aries.blueprint</groupId>
+        <artifactId>blueprint-maven-plugin</artifactId>
+        <version>${blueprint.maven.plugin}</version>
+        <configuration>
+          <scanPaths>
+            <scanPath>com.eurodyn.qlack2.fuse.componentlibrary.impl</scanPath>
+            <scanPath>com.eurodyn.qlack2.fuse.componentlibrary.impl.bootstrap</scanPath>
+          </scanPaths>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>blueprint-generate</goal>
+            </goals>
+            <phase>process-classes</phase>
+          </execution>
+        </executions>
+      </plugin>
 		</plugins>
 
 		<resources>
@@ -71,5 +91,19 @@
 			<artifactId>org.osgi.core</artifactId>
 			<version>${osgi.version}</version>
 		</dependency>
+    <dependency>
+      <groupId>com.eurodyn.qlack2.util</groupId>
+      <artifactId>qlack2-util-liquibase-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.ops4j.pax.cdi</groupId>
+      <artifactId>pax-cdi-api</artifactId>
+      <version>${pax.cdi.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <version>${javax.inject.version}</version>
+    </dependency>
 	</dependencies>
 </project>
