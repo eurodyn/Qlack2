@@ -14,6 +14,7 @@
 	<modules>
 		<module>qlack2-fuse-content-manager-api</module>
 		<module>qlack2-fuse-content-manager-impl</module>
+		<module>qlack2-fuse-content-manager-test</module>
 	</modules>
 
 </project>
