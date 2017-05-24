@@ -117,6 +117,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 		<feature version="${project.version}">qlack2-fuse-crypto</feature>
 		<feature version="${project.version}">qlack2-fuse-ticketserver</feature>
 		<feature>qlack2-common-util</feature>
+		<feature>cxf-jaxrs</feature>
 		<feature>qlack2-util-repack-jackson-rs</feature>
 		<bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
 		<bundle>mvn:joda-time/joda-time/${joda.version}</bundle>
