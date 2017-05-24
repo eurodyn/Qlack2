@@ -14,6 +14,7 @@
 	<modules>
 		<module>qlack2-fuse-idm-api</module>
 		<module>qlack2-fuse-idm-impl</module>
+		<module>qlack2-fuse-idm-test</module>
 	</modules>
 
 </project>
