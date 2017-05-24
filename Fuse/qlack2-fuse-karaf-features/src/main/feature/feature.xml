@@ -128,6 +128,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 	</feature>
 
 	<feature description="QLACK2 Fuse - Imaging" name="qlack2-fuse-imaging" version="${project.version}">
+	    <feature>jndi</feature>
 		<bundle>mvn:javax.media.jai/com.springsource.javax.media.jai.codec/${jai.version}</bundle>
 		<bundle>mvn:javax.media.jai/com.springsource.javax.media.jai.core/${jai.version}</bundle>
 		<bundle>mvn:eu.medsea.mimeutil/mime-util/${mimeutil.version}</bundle>
