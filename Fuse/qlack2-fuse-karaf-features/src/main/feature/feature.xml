@@ -81,7 +81,9 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-event-publisher-impl/${project.version}</bundle>
 	</feature>
 
-	<feature description="QLACK2 Fuse - Lexicon" name="qlack2-fuse-lexicon" version="${project.version}">
+	<feature description="QLACK2 Fuse - Lexicon" name="qlack2-fuse-lexicon" version="${project.version}">    
+		<feature>qlack2-util-repack-querydsl</feature>
+		<feature prerequisite="true">wrap</feature>
         <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-lexicon-api/${project.version}</bundle>
 		<feature>qlack2-fuse-lexicon-impl</feature>
 	</feature>
