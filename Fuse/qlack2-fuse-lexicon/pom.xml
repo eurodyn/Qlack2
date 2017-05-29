@@ -13,5 +13,6 @@
     <modules>
         <module>qlack2-fuse-lexicon-api</module>
         <module>qlack2-fuse-lexicon-impl</module>
+		<module>qlack2-fuse-lexicon-test</module>
     </modules>
 </project>
