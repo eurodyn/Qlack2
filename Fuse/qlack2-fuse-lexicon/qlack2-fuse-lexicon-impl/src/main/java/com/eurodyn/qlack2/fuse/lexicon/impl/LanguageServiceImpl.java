@@ -92,7 +92,7 @@ public class LanguageServiceImpl implements LanguageService {
 			String sourceLanguageId, String translationPrefix) {
 		Language entity = ConverterUtil.languageDTOToLanguage(language);
 
-		entity.setId(sourceLanguageId);
+		entity.setId(language.getId());
 		em.persist(entity);
 		Map<String, String> translations;
 
