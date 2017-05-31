@@ -113,12 +113,12 @@ public class Email implements java.io.Serializable {
 		}
 		if (statuses != null && statuses.length > 0) {
 			// open-coded join()
-			StringBuilder sb = new StringBuilder("(status IN (");
+			StringBuilder sb = new StringBuilder("(status IN ('");
 			sb.append(statuses[0].toString());
 			for (int i = 1; i < statuses.length; i++) {
-				sb.append(", ").append(statuses[i].toString());
+				sb.append("',' ").append(statuses[i].toString());
 			}
-			sb.append("))");
+			sb.append("'))");
 			predicates.add(sb.toString());
 		}
 
