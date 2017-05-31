@@ -25,6 +25,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,23 +44,30 @@ public class MailServiceImpl implements MailService {
 	 * Queue a list of Emails.
 	 *
 	 * @param dtos - list of email data transfer objects.
+	 *
+	 * @return List of email ids
 	 */
 	@Override
 	@Transactional(TxType.REQUIRED)
-	public void queueEmails(List<EmailDTO> dtos) {
+	public List<String> queueEmails(List<EmailDTO> dtos) {
+		List<String> emails = new ArrayList<>();
 		for (EmailDTO dto : dtos) {
-			queueEmail(dto);
+			emails.add(queueEmail(dto));
 		}
+
+		return emails;
 	}
 
 	/**
 	 * Queue an email.
 	 *
 	 * @param emailDto - an email data transfer object.
+	 *
+	 * @return email id
 	 */
 	@Override
 	@Transactional(TxType.REQUIRED)
-	public void queueEmail(EmailDTO emailDto) {
+	public String queueEmail(EmailDTO emailDto) {
 		Email email = new Email();
 
 		email.setSubject(emailDto.getSubject());
@@ -95,6 +103,8 @@ public class MailServiceImpl implements MailService {
 			}
 			email.setAttachments(attachments);
 		}
+
+		return email.getId();
 	}
 
 	/**
@@ -133,6 +143,23 @@ public class MailServiceImpl implements MailService {
 	public void updateStatus(String emailId, EMAIL_STATUS status) {
 		Email email = getMailById(emailId);
 		email.setStatus(status.toString());
+	}
+
+	@Override
+	@Transactional(TxType.REQUIRED)
+	public String getStatus(String emailId) {
+		Email email = em.find(Email.class, emailId);
+		return email.getStatus();
+	}
+
+	@Override
+	@Transactional(TxType.REQUIRED)
+	public String getMailId(String emailId) {
+		Email email = em.find(Email.class, emailId);
+		if (email == null) {
+			return null;
+		}
+		return email.getId();
 	}
 
 	private Email getMailById(String emailId) {
