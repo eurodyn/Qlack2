@@ -36,7 +36,7 @@ public interface DistributionListService {
 
 	void deleteDistributionList(String id);
 
-	void createContact(ContactDTO dto);
+	String createContact(ContactDTO dto);
 
 	void addContactToDistributionList(String distributionId, String contactId);
 
