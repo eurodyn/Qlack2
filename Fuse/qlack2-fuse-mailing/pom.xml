@@ -15,6 +15,7 @@
 		<module>qlack2-fuse-mailing-api</module>
 		<module>qlack2-fuse-mailing-impl</module>
 		<module>qlack2-fuse-mailing-commands</module>
+		<module>qlack2-fuse-mailing-test</module>
 	</modules>
 
 </project>
