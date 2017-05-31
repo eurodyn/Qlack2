@@ -6,6 +6,7 @@ public class TestConst {
     //Constants for methods - generateRandomString/getRandomNumber
     private static final String CHAR_LIST = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     private static final int RANDOM_STRING_LENGTH = 10;
+    public static byte[] data = {10};
 
     public static String generateRandomString(){
         StringBuffer randStr = new StringBuffer();
