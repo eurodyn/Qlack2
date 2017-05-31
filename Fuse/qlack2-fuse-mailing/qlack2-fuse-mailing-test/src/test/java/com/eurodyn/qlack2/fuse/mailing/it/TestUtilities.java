@@ -1,14 +1,8 @@
 package com.eurodyn.qlack2.fuse.mailing.it;
 
-import com.eurodyn.qlack2.fuse.mailing.api.dto.ContactDTO;
-import com.eurodyn.qlack2.fuse.mailing.api.dto.DistributionListDTO;
-import com.eurodyn.qlack2.fuse.mailing.api.dto.EmailDTO;
-import com.eurodyn.qlack2.fuse.mailing.api.dto.InternalMessagesDTO;
+import com.eurodyn.qlack2.fuse.mailing.api.dto.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class TestUtilities {
 
@@ -25,6 +19,16 @@ public class TestUtilities {
         internalMessagesDTO.setSrcUserId(UUID.randomUUID().toString());
         internalMessagesDTO.setTo(TestConst.generateRandomString());
 
+        InternalAttachmentDTO attachmentDTO = new InternalAttachmentDTO();
+        attachmentDTO.setId(UUID.randomUUID().toString());
+        attachmentDTO.setContentType(TestConst.generateRandomString());
+        attachmentDTO.setFilename(TestConst.generateRandomString());
+        attachmentDTO.setData(TestConst.data);
+
+        List<InternalAttachmentDTO> attachmentDTOList = new ArrayList<>();
+        attachmentDTOList.add(attachmentDTO);
+
+        internalMessagesDTO.setAttachments(attachmentDTOList);
         return internalMessagesDTO;
     }
 

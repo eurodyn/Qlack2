@@ -1,7 +1,10 @@
 package com.eurodyn.qlack2.fuse.mailing.it;
 
 import com.eurodyn.qlack2.fuse.mailing.api.InternalMessageService;
+import com.eurodyn.qlack2.fuse.mailing.api.dto.DistributionListDTO;
+import com.eurodyn.qlack2.fuse.mailing.api.dto.InternalAttachmentDTO;
 import com.eurodyn.qlack2.fuse.mailing.api.dto.InternalMessagesDTO;
+import com.eurodyn.qlack2.fuse.mailing.impl.model.InternalAttachment;
 import com.eurodyn.qlack2.fuse.mailing.impl.util.MaiConstants;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,6 +22,8 @@ import javax.inject.Inject;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author European Dynamics SA.
@@ -121,8 +126,14 @@ public class InternalMessageServiceImplTest extends ITTestConf {
         InternalMessagesDTO internalMessagesDTO = TestUtilities.createInternalMessagesDTO();
         InternalMessagesDTO internalMessagesID = internalMessageService.sendInternalMail(internalMessagesDTO);
         Assert.assertNotNull(internalMessagesID);
+        List<InternalAttachmentDTO> attachmentID = internalMessagesID.getAttachments();
 
-        Assert.assertNotNull(internalMessageService.getInternalAttachment(internalMessagesID.getId()));
+        Iterator iterator = attachmentID.iterator();
+        while(iterator.hasNext()){
+            InternalAttachmentDTO element = (InternalAttachmentDTO) iterator.next();
+            String distrID = element.getId();
+            Assert.assertNotNull(internalMessageService.getInternalAttachment(distrID));
+        }
     }
 
     @Test
