@@ -131,12 +131,16 @@ public class DistributionListServiceImpl implements DistributionListService {
 	 * Create a new contact.
 	 *
 	 * @param dto
+	 *
+	 * @return id of contact
 	 */
 	@Override
 	@Transactional(TxType.REQUIRED)
-	public void createContact(ContactDTO dto) {
+	public String createContact(ContactDTO dto) {
 		Contact contact = ConverterUtil.contactConvert(dto);
 		em.persist(contact);
+
+		return contact.getId();
 	}
 
 	/**
