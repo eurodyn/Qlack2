@@ -27,7 +27,7 @@ import com.eurodyn.qlack2.fuse.mailing.api.dto.EmailDTO;
 public interface MailService {
 
 	public static enum EMAIL_STATUS {
-		QUEUED, SENT, FAILED, CANCELED,
+		QUEUED, SENT, FAILED, CANCELED
 	};
 
 	String queueEmail(EmailDTO dto);
