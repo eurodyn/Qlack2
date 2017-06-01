@@ -42,6 +42,6 @@ public interface MailService {
 
 	String getStatus(String emailId);
 
-	String getMailId(String emailId);
+	EmailDTO getMail(String emailId);
 
 }

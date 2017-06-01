@@ -154,12 +154,14 @@ public class MailServiceImpl implements MailService {
 
 	@Override
 	@Transactional(TxType.REQUIRED)
-	public String getMailId(String emailId) {
+	public EmailDTO getMail(String emailId) {
 		Email email = em.find(Email.class, emailId);
 		if (email == null) {
 			return null;
 		}
-		return email.getId();
+		EmailDTO emailDTO = ConverterUtil.emailConvert(email);
+
+		return emailDTO;
 	}
 
 	private Email getMailById(String emailId) {

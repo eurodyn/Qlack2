@@ -53,7 +53,7 @@ public class MailServiceImplTest extends ITTestConf {
         Assert.assertNotNull(emailID);
 
         mailService.updateStatus(emailID,SENT);
-        String status = mailService.getStatus(emailID);
+        String status = mailService.getMail(emailID).getStatus();
         Assert.assertEquals(status,"SENT");
     }
 
@@ -64,7 +64,8 @@ public class MailServiceImplTest extends ITTestConf {
         Assert.assertNotNull(emailID);
 
         mailService.deleteFromQueue(emailID);
-        Assert.assertNull(mailService.getMailId(emailID));
+        //expect that the id doesnt exist
+        Assert.assertNull(mailService.getMail(emailID));
     }
 
     @Test
@@ -77,7 +78,9 @@ public class MailServiceImplTest extends ITTestConf {
 
         MailService.EMAIL_STATUS[] status = MailService.EMAIL_STATUS.values();
         mailService.cleanup(new Date().getTime(),status);
-        Assert.assertNull(mailService.getMailId(emailID));
+
+        //expect that the id doesnt exist
+        Assert.assertNull(mailService.getMail(emailID));
     }
 
 }
