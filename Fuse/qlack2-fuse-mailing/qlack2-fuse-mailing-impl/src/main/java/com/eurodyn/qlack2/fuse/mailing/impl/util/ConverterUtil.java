@@ -14,14 +14,8 @@
  */
 package com.eurodyn.qlack2.fuse.mailing.impl.util;
 
-import com.eurodyn.qlack2.fuse.mailing.api.dto.ContactDTO;
-import com.eurodyn.qlack2.fuse.mailing.api.dto.DistributionListDTO;
-import com.eurodyn.qlack2.fuse.mailing.api.dto.InternalAttachmentDTO;
-import com.eurodyn.qlack2.fuse.mailing.api.dto.InternalMessagesDTO;
-import com.eurodyn.qlack2.fuse.mailing.impl.model.Contact;
-import com.eurodyn.qlack2.fuse.mailing.impl.model.DistributionList;
-import com.eurodyn.qlack2.fuse.mailing.impl.model.InternalAttachment;
-import com.eurodyn.qlack2.fuse.mailing.impl.model.InternalMessages;
+import com.eurodyn.qlack2.fuse.mailing.api.dto.*;
+import com.eurodyn.qlack2.fuse.mailing.impl.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -247,6 +241,30 @@ public class ConverterUtil {
 		}
 
 		return messagesDtoList;
+	}
+
+	/**
+	 * Converts the Email entity to DTO.
+	 *
+	 * @param entity Email.
+	 * @return EmailDTO
+	 */
+	public static EmailDTO emailConvert(Email entity) {
+		if (entity == null) {
+			return null;
+		}
+
+		EmailDTO dto = new EmailDTO();
+		dto.setId(entity.getId());
+		dto.setDateSent(entity.getDateSent());
+		dto.setStatus(entity.getStatus());
+		dto.setBody(entity.getBody());
+		dto.setFrom(entity.getFromEmail());
+		dto.setServerResponse(entity.getServerResponse());
+		dto.setSubject(entity.getSubject());
+		dto.setStatus(entity.getStatus());
+
+		return dto;
 	}
 
 }
