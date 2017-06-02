@@ -14,6 +14,7 @@
 	<modules>
 		<module>qlack2-fuse-search-api</module>
 		<module>qlack2-fuse-search-impl</module>
+		<module>qlack2-fuse-search-test</module>
 	</modules>
 
 </project>

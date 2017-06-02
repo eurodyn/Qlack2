@@ -18,7 +18,6 @@ import com.eurodyn.qlack2.fuse.scheduler.api.dto.TriggerDateInfo;
 import com.eurodyn.qlack2.fuse.scheduler.api.exception.QSchedulerException;
 import com.eurodyn.qlack2.fuse.scheduler.api.jobs.SchedulerWrappedJob;
 import com.eurodyn.qlack2.fuse.scheduler.api.jobs.triggers.SchedulerWrappedTrigger;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

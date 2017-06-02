@@ -14,6 +14,7 @@
 	<modules>
 		<module>qlack2-fuse-scheduler-api</module>
 		<module>qlack2-fuse-scheduler-impl</module>
+		<module>qlack2-fuse-scheduler-test</module>
 	</modules>
 
 </project>
