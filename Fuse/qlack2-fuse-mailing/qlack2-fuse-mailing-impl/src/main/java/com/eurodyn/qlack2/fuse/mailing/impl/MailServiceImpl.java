@@ -147,13 +147,6 @@ public class MailServiceImpl implements MailService {
 
 	@Override
 	@Transactional(TxType.REQUIRED)
-	public String getStatus(String emailId) {
-		Email email = em.find(Email.class, emailId);
-		return email.getStatus();
-	}
-
-	@Override
-	@Transactional(TxType.REQUIRED)
 	public EmailDTO getMail(String emailId) {
 		Email email = em.find(Email.class, emailId);
 		if (email == null) {
