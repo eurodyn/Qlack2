@@ -40,8 +40,6 @@ public interface MailService {
 
 	void cleanup(Long date, EMAIL_STATUS[] status);
 
-	String getStatus(String emailId);
-
 	EmailDTO getMail(String emailId);
 
 }
