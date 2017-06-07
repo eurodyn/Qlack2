@@ -15,6 +15,7 @@
 		<module>qlack2-fuse-ticket-server-api</module>
 		<module>qlack2-fuse-ticket-server-impl</module>
 		<module>qlack2-fuse-ticket-server-commands</module>
+		<module>qlack2-fuse-ticket-server-test</module>
 	</modules>
 
 </project>
