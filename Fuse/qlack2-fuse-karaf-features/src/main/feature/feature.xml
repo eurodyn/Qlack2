@@ -285,7 +285,9 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 	</feature>
 	
 	<feature description="QLACK2 Fuse - Wiki" name="qlack2-fuse-wiki" version="${project.version}">
+		<feature prerequisite="true">wrap</feature>
 		<feature>qlack2-util-repack-jpadb</feature>
+		<feature>qlack2-util-repack-querydsl</feature>
 		<feature>qlack2-common-util</feature>
 		<bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
 		<bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-wiki-api/${project.version}</bundle>
