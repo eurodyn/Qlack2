@@ -14,6 +14,7 @@
 	<modules>
 		<module>qlack2-fuse-wiki-api</module>
 		<module>qlack2-fuse-wiki-impl</module>
+		<module>qlack2-fuse-wiki-test</module>
 	</modules>
 
 </project>

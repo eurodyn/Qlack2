@@ -206,9 +206,11 @@ public class WikiTagServiceImpl implements WikiTagService {
 			Query q = em.createQuery("select wt from WikTag wt where wt.id = :id");
 			q.setParameter("id", tagId);
 			wikTag =((WikTag) q.getSingleResult());
-			//TODO misses check for null WikTag.
 		} catch (NoResultException nre) {
 			
+		}
+		if (wikTag == null){
+			return null;
 		}
 		return wikTag.getName();
 	}
