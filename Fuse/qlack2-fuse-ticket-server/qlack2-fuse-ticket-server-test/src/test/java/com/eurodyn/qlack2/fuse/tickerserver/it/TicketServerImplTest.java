@@ -118,11 +118,12 @@ public class TicketServerImplTest extends ITTestConf {
         Date endDate = endCale.getTime();
 
         TicketDTO ticketDTO = TestUtilities.createTicketDTO();
+        ticketDTO.setAutoExtendDuration(endDate.getTime());
         String ticketID = ticketServerService.createTicket(ticketDTO);
         Assert.assertNotNull(ticketID);
 
         ticketServerService.extendAutoExtendValidity(ticketID,endDate.getTime());
-        Assert.assertNotEquals(ticketDTO.getValidUntil(),ticketServerService.getTicket(ticketID).getAutoExtendDuration());
+        Assert.assertEquals(ticketDTO.getAutoExtendDuration(),ticketServerService.getTicket(ticketID).getAutoExtendDuration());
     }
 
     @Test
