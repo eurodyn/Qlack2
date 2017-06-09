@@ -207,11 +207,9 @@ public class WikiTagServiceImpl implements WikiTagService {
 			q.setParameter("id", tagId);
 			wikTag =((WikTag) q.getSingleResult());
 		} catch (NoResultException nre) {
-			
-		}
-		if (wikTag == null){
 			return null;
 		}
+
 		return wikTag.getName();
 	}
 
