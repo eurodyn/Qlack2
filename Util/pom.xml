@@ -29,8 +29,9 @@
 		<module>qlack2-util-repack-karaf-features</module>
 		<module>qlack2-util-rest</module>
 		<module>qlack2-util-validator-util</module>
-	    <module>qlack2-util-db-check</module>
 	    <module>qlack2-util-drivers</module>
+	    <module>qlack2-util-avail-check</module>
+	    <module>qlack2-util-docker</module>
   </modules>
 
 	<!-- QLACK2 versions ONLY -->
