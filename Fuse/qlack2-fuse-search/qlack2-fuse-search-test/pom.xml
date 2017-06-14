@@ -58,12 +58,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.github.docker-java</groupId>
-      <artifactId>docker-java</artifactId>
-      <version>${docker-java.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
       <version>${osgi.version}</version>
@@ -78,6 +72,19 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <version>${slf4j-simple.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.eurodyn.qlack2.util</groupId>
+      <artifactId>qlack2-util-docker</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.eurodyn.qlack2.util</groupId>
+      <artifactId>qlack2-util-avail-check-elasticsearch</artifactId>
+      <version>2.2.4-SNAPSHOT</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 

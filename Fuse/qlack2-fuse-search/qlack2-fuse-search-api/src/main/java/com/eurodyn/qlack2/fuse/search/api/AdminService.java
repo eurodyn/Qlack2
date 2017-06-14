@@ -1,5 +1,7 @@
 package com.eurodyn.qlack2.fuse.search.api;
 
+import com.eurodyn.qlack2.fuse.search.api.request.CreateIndexRequest;
+
 /**
  * Provides functionality to manipulate the indices of ES.
  */
@@ -7,11 +9,10 @@ public interface AdminService {
 	/**
 	 * Creates a new index.
 	 * 
-	 * @param indexName
-	 *            The name of the index to exist.
-	 * @return True if the index was created, false if the index alredy exists.
+	 * @param createIndexRequest The details of the index to be created.
+	 * @return True if the index was created, false if the index already exists.
 	 */
-	boolean createIndex(String indexName);
+	boolean createIndex(CreateIndexRequest createIndexRequest);
 
 	/**
 	 * Creates a new index with specific mappings. 
@@ -43,7 +44,7 @@ public interface AdminService {
 	 * @return True if the index was created, false if the index alredy exists.
 	 * 
 	 */
-	boolean createIndex(String indexName, String indexMapping);
+//	boolean createIndex(C);
 
 	/**
 	 * Deletes an index by name. Asynchronous operation.

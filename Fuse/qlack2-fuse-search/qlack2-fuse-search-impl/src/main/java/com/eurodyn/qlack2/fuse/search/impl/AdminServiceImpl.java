@@ -1,15 +1,20 @@
 package com.eurodyn.qlack2.fuse.search.impl;
 
 import com.eurodyn.qlack2.fuse.search.api.AdminService;
+import com.eurodyn.qlack2.fuse.search.api.exception.QSearchException;
+import com.eurodyn.qlack2.fuse.search.api.request.CreateIndexRequest;
+import com.eurodyn.qlack2.fuse.search.impl.mappers.CreateIndexRequestMapper;
 import com.eurodyn.qlack2.fuse.search.impl.util.ESClient;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-import org.apache.http.util.EntityUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.client.Response;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 
 import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,32 +27,36 @@ public class AdminServiceImpl implements AdminService {
   @Named("ESClient")
   private ESClient esClient;
 
+
   @Override
-  public boolean createIndex(String indexName, String indexMapping) {
+  public boolean createIndex(CreateIndexRequest createIndexRequest) {
+    boolean retVal = false;
     /** If the index already exists return without doing anything. */
-    if (indexExists(indexName)) {
-      LOGGER.log(Level.WARNING, "Index already exists: {0}.", indexName);
-      return false;
-    }
-//
-//		// Create the index-create request.
-//		try {
-//			// If an indexMapping is provided creaate the index using this
-//			// mapping, otherwise create the index with no specific mapping (ES
-//			// will automatically map fields according to the underlying data
-//			// types, see 'Field datatypes' on
-//			// https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html).
-//			if (StringUtils.isNotBlank(indexMapping)) {
+    if (indexExists(createIndexRequest.getName())) {
+      LOGGER.log(Level.WARNING, "Index already exists: {0}.", createIndexRequest.getName());
+    } else {
+      /** If an indexMapping is provided creaate the index using this mapping, otherwise create the
+       * index with no specific mapping (ES will automatically map fields according to the
+       * underlying data types, see 'Field datatypes' on
+       * https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html).
+       */
+      if (StringUtils.isNotBlank(createIndexRequest.getIndexMapping())) {
 //				esClient.getClient().admin().indices().prepareCreate(indexName)
 //						.setSource(indexMapping).execute().get();
-//			} else {
-//				esClient.getClient().admin().indices().prepareCreate(indexName).execute().get();
-//			}
-//		} catch (InterruptedException | ExecutionException e) {
-//			throw new QSearchException("Could create index.", e);
-//		}
+      } else {
+        try {
+          esClient.getClient().performRequest("PUT", createIndexRequest.getName(),
+            new HashMap<>(),
+            CreateIndexRequestMapper.INSTANCE.mapToNStringEntity(createIndexRequest));
+          retVal = true;
+        } catch (IOException e) {
+          throw new QSearchException(
+            MessageFormat.format("Could not create index {0}.", createIndexRequest.getName()), e);
+        }
+      }
+    }
 
-    return true;
+    return retVal;
   }
 
   @Override
@@ -65,39 +74,15 @@ public class AdminServiceImpl implements AdminService {
   }
 
   @Override
-  public boolean createIndex(String indexName) {
-    return createIndex(indexName, null);
-  }
-
-  @Override
   public boolean indexExists(String indexName) {
+    Response response;
     try {
-      System.out.println("--------------------- DOING CALL");
-      try {
-        Thread.sleep(10000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-      final Response response = esClient.getClient().performRequest("GET", "/" + indexName);
-      System.out.println("--------------------- AFTER CALL");
-      System.out.println("**************************************");
-      System.out.println(response.getStatusLine().getStatusCode());
-      System.out.println();
-      System.out.println(EntityUtils.toString(response.getEntity()));
-      System.out.println("**************************************");
+      response = esClient.getClient().performRequest("HEAD", indexName);
     } catch (IOException e) {
-      e.printStackTrace();
+      throw new QSearchException("Could not check if index exists.", e);
     }
-//		IndicesExistsResponse res;
-//		try {
-//			res = esClient.getClient().admin()
-//					.indices().prepareExists(indexName).execute().get();
-//		} catch (InterruptedException | ExecutionException e) {
-//			throw new QSearchException("Could not check if index exists.", e);
-//		}
-//
-//		return res.isExists();
-    return true;
+
+    return response != null ? (response.getStatusLine().getStatusCode() == 200) : false;
   }
 
   @Override

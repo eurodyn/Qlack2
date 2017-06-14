@@ -1,6 +1,6 @@
-package com.eurodyn.qlack2.fuse.aaa.it;
+package com.eurodyn.qlack2.fuse.search.it;
 
-import static com.eurodyn.qlack2.fuse.aaa.TestUtil.copyITConf;
+import static com.eurodyn.qlack2.fuse.search.TestUtil.copyITConf;
 import static org.ops4j.pax.exam.CoreOptions.maven;
 import static org.ops4j.pax.exam.CoreOptions.when;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.configureConsole;
@@ -10,7 +10,7 @@ import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.karafDist
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.keepRuntimeFolder;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.logLevel;
 
-import com.eurodyn.qlack2.fuse.aaa.TestUtil;
+import com.eurodyn.qlack2.fuse.search.TestUtil;
 import org.ops4j.pax.exam.Configuration;
 import org.ops4j.pax.exam.Option;
 import org.ops4j.pax.exam.karaf.options.LogLevelOption.LogLevel;
@@ -62,7 +62,6 @@ public abstract class ITTestConf {
       features(karafStandardFeaturesUrl, "wrap"),
       features(projectFeaturesRepo, "qlack2-fuse-search")
     };
-
   }
 
 }

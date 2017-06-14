@@ -1,7 +1,7 @@
 package com.eurodyn.qlack2.util.availcheck.elasticsearch;
 
 import com.eurodyn.qlack2.util.availcheck.api.AvailabilityCheck;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -71,7 +71,7 @@ public class AvailabilityCheckElasticsearch implements AvailabilityCheck {
               statusCode);
           }
         } catch (IOException e) {
-          LOGGER.log(Level.INFO, "Could not connect to Elasticsearch", e);
+          LOGGER.log(Level.FINEST, "Could not connect to Elasticsearch.", e);
         }
         Thread.sleep(cycleWait);
       }

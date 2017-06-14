@@ -28,9 +28,9 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:org.apache.httpcomponents/httpclient-osgi/4.5.3</bundle>
     <bundle>mvn:org.apache.httpcomponents/httpasyncclient-osgi/4.1.3</bundle>
     <bundle>wrap:mvn:org.elasticsearch.client/rest/5.4.0</bundle>
+    <bundle>mvn:org.mapstruct/mapstruct-jdk8/${mapstruct.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-search-impl/${project.version}</bundle>
   </feature>
-
 
 	<feature description="QLACK2 Fuse - AAA" name="qlack2-fuse-AAA" version="${project.version}">
 		<configfile finalname="/etc/com.eurodyn.qlack2.fuse.aaa.cfg">mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-aaa-impl/${project.version}/cfg/config-admin</configfile>

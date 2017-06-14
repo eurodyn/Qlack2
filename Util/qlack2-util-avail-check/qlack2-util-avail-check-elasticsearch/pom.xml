@@ -28,9 +28,9 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.eurodyn.qlack2.util</groupId>
-      <artifactId>qlack2-util-docker</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>${commons.lang3.version}</version>
     </dependency>
 
     <dependency>
@@ -43,6 +43,12 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <version>${slf4j-simple.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.eurodyn.qlack2.util</groupId>
+      <artifactId>qlack2-util-docker</artifactId>
+      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

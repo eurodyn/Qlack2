@@ -132,7 +132,9 @@ public class DockerContainer {
     dockerClient.startContainerCmd(containerId).exec();
     debug("Container {0} ran.", containerId);
 
-    return createContainerResponse.getId();
+    id = createContainerResponse.getId();
+
+    return id;
   }
 
   private void stop(DockerClient dockerClient, String id) {

@@ -15,5 +15,7 @@
   <bean id="ESClient" class="com.eurodyn.qlack2.fuse.search.impl.util.ESClient"
     init-method="init" destroy-method="shutdown">
     <property name="esHosts" value="${es.hosts}"/>
+    <property name="esUsername" value="${es.username}"/>
+    <property name="esPassword" value="${es.password}"/>
   </bean>
 </blueprint>
