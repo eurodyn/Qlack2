@@ -14,6 +14,7 @@
 	<modules>
 		<module>qlack2-fuse-security-proxy-api</module>
 		<module>qlack2-fuse-security-proxy-impl</module>
+		<module>qlack2-fuse-security-proxy-test</module>
 	</modules>
 
 </project>
