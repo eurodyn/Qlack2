@@ -2,6 +2,7 @@ package com.eurodyn.qlack2.util.docker;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.model.AuthConfig;
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.PortBinding;
 import com.github.dockerjava.core.DefaultDockerClientConfig;
@@ -9,6 +10,7 @@ import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.command.PullImageResultCallback;
 import com.github.dockerjava.core.command.WaitContainerResultCallback;
+import org.apache.commons.lang.StringUtils;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -32,6 +34,8 @@ public class DockerContainer {
   private boolean outputToConsole = false;
   private String dockerEngine = "tcp://localhost:2375";
   private String id;
+  private String username;
+  private String password;
 
   public static DockerContainer builder() {
     return new DockerContainer();
@@ -67,6 +71,12 @@ public class DockerContainer {
     return this;
   }
 
+  public DockerContainer withAuth(String username, String password) {
+    this.username = username;
+    this.password = password;
+    return this;
+  }
+
   public DockerContainer outputToConsole() {
     outputToConsole = true;
     return this;
@@ -77,7 +87,7 @@ public class DockerContainer {
     return this;
   }
 
-  private void debug(String msg, Object...arguments) {
+  private void debug(String msg, Object... arguments) {
     if (outputToConsole) {
       System.out.println(MessageFormat.format(msg, arguments));
     }
@@ -98,6 +108,7 @@ public class DockerContainer {
 
   /**
    * Runs the configured container and returns the ID of the created container
+   *
    * @return Returns the ID of the container that was created.
    */
   public String run() {
@@ -107,7 +118,16 @@ public class DockerContainer {
     if (forcePull
       || dockerClient.listImagesCmd().withImageNameFilter(imageName).exec().size() == 0) {
       debug("Pulling image {0}...", imageName);
-      dockerClient.pullImageCmd(imageName).exec(new PullImageResultCallback()).awaitSuccess();
+      if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password)) {
+        dockerClient.pullImageCmd(imageName)
+          .withAuthConfig(new AuthConfig()
+            .withUsername(username)
+            .withPassword(password))
+          .exec(new PullImageResultCallback()).awaitSuccess();
+      } else {
+        dockerClient.pullImageCmd(imageName).exec(new PullImageResultCallback()).awaitSuccess();
+      }
+
       debug("Image {0} pulled.", imageName);
     }
 
@@ -125,7 +145,6 @@ public class DockerContainer {
       .exec();
     String containerId = createContainerResponse.getId();
     debug("Container for image {0} created with id {1}.", new Object[]{imageName, containerId});
-
 
     /** Run container */
     debug("Running container {0}...", containerId);

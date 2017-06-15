@@ -12,21 +12,18 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the Licence for the specific la
  *************************************************************************** -->
+<!-- @formatter:off -->
 
 <!--
 feature:repo-add mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/LATEST/xml/features
 -->
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" name="QLACK2-COMMMON">
   <!-- External repositories needed for this features set -->
-  <repository>
-    mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/${project.version}/xml/features
-  </repository>
+  <repository>mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/${project.version}/xml/features</repository>
   <repository>mvn:org.apache.cxf.karaf/apache-cxf/${karaf.cxf.version}/xml/features</repository>
 
-  <feature description="QLACK2 Common - util" name="qlack2-common-util"
-    version="${project.version}">
+  <feature description="QLACK2 Common - util" name="qlack2-common-util" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
-
     <bundle>mvn:commons-collections/commons-collections/${commons.collections.version}</bundle>
     <bundle>mvn:commons-beanutils/commons-beanutils/${commons.beanutils.version}</bundle>
     <bundle>wrap:mvn:com.github.slugify/slugify/${slugify.version}</bundle>

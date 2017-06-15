@@ -1,94 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- @formatter:off -->
 
 <!--
 feature:repo-add mvn:com.eurodyn.qlack2.be/qlack2-be-karaf-features/LATEST/xml/features
  -->
-<features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0"	name="QLACK2-QBE">
-	<repository>mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/${project.version}/xml/features</repository>
-	<repository>mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/${project.version}/xml/features</repository>
-	<repository>mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/${project.version}/xml/features</repository>
-	<repository>mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-karaf-features/${project.version}/xml/features</repository>
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" name="QLACK2-QBE">
+  <repository>mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/${project.version}/xml/features</repository>
+  <repository>mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/${project.version}/xml/features</repository>
+  <repository>mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/${project.version}/xml/features</repository>
+  <repository>mvn:com.eurodyn.qlack2.webdesktop/qlack2-wd-karaf-features/${project.version}/xml/features</repository>
 
-	<feature description="QLACK Business Engine" name="qlack2-qbe" version="${project.version}">
-		<feature>qlack2-util-repack-cxf-conf</feature>
-		<feature>qlack2-wd</feature>
-		<feature>qlack2-webdesktop-appmanagement</feature>
-		<feature>qlack2-webdesktop-usermanagement</feature>
-		<feature>qlack2-be-explorer</feature>
-		<feature>qlack2-be-rules</feature>
-		<feature>qlack2-be-forms</feature>
-		<feature>qlack2-be-workflow</feature>
-	</feature>
+  <feature description="QLACK Business Engine" name="qlack2-qbe" version="${project.version}">
+    <feature>qlack2-util-repack-cxf-conf</feature>
+    <feature>qlack2-wd</feature>
+    <feature>qlack2-webdesktop-appmanagement</feature>
+    <feature>qlack2-webdesktop-usermanagement</feature>
+    <feature>qlack2-be-explorer</feature>
+    <feature>qlack2-be-rules</feature>
+    <feature>qlack2-be-forms</feature>
+    <feature>qlack2-be-workflow</feature>
+  </feature>
 
-	<feature description="Qlack Business Engine - Explorer" name="qlack2-be-explorer" version="${project.version}">
-		<feature>qlack2-util-repack-cxf-conf</feature>
-		<feature>qlack2-common-util</feature>
-		<feature>qlack2-util-repack-jackson-rs</feature>
-		<feature>qlack2-util-rest</feature>
-		<feature>qlack2-util-validator-util</feature>
-		<feature>qlack2-fuse-idm</feature>
-		<feature>qlack2-fuse-auditing-client</feature>
-		<feature>qlack2-fuse-auditing</feature>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-explorer-api/${project.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-explorer-impl/${project.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-explorer-web/${project.version}</bundle>
-	</feature>
+  <feature description="Qlack Business Engine - Explorer" name="qlack2-be-explorer" version="${project.version}">
+    <feature>qlack2-util-repack-cxf-conf</feature>
+    <feature>qlack2-common-util</feature>
+    <feature>qlack2-util-repack-jackson-rs</feature>
+    <feature>qlack2-util-rest</feature>
+    <feature>qlack2-util-validator-util</feature>
+    <feature>qlack2-fuse-idm</feature>
+    <feature>qlack2-fuse-auditing-client</feature>
+    <feature>qlack2-fuse-auditing</feature>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-explorer-api/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-explorer-impl/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-explorer-web/${project.version}</bundle>
+  </feature>
 
-	<feature description="Qlack Business Engine - Rules Service" name="qlack2-be-rules" version="${project.version}">
-		<configfile finalname="/etc/com.eurodyn.qlack2.be.rules.cfg">mvn:com.eurodyn.qlack2.be/qlack2-be-rules-impl/${project.version}/cfg/config-admin</configfile>
-		<feature>qlack2-util-repack-cxf-conf</feature>
-		<feature>qlack2-common-util</feature>
-		<feature>qlack2-util-repack-jackson-rs</feature>
-		<feature>qlack2-util-rest</feature>
-		<feature>qlack2-util-validator-util</feature>
-		<feature>qlack2-util-fileupload</feature>
-		<feature>qlack2-fuse-idm</feature>
-		<feature>qlack2-be-explorer</feature>
-		<feature>qlack2-util-jbpm-runtime</feature>
-		<feature>qlack2-fuse-rules-runtime</feature>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-rules-api/${project.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-rules-impl/${project.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-rules-web/${project.version}</bundle>
-	</feature>
+  <feature description="Qlack Business Engine - Rules Service" name="qlack2-be-rules" version="${project.version}">
+    <configfile finalname="/etc/com.eurodyn.qlack2.be.rules.cfg">mvn:com.eurodyn.qlack2.be/qlack2-be-rules-impl/${project.version}/cfg/config-admin</configfile>
+    <feature>qlack2-util-repack-cxf-conf</feature>
+    <feature>qlack2-common-util</feature>
+    <feature>qlack2-util-repack-jackson-rs</feature>
+    <feature>qlack2-util-rest</feature>
+    <feature>qlack2-util-validator-util</feature>
+    <feature>qlack2-util-fileupload</feature>
+    <feature>qlack2-fuse-idm</feature>
+    <feature>qlack2-be-explorer</feature>
+    <feature>qlack2-util-jbpm-runtime</feature>
+    <feature>qlack2-fuse-rules-runtime</feature>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-rules-api/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-rules-impl/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-rules-web/${project.version}</bundle>
+  </feature>
 
-	<feature description="Qlack Business Engine - Forms" name="qlack2-be-forms" version="${project.version}">
-		<configfile finalname="/etc/com.eurodyn.qlack2.be.forms.proxy.cfg">mvn:com.eurodyn.qlack2.be/qlack2-be-forms-orbeon-proxy/${project.version}/cfg/config-admin</configfile>
-		<feature>qlack2-util-repack-cxf-conf</feature>
-		<feature>qlack2-common-util</feature>
-		<feature>qlack2-util-repack-jackson-rs</feature>
-		<feature>qlack2-util-rest</feature>
-		<feature>qlack2-util-validator-util</feature>
-		<feature>qlack2-fuse-idm</feature>
-		<feature>qlack2-be-explorer</feature>
-		<feature>qlack2-fuse-auditing-client</feature>
-		<feature>qlack2-fuse-auditing</feature>
-		<feature>qlack2-util-fileupload</feature>
-		<bundle>mvn:commons-io/commons-io/${commons.io.version}</bundle>
-		<bundle>wrap:mvn:org.apache.httpcomponents/httpcore/${apache.httpcore.version}</bundle>
-		<bundle>wrap:mvn:org.apache.httpcomponents/httpclient/${apache.httpclient.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-rules-api/${project.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-forms-api/${project.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-forms-client-api/${project.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-forms-impl/${project.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-forms-web/${project.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-forms-orbeon-rest/${project.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-forms-orbeon-proxy/${project.version}</bundle>
-	</feature>
+  <feature description="Qlack Business Engine - Forms" name="qlack2-be-forms" version="${project.version}">
+    <configfile finalname="/etc/com.eurodyn.qlack2.be.forms.proxy.cfg">mvn:com.eurodyn.qlack2.be/qlack2-be-forms-orbeon-proxy/${project.version}/cfg/config-admin</configfile>
+    <feature>qlack2-util-repack-cxf-conf</feature>
+    <feature>qlack2-common-util</feature>
+    <feature>qlack2-util-repack-jackson-rs</feature>
+    <feature>qlack2-util-rest</feature>
+    <feature>qlack2-util-validator-util</feature>
+    <feature>qlack2-fuse-idm</feature>
+    <feature>qlack2-be-explorer</feature>
+    <feature>qlack2-fuse-auditing-client</feature>
+    <feature>qlack2-fuse-auditing</feature>
+    <feature>qlack2-util-fileupload</feature>
+    <bundle>mvn:commons-io/commons-io/${commons.io.version}</bundle>
+    <bundle>wrap:mvn:org.apache.httpcomponents/httpcore/${apache.httpcore.version}</bundle>
+    <bundle>wrap:mvn:org.apache.httpcomponents/httpclient/${apache.httpclient.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-rules-api/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-forms-api/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-forms-client-api/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-forms-impl/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-forms-web/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-forms-orbeon-rest/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-forms-orbeon-proxy/${project.version}</bundle>
+  </feature>
 
-	<feature description="Qlack Business Engine - Workflow" name="qlack2-be-workflow" version="${project.version}">
-		<feature>qlack2-util-repack-cxf-conf</feature>
-		<feature>qlack2-common-util</feature>
-		<feature>qlack2-util-repack-jackson-rs</feature>
-		<feature>qlack2-util-rest</feature>
-		<feature>qlack2-util-validator-util</feature>
-		<feature>qlack2-fuse-idm</feature>
-		<feature>qlack2-util-jbpm-runtime</feature>
-		<feature>qlack2-fuse-workflow-runtime</feature>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-rules-api/${project.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-workflow-api/${project.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-workflow-client-api/${project.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-workflow-impl/${project.version}</bundle>
-		<bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-workflow-web/${project.version}</bundle>
-	</feature>
+  <feature description="Qlack Business Engine - Workflow" name="qlack2-be-workflow" version="${project.version}">
+    <feature>qlack2-util-repack-cxf-conf</feature>
+    <feature>qlack2-common-util</feature>
+    <feature>qlack2-util-repack-jackson-rs</feature>
+    <feature>qlack2-util-rest</feature>
+    <feature>qlack2-util-validator-util</feature>
+    <feature>qlack2-fuse-idm</feature>
+    <feature>qlack2-util-jbpm-runtime</feature>
+    <feature>qlack2-fuse-workflow-runtime</feature>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-rules-api/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-workflow-api/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-workflow-client-api/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-workflow-impl/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-workflow-web/${project.version}</bundle>
+  </feature>
 
 </features>
