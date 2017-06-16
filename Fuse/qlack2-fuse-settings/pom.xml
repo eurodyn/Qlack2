@@ -15,6 +15,7 @@
 		<module>qlack2-fuse-settings-api</module>
 		<module>qlack2-fuse-settings-impl</module>
 		<module>qlack2-fuse-settings-shell</module>
+		<module>qlack2-fuse-settings-test</module>
 	</modules>
 
 </project>
