@@ -30,7 +30,6 @@
     <dependency>
       <groupId>com.eurodyn.qlack2.common</groupId>
       <artifactId>qlack2-common-util</artifactId>
-      <version>${project.version}</version>
     </dependency>
   </dependencies>
 </project>

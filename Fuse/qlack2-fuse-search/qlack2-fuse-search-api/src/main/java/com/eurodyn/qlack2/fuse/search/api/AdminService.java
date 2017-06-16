@@ -1,6 +1,7 @@
 package com.eurodyn.qlack2.fuse.search.api;
 
 import com.eurodyn.qlack2.fuse.search.api.request.CreateIndexRequest;
+import com.eurodyn.qlack2.fuse.search.api.request.UpdateMappingRequest;
 
 /**
  * Provides functionality to manipulate the indices of ES.
@@ -8,14 +9,14 @@ import com.eurodyn.qlack2.fuse.search.api.request.CreateIndexRequest;
 public interface AdminService {
 	/**
 	 * Creates a new index.
-	 * 
+	 *
 	 * @param createIndexRequest The details of the index to be created.
 	 * @return True if the index was created, false if the index already exists.
 	 */
 	boolean createIndex(CreateIndexRequest createIndexRequest);
 
 	/**
-	 * Creates a new index with specific mappings. 
+	 * Creates a new index with specific mappings.
 	 * <br><br>
 	 * Mapping example:
 	 * <pre>
@@ -32,9 +33,9 @@ public interface AdminService {
       }
     }
   }
-} 
+}
 	 * </pre>
-	 * 
+	 *
 	 * @param indexName
 	 *            The name of the index to exist.
 	 * @param indexMapping
@@ -42,13 +43,13 @@ public interface AdminService {
 	 *            https://www.elastic.co/guide/en/elasticsearch/reference/
 	 *            current/indices-put-mapping.html.
 	 * @return True if the index was created, false if the index alredy exists.
-	 * 
+	 *
 	 */
 //	boolean createIndex(C);
 
 	/**
 	 * Deletes an index by name. Asynchronous operation.
-	 * 
+	 *
 	 * @param indexName
 	 *            The name of index to delete.
 	 * @return
@@ -58,7 +59,7 @@ public interface AdminService {
 	/**
 	 * Checks if a index with the given name already exists. Synchronous
 	 * operation.
-	 * 
+	 *
 	 * @param indexName
 	 *            The name of the index to check for existence.
 	 * @return
@@ -82,12 +83,7 @@ public interface AdminService {
   }
 }
 	 * </pre>
-	 * @param indexName
-	 *            The name of index to update its mapping settings.
-	 * @param typeName
-	 *            The name of the type in the index to update.
-	 * @param indexMapping
-	 *            A JSON string with the index mappings to update/create.
+	 * @param request The details of the mapping to be updated.
 	 */
-	void updateTypeMapping(String indexName, String typeName, String indexMapping);
+	boolean updateTypeMapping(UpdateMappingRequest request);
 }
