@@ -131,12 +131,6 @@
       <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>com.eurodyn.qlack2.util</groupId>
-      <artifactId>qlack2-util-avail-check-mysql</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
   </dependencies>
 
 </project>
