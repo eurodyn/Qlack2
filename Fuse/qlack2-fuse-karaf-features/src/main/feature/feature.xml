@@ -8,6 +8,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   <!-- External repos -->
   <repository>mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/${project.version}/xml/features</repository>
   <repository>mvn:org.code-house.jackson/features/${jackson2.version}/xml/features</repository>
+  <repository>mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/${project.version}/xml/features</repository>
 
   <feature description="QLACK2 Fuse - Search" name="qlack2-fuse-search" version="${project.version}">
     <feature>qlack2-fuse-search-api</feature>
