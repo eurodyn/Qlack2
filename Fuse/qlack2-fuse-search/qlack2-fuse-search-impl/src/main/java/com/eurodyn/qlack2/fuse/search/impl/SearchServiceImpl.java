@@ -103,7 +103,8 @@ public class SearchServiceImpl implements SearchService {
 		try {
 			queryResponse = mapper.readValue(response.getEntity().getContent(), QueryResponse.class);
 		} catch (UnsupportedOperationException | IOException e) {
-			throw new QSearchException("Could not deserialize response.", e);
+			// throw new QSearchException("Could not deserialize response.", e);
+			throw new RuntimeException(e);
 		}
 
 		SearchResultDTO result = new SearchResultDTO();

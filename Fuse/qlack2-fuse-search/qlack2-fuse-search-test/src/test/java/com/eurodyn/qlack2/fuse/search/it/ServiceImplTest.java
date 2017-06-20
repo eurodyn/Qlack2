@@ -143,17 +143,26 @@ public class ServiceImplTest extends ITTestConf {
 		dto.setId("1");
 		dto.setIndex(indexName);
 		dto.setSourceObject(doc);
+		// wait for elasticsearch to refresh in order to make the doc searchable.
 		dto.setRefresh(true);
 
 		indexingService.indexDocument(dto);
 
-		QuerySpec queryMatch = new QueryMatch()
+		// QueryMatch
+		QuerySpec query = new QueryMatch()
 			.setTerm("_all", "something")
 			.includeAllSources()
 			.setExplain(true)
 			.setIndex(indexName);
 
-		SearchResultDTO result = searchService.search(queryMatch);
+		SearchResultDTO result = searchService.search(query);
+
 		Assert.assertEquals(1, result.getTotalHits());
+		Assert.assertEquals(5, result.getShardsTotal());
+		Assert.assertNotNull(result.getSource());
+		Assert.assertFalse(result.getSource().isEmpty());
+		Assert.assertFalse(result.isHasMore());
+		Assert.assertFalse(result.isTimedOut());
+		Assert.assertFalse(result.getHits().isEmpty());
 	}
 }
