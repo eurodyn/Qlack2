@@ -13,7 +13,11 @@ import org.ops4j.pax.exam.spi.reactors.PerClass;
 
 import com.eurodyn.qlack2.fuse.search.api.AdminService;
 import com.eurodyn.qlack2.fuse.search.api.IndexingService;
+import com.eurodyn.qlack2.fuse.search.api.SearchService;
 import com.eurodyn.qlack2.fuse.search.api.dto.IndexingDTO;
+import com.eurodyn.qlack2.fuse.search.api.dto.SearchResultDTO;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMatch;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySpec;
 import com.eurodyn.qlack2.fuse.search.api.request.CreateIndexRequest;
 import com.eurodyn.qlack2.fuse.search.api.request.UpdateMappingRequest;
 
@@ -26,6 +30,9 @@ public class ServiceImplTest extends ITTestConf {
 
   @Inject
   IndexingService indexingService;
+
+  @Inject
+  SearchService searchService;
 
   @Test
   public void testCreateIndex() {
@@ -116,5 +123,37 @@ public class ServiceImplTest extends ITTestConf {
 		indexingService.indexDocument(dto);
 
 		indexingService.unindexDocument(dto);
+	}
+
+	@Test
+	public void testSearchService() {
+		// create an index
+		String indexName = UUID.randomUUID().toString().replace("-", "");
+
+		CreateIndexRequest createIndexRequest = new CreateIndexRequest();
+		createIndexRequest.setName(indexName);
+
+		adminService.createIndex(createIndexRequest);
+
+		// index a document
+		TestDocument doc = new TestDocument();
+		doc.setName("something");
+
+		IndexingDTO dto = new IndexingDTO();
+		dto.setId("1");
+		dto.setIndex(indexName);
+		dto.setSourceObject(doc);
+		dto.setRefresh(true);
+
+		indexingService.indexDocument(dto);
+
+		QuerySpec queryMatch = new QueryMatch()
+			.setTerm("_all", "something")
+			.includeAllSources()
+			.setExplain(true)
+			.setIndex(indexName);
+
+		SearchResultDTO result = searchService.search(queryMatch);
+		Assert.assertEquals(1, result.getTotalHits());
 	}
 }

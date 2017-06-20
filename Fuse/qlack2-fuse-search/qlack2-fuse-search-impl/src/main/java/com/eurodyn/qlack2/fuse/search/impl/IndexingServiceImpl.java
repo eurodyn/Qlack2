@@ -2,7 +2,9 @@ package com.eurodyn.qlack2.fuse.search.impl;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,9 +37,11 @@ public class IndexingServiceImpl implements IndexingService {
   @Override
   public void indexDocument(IndexingDTO dto) {
 		try {
+			Map<String, String> params = dto.isRefresh() ? Collections.singletonMap("refresh", "wait_for") : new HashMap<>();
+
 			// Execute indexing request.
 			esClient.getClient().performRequest("PUT", dto.getIndex() + "/" + dto.getType() + "/" + dto.getId(),
-					new HashMap<>(), new NStringEntity(mapper.writeValueAsString(dto.getSourceObject())));
+					params, new NStringEntity(mapper.writeValueAsString(dto.getSourceObject())));
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, MessageFormat.format("Could not index document with id: {0}", dto.getId()), e);
 			throw new QSearchException(MessageFormat.format("Could not index document with id: {0}", dto.getId()));
