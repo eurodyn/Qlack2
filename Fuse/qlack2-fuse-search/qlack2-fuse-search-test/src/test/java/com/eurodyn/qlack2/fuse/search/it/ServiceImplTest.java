@@ -17,7 +17,11 @@ import com.eurodyn.qlack2.fuse.search.api.SearchService;
 import com.eurodyn.qlack2.fuse.search.api.dto.IndexingDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.SearchResultDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMatch;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMultiMatch;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySpec;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryString;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTerm;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryWildcard;
 import com.eurodyn.qlack2.fuse.search.api.request.CreateIndexRequest;
 import com.eurodyn.qlack2.fuse.search.api.request.UpdateMappingRequest;
 
@@ -93,8 +97,7 @@ public class ServiceImplTest extends ITTestConf {
 		/** Perform assertions */
 		adminService.createIndex(createIndexRequest);
 
-		TestDocument doc = new TestDocument();
-		doc.setName("something");
+		TestDocument doc = new TestDocument("name1", "surname1");
 
 		IndexingDTO dto = new IndexingDTO();
 		dto.setId("1");
@@ -112,8 +115,7 @@ public class ServiceImplTest extends ITTestConf {
 		/** Perform assertions */
 		adminService.createIndex(createIndexRequest);
 
-		TestDocument doc = new TestDocument();
-		doc.setName("something");
+		TestDocument doc = new TestDocument("name1", "surname1");
 
 		IndexingDTO dto = new IndexingDTO();
 		dto.setId("1");
@@ -136,8 +138,7 @@ public class ServiceImplTest extends ITTestConf {
 		adminService.createIndex(createIndexRequest);
 
 		// index a document
-		TestDocument doc = new TestDocument();
-		doc.setName("something");
+		TestDocument doc = new TestDocument("name1", "surname1");
 
 		IndexingDTO dto = new IndexingDTO();
 		dto.setId("1");
@@ -148,9 +149,16 @@ public class ServiceImplTest extends ITTestConf {
 
 		indexingService.indexDocument(dto);
 
+		// index another document
+		doc = new TestDocument("name2", "surname2");
+		dto.setId("2");
+		dto.setSourceObject(doc);
+
+		indexingService.indexDocument(dto);
+
 		// QueryMatch
 		QuerySpec query = new QueryMatch()
-			.setTerm("_all", "something")
+			.setTerm("name", "name1")
 			.includeAllSources()
 			.setExplain(true)
 			.setIndex(indexName);
@@ -164,5 +172,80 @@ public class ServiceImplTest extends ITTestConf {
 		Assert.assertFalse(result.isHasMore());
 		Assert.assertFalse(result.isTimedOut());
 		Assert.assertFalse(result.getHits().isEmpty());
+
+		// QueryMultiMatch
+		query = new QueryMultiMatch()
+			.setTerm("surname1", "name", "surname")
+			.includeAllSources()
+			.setIndex(indexName);
+
+		result = searchService.search(query);
+
+		Assert.assertEquals(1, result.getTotalHits());
+		Assert.assertEquals(5, result.getShardsTotal());
+		Assert.assertNotNull(result.getSource());
+		Assert.assertFalse(result.getSource().isEmpty());
+		Assert.assertFalse(result.isHasMore());
+		Assert.assertFalse(result.isTimedOut());
+		Assert.assertFalse(result.getHits().isEmpty());
+
+		// QueryString
+		query = new QueryString()
+			.setQueryString("name:name1 AND surname:surname1")
+			.includeAllSources()
+			.setIndex(indexName);
+
+		result = searchService.search(query);
+
+		Assert.assertEquals(1, result.getTotalHits());
+		Assert.assertEquals(5, result.getShardsTotal());
+		Assert.assertNotNull(result.getSource());
+		Assert.assertFalse(result.getSource().isEmpty());
+		Assert.assertFalse(result.isHasMore());
+		Assert.assertFalse(result.isTimedOut());
+		Assert.assertFalse(result.getHits().isEmpty());
+
+		// QueryTerm
+		query = new QueryTerm()
+			.setTerm("name", "name1")
+			.setIndex(indexName);
+
+		result = searchService.search(query);
+
+		Assert.assertEquals(1, result.getTotalHits());
+		Assert.assertEquals(5, result.getShardsTotal());
+		Assert.assertNull(result.getSource());
+		Assert.assertFalse(result.isHasMore());
+		Assert.assertFalse(result.isTimedOut());
+		Assert.assertFalse(result.getHits().isEmpty());
+
+		// QueryWildcard
+		query = new QueryWildcard()
+				.setTerm("name", "nam*")
+				.setIndex(indexName);
+
+		result = searchService.search(query);
+
+		Assert.assertEquals(2, result.getTotalHits());
+		Assert.assertEquals(5, result.getShardsTotal());
+		Assert.assertNull(result.getSource());
+		Assert.assertFalse(result.isHasMore());
+		Assert.assertFalse(result.isTimedOut());
+		Assert.assertFalse(result.getHits().isEmpty());
+
+		// TODO QueryBoolean
+		/*query = new QueryBoolean()
+			.setTerm(new QueryTerm()
+				.setTerm("name", "name1"), BooleanType.MUST)
+			.setIndex(indexName);
+
+		result = searchService.search(query);
+
+		Assert.assertEquals(1, result.getTotalHits());
+		Assert.assertEquals(5, result.getShardsTotal());
+		Assert.assertNull(result.getSource());
+		Assert.assertFalse(result.isHasMore());
+		Assert.assertFalse(result.isTimedOut());
+		Assert.assertFalse(result.getHits().isEmpty());*/
 	}
 }
