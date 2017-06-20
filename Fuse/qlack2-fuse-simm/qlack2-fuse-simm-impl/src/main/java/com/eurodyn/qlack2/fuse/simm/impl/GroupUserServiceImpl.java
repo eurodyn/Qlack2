@@ -29,6 +29,7 @@ import com.eurodyn.qlack2.fuse.simm.impl.model.SimGroup;
 import com.eurodyn.qlack2.fuse.simm.impl.model.SimGroupHasUser;
 import com.eurodyn.qlack2.fuse.simm.impl.util.ConverterUtil;
 import com.eurodyn.qlack2.fuse.simm.impl.util.SimValidationUtil;
+import com.google.common.primitives.Bytes;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -331,10 +332,12 @@ public class GroupUserServiceImpl implements GroupUserService {
 			quString.append(" and gu.status in (:status) ");
 		}
 		quString.append("and g.id = gu.groupId.id order by gu.userId");
+		List<Byte> listStatus = new ArrayList<>();
+		listStatus.addAll(Bytes.asList(status));
 		Query query = em.createQuery(quString.toString());
 		query.setParameter("groupID", groupID);
 		if (status != null && status.length > 0) {
-			query.setParameter("status", Arrays.asList(status));
+			query.setParameter("status", listStatus);
 		}
 		if ((paging != null) && (paging.getCurrentPage() > -1)) {
 			query.setFirstResult((paging.getCurrentPage() - 1) * paging.getPageSize());

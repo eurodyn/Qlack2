@@ -17,6 +17,7 @@ package com.eurodyn.qlack2.fuse.simm.impl;
 import static com.eurodyn.qlack2.fuse.simm.api.dto.SIMMConstants.GROUP_STATUS_APPROVED;
 import static com.eurodyn.qlack2.fuse.simm.api.dto.SIMMConstants.GROUP_STATUS_SUSPENDED;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
@@ -41,6 +42,7 @@ import com.eurodyn.qlack2.fuse.simm.impl.model.SimGroup;
 import com.eurodyn.qlack2.fuse.simm.impl.model.SimGroupAttribute;
 import com.eurodyn.qlack2.fuse.simm.impl.util.ConverterUtil;
 import com.eurodyn.qlack2.fuse.simm.impl.util.SimValidationUtil;
+import com.google.common.primitives.Bytes;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 /**
@@ -148,10 +150,12 @@ public class SocialGroupServiceImpl implements SocialGroupService {
 			quString.append(" and gu.status in (:status)");
 		}
 
+		List<Byte> listStatus = new ArrayList<>();
+		listStatus.addAll(Bytes.asList(status));
 		Query query = em.createQuery(quString.toString());
 		query.setParameter("groupID", groupID);
 		if (status != null) {
-			query.setParameter("status", Arrays.asList(status));
+			query.setParameter("status", listStatus);
 		}
 
 		if ((paging != null) && (paging.getCurrentPage() > -1)) {
@@ -349,14 +353,15 @@ public class SocialGroupServiceImpl implements SocialGroupService {
 	@Transactional(TxType.REQUIRED)
 	public SocialGroupDTO[] searchGroups(String searchTerm, PagingParams paging, byte[] privacy) throws QSIMMException {
 		SimValidationUtil.validateNullForSearchTermForGroup(searchTerm);
-
+		List<Byte> listPrivacy = new ArrayList<>();
+		listPrivacy.addAll(Bytes.asList(privacy));
 		StringBuilder quString = new StringBuilder("select grp from SimGroup grp ");
 		quString.append("where upper(grp.description) like :descSearchTerm ");
 		quString.append("or UPPER(grp.name) like :nameSearchTerm and grp.privacy in (:privacy)");
 		Query query = em.createQuery(quString.toString());
 		query.setParameter("descSearchTerm", "%" + searchTerm.toUpperCase() + "%");
 		query.setParameter("nameSearchTerm", "%" + searchTerm.toUpperCase() + "%");
-		query.setParameter("privacy", Arrays.asList(privacy));
+		query.setParameter("privacy", listPrivacy);
 
 		if ((paging != null) && (paging.getCurrentPage() > -1)) {
 			query.setFirstResult((paging.getCurrentPage() - 1) * paging.getPageSize());

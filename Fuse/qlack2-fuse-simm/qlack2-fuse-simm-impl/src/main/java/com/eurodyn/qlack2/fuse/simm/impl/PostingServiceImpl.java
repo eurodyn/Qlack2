@@ -14,7 +14,9 @@
 */
 package com.eurodyn.qlack2.fuse.simm.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
@@ -23,6 +25,7 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
 
+import com.google.common.primitives.Bytes;
 import org.apache.commons.lang3.StringUtils;
 
 import com.eurodyn.qlack2.common.util.search.PagingParams;
@@ -186,13 +189,15 @@ public class PostingServiceImpl implements PostingService {
 	@Transactional(TxType.REQUIRED)
 	public PostItemDTO[] getHomePagesActivities(String[] homepageIDs, PagingParams paging,
 			byte[] status, boolean includeChildren, boolean includeBinary) {
+		List<Byte> listStatus = new ArrayList<>();
+		listStatus.addAll(Bytes.asList(status));
 		Query q = em.createQuery(
 				"select ha from SimHomepageActivity ha "
 						+ "  where ha.homepageId in (:homepages) "
 						+ "    and ha.status in (:status) "
 						+ "and ha.parentHpageActvtId is null"
 						+ "   order by ha.createdOn desc");
-		q.setParameter("status", Arrays.asList(status));
+		q.setParameter("status", listStatus);
 		q.setParameter("homepages", Arrays.asList(homepageIDs));
 
 		if ((paging != null) && (paging.getCurrentPage() > -1)) {
@@ -237,6 +242,8 @@ public class PostingServiceImpl implements PostingService {
 	@Transactional(TxType.REQUIRED)
 	public PostItemDTO[] getActivityChildren(String parentId, PagingParams paging,
 			byte[] status, boolean orderAscending, String activityCategoryID) {
+		List<Byte> listStatus = new ArrayList<>();
+		listStatus.addAll(Bytes.asList(status));
 		String queryString = "select ha from SimHomepageActivity ha "
 				+ "where ha.parentHpageActvtId.id = :parentId "
 				+ "and ha.status in (:status)";
@@ -249,7 +256,7 @@ public class PostingServiceImpl implements PostingService {
 			queryString = queryString.concat(" order by ha.createdOn desc");
 		}
 		Query q = em.createQuery(queryString);
-		q.setParameter("status", Arrays.asList(status));
+		q.setParameter("status", listStatus);
 		q.setParameter("parentId", parentId);
 		if (activityCategoryID != null) {
 			q.setParameter("categoryID", activityCategoryID);
@@ -291,6 +298,8 @@ public class PostingServiceImpl implements PostingService {
 	@Override
 	@Transactional(TxType.REQUIRED)
 	public long getChildrenNumber(String parentId, byte[] status, String activityCategoryID) {
+		List<Byte> listStatus = new ArrayList<>();
+		listStatus.addAll(Bytes.asList(status));
 		String queryString = "select count(ha) from SimHomepageActivity ha "
 				+ "where ha.parentHpageActvtId.id = :parentId "
 				+ "and ha.status in (:status)";
@@ -298,7 +307,7 @@ public class PostingServiceImpl implements PostingService {
 			queryString = queryString.concat(" and ha.categoryId = :categoryID");
 		}
 		Query q = em.createQuery(queryString);
-		q.setParameter("status", Arrays.asList(status));
+		q.setParameter("status", listStatus);
 		q.setParameter("parentId", parentId);
 		if (activityCategoryID != null) {
 			q.setParameter("categoryID", activityCategoryID);
@@ -317,6 +326,8 @@ public class PostingServiceImpl implements PostingService {
 	@Override
 	@Transactional(TxType.REQUIRED)
 	public PostItemDTO getLastActivityOfType(String homepageID, String activityCategoryID, byte[] status) {
+		List<Byte> listStatus = new ArrayList<>();
+		listStatus.addAll(Bytes.asList(status));
 		Query q = em.createQuery(
 				"select ha from SimHomepageActivity ha "
 						+ "  where ha.homepageId = :homepageID "
@@ -324,7 +335,7 @@ public class PostingServiceImpl implements PostingService {
 						+ "    and ha.categoryId = :categoryID "
 						+ "order by ha.createdOn desc");
 		q.setParameter("categoryID", activityCategoryID);
-		q.setParameter("status", Arrays.asList(status));
+		q.setParameter("status", listStatus);
 		q.setParameter("homepageID", homepageID);
 		q.setMaxResults(1);
 
