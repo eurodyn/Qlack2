@@ -1,22 +1,23 @@
 package com.eurodyn.qlack2.fuse.search.it;
 
-import com.eurodyn.qlack2.util.availcheck.api.AvailabilityCheck;
-import com.eurodyn.qlack2.util.availcheck.elasticsearch.AvailabilityCheckElasticsearch;
-import com.eurodyn.qlack2.util.docker.DockerContainer;
+import java.util.UUID;
+
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
-import java.util.UUID;
+import com.eurodyn.qlack2.util.availcheck.api.AvailabilityCheck;
+import com.eurodyn.qlack2.util.availcheck.elasticsearch.AvailabilityCheckElasticsearch;
+import com.eurodyn.qlack2.util.docker.DockerContainer;
 
 /**
  * @author European Dynamics SA
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-  AdminServiceImplTest.class
+  ServiceImplTest.class
 })
 public class AllITTests {
 
