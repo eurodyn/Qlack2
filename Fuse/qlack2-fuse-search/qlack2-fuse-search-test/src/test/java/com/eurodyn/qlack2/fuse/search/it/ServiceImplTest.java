@@ -16,6 +16,8 @@ import com.eurodyn.qlack2.fuse.search.api.IndexingService;
 import com.eurodyn.qlack2.fuse.search.api.SearchService;
 import com.eurodyn.qlack2.fuse.search.api.dto.IndexingDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.SearchResultDTO;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryBoolean;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryBoolean.BooleanType;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMatch;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMultiMatch;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySpec;
@@ -233,10 +235,14 @@ public class ServiceImplTest extends ITTestConf {
 		Assert.assertFalse(result.isTimedOut());
 		Assert.assertFalse(result.getHits().isEmpty());
 
-		// TODO QueryBoolean
-		/*query = new QueryBoolean()
+		// QueryBoolean
+		query = new QueryBoolean()
 			.setTerm(new QueryTerm()
 				.setTerm("name", "name1"), BooleanType.MUST)
+			.setTerm(new QueryTerm()
+					.setTerm("surname", "surname1"), BooleanType.MUST)
+			.setTerm(new QueryTerm()
+				.setTerm("name", "name2"), BooleanType.SHOULD)
 			.setIndex(indexName);
 
 		result = searchService.search(query);
@@ -246,6 +252,6 @@ public class ServiceImplTest extends ITTestConf {
 		Assert.assertNull(result.getSource());
 		Assert.assertFalse(result.isHasMore());
 		Assert.assertFalse(result.isTimedOut());
-		Assert.assertFalse(result.getHits().isEmpty());*/
+		Assert.assertFalse(result.getHits().isEmpty());
 	}
 }

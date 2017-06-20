@@ -155,7 +155,12 @@ public class SearchServiceImpl implements SearchService {
 				}
 			}
 
+			boolean appendComa = false;
 			for (Entry<BooleanType, List<QuerySpec>> entry : queriesMap.entrySet()) {
+				if (appendComa) {
+					builder.append(",");
+				}
+
 				if (BooleanType.MUSTNOT.equals(entry.getKey())) {
 					builder.append("\"must_not\" : [");
 				}
@@ -171,12 +176,11 @@ public class SearchServiceImpl implements SearchService {
 						builder.append(",");
 					}
 
-					builder.append("{")
-						.append(buildQuery(querySpec))
-						.append("}");
+					builder.append(buildQuery(querySpec));
 				}
 
 				builder.append("]");
+				appendComa = true;
 			}
 
 			builder.append("}");
