@@ -292,9 +292,10 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 
   <feature description="QLACK2 Fuse - SIMM" name="qlack2-fuse-simm" version="${project.version}">
     <feature>qlack2-util-repack-jpadb</feature>
-    <feature prerequisite="true">wrap</feature>
-    <feature>qlack2-util-repack-jpadb</feature>
+	<feature prerequisite="true">wrap</feature>
+	<feature>qlack2-util-repack-querydsl</feature>
     <feature>qlack2-common-util</feature>
+	<bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-simm-api/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-simm-impl/${project.version}</bundle>
