@@ -50,6 +50,7 @@ public class AdminServiceImpl implements AdminService {
 
 				retVal = true;
 			} catch (IOException e) {
+				LOGGER.log(Level.SEVERE, MessageFormat.format("Could not create index {0}.", createIndexRequest.getName()), e);
 				throw new QSearchException(
 					MessageFormat.format("Could not create index {0}.", createIndexRequest.getName()), e);
 			}
@@ -70,6 +71,7 @@ public class AdminServiceImpl implements AdminService {
 			// Delete the index.
 			esClient.getClient().performRequest("DELETE", indexName);
 		} catch (IOException e) {
+			LOGGER.log(Level.SEVERE, MessageFormat.format("Could not delete index {0}.", indexName), e);
 			throw new QSearchException(MessageFormat.format("Could not delete index {0}.", indexName), e);
 		}
 
@@ -82,6 +84,7 @@ public class AdminServiceImpl implements AdminService {
 		try {
 			response = esClient.getClient().performRequest("HEAD", indexName);
 		} catch (IOException e) {
+			LOGGER.log(Level.SEVERE, "Could not check if index exists.", e);
 			throw new QSearchException("Could not check if index exists.", e);
 		}
 
@@ -102,6 +105,7 @@ public class AdminServiceImpl implements AdminService {
 			esClient.getClient().performRequest("PUT", endpoint, new HashMap<>(),
 					CreateIndexRequestMapper.INSTANCE.mapToNStringEntity(request));
 		} catch (IOException e) {
+			LOGGER.log(Level.SEVERE, "Could update index mapping.", e);
 			throw new QSearchException("Could update index mapping.", e);
 		}
 

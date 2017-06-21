@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -38,7 +40,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Singleton
 @OsgiServiceProvider(classes = { SearchService.class })
 public class SearchServiceImpl implements SearchService {
-	private final ObjectMapper mapper = new ObjectMapper();
+
+	private static final ObjectMapper mapper = new ObjectMapper();
+	private static final Logger LOGGER = Logger.getLogger(IndexingServiceImpl.class.getName());
 
 	// The ES client injected by blueprint.
 	@Inject
@@ -88,23 +92,24 @@ public class SearchServiceImpl implements SearchService {
 		InternalSearchRequest internalRequest = new InternalSearchRequest();
 		internalRequest.setFrom(dto.getStartRecord());
 		internalRequest.setSize(dto.getPageSize());
-		internalRequest.setQuery(buildQuery(dto));
 		internalRequest.setExplain(dto.isExplain());
+		internalRequest.setQuery(buildQuery(dto));
 
 		Response response;
 		try {
 			response = esClient.getClient().performRequest("GET", endpointBuilder.toString(), new HashMap<>(),
 					new NStringEntity(mapper.writeValueAsString(internalRequest)));
 		} catch (IOException e) {
-			throw new QSearchException("could not execute query.", e);
+			LOGGER.log(Level.SEVERE, "Could not execute query.", e);
+			throw new QSearchException("Could not execute query.", e);
 		}
 
 		QueryResponse queryResponse;
 		try {
 			queryResponse = mapper.readValue(response.getEntity().getContent(), QueryResponse.class);
 		} catch (UnsupportedOperationException | IOException e) {
-			// throw new QSearchException("Could not deserialize response.", e);
-			throw new RuntimeException(e);
+			LOGGER.log(Level.SEVERE, "Could not deserialize response.", e);
+			throw new QSearchException("Could not deserialize response.", e);
 		}
 
 		SearchResultDTO result = new SearchResultDTO();
@@ -121,6 +126,7 @@ public class SearchServiceImpl implements SearchService {
 			try {
 				result.setSource(mapper.writeValueAsString(queryResponse));
 			} catch (JsonProcessingException e) {
+				LOGGER.log(Level.SEVERE, "Could not serialize response.", e);
 				throw new QSearchException("Could not serialize response.", e);
 			}
 		}
@@ -217,8 +223,8 @@ public class SearchServiceImpl implements SearchService {
 			QueryString query = (QueryString) dto;
 
 			builder.append("\"query_string\" : { \"query\" : \"")
-			.append(query.getQueryString())
-			.append("\"}");
+				.append(query.getQueryString())
+				.append("\"}");
 		}
 		else if (dto instanceof QueryTerm) {
 			QueryTerm query = (QueryTerm) dto;

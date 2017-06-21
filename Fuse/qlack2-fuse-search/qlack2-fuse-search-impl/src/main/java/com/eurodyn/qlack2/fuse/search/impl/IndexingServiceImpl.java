@@ -37,11 +37,12 @@ public class IndexingServiceImpl implements IndexingService {
   @Override
   public void indexDocument(IndexingDTO dto) {
 		try {
+			String endpoint = dto.getIndex() + "/" + dto.getType() + "/" + dto.getId();
 			Map<String, String> params = dto.isRefresh() ? Collections.singletonMap("refresh", "wait_for") : new HashMap<>();
 
 			// Execute indexing request.
-			esClient.getClient().performRequest("PUT", dto.getIndex() + "/" + dto.getType() + "/" + dto.getId(),
-					params, new NStringEntity(mapper.writeValueAsString(dto.getSourceObject())));
+			esClient.getClient().performRequest("PUT", endpoint, params,
+					new NStringEntity(mapper.writeValueAsString(dto.getSourceObject())));
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, MessageFormat.format("Could not index document with id: {0}", dto.getId()), e);
 			throw new QSearchException(MessageFormat.format("Could not index document with id: {0}", dto.getId()));
@@ -51,8 +52,10 @@ public class IndexingServiceImpl implements IndexingService {
   @Override
   public void unindexDocument(ESDocumentIdentifierDTO dto) {
 	  try {
+		  	String endpoint = dto.getIndex() + "/" + dto.getType() + "/" + dto.getId();
+
 			// Execute indexing request.
-			esClient.getClient().performRequest("DELETE", dto.getIndex() + "/" + dto.getType() + "/" + dto.getId());
+			esClient.getClient().performRequest("DELETE", endpoint);
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, MessageFormat.format("Could not delete document with id: {0}", dto.getId()), e);
 			throw new QSearchException(MessageFormat.format("Could not delete document with id: {0}", dto.getId()));
