@@ -22,6 +22,7 @@ public abstract class CreateIndexRequestMapper {
   @Mapping(source = "shards", target = "settings.index.numberOfShards")
   @Mapping(source = "replicas", target = "settings.index.numberOfReplicas")
   @Mapping(source = "indexMapping", target = "mappings")
+  @Mapping(source = "stopwords", target = "settings.analysis.filter.myStop.stopwords")
   abstract InternalCreateIndexRequest mapToInternal(CreateIndexRequest request);
 
 	public NStringEntity mapToNStringEntity(CreateIndexRequest createIndexRequest)
