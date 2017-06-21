@@ -15,6 +15,7 @@
 package com.eurodyn.qlack2.fuse.lexicon.api;
 
 import com.eurodyn.qlack2.fuse.lexicon.api.criteria.KeySearchCriteria;
+import com.eurodyn.qlack2.fuse.lexicon.api.criteria.KeySearchCriteria.SortType;
 import com.eurodyn.qlack2.fuse.lexicon.api.dto.KeyDTO;
 
 import java.util.Collection;
@@ -263,7 +264,7 @@ public interface KeyService {
      * @param locale The locale for which to retrieve the translations
      * @return A Map consisting of (key_name, translation_value) for the specified group and locale.
      */
-    Map<String, String> getTranslationsForGroupAndLocale(String groupId, String locale) ;
+    Map<String, String> getTranslationsForGroupAndLocale(String groupId, String locale);
     
     /**
      * Finds all the available translations for a particular group and locale
@@ -271,5 +272,23 @@ public interface KeyService {
      * @param locale The locale for which to retrieve the translations
      * @return A Map consisting of (key_name, translation_value) for the specified group and locale.
      */
-    Map<String, String> getTranslationsForGroupNameAndLocale(String groupName, String locale) ;
+    Map<String, String> getTranslationsForGroupNameAndLocale(String groupName, String locale);
+
+    /**
+     * Finds all the available translations for a particular group and locale, sorted by the translations
+     * @param groupName The name of the group of which to retrieve translations
+     * @param locale The locale for which to retrieve the translations
+     * @param sortType The sort type
+     * @return A Map consisting of (key_name, translation_value) for the specified group and locale, sorted by translation_value.
+     */
+	Map<String, String> getTranslationsForGroupNameAndLocaleSorted(String groupName, String locale, SortType sortType);
+
+    /**
+     * Returns the keys ordered by the translations for a particular group and locale
+     * @param groupName The name of the group of which to retrieve translations
+     * @param locale The locale for which to retrieve the translations
+     * @param sortType The sort type to be used
+     * @return A List of (key_name) ordered by the translation_value for the specified group and locale.
+     */
+	List<String> getKeysSortedByTranslation(String groupName, String locale, SortType sortType);
 }

@@ -14,30 +14,51 @@
 */
 package com.eurodyn.qlack2.fuse.lexicon.impl;
 
-import com.eurodyn.qlack2.fuse.lexicon.api.KeyService;
-import com.eurodyn.qlack2.fuse.lexicon.api.criteria.KeySearchCriteria;
-import com.eurodyn.qlack2.fuse.lexicon.api.dto.KeyDTO;
-import com.eurodyn.qlack2.fuse.lexicon.impl.model.*;
-import com.eurodyn.qlack2.fuse.lexicon.impl.util.ConverterUtil;
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.logging.Logger;
 
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
-import java.time.Instant;
-import java.util.*;
-import java.util.logging.Logger;
+
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+
+import com.eurodyn.qlack2.fuse.lexicon.api.KeyService;
+import com.eurodyn.qlack2.fuse.lexicon.api.criteria.KeySearchCriteria;
+import com.eurodyn.qlack2.fuse.lexicon.api.criteria.KeySearchCriteria.SortType;
+import com.eurodyn.qlack2.fuse.lexicon.api.dto.KeyDTO;
+import com.eurodyn.qlack2.fuse.lexicon.impl.model.Data;
+import com.eurodyn.qlack2.fuse.lexicon.impl.model.Group;
+import com.eurodyn.qlack2.fuse.lexicon.impl.model.Key;
+import com.eurodyn.qlack2.fuse.lexicon.impl.model.Language;
+import com.eurodyn.qlack2.fuse.lexicon.impl.model.QData;
+import com.eurodyn.qlack2.fuse.lexicon.impl.model.QKey;
+import com.eurodyn.qlack2.fuse.lexicon.impl.util.ConverterUtil;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @Singleton
 @Transactional
 @OsgiServiceProvider(classes = {KeyService.class})
 public class KeyServiceImpl implements KeyService {
-	private static final Logger LOGGER = Logger.getLogger(KeyServiceImpl.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(KeyServiceImpl.class.getName()); 
+	
 	@PersistenceContext(unitName = "fuse-lexicon")
 	private EntityManager em;
 
@@ -352,16 +373,78 @@ public class KeyServiceImpl implements KeyService {
 		return translations;
 	}
 	
+	private List<Data> getDataForGroupNameAndLocale(String groupName, String locale) {
+		List<Data> dataList = new JPAQueryFactory(em)
+				.selectFrom(qData)
+				.where(qData.key.group.title.eq(groupName)
+						.and(qData.language.locale.eq(locale)))
+				.fetch();
+		return dataList;
+	}
+	
+	private SortedSet<TranslationKV> getSortedDataForGroupNameAndLocale(String groupName, String locale, SortType sortType) {
+		List<Data> dataList = getDataForGroupNameAndLocale(groupName, locale);
+		SortedSet<TranslationKV> sortedSet = new TreeSet<TranslationKV>(new TranslationKV(sortType));
+		for (Data x : dataList) {
+			sortedSet.add(new TranslationKV(x.getKey().getName(), x.getValue()));
+		}
+		return sortedSet;
+	}
+	
 	@Override
-	public  Map<String, String> getTranslationsForGroupNameAndLocale(String groupName, String locale){
-		List<Data> dataList = new JPAQueryFactory(em).selectFrom(qData).where(qData.key.group.title.eq(groupName)
-				.and(qData.language.locale.eq(locale))).fetch();
+	public Map<String, String> getTranslationsForGroupNameAndLocale(String groupName, String locale) {
+		List<Data> dataList = getDataForGroupNameAndLocale(groupName, locale);
 		Map<String, String> translations = new HashMap<>();
 		for (Data data : dataList) {
 			translations.put(data.getKey().getName(), data.getValue());
+		} 
+		return translations;
+	} 
+
+	@Override
+	public Map<String, String> getTranslationsForGroupNameAndLocaleSorted(String groupName, String locale, SortType sortType) { 
+		SortedSet<TranslationKV> sortedSet = getSortedDataForGroupNameAndLocale(groupName, locale, sortType);
+		HashMap<String, String> sortedMap = new LinkedHashMap<String, String>();
+		for (TranslationKV x : sortedSet) {
+			sortedMap.put(x.key, x.value);
+		}
+		return sortedMap;
+	}
+
+	@Override
+	public List<String> getKeysSortedByTranslation(String groupName, String locale, SortType sortType) { 
+		SortedSet<TranslationKV> sortedSet = getSortedDataForGroupNameAndLocale(groupName, locale, sortType);
+		List<String> sortedList = new ArrayList<String>(sortedSet.size());
+		for (TranslationKV tkv : sortedSet) {
+			sortedList.add(tkv.key);
+		} 
+		return sortedList;
+	}
+	
+	// This class is used to sort translation keys ordered by value.
+	private static class TranslationKV implements Comparator<TranslationKV>, Comparable<TranslationKV> {
+		String key;
+		String value;
+		SortType sortType;
+
+		public TranslationKV(SortType sortType) {
+			this.sortType = sortType;
 		}
 
-		return translations;
-	}
+		public TranslationKV(String key, String value) {
+			this.key = key;
+			this.value = value;
+		}
+
+		@Override
+		public int compare(TranslationKV arg0, TranslationKV arg1) {
+			return sortType.equals(SortType.ASCENDING) ? arg0.value.compareTo(arg1.value) : arg1.value.compareTo(arg0.value);
+		}
+
+		@Override
+		public int compareTo(TranslationKV arg0) {
+			return sortType.equals(SortType.ASCENDING) ? value.compareTo(arg0.value) : arg0.value.compareTo(value);
+		}
+	} 
 
 }
