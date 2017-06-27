@@ -7,7 +7,13 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+
+import java.sql.*;
+import java.time.Instant;
+import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author European Dynamics SA
@@ -24,7 +30,7 @@ public class AllITTests {
     private static final String password = "root";
     private static final String DB_IMAGE = "mysql:5.7.16";
     private static String CONTAINER_PORT = "3306";
-    private static String EXPOSED_PORT = CONTAINER_PORT + 1;
+    private static String EXPOSED_PORT = "3307";
     private static String url = "jdbc:mysql://127.0.0.1:3307/sys?useSSL=false";
     private static long DB_MAX_WAITING_FOR_CONTAINER = 120000;
     private static long DB_MAX_WAITING_PER_CYCLE =  1000;
@@ -35,7 +41,7 @@ public class AllITTests {
         containerId = DockerContainer.builder()
         .withDockerEngine(dockerEngine)
         .withImage(DB_IMAGE)
-        .withPort(CONTAINER_PORT + "/tcp", EXPOSED_PORT + "/tcp")
+        .withPort(EXPOSED_PORT, CONTAINER_PORT)
         .withAuth(user,password)
         .withName("TEST-" + UUID.randomUUID())
         .withEnv("MYSQL_ROOT_PASSWORD",password)
