@@ -3,6 +3,7 @@ package com.eurodyn.qlack2.fuse.idm.it;
 import com.eurodyn.qlack2.util.availcheck.api.AvailabilityCheck;
 import com.eurodyn.qlack2.util.availcheck.mysql.AvailabilityCheckMySQL;
 import com.eurodyn.qlack2.util.docker.DockerContainer;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -50,6 +51,11 @@ public class AllITTests {
         } else {
             System.out.println("DB is accessible.");
         }
+    }
+
+    @AfterClass
+    public static void afterClass() {
+        DockerContainer.builder().withId(containerId).clean();
     }
 
 }
