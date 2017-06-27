@@ -27,22 +27,4 @@ public class TestUtil {
         return replaceConfigurationFile(path, new File("src/test/conf/it/" + path));
     }
 
-    public static boolean isMySQLAcceptingConnection(String url, String user, String pass) throws ClassNotFoundException {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection(url, user, pass);
-            connection.close();
-            return true;
-        } catch (SQLException e) {
-            return false;
-        } finally {
-            if (connection != null)
-                try {
-                    connection.close();
-                } catch (SQLException ignore) {
-                }
-        }
-    }
-
 }

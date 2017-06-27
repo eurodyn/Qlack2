@@ -1,21 +1,18 @@
 package com.eurodyn.qlack2.fuse.chatim.it;
 
-import com.eurodyn.qlack2.fuse.chatim.TestUtil;
-import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.command.CreateContainerResponse;
-import com.github.dockerjava.api.model.ExposedPort;
-import com.github.dockerjava.api.model.Ports;
-import com.github.dockerjava.core.DefaultDockerClientConfig;
-import com.github.dockerjava.core.DockerClientBuilder;
-import com.github.dockerjava.core.DockerClientConfig;
-import com.github.dockerjava.core.command.PullImageResultCallback;
-import com.github.dockerjava.core.command.WaitContainerResultCallback;
+import com.eurodyn.qlack2.util.availcheck.api.AvailabilityCheck;
+import com.eurodyn.qlack2.util.availcheck.mysql.AvailabilityCheckMySQL;
+import com.eurodyn.qlack2.util.docker.DockerContainer;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import java.util.UUID;
 
+/**
+ * @author European Dynamics SA
+ */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         RoomServiceImplTest.class,
@@ -24,53 +21,44 @@ import java.util.UUID;
         ChatUserServiceImplTest.class
 })
 public class AllITTests{
-    private static DockerClient dockerClient;
-    private static String containerID;
+    /** MySQL configuration */
+    private static String containerId;
+    private static String dockerEngine = "tcp://localhost:2375";
+    private static final String user = "root";
+    private static final String password = "root";
     private static final String DB_IMAGE = "mysql:5.7.16";
-    private static final int DB_PORT = 3306;
+    private static String CONTAINER_PORT = "3306";
+    private static String EXPOSED_PORT = "3307";
+    private static String url = "jdbc:mysql://127.0.0.1:3307/sys?useSSL=false";
+    private static long DB_MAX_WAITING_FOR_CONTAINER = 120000;
+    private static long DB_MAX_WAITING_PER_CYCLE =  1000;
 
     @BeforeClass
     public static void beforeClass() throws ClassNotFoundException {
-        System.out.println("Starting DB container.");
-        DockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder()
-                .withDockerHost("tcp://localhost:2375")
-                .build();
-        dockerClient = DockerClientBuilder.getInstance(config).build();
-        dockerClient.pullImageCmd(DB_IMAGE).exec(new PullImageResultCallback()).awaitSuccess();
-        Ports portBindings = new Ports();
-        portBindings.bind(ExposedPort.tcp(DB_PORT), Ports.Binding.bindPort(DB_PORT + 1));
-        String containerName = "TEST-" + UUID.randomUUID().toString();
-        CreateContainerResponse createContainerResponse = dockerClient.createContainerCmd(DB_IMAGE)
-                .withExposedPorts(ExposedPort.tcp(DB_PORT + 1))
-                .withPortBindings(portBindings)
-                .withName(containerName)
-                .withEnv("MYSQL_ROOT_PASSWORD=root")
-                .exec();
-        containerID = createContainerResponse.getId();
-        dockerClient.startContainerCmd(containerID).exec();
-        System.out.println("DB container started.");
-        System.out.println("Waiting for DB bootstrap.");
-        while (!TestUtil.isMySQLAcceptingConnection(
-                "jdbc:mysql://127.0.0.1:3307/sys?useSSL=false", "root", "root")) {
-            try {
-                System.out.println("waiting...");
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        /** Create DB container and start */
+        containerId = DockerContainer.builder()
+        .withDockerEngine(dockerEngine)
+        .withImage(DB_IMAGE)
+        .withPort(EXPOSED_PORT, CONTAINER_PORT)
+        .withAuth(user,password)
+        .withName("TEST-" + UUID.randomUUID())
+        .withEnv("MYSQL_ROOT_PASSWORD",password)
+        .run();
+        Assert.assertNotNull(containerId);
+
+        System.out.println("Waiting for DB to become accessible...");
+        AvailabilityCheck check = new AvailabilityCheckMySQL();
+        if (!check.isAvailable(url, user ,password, DB_MAX_WAITING_FOR_CONTAINER, DB_MAX_WAITING_PER_CYCLE, null)) {
+            System.out.println("Could not connect to the DB. Tests will be terminated.");
+            System.exit(1);
+        } else {
+            System.out.println("DB is accessible.");
         }
     }
 
     @AfterClass
     public static void afterClass() {
-        dockerClient.stopContainerCmd(containerID).exec();
-        try {
-            dockerClient.waitContainerCmd(containerID)
-                    .exec(new WaitContainerResultCallback()).awaitCompletion();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        dockerClient.removeContainerCmd(containerID).exec();
+        DockerContainer.builder().withId(containerId).clean();
     }
 
 }
