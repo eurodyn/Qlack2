@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
-import org.ops4j.pax.exam.spi.reactors.PerMethod;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
 import javax.inject.Inject;
 import java.util.Date;
@@ -29,7 +29,7 @@ import com.eurodyn.qlack2.fuse.auditing.api.enums.AuditLogColumns;
  * @author European Dynamics SA
  */
 @RunWith(PaxExam.class)
-@ExamReactorStrategy(PerMethod.class)
+@ExamReactorStrategy(PerSuite.class)
 public class AuditLoggingServiceImplTest extends ITTestConf {
 
     @Inject
