@@ -6,7 +6,7 @@ import com.eurodyn.qlack2.fuse.blog.api.dto.BlogDTO;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
-import org.ops4j.pax.exam.spi.reactors.PerMethod;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
 import com.eurodyn.qlack2.fuse.blog.api.CategoryService;
 import javax.inject.Inject;
@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * @author European Dynamics SA
  */
 @RunWith(PaxExam.class)
-@ExamReactorStrategy(PerMethod.class)
+@ExamReactorStrategy(PerSuite.class)
 public class CategoryServiceImplTest extends ITTestConf{
 
     @Inject

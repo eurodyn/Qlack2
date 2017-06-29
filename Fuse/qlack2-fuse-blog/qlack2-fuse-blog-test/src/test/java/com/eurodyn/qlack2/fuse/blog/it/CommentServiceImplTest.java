@@ -7,7 +7,7 @@ import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
-import org.ops4j.pax.exam.spi.reactors.PerMethod;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
 import com.eurodyn.qlack2.fuse.blog.api.CommentService;
 import com.eurodyn.qlack2.fuse.blog.api.BlogService;
@@ -19,7 +19,7 @@ import org.junit.Test;
  * @author European Dynamics SA
  */
 @RunWith(PaxExam.class)
-@ExamReactorStrategy(PerMethod.class)
+@ExamReactorStrategy(PerSuite.class)
 public class CommentServiceImplTest extends ITTestConf {
 
     @Inject

@@ -6,7 +6,7 @@ import com.eurodyn.qlack2.fuse.cm.api.dto.FolderDTO;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
-import org.ops4j.pax.exam.spi.reactors.PerMethod;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +16,7 @@ import javax.inject.Inject;
  * @author European Dynamics SA.
  */
 @RunWith(PaxExam.class)
-@ExamReactorStrategy(PerMethod.class)
+@ExamReactorStrategy(PerSuite.class)
 public class ConcurrencyControlServiceImplTest extends ITTestConf {
 
     @Inject

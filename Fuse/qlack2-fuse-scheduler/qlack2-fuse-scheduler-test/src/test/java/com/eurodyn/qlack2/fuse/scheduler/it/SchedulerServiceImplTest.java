@@ -1,8 +1,11 @@
 package com.eurodyn.qlack2.fuse.scheduler.it;
 
-import com.eurodyn.qlack2.fuse.scheduler.api.SchedulerService;
-import com.eurodyn.qlack2.fuse.scheduler.api.jobs.SchedulerWrappedJob;
-import com.eurodyn.qlack2.fuse.scheduler.api.jobs.triggers.SchedulerWrappedTrigger;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.inject.Inject;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,10 +13,10 @@ import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerMethod;
 import org.ops4j.pax.exam.util.Filter;
-import javax.inject.Inject;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
+import com.eurodyn.qlack2.fuse.scheduler.api.SchedulerService;
+import com.eurodyn.qlack2.fuse.scheduler.api.jobs.SchedulerWrappedJob;
+import com.eurodyn.qlack2.fuse.scheduler.api.jobs.triggers.SchedulerWrappedTrigger;
 
 /**
  * @author European Dynamics SA.

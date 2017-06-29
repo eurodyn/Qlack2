@@ -5,7 +5,7 @@ import com.eurodyn.qlack2.fuse.forum.api.ForumService;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
-import org.ops4j.pax.exam.spi.reactors.PerMethod;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +16,7 @@ import com.eurodyn.qlack2.fuse.forum.api.dto.ForumDTO;
  * @author European Dynamics SA.
  */
 @RunWith(PaxExam.class)
-@ExamReactorStrategy(PerMethod.class)
+@ExamReactorStrategy(PerSuite.class)
 public class ForumServiceImplTest extends ITTestConf {
 
     @Inject
