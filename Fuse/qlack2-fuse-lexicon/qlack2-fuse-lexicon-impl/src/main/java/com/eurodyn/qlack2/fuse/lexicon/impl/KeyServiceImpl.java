@@ -51,6 +51,7 @@ import com.eurodyn.qlack2.fuse.lexicon.impl.model.Language;
 import com.eurodyn.qlack2.fuse.lexicon.impl.model.QData;
 import com.eurodyn.qlack2.fuse.lexicon.impl.model.QKey;
 import com.eurodyn.qlack2.fuse.lexicon.impl.util.ConverterUtil;
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @Singleton
@@ -350,57 +351,76 @@ public class KeyServiceImpl implements KeyService {
 
 	@Override
 	@Transactional(TxType.REQUIRED)
+	public String getTranslationForKeyGroupLocale(String keyName, String groupName, String locale) {
+		List<String> list = new JPAQueryFactory(em)
+				.select(qData.value).from(qData)
+				.where(
+						qData.key.name.eq(keyName)
+						.and(qData.key.group.title.eq(groupName))
+						.and(qData.language.locale.eq(locale))
+						)
+				.fetch();
+		if (list != null && !list.isEmpty()) {
+			return list.get(0);
+		}
+		return null;
+	} 
+
+	@Override
+	@Transactional(TxType.REQUIRED)
 	public Map<String, String> getTranslationsForLocale(String locale) {
 		Language language = Language.findByLocale(locale, em);
 		Map<String, String> translations = new HashMap<>();
 		for (Data data : language.getData()) {
 			translations.put(data.getKey().getName(), data.getValue());
 		}
-
 		return translations;
 	}
 
 	@Override
 	@Transactional(TxType.REQUIRED)
-	public Map<String, String> getTranslationsForGroupAndLocale(String groupId,
-			String locale) {
+	public Map<String, String> getTranslationsForGroupAndLocale(String groupId, String locale) {
 		List<Data> dataList = Data.findByGroupIDAndLocale(groupId, locale, em);
 		Map<String, String> translations = new HashMap<>();
 		for (Data data : dataList) {
 			translations.put(data.getKey().getName(), data.getValue());
 		}
-
 		return translations;
-	}
+	} 
 	
-	private List<Data> getDataForGroupNameAndLocale(String groupName, String locale) {
-		List<Data> dataList = new JPAQueryFactory(em)
-				.selectFrom(qData)
-				.where(qData.key.group.title.eq(groupName)
-						.and(qData.language.locale.eq(locale)))
+	@Override
+	public Map<String, String> getTranslationsForGroupNameAndLocale(String groupName, String locale) {
+		
+		List<Tuple> listTuples = new JPAQueryFactory(em)
+				.select(qData.key.name, qData.value)
+				.from(qData)
+				.leftJoin(qData.key) 
+				.where( 
+						(qData.key.group.title.eq(groupName))
+						.and(qData.language.locale.eq(locale))
+						)
 				.fetch();
-		return dataList;
-	}
-	
+		
+		Map<String, String> translations = new HashMap<>();
+		if (listTuples != null) {
+			for (Tuple t : listTuples) {
+				translations.put(t.get(0, String.class), t.get(1, String.class));
+			}
+		}
+		
+		return translations;
+	} 
+
 	private SortedSet<TranslationKV> getSortedDataForGroupNameAndLocale(String groupName, String locale, SortType sortType) {
-		List<Data> dataList = getDataForGroupNameAndLocale(groupName, locale);
+		Map<String, String> translations = getTranslationsForGroupNameAndLocale(groupName, locale);
+		// sort in java side as we cannot order by in SQL side because translation data value is CLOB and not string
 		SortedSet<TranslationKV> sortedSet = new TreeSet<TranslationKV>(new TranslationKV(sortType));
-		for (Data x : dataList) {
-			sortedSet.add(new TranslationKV(x.getKey().getName(), x.getValue()));
+		for (Map.Entry<String, String> entry : translations.entrySet()) {
+			sortedSet.add(new TranslationKV(entry.getKey(), entry.getValue()));
 		}
 		return sortedSet;
 	}
 	
-	@Override
-	public Map<String, String> getTranslationsForGroupNameAndLocale(String groupName, String locale) {
-		List<Data> dataList = getDataForGroupNameAndLocale(groupName, locale);
-		Map<String, String> translations = new HashMap<>();
-		for (Data data : dataList) {
-			translations.put(data.getKey().getName(), data.getValue());
-		} 
-		return translations;
-	} 
-
 	@Override
 	public Map<String, String> getTranslationsForGroupNameAndLocaleSorted(String groupName, String locale, SortType sortType) { 
 		SortedSet<TranslationKV> sortedSet = getSortedDataForGroupNameAndLocale(groupName, locale, sortType);

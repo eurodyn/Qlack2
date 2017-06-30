@@ -291,4 +291,14 @@ public interface KeyService {
      * @return A List of (key_name) ordered by the translation_value for the specified group and locale.
      */
 	List<String> getKeysSortedByTranslation(String groupName, String locale, SortType sortType);
+
+	/**
+     * Finds the translation for a particular key, group and locale.
+     * @param keyName The name of the key to return its translations.
+     * @param groupName The group name.
+     * @param locale The locale.
+     * @return The translation string.
+     */
+	String getTranslationForKeyGroupLocale(String keyName, String groupName, String locale);
+
 }
