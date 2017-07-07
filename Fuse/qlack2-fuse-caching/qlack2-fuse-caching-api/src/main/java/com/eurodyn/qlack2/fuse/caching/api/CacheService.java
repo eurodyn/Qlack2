@@ -16,73 +16,115 @@ package com.eurodyn.qlack2.fuse.caching.api;
 
 import java.util.Set;
 
-public interface CacheService {
-	/**
-	 * Adds a key to the cache with a predetermined expiration time. Note that
-	 * not all concrete cache implementations support expirations on a
-	 * key-level.
-	 * 
-	 * @param key
-	 *            The key to create.
-	 * @param value
-	 *            The value of the key to associated with.
-	 * @param expiresAfterMsec
-	 *            The number of msec after which the key will automatically be
-	 *            removed (provided the underlying concrete cache implementation
-	 *            supports it).
-	 */
-	void set(String key, String value, long expiresAfterMsec);
+public abstract class CacheService {
 
-	/**
-	 * Adds a new key to the cache.
-	 * @param key
-	 *            The key to create.
-	 * @param value
-	 *            The value of the key to associated with.
-	 */            
-	void set(String key, String value);
+  /**
+   * An inactive cache, does not store not retrieve any values. This flag is useful to debug your
+   * cache population logic on an already running cache without having to redeploy your application.
+   */
+  boolean active = true;
 
-	/**
-	 * Deletes a key from the cache.
-	 * @param key The key to be deleted.
-	 */
-	void deleteByKeyName(String key);
+  /**
+   * The maximum number of entries a cache will hold. Leave this value at '0' to indicate an
+   * unbounded cache.
+   */
+  long maxEntries = 0;
 
-	/**
-	 * Deletes all keys that match the given regular expression. Note that
-	 * according to how each concrete implementation of the cache is actually
-	 * storing keys, this can be very inefficient in very large caches.
-	 * 
-	 * @param pattern
-	 *            Java regular expression.
-	 */
-	void deleteByKeyPattern(String pattern);
-	
-	/**
-	 * Deletes all keys that start with the given prefix. Note that
-	 * according to how each concrete implementation of the cache is actually
-	 * storing keys, this can be very inefficient in very large caches.
-	 * 
-	 * @param prefix
-	 *            The prefix to lookup keys with.
-	 */
-	void deleteByKeyPrefix(String prefix);
+  /**
+   * The amount of time (in msec) after which an entry in the caceh expires. Leave this value at '0'
+   * to indicate items that never expire.
+   */
+  long expiryTime = 0;
 
-	/**
-	 * Gets a key from the cache.
-	 * @param key The key to be retrieved.
-	 * @return The key value or null if the key does not exist.
-	 */
-	String get(String key);
-	
-	/**
-	 * The names of the keys currently cached.
-	 * @return The names of the keys currently cached.
-	 */
-	Set<String> getKeyNames();
-	
-	/**
-	 * Entirely clears cache's entries.
-	 */
-	void clear();
+  /**
+   * The URL of the cache. This is a convenience property to allow different cache implementations
+   * to specify connections parameters, etc. You need to check the documentation of each specific
+   * cache implementation regarding the format of this property.
+   */
+  String cacheURL = "";
+
+  public String getCacheURL() {
+    return cacheURL;
+  }
+
+  public void setCacheURL(String cacheURL) {
+    this.cacheURL = cacheURL;
+  }
+
+  public boolean isActive() {
+    return active;
+  }
+
+  public void setActive(boolean active) {
+    this.active = active;
+  }
+
+  public long getMaxEntries() {
+    return maxEntries;
+  }
+
+  public void setMaxEntries(long maxEntries) {
+    this.maxEntries = maxEntries;
+  }
+
+  public long getExpiryTime() {
+    return expiryTime;
+  }
+
+  public void setExpiryTime(long expiryTime) {
+    this.expiryTime = expiryTime;
+  }
+
+  /**
+   * Adds a new key to the cache.
+   *
+   * @param key The key to create.
+   * @param value The value of the key to associated with.
+   */
+  public abstract void set(String key, Object value);
+
+  /**
+   * Deletes a key from the cache.
+   *
+   * @param key The key to be deleted.
+   */
+  public abstract void deleteByKeyName(String key);
+
+  /**
+   * Deletes all keys that match the given regular expression. Note that
+   * according to how each concrete implementation of the cache is actually
+   * storing keys, this can be very inefficient in very large caches.
+   *
+   * @param pattern Java regular expression.
+   */
+  public abstract void deleteByKeyPattern(String pattern);
+
+  /**
+   * Deletes all keys that start with the given prefix. Note that
+   * according to how each concrete implementation of the cache is actually
+   * storing keys, this can be very inefficient in very large caches.
+   *
+   * @param prefix The prefix to lookup keys with.
+   */
+  public abstract void deleteByKeyPrefix(String prefix);
+
+  /**
+   * Gets a key from the cache.
+   *
+   * @param key The key to be retrieved.
+   * @return The key value or null if the key does not exist.
+   */
+  public abstract Object get(String key);
+
+  /**
+   * The names of the keys currently cached.
+   *
+   * @return The names of the keys currently cached.
+   */
+  public abstract Set<String> getKeyNames();
+
+  /**
+   * Entirely clears cache's entries.
+   */
+  public abstract void clear();
 }

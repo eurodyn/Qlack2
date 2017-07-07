@@ -12,7 +12,7 @@
 * See the Licence for the specific language governing permissions and
 * limitations under the Licence.
 */
-package com.eurodyn.qlack2.fuse.caching.memcached;
+package com.eurodyn.qlack2.fuse.caching.impl.memcached;
 
 import com.eurodyn.qlack2.fuse.caching.api.CacheService;
 import com.google.common.base.Predicates;

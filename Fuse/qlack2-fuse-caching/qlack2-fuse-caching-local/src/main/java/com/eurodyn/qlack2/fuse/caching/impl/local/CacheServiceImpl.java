@@ -12,7 +12,7 @@
 * See the Licence for the specific language governing permissions and
 * limitations under the Licence.
 */
-package com.eurodyn.qlack2.fuse.caching.local;
+package com.eurodyn.qlack2.fuse.caching.impl.local;
 
 import com.eurodyn.qlack2.fuse.caching.api.CacheService;
 import com.google.common.base.Predicates;
@@ -20,9 +20,11 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.Sets;
 
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CacheServiceImpl extends CacheService {
@@ -30,18 +32,30 @@ public class CacheServiceImpl extends CacheService {
   private Cache<String, Object> cache;
 
   public CacheServiceImpl() {
+  }
+
+  public void init() {
     if (isActive()) {
+      LOGGER.log(Level.CONFIG, MessageFormat.format("Initialising cache: {0}.", this.getClass().getName()));
       final CacheBuilder<Object, Object> cacheBuilder = CacheBuilder.newBuilder();
 
-      if (getMaxEntries() > -1) {
+      if (getMaxEntries() > 0) {
         cacheBuilder.maximumSize(getMaxEntries());
+        LOGGER.log(Level.FINE, MessageFormat.format("Setting cache''s max entries to: {0}.", getMaxEntries()));
+      } else {
+        LOGGER.log(Level.FINE, "No upper bound for cache's max entries.");
       }
 
       if (getExpiryTime() > 0) {
         cacheBuilder.expireAfterWrite(getExpiryTime(), TimeUnit.MILLISECONDS);
+        LOGGER.log(Level.FINE, MessageFormat.format("Setting cache''s expiry time to: {0}.", getExpiryTime()));
+      } else {
+        LOGGER.log(Level.FINE, "No upper bound for cache's expiration time.");
       }
 
       cache = cacheBuilder.build();
+    } else {
+      LOGGER.log(Level.CONFIG, "Cache is configured as inactive.");
     }
   }
 

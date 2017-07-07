@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
-	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
-	
-	<!-- MANAGED PROPERTIES -->
-	<cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.caching.redis"
-		update-strategy="reload">
-		<cm:default-properties>
-			<property name="host" value="localhost"/>
-			<property name="port" value="6379"/>
-			<property name="maxIdle" value="10"/>
-			<property name="minIdle" value="10"/>
-			<property name="maxTotal" value="30"/>
-		</cm:default-properties>
-	</cm:property-placeholder>
+  xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}">
 
-	<!-- LOCAL BEANS & SERVICES -->
-	<bean id="CacheServiceImpl"
-		class="com.eurodyn.qlack2.fuse.caching.redis.impl.CacheServiceImpl"
-		destroy-method="destroy" init-method="init">
-			<property name="host" value="${host}"/>
-			<property name="port" value="${port}"/>
-			<property name="maxIdle" value="${maxIdle}"/>
-			<property name="minIdle" value="${minIdle}"/>
-			<property name="maxTotal" value="${maxTotal}"/>
-	</bean>
-	<service id="CacheService" ref="CacheServiceImpl"
-		interface="com.eurodyn.qlack2.fuse.caching.redis.api.CacheService">
-	</service>
+  <!-- MANAGED PROPERTIES -->
+  <cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.caching" update-strategy="reload">
+    <cm:default-properties>
+      <cm:property name="active" value="false"/>
+      <cm:property name="maxEntries" value="0"/>
+      <cm:property name="expiryTime" value="0"/>
+      <cm:property name="cacheURL" value="localhost:6379:5:1:3"/>
+    </cm:default-properties>
+  </cm:property-placeholder>
+
+  <!-- LOCAL BEANS & SERVICES -->
+  <bean id="CacheServiceImpl"
+    class="com.eurodyn.qlack2.fuse.caching.impl.redis.CacheServiceImpl"
+    destroy-method="destroy" init-method="init">
+    <property name="active" value="${active}"/>
+    <property name="maxEntries" value="${maxEntries}"/>
+    <property name="expiryTime" value="${expiryTime}"/>
+    <property name="cacheURL" value="${cacheURL}"/>
+  </bean>
+  <service id="CacheService" ref="CacheServiceImpl"
+    interface="com.eurodyn.qlack2.fuse.caching.api.CacheService">
+  </service>
 
 </blueprint>
