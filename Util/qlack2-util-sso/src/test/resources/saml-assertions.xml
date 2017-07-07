@@ -1,0 +1,64 @@
+<saml:Assertion ID="s297e0c010a43786aca1cc3c7e1d02b531f7bdd029" IssueInstant="2017-07-04T16:15:03Z" Version="2.0" xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">
+  <saml:Issuer>http://local.nassosmichas.com:8080/openam1300</saml:Issuer>
+  <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+    <ds:SignedInfo>
+      <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+      <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+      <ds:Reference URI="#s297e0c010a43786aca1cc3c7e1d02b531f7bdd029">
+        <ds:Transforms>
+          <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+          <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+        </ds:Transforms>
+        <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+        <ds:DigestValue>PukcWunm+1Ui4rUY+5ltN0NRwQo=</ds:DigestValue>
+      </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue>nByDp+tjNAggDzz0ubeECIDniOvPdo7zzIbfN6r8ZW4CGpdGvQsWrXUOp5gVzvNghltxvV+cDvLn
+      wmUm7Zta0OA0ly/XzhBLXItqZPpZUUH+YtfXFoj20ekqWuA3Fd68VEak1kEdr4beKNpkfkCNB7pp
+      eMBGwl6gfurigadENmo=
+    </ds:SignatureValue>
+    <ds:KeyInfo>
+      <ds:X509Data>
+        <ds:X509Certificate>MIICQDCCAakCBEeNB0swDQYJKoZIhvcNAQEEBQAwZzELMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNh
+          bGlmb3JuaWExFDASBgNVBAcTC1NhbnRhIENsYXJhMQwwCgYDVQQKEwNTdW4xEDAOBgNVBAsTB09w
+          ZW5TU08xDTALBgNVBAMTBHRlc3QwHhcNMDgwMTE1MTkxOTM5WhcNMTgwMTEyMTkxOTM5WjBnMQsw
+          CQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEUMBIGA1UEBxMLU2FudGEgQ2xhcmExDDAK
+          BgNVBAoTA1N1bjEQMA4GA1UECxMHT3BlblNTTzENMAsGA1UEAxMEdGVzdDCBnzANBgkqhkiG9w0B
+          AQEFAAOBjQAwgYkCgYEArSQc/U75GB2AtKhbGS5piiLkmJzqEsp64rDxbMJ+xDrye0EN/q1U5Of+
+          RkDsaN/igkAvV1cuXEgTL6RlafFPcUX7QxDhZBhsYF9pbwtMzi4A4su9hnxIhURebGEmxKW9qJNY
+          Js0Vo5+IgjxuEWnjnnVgHTs1+mq5QYTA7E6ZyL8CAwEAATANBgkqhkiG9w0BAQQFAAOBgQB3Pw/U
+          QzPKTPTYi9upbFXlrAKMwtFf2OW4yvGWWvlcwcNSZJmTJ8ARvVYOMEVNbsT4OFcfu2/PeYoAdiDA
+          cGy/F2Zuj8XJJpuQRSE6PtQqBuDEHjjmOQJ0rV/r8mO1ZCtHRhpZ5zYRjhRC9eCbjx9VrFax0JDC
+          /FfwWigmrW0Y0Q==
+        </ds:X509Certificate>
+      </ds:X509Data>
+    </ds:KeyInfo>
+  </ds:Signature>
+  <saml:Subject>
+    <saml:NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent" NameQualifier="http://local.nassosmichas.com:8080/openam1300" SPNameQualifier="http://local.nassosmichas.com:8181/api/">Viv+sCje24mNhpjzh0E5kTBQ9QBY</saml:NameID>
+    <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+      <saml:SubjectConfirmationData InResponseTo="_1bb3eeba-a365-4e85-a411-c4855061677d" NotOnOrAfter="2017-07-04T16:25:03Z" Recipient="http://local.nassosmichas.com:8181/api/saml/sso"/>
+    </saml:SubjectConfirmation>
+  </saml:Subject>
+  <saml:Conditions NotBefore="2017-07-04T16:05:03Z" NotOnOrAfter="2017-07-04T16:25:03Z">
+    <saml:AudienceRestriction>
+      <saml:Audience>http://local.nassosmichas.com:8181/api/</saml:Audience>
+    </saml:AudienceRestriction>
+  </saml:Conditions>
+  <saml:AuthnStatement AuthnInstant="2017-07-04T15:39:02Z" SessionIndex="s2e0a588a4093dd740b30381a12e6eaa082945f801">
+    <saml:AuthnContext>
+      <saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</saml:AuthnContextClassRef>
+    </saml:AuthnContext>
+  </saml:AuthnStatement>
+  <saml:AttributeStatement>
+    <saml:Attribute Name="mail">
+      <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">email@example.com</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute Name="uid">
+      <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">user1</saml:AttributeValue>
+    </saml:Attribute>
+    <saml:Attribute Name="cn">
+      <saml:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">myfullname</saml:AttributeValue>
+    </saml:Attribute>
+  </saml:AttributeStatement>
+</saml:Assertion>

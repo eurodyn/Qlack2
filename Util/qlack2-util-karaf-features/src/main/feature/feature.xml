@@ -22,6 +22,11 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/xml/feat
   <repository>mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/${project.version}/xml/features</repository>
   <repository>mvn:org.apache.cxf.karaf/apache-cxf/${karaf.cxf.version}/xml/features</repository>
 
+  <feature name="qlack2-util-sso" version="${project.version}">
+    <bundle>mvn:javax.servlet/javax.servlet-api/${javax.servlet-api.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.util/qlack2-util-sso/${project.version}</bundle>
+  </feature>
+
   <feature name="qlack2-util-jbpm-runtime" version="${project.version}">
     <feature version="${project.version}">qlack2-util-repack-jpa</feature>
     <feature version="${jbpm.version}">qlack2-util-repack-drools-common</feature>
