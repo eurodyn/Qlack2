@@ -1,7 +1,5 @@
 <img src="docs/qlack2-patches.png" width="223" height="100">
 
-<hr>
-
 From time to time, currently shipping versions of third-party libraries
 and tools may contain bugs or vulnerabilities; or just maybe a feature
 we really need is not back-ported to the version we use. On this repo
