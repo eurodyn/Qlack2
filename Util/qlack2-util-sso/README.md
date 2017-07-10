@@ -19,6 +19,7 @@ There are, literally, dozens of excellent guides on SSO/SAMLv2 and we encourage 
 
 ## Working with an SSO session
 <img src="docs/qlack2-util-sso-graph.png"/>
+
 ### First-time access  
 * Step 1
 	* The user tries to access your application for the first time.  
