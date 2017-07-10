@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>qlack2-util-parent</artifactId>
+    <groupId>com.eurodyn.qlack2.util</groupId>
+    <version>2.2.4-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>qlack2-util-apache-santuario-fragment</artifactId>
+  <packaging>bundle</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <instructions>
+            <Bundle-Description>QLACK2 :: util :: Apache Santuario fragment</Bundle-Description>
+            <Fragment-Host>org.apache.cxf.cxf-rt-rs-security-sso-saml</Fragment-Host>
+            <!--<Fragment-Host>com.eurodyn.qlack2.util.qlack2-util-sso</Fragment-Host>-->
+            <!--<Fragment-Host>org.apache.servicemix.bundles.opensaml</Fragment-Host>-->
+            <!--<Fragment-Host>org.apache.wss4j.wss4j-ws-security-common</Fragment-Host>-->
+            <!--<Fragment-Host>org.apache.wss4j.wss4j-ws-security-stax</Fragment-Host>-->
+            <!--<Export-Package>org.apache.cxf.rs.security.saml.sso;partial=true;mandatory:=partial;partial=true;mandatory:=partial;split-package=merge-first</Export-Package>-->
+            <!--<Export-Package>org.apache.cxf.rs.security.saml.sso;-split-package:=merge-last</Export-Package>-->
+            <!--<Export-Package>org.apache.cxf.rs.security.saml.sso;-split-package:=merge-last</Export-Package>-->
+            <!--<Import-Package>org.apache.cxf.rs.security.saml.sso;-split-package:=merge-first</Import-Package>-->
+            <!--<Export-Package>org.apache.cxf.rs.security.saml.sso;-split-package:=merge-first</Export-Package>-->
+            <!--<Export-Package>abc;-split-package:=merge-last</Export-Package>-->
+            <Import-Package>org.apache.cxf.rs.security.saml.sso;-split-package:=merge-last</Import-Package>
+            <EXport-Package>org.apache.cxf.rs.security.saml.sso;-split-package:=merge-last</EXport-Package>
+            <!--Use Import/Export Package directive -split-package:=(merge-first|merge-last|error|first) to get rid of this warning-->
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-rs-security-sso-saml</artifactId>
+      <version>${karaf.cxf.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>ehcache</artifactId>
+          <groupId>net.sf.ehcache</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>geronimo-servlet_3.0_spec</artifactId>
+          <groupId>org.apache.geronimo.specs</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+
+</project>

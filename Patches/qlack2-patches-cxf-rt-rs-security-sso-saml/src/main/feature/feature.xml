@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- @formatter:off -->
+
+<!--
+feature:repo-add mvn:com.eurodyn.qlack2.patches/qlack2-patches-cxf-rt-rs-security-sso-saml/xml/features
+-->
+<features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" name="QLACK2-PATCHES-CXF-RT-RS-SECURITY-SSO-SAML">
+  <!-- External repositories needed for this features set -->
+  <repository>mvn:org.apache.cxf.karaf/apache-cxf/${karaf.cxf.version}/xml/features</repository>
+
+  <feature name="qlack2-patches-cxf-rt-rs-security-sso-saml" version="${project.version}">
+    <feature version="${karaf.cxf.version}">cxf-rs-security-xml</feature>
+    <bundle start-level="40">mvn:com.eurodyn.qlack2.patches/qlack2-patches-cxf-rt-rs-security-sso-saml/${project.version}</bundle>
+  </feature>
+
+</features>

@@ -1,0 +1,65 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1476469725503
+Build-Jdk: 1.8.0_102
+Built-By: dkulp
+Bundle-ActivationPolicy: lazy
+Bundle-Description: Apache CXF RS SSO SAML
+Bundle-DocURL: http://cxf.apache.org
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-ManifestVersion: 2
+Bundle-Name: Apache CXF RS SSO SAML
+Bundle-SymbolicName: org.apache.cxf.cxf-rt-rs-security-sso-saml
+Bundle-Vendor: The Apache Software Foundation
+Bundle-Version: 3.1.8
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.apache.cxf.rs.security.saml.sso;version="3.1.8",org.
+ apache.cxf.rs.security.saml.sso.state;version="3.1.8"
+Implementation-Vendor: The Apache Software Foundation
+Implementation-Vendor-Id: org.apache
+Implementation-Version: 3.1.8
+Import-Package: javax.servlet.http;version="[0.0,4)",net.sf.ehcache;reso
+ lution:=optional;version="[2.5,3.0.0)",net.sf.ehcache.config;resolution
+ :=optional;version="[2.5,3.0.0)",org.opensaml.core.xml;version="[3.1,4)
+ ",org.opensaml.core.xml.config;version="[3.1,4)",org.opensaml.saml.comm
+ on;version="[3.1,4)",org.opensaml.saml.saml1.core;version="[3.1,4)",org
+ .opensaml.saml.saml2.core;version="[3.1,4)",org.opensaml.saml.security.
+ impl;version="[3.1,4)",org.opensaml.security;version="[3.1,4)",org.open
+ saml.security.credential;version="[3.1,4)",org.opensaml.security.x509;v
+ ersion="[3.1,4)",org.opensaml.xmlsec.encryption;version="[3.1,4)",org.o
+ pensaml.xmlsec.keyinfo;version="[3.1,4)",org.opensaml.xmlsec.keyinfo.im
+ pl;version="[3.1,4)",org.opensaml.xmlsec.signature;version="[3.1,4)",or
+ g.opensaml.xmlsec.signature.support;version="[3.1,4)",javax.annotation;
+ version="[1.2,2)",javax.crypto,javax.security.auth.callback,javax.secur
+ ity.auth.x500,javax.ws.rs;version="[2.0,3)",javax.ws.rs.container;versi
+ on="[2.0,3)",javax.ws.rs.core;version="[2.0,3)",javax.xml.bind.annotati
+ on,javax.xml.crypto.dsig,javax.xml.crypto.dsig.dom,javax.xml.crypto.dsi
+ g.keyinfo,javax.xml.crypto.dsig.spec,javax.xml.namespace,javax.xml.stre
+ am,org.apache.cxf;version="[3.1,4)",org.apache.cxf.common.i18n;version=
+ "[3.1,4)",org.apache.cxf.common.logging;version="[3.1,4)",org.apache.cx
+ f.common.security;version="[3.1,4)",org.apache.cxf.common.util;version=
+ "[3.1,4)",org.apache.cxf.helpers;version="[3.1,4)",org.apache.cxf.jaxrs
+ .ext;version="[3.1,4)",org.apache.cxf.jaxrs.impl;version="[3.1,4)",org.
+ apache.cxf.jaxrs.utils;version="[3.1,4)",org.apache.cxf.message;version
+ ="[3.1,4)",org.apache.cxf.rs.security.common;version="[3.1,4)",org.apac
+ he.cxf.rs.security.saml;version="[3.1,4)",org.apache.cxf.rs.security.sa
+ ml.assertion;version="[3.1,4)",org.apache.cxf.rs.security.xml;version="
+ [3.1,4)",org.apache.cxf.rt.security;version="[3.1,4)",org.apache.cxf.rt
+ .security.claims;version="[3.1,4)",org.apache.cxf.rt.security.saml.clai
+ ms;version="[3.1,4)",org.apache.cxf.rt.security.saml.utils;version="[3.
+ 1,4)",org.apache.cxf.rt.security.utils;version="[3.1,4)",org.apache.cxf
+ .security;version="[3.1,4)",org.apache.cxf.staxutils;version="[3.1,4)",
+ org.apache.wss4j.common;version="[2.1,3)",org.apache.wss4j.common.crypt
+ o;version="[2.1,3)",org.apache.wss4j.common.ext;version="[2.1,3)",org.a
+ pache.wss4j.common.saml;version="[2.1,3)",org.apache.wss4j.common.saml.
+ builder;version="[2.1,3)",org.apache.wss4j.common.util;version="[2.1,3)
+ ",org.apache.wss4j.dom;version="[2.1,3)",org.apache.wss4j.dom.engine;ve
+ rsion="[2.1,3)",org.apache.wss4j.dom.handler;version="[2.1,3)",org.apac
+ he.wss4j.dom.saml;version="[2.1,3)",org.apache.wss4j.dom.validate;versi
+ on="[2.1,3)",org.apache.xml.security.encryption;version="[2.0,3)",org.a
+ pache.xml.security.stax.impl.util;version="[2.0,3)",org.apache.xml.secu
+ rity.utils;version="[2.0,3)",org.joda.time;version="[2.7,3)",org.slf4j;
+ version="[1.7,2)",org.w3c.dom,org.opensaml.xmlsec.signature.support.pro
+ vider;version="[3.1,4)"
+Specification-Vendor: The Apache Software Foundation
+Specification-Version: 3.1.8
+Tool: Bnd-2.1.0.20130426-122213

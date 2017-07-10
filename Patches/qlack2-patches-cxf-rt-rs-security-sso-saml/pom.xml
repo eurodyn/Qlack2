@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>com.eurodyn.qlack2.patches</groupId>
+    <artifactId>qlack2-patches</artifactId>
+    <version>2.2.4-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>qlack2-patches-cxf-rt-rs-security-sso-saml</artifactId>
+  <packaging>pom</packaging>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>${project.basedir}/src/main/feature</directory>
+        <filtering>true</filtering>
+        <targetPath>${project.build.directory}/feature</targetPath>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven-compiler-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>compile</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>${maven-antrun-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>Patching cxf-rt-rs-security-sso-saml</id>
+            <phase>package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <get
+                  src="http://search.maven.org/remotecontent?filepath=org/apache/cxf/cxf-rt-rs-security-sso-saml/${karaf.cxf.version}/cxf-rt-rs-security-sso-saml-${karaf.cxf.version}.jar"
+                  dest="${project.build.directory}/unpatched-cxf-rt-rs-security-sso-saml-${karaf.cxf.version}.jar"
+                  usetimestamp="true"/>
+                <unzip
+                  src="${project.build.directory}/unpatched-cxf-rt-rs-security-sso-saml-${karaf.cxf.version}.jar"
+                  dest="${project.build.directory}/patch"/>
+                <copy todir="${project.build.directory}/patch/org/apache/cxf/rs/security/saml/sso"
+                  file="${project.build.directory}/classes/org/apache/cxf/rs/security/saml/sso/SAMLProtocolResponseValidator.class"/>
+                <copy todir="${project.build.directory}/patch/META-INF"
+                  file="${project.basedir}/src/main/resources/META-INF/MANIFEST.MF"/>
+                <zip
+                  destfile="${project.build.directory}/qlack2-patches-cxf-rt-rs-security-sso-saml-${karaf.cxf.version}-${project.version}.jar"
+                  basedir="${project.build.directory}/patch"/>
+                <delete
+                  file="${project.build.directory}/unpatched-cxf-rt-rs-security-sso-saml-${karaf.cxf.version}.jar"/>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>${build-helper-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>Attaching patched artifact</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>${project.build.directory}/qlack2-patches-cxf-rt-rs-security-sso-saml-${karaf.cxf.version}-${project.version}.jar</file>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+          <execution>
+            <id>Attaching feature</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>target/feature/feature.xml</file>
+                  <classifier>features</classifier>
+                  <type>xml</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>${maven.resources.plugin.version}</version>
+        <configuration>
+          <encoding>UTF-8</encoding>
+        </configuration>
+        <executions>
+          <execution>
+            <id>filter</id>
+            <goals>
+              <goal>resources</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-rs-security-sso-saml</artifactId>
+      <version>${karaf.cxf.version}</version>
+    </dependency>
+  </dependencies>
+
+</project>

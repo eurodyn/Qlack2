@@ -46,6 +46,7 @@
     <module>WebDesktopApps</module>
     <module>BusinessEngine</module>
     <module>Common</module>
+    <module>Patches</module>
   </modules>
 
   <properties>
@@ -115,11 +116,13 @@
     <liquibase.snakeyaml.version>1.17</liquibase.snakeyaml.version>
     <liquibase.version>3.5.3</liquibase.version>
     <mapstruct.version>1.1.0.Final</mapstruct.version>
+    <maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
     <maven-assembly-plugin.version>2.6</maven-assembly-plugin.version>
     <maven-bundle-plugin.version>3.2.0</maven-bundle-plugin.version>
     <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
     <maven.install.plugin.version>2.5.2</maven.install.plugin.version>
     <maven.resources.plugin.version>2.7</maven.resources.plugin.version>
+    <maven-shade-plugin.version>3.0.0</maven-shade-plugin.version>
     <memcached.version>2.12.0</memcached.version>
     <mimeutil.version>2.1.3</mimeutil.version>
     <mongodb.driver>3.1.0</mongodb.driver>

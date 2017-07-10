@@ -1,0 +1,19 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.eurodyn.qlack2</groupId>
+    <artifactId>qlack2</artifactId>
+    <version>2.2.4-SNAPSHOT</version>
+    <relativePath>../</relativePath>
+  </parent>
+
+  <groupId>com.eurodyn.qlack2.patches</groupId>
+  <artifactId>qlack2-patches</artifactId>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>qlack2-patches-cxf-rt-rs-security-sso-saml</module>
+  </modules>
+</project>
