@@ -1,4 +1,4 @@
-<img src="docs/qlack2-util-sso.png" width="200" height="100">
+<img src="docs/qlack2-util-sso.png" width="223" height="100">
 
 <hr>
 
