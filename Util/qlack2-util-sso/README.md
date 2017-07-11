@@ -121,7 +121,7 @@ Check your keystore contains all certificates:
 
 <img src="docs/shell_4.png">  
 
-Although not necessary at this exact point, it is a good opportunity to also export your SP's certificate in order to import it into the IdP's keystore:  
+Export your SP's certificate in order to import it into the IdP's keystore:  
 `keytool -export -keystore keystore.jks -alias project1_nmichas -file project1_nmichas.cer`
 
 <img src="docs/shell_5.png">  
