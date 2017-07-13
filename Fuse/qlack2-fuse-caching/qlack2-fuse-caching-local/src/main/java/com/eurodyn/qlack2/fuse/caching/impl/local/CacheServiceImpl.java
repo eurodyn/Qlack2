@@ -32,6 +32,7 @@ public class CacheServiceImpl extends CacheService {
   private Cache<String, Object> cache;
 
   public CacheServiceImpl() {
+    init();
   }
 
   public void init() {
