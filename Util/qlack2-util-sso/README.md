@@ -167,7 +167,8 @@ Make sure your application uses `qlack2-util-sso` feature.
   </bean>
 
   <!-- SSO GET-redirect filter for SP initiated authentication -->
-  <bean id="redirectSSOFilter"
+  <!-- SamlRedirectBindingFilter, SamlPostBindingFilter, and FakeFilter are mutually exclusive -->
+  <bean id="SSOFilter"
     class="org.apache.cxf.rs.security.saml.sso.SamlRedirectBindingFilter">
     <property name="idpServiceAddress" value="${sso.idpServiceAddress}"/>
     <property name="assertionConsumerServiceAddress" value="${sso.assertionConsumerServiceAddress}"/>
@@ -181,7 +182,8 @@ Make sure your application uses `qlack2-util-sso` feature.
   </bean>
 
   <!-- SSO POST-redirect filter for SP initiated authentication -->
-  <bean id="redirectSSOFilter2" class="org.apache.cxf.rs.security.saml.sso.SamlPostBindingFilter">
+  <!-- SamlRedirectBindingFilter, SamlPostBindingFilter, and FakeFilter are mutually exclusive -->
+  <bean id="SSOFilter" class="org.apache.cxf.rs.security.saml.sso.SamlPostBindingFilter">
     <property name="idpServiceAddress" value="${sso.idpServiceAddress}"/>
     <property name="assertionConsumerServiceAddress" value="${sso.assertionConsumerServiceAddress}"/>
     <property name="stateProvider" ref="stateManager"/>
@@ -193,6 +195,17 @@ Make sure your application uses `qlack2-util-sso` feature.
     <property name="callbackHandler" ref="callbackHandler"/>
     <!--<property name="issuerId" value="some-custom-id-if-your-idp-asks-you-to-define-it"-->
   </bean>
+
+   <!-- A fake filter bypassing all SSO -->
+   <!-- SamlRedirectBindingFilter, SamlPostBindingFilter, and FakeFilter are mutually exclusive -->
+   <bean id="SSOFilter" class="com.eurodyn.qlack2.util.sso.FakeSSOFilter">
+       <property name="fakeAttributes">
+         <list>
+           <value>uid</value> <value>user1</value>
+           <value>mail</value> <value>user1@example.com</value>
+         </list>
+       </property>
+   </bean>
 
   <!-- The RACS responsible to parse the SAML Response from the Idp -->
   <bean id="consumerService" class="org.apache.cxf.rs.security.saml.sso.RequestAssertionConsumerService">
@@ -250,8 +263,7 @@ In your existing JAX-RS server, you should also add the following configuration:
 <jaxrs:providers>
   <!-- SSO ********************************************************************************* -->
 	  <!-- The SP initiated authentication redirect filter -->
-	  <!--<ref component-id="redirectSSOFilter"/>--> <!-- Uncomment for GET redirect -->
-	  <ref component-id="redirectSSOFilter2"/> <!-- POST redirect -->
+	  <ref component-id="SSOFilter"/>
 	  <!-- A provider rendering an auto-submitted form for POST-redirect filter only -->
 	  <bean id="SAMLRequestInfoProvider" class="com.eurodyn.qlack2.util.sso.SamlRequestInfoProvider"/>
   <!-- /SSO ******************************************************************************** -->
@@ -260,7 +272,9 @@ In your existing JAX-RS server, you should also add the following configuration:
 ...
 ```
 
-You also need a properties file in which you keep the details of your keystore to be read by CXF's components to create and verify digital signatures. Create a file `/etc/project1/saml-sp.properties` as:
+You also need a properties file in which you keep the details of your keystore to be read
+by CXF's components to create and verify digital signatures. Create a file
+`/etc/project1/saml-sp.properties` as:
 
 ```
 org.apache.ws.security.crypto.merlin.keystore.type=jks
@@ -268,7 +282,10 @@ org.apache.ws.security.crypto.merlin.keystore.password=mysecret
 org.apache.ws.security.crypto.merlin.keystore.alias=project1_nmichas
 org.apache.ws.security.crypto.merlin.keystore.file=/etc/project1/keystore.jks
 ```
-We are almost there! As you have seen above, the blueprint configuration contains many references to variables. This is to allow you to deploy your application in different environments just by changing external configuration files. Therefore, your application should be able to read a config-admin .cfg with the following variables:
+We are almost there! As you have seen above, the blueprint configuration contains
+many references to variables. This is to allow you to deploy your application in
+different environments just by changing external configuration files. Therefore,
+your application should be able to read a config-admin .cfg with the following variables:
 
 ```
 # ######################
@@ -297,7 +314,9 @@ sso.skipSignatureInMetadata = true
 ```
 
 ### Using SAML attributes
-Once the user is authenticated with the IdP and back to your application, you can find all attributes defined in the SAML Response by using the `com.eurodyn.qlack2.util.sso.dto.WebSSOHolder` class. Here is an example:
+Once the user is authenticated with the IdP and back to your application, you can find all
+attributes defined in the SAML Response by using the `com.eurodyn.qlack2.util.sso.dto.WebSSOHolder`
+class. Here is an example:
 
 ```
 @Path("/auth")
