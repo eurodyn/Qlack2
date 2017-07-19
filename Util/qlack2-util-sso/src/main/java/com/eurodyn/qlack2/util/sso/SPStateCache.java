@@ -58,10 +58,16 @@ public class SPStateCache implements SPStateManager {
   }
 
   private String applyRequestPrefix(String key) {
+    if (key.startsWith(keyPrefix + requestCachePrefix)) {
+      return key;
+    }
     return keyPrefix + requestCachePrefix + key;
   }
 
   private String applyResponsePrefix(String key) {
+    if (key.startsWith(keyPrefix + responseCachePrefix)) {
+      return key;
+    }
     return keyPrefix + responseCachePrefix + key;
   }
 
@@ -95,8 +101,7 @@ public class SPStateCache implements SPStateManager {
     cacheService.set(key, state);
   }
 
-  @Override
-  public RequestState removeRequestState(String relayState) {
+  public RequestState getRequestState(String relayState) {
     String key = applyRequestPrefix(relayState);
     LOGGER.log(Level.FINE, MessageFormat.format("removeRequestState for key: {0}", key));
     RequestState retVal = null;
@@ -106,6 +111,18 @@ public class SPStateCache implements SPStateManager {
     }
 
     return retVal;
+  }
+
+  @Override
+  public RequestState removeRequestState(String contextKey) {
+    String key = applyRequestPrefix(contextKey);
+    LOGGER.log(Level.FINE, MessageFormat.format("removeRequestState for key: {0}", key));
+    final RequestState requestState = getRequestState(key);
+    if (requestState != null) {
+      cacheService.deleteByKeyName(key);
+    }
+
+    return requestState;
   }
 
   @Override
