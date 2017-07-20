@@ -129,8 +129,8 @@
     <mysema-commons-lang>0.2.4</mysema-commons-lang>
     <mysql.connector.version>5.1.38</mysql.connector.version>
     <oracle.db.version>12.2.0.1.0</oracle.db.version>
-    <nodejs.version>v4.2.4</nodejs.version>
-    <npm.version>2.14.12</npm.version>
+    <nodejs.version>v6.11.0</nodejs.version>
+    <npm.version>3.10.10</npm.version>
     <org.hsqldb.version>2.3.4</org.hsqldb.version>
     <osgi.version>5.0.0</osgi.version>
     <pax-url-aether.version>2.5.2</pax-url-aether.version>
