@@ -1,14 +1,16 @@
 package com.eurodyn.qlack2.fuse.componentlibrary.it;
 
-import com.eurodyn.qlack2.util.availcheck.api.AvailabilityCheck;
-import com.eurodyn.qlack2.util.availcheck.mysql.AvailabilityCheckMySQL;
-import com.eurodyn.qlack2.util.docker.DockerContainer;
+import java.util.UUID;
+
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import java.util.UUID;
+
+import com.eurodyn.qlack2.util.availcheck.api.AvailabilityCheck;
+import com.eurodyn.qlack2.util.availcheck.mysql.AvailabilityCheckMySQL;
+import com.eurodyn.qlack2.util.docker.DockerContainer;
 
 /**
  * @author European Dynamics SA
@@ -40,7 +42,6 @@ public class AllITTests{
         .withDockerEngine(dockerEngine)
         .withImage(DB_IMAGE)
         .withPort(EXPOSED_PORT, CONTAINER_PORT)
-        .withAuth(user,password)
         .withName("TEST-" + UUID.randomUUID())
         .withEnv("MYSQL_ROOT_PASSWORD",password)
         .run();
