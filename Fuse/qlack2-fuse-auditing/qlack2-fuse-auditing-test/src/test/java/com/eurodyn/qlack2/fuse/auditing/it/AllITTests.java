@@ -23,8 +23,8 @@ public class AllITTests{
     /** MySQL configuration */
     private static String containerId;
     private static String dockerEngine = "tcp://localhost:2375";
-    private static final String user = "root";
-    private static final String password = "root";
+    private static final String DB_USER = "root";
+    private static final String DB_PASSWORD = "root";
     private static final String DB_IMAGE = "mysql:5.7.16";
     private static String CONTAINER_PORT = "3306";
     private static String EXPOSED_PORT = "3307";
@@ -39,15 +39,14 @@ public class AllITTests{
                 .withDockerEngine(dockerEngine)
                 .withImage(DB_IMAGE)
                 .withPort(EXPOSED_PORT, CONTAINER_PORT)
-                .withAuth(user,password)
                 .withName("TEST-" + UUID.randomUUID())
-                .withEnv("MYSQL_ROOT_PASSWORD",password)
+                .withEnv("MYSQL_ROOT_PASSWORD", DB_PASSWORD)
                 .run();
         Assert.assertNotNull(containerId);
 
         System.out.println("Waiting for DB to become accessible...");
         AvailabilityCheck check = new AvailabilityCheckMySQL();
-        if (!check.isAvailable(url, user ,password, DB_MAX_WAITING_FOR_CONTAINER, DB_MAX_WAITING_PER_CYCLE, null)) {
+        if (!check.isAvailable(url, DB_USER , DB_PASSWORD, DB_MAX_WAITING_FOR_CONTAINER, DB_MAX_WAITING_PER_CYCLE, null)) {
             System.out.println("Could not connect to the DB. Tests will be terminated.");
             System.exit(1);
         } else {
