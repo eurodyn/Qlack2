@@ -63,13 +63,6 @@ public class QChangeLogRunner {
     } catch (LiquibaseException e) {
       LOGGER.log(Level.SEVERE, MessageFormat.format(
         "Could not execute changelog {0}.", changeLogEntry.getChangeLog()), e);
-    } finally {
-      try {
-        connection.close();
-      } catch (SQLException e) {
-        LOGGER.log(Level.SEVERE, "Could not close database connection, " +
-          "possible connection leak.");
-      }
     }
   }
 
@@ -79,10 +72,11 @@ public class QChangeLogRunner {
        * The Datasource will be automatically refreshed by migrationMonitoringDSThread. */
       DataSource dataSource = null;
       boolean isDSActive = false;
+      Connection connection = null;
       while (!isDSActive) {
         try {
           dataSource = MigrationExecutor.getDataSource();
-          dataSource.getConnection();
+          connection = dataSource.getConnection();
           isDSActive = true;
         } catch (SQLException e) {
           try {
@@ -94,9 +88,15 @@ public class QChangeLogRunner {
 
       try {
         final QChangeLogEntry qChangeLogEntry = MigrationExecutor.queue.remove();
-        QChangeLogRunner.runMigration(qChangeLogEntry, dataSource.getConnection());
-      } catch (SQLException e) {
-        LOGGER.log(Level.SEVERE, e.getMessage(), e);
+        QChangeLogRunner.runMigration(qChangeLogEntry, connection);
+      } finally {
+        try {
+          if (connection != null && !connection.isClosed()) {
+            connection.close();
+          }
+        } catch (SQLException e) {
+          LOGGER.log(Level.WARNING, "Could not close database connection: {0}.", connection);
+        }
       }
     }
   }

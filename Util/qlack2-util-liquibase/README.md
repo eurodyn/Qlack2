@@ -45,7 +45,7 @@ This executed a changelog as soon as it is discovered. Be careful when using
 such as migration strategy as some of your OSGi bundles may keep loading or
 being deployed when changelogs from other already deployed bundles have began to
 execute. With this migration strategy, the `Q-Liquibase-Priority` header plays
-little, if any role, and changelogs from bundles are - mor or less - executed
+little, if any role, and changelogs from bundles are - more or less - executed
 according to the bundle's start-level.
 - `MANUAL`  
 This is a migration strategy mainly to be used when developing and testing. The
