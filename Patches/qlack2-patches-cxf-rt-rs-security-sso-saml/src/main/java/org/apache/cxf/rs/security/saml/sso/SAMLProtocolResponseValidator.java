@@ -84,7 +84,8 @@ public class SAMLProtocolResponseValidator {
   private boolean keyInfoMustBeAvailable = true;
 
   static {
-    LOG.log(Level.INFO, "Using a patched version of SAMLProtocolResponseValidator, see FOO.");
+    LOG.log(Level.INFO, "Using a patched version of SAMLProtocolResponseValidator, see "
+      + "https://github.com/eurodyn/Qlack2/tree/master/Patches/qlack2-patches-cxf-rt-rs-security-sso-saml.");
   }
 
   /**
