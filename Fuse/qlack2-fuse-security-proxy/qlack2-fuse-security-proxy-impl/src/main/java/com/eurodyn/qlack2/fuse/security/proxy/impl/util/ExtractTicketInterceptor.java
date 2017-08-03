@@ -50,11 +50,11 @@ public class ExtractTicketInterceptor extends JAXRSInInterceptor {
     @SuppressWarnings("unchecked")
     final Map<String, List<String>> headers = (Map<String, List<String>>) message.get(Message.PROTOCOL_HEADERS);
 
-    try {
-      System.out.println(MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(headers));
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
-    }
+//    try {
+//      System.out.println(MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(headers));
+//    } catch (JsonProcessingException e) {
+//      e.printStackTrace();
+//    }
 
     List<String> list =
       ((Map<String, List<String>>) message.get(Message.PROTOCOL_HEADERS)).get(ticketHeaderName);
