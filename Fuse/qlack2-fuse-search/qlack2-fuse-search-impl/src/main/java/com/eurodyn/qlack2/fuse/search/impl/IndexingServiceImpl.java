@@ -21,12 +21,13 @@ import com.eurodyn.qlack2.fuse.search.api.dto.IndexingDTO;
 import com.eurodyn.qlack2.fuse.search.api.exception.QSearchException;
 import com.eurodyn.qlack2.fuse.search.impl.util.ESClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.databind.SerializationFeature;
 @Singleton
 @OsgiServiceProvider(classes = {IndexingService.class})
 public class IndexingServiceImpl implements IndexingService {
 
-  private static final ObjectMapper mapper = new ObjectMapper();
+  private static ObjectMapper mapper;
   private static final Logger LOGGER = Logger.getLogger(IndexingServiceImpl.class.getName());
 
   // The ES client injected by blueprint.
@@ -34,6 +35,12 @@ public class IndexingServiceImpl implements IndexingService {
   @Named("ESClient")
   private ESClient esClient;
 
+  public IndexingServiceImpl() {
+	  mapper = new ObjectMapper();
+	  mapper.registerModule(new JavaTimeModule());
+	  mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+  }
+  
   @Override
   public void indexDocument(IndexingDTO dto) {
 		try {

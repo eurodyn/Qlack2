@@ -31,6 +31,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>wrap:mvn:org.elasticsearch.client/rest/5.4.0</bundle>
     <bundle>mvn:org.mapstruct/mapstruct-jdk8/${mapstruct.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-search-impl/${project.version}</bundle>
+	<bundle>mvn:com.fasterxml.jackson.datatype/jackson-datatype-jsr310/${jackson2.version}</bundle>
   </feature>
 
   <feature description="QLACK2 Fuse - AAA" name="qlack2-fuse-AAA" version="${project.version}">

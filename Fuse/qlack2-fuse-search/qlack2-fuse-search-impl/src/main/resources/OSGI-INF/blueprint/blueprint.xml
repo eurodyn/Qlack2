@@ -5,7 +5,7 @@
   <!-- MANAGED PROPERTIES -->
   <cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.search" update-strategy="reload">
     <cm:default-properties>
-      <cm:property name="es.hosts" value="127.0.0.1:9300"/>
+      <cm:property name="es.hosts" value="http:localhost9200"/>
     </cm:default-properties>
   </cm:property-placeholder>
 
