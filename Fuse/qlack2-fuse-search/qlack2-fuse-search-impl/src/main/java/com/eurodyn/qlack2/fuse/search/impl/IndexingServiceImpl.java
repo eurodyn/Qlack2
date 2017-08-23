@@ -1,6 +1,7 @@
 package com.eurodyn.qlack2.fuse.search.impl;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 
@@ -48,8 +50,9 @@ public class IndexingServiceImpl implements IndexingService {
 			Map<String, String> params = dto.isRefresh() ? Collections.singletonMap("refresh", "wait_for") : new HashMap<>();
 
 			// Execute indexing request.
+      ContentType contentType = ContentType.APPLICATION_JSON.withCharset(Charset.forName("UTF-8"));
 			esClient.getClient().performRequest("PUT", endpoint, params,
-					new NStringEntity(mapper.writeValueAsString(dto.getSourceObject())));
+					new NStringEntity(mapper.writeValueAsString(dto.getSourceObject()), contentType));
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, MessageFormat.format("Could not index document with id: {0}", dto.getId()), e);
 			throw new QSearchException(MessageFormat.format("Could not index document with id: {0}", dto.getId()));
