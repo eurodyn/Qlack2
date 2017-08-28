@@ -73,7 +73,7 @@ public class MailQueueSender {
 		properties.put("mail.smtp.starttls.enable", Boolean.toString(starttls));
 		properties.put("mail.smtp.host", host);
 		properties.put("mail.smtp.port", port);
-		
+
 		properties.put("mail.debug", Boolean.toString(debug));
 
 		session = Session.getInstance(properties);
@@ -84,7 +84,7 @@ public class MailQueueSender {
 
 	/**
 	 * Send the email.
-	 * 
+	 *
 	 * @param vo
 	 * @throws QMailingException
 	 */
@@ -127,7 +127,7 @@ public class MailQueueSender {
 				msg.setRecipients(Message.RecipientType.BCC,
 						stringListToAddressList(bccAddresses));
 			}
-			
+
 			// Set the Reply-To field.
 			List<String> replyToAddresses = vo.getReplyToContact();
 			if (replyToAddresses != null && !replyToAddresses.isEmpty()) {
@@ -174,7 +174,7 @@ public class MailQueueSender {
 				msg.setContent(multipart);
 			} else { // A message without attachments.
 				if (vo.getEmailType() == EmailDTO.EMAIL_TYPE.TEXT) {
-					msg.setText(vo.getBody(), "utf-8");
+					msg.setText(vo.getBody(), "\"UTF-8\"");
 				} else if (vo.getEmailType() == EmailDTO.EMAIL_TYPE.HTML) {
 					msg.setContent(vo.getBody(), "text/html;charset=\"UTF-8\"");
 				}
@@ -187,7 +187,7 @@ public class MailQueueSender {
 				transport.connect();
 			} else {
 				LOGGER.log(Level.FINEST, "Sending email with auth, user: " + username);
-				transport.connect(host, port, username, password);	
+				transport.connect(host, port, username, password);
 			}
 
 			transport.sendMessage(msg, msg.getAllRecipients());
