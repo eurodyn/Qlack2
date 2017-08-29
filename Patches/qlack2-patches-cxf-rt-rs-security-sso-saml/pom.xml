@@ -39,39 +39,71 @@
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>${maven-antrun-plugin.version}</version>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>${maven-depedency-plugin.version}</version>
         <executions>
           <execution>
-            <id>Patching cxf-rt-rs-security-sso-saml</id>
-            <phase>package</phase>
+            <id>unpack</id>
+            <phase>compile</phase>
             <goals>
-              <goal>run</goal>
+              <goal>unpack</goal>
             </goals>
             <configuration>
-              <tasks>
-                <get
-                  src="http://search.maven.org/remotecontent?filepath=org/apache/cxf/cxf-rt-rs-security-sso-saml/${karaf.cxf.version}/cxf-rt-rs-security-sso-saml-${karaf.cxf.version}.jar"
-                  dest="${project.build.directory}/unpatched-cxf-rt-rs-security-sso-saml-${karaf.cxf.version}.jar"
-                  usetimestamp="true"/>
-                <unzip
-                  src="${project.build.directory}/unpatched-cxf-rt-rs-security-sso-saml-${karaf.cxf.version}.jar"
-                  dest="${project.build.directory}/patch"/>
-                <copy todir="${project.build.directory}/patch/org/apache/cxf/rs/security/saml/sso"
-                  file="${project.build.directory}/classes/org/apache/cxf/rs/security/saml/sso/SAMLProtocolResponseValidator.class"/>
-                <copy todir="${project.build.directory}/patch/META-INF"
-                  file="${project.basedir}/src/main/resources/META-INF/MANIFEST.MF"/>
-                <zip
-                  destfile="${project.build.directory}/qlack2-patches-cxf-rt-rs-security-sso-saml-${karaf.cxf.version}-${project.version}.jar"
-                  basedir="${project.build.directory}/patch"/>
-                <delete
-                  file="${project.build.directory}/unpatched-cxf-rt-rs-security-sso-saml-${karaf.cxf.version}.jar"/>
-              </tasks>
+              <artifactItems>
+                <artifactItem>
+			      <groupId>org.apache.cxf</groupId>
+			      <artifactId>cxf-rt-rs-security-sso-saml</artifactId>
+			      <version>${karaf.cxf.version}</version>
+                  <type>jar</type>
+                  <overWrite>false</overWrite>
+                  <outputDirectory>${project.build.directory}/${project.artifactId}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
             </configuration>
           </execution>
         </executions>
       </plugin>
 
+		<plugin>
+			<artifactId>maven-assembly-plugin</artifactId>
+			<version>${maven-assembly-plugin.version}</version>
+			<configuration>
+				<descriptors>
+					<descriptor>src/assembly/repackaging.xml</descriptor>
+				</descriptors>
+				<appendAssemblyId>false</appendAssemblyId>
+				<attach>false</attach>
+			</configuration>
+			<executions>
+				<execution>
+					<id>repack-jar</id>
+					<goals>
+						<goal>single</goal>
+					</goals>
+					<phase>compile</phase>
+				</execution>
+			</executions>
+		</plugin>
+
+		<plugin>
+			<groupId>com.coderplus.maven.plugins</groupId>
+			<artifactId>copy-rename-maven-plugin</artifactId>
+			<version>${copy-rename-maven-plugin.version}</version>
+			<executions>
+				<execution>
+					<id>rename-final-jar</id>
+					<phase>package</phase>
+					<goals>
+						<goal>rename</goal>
+					</goals>
+					<configuration>
+						<sourceFile>${project.build.directory}/${project.build.finalName}.zip</sourceFile>
+						<destinationFile>${project.build.directory}/${project.name}-${karaf.cxf.version}-${project.version}.jar</destinationFile>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+			
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
