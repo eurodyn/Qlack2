@@ -55,13 +55,27 @@ The Cookie set by the IdP is useful as it allows the IdP to identify previously 
 
 As soon as the IdP Cookie is expired (or removed) when the user will be redirected back to the IdP he/she will have to go through the log-in screen. Your application does not control the expiration details of the IdP Cookie, so if you need to change this you need to ask the administrators of the IdP.
 
-### SP Cookie
-This is the Cookie set by your application. It allows your SSO Filter to be aware that the visiting user has already visited your application before and its authentication details are verified. Without this Cookie, the SP would not have a way to know whether the user should be redirected back to the IdP to initiate the SSO flow or just be allowed to proceed accessing the requested resource. Although CXF hides the creation details of this Cookie from you, you can indirectly influence the amount of time this Cookie remains valid by specifying the amount of time the information behind this Cookie stays in the cache.
+### SP Cookies
+What needs to be clear early on is that your application does not access the IdP at every single user request. That would not only be an overkill for the IdP but would also impose significant delay in processing user requests. However, if not every single user request is not checked with the IdP, how does your application know a/ Is this user previously authenticated?, and b/ What are the SAML attributes for the user? By using SP Cookies. Let us examine what are such Cookies and where/how/when are generated.
 
-The SP Cookie is nothing more than a UUID-like value:  
-<img src="docs/spcookie.png"/>
+The first time the user is accessing your application it does not, obviously, have any SP Cookie, so it is naturally redirected to the IdP to be authenticated against. During such redirect your SSO Filter creates a `RelayState` object and stores it on its local cache. The key of the `RelayState` is a UUID which uniquely identifies it and its value is similar to the `state` object below:
 
-So, what actually makes this value... valuable is to be able to look it up in the cache maintained by the SP to find the SAML Response behind this particular Cookie. In case this look up fails, the user is redirected back to the IdP for authentication.
+<img src="docs/relay_state_cookie.png"/>
+
+The SSO Filter also stores a Cookie with name `RelayState` and value the UUID created above before redirecting you back to the IdP. As part of the SAML specification, the IdP will return this Cookie once the user is authenticated together with the SAML Response. Therefore, the `RelayState` Cookie serves as an additional security mechanism for your application to know that a SAML Response received is related to an actual authentication attempts that took place previously originated by your application. You can influence the amount of time the `RelayState` Cookie remains active (i.e. not-expired) by setting the `stateTimeToLive` property in the configuration of your SSO Filter (e.g. `SamlPostBindingFilter`, etc.). Of course, be aware that a similar expiration time should also be setup in the cache used by your application.
+
+However, the `RelayState` Cookie alone is not enough for your application to properly identify the user. The extra piece of information that is of real value to your application are the details embedded into the SAML Response and these are not stored in the `RelayState` object available in your local cache. This information is stored on a separately cached object identified by a different Cookie, the `org.apache.cxf.websso.context`. But let us first see where and when this second SP Cookie is created.
+
+Once the user is properly authenticated with the IdP, the IdP redirects the user back to the RACS service of your application. RACS validates the SAML Response and checks that a `RelayState` object matching the value of the `RelayState` Cookie is available in your local cache. If everything checks OK, it creates a "security context" identified by a UUID which is also stored in your local cache as:
+
+<img src="docs/security_context.png"/>
+
+As you can see, among other pieces of information, the complete SAML response is held in your local cache. The identifier for this value in your cache is stored in your browser under the `org.apache.cxf.websso.context` Cookie as:
+
+<img src="docs/security_context_cookie.png"/>
+
+The next time the user is trying to access a protected resource it is this exact Cookie that will be looked up by the SSO Filter to decide whether this is a known user or not. If the Cookie is found and the value identified by its value (e.g. the UUID) can be looked up successfully in your local cache, the user is considered already-authenticated and the original SAML details with which the user was authenticated with are retrieved from the cache. You can influence the amount of time the `org.apache.cxf.websso.context` Cookie remains active (i.e. not-expired) by setting the `stateTimeToLive` property in the configuration of the RACS (e.g. `com.eurodyn.qlack2.util.sso.RACS`, etc.). Of course, be aware that a similar expiration time should also be setup in the cache used by your application.
+
 
 ## Digital signatures, Encryptions and Keys
 By this point you should have probably realised that SAMLv2 SSO is based in exchanging XML files. It would be therefore trivial for an attacker to just pretend to be an IdP replying back to an SP sending modified/hacked XML replies. And vice versa; a malicious application could try to brute force passwords by sending requests to the IdP. Luckily none of these happens as XMLs contain digital signatures and encrypted elements.
