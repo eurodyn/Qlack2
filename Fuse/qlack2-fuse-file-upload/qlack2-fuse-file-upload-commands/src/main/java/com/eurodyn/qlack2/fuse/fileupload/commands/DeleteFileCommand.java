@@ -14,40 +14,39 @@
 */
 package com.eurodyn.qlack2.fuse.fileupload.commands;
 
-import java.io.IOException;
-
+import com.eurodyn.qlack2.fuse.fileupload.api.FileUpload;
+import com.eurodyn.qlack2.fuse.fileupload.api.response.FileDeleteResponse;
 import org.apache.karaf.shell.api.action.Action;
 import org.apache.karaf.shell.api.action.Argument;
 import org.apache.karaf.shell.api.action.Command;
 import org.apache.karaf.shell.api.action.lifecycle.Reference;
 import org.apache.karaf.shell.api.action.lifecycle.Service;
 
-import com.eurodyn.qlack2.fuse.fileupload.api.FileUpload;
-//import com.eurodyn.qlack2.fuse.fileupload.api.request.FileDeleteRequest;
-import com.eurodyn.qlack2.fuse.fileupload.api.response.FileDeleteResponse;
+import java.io.IOException;
 
 @Command(scope = "qlack", name = "fileupload-delete-file",
-description = "Deletes all chunks for a file.")
+  description = "Deletes all chunks for a file.")
 @Service
 public final class DeleteFileCommand implements Action {
-	@Argument(index=0, name="fileID", description = "The ID of the file to delete.",
-			required = true, multiValued = false)
-	private String fileID;
 
-	@Reference
-	private FileUpload fileUploadService;
+  @Argument(index = 0, name = "fileID", description = "The ID of the file to delete.",
+    required = true, multiValued = false)
+  private String fileID;
 
-	@Override
-	public Object execute() throws IOException {
-		System.out.println("Executing delete-file command.");
-		long starTime = System.currentTimeMillis();
+  @Reference
+  private FileUpload fileUploadService;
 
-		FileDeleteResponse res = fileUploadService.deleteByIDForConsole(fileID);
+  @Override
+  public Object execute() throws IOException {
+    System.out.println("Executing delete-file command.");
+    long starTime = System.currentTimeMillis();
 
-		System.out.println("Deleted chunks: " + res.getDeletedChunks());
+    FileDeleteResponse res = fileUploadService.deleteByIDForConsole(fileID);
 
-		System.out.println("*** Executed in: " + (System.currentTimeMillis() - starTime) + "msec.");
-		return null;
-	}
+    System.out.println("Deleted chunks: " + res.getDeletedChunks());
+
+    System.out.println("*** Executed in: " + (System.currentTimeMillis() - starTime) + "msec.");
+    return null;
+  }
 
 }

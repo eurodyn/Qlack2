@@ -14,48 +14,47 @@
 */
 package com.eurodyn.qlack2.fuse.fileupload.api.request;
 
-import com.eurodyn.qlack2.fuse.idm.api.signing.QRequest;
+public class VirusScanRequest {
 
-public class VirusScanRequest extends QRequest {
-	// The ID of the file to check (as present in FLU_FILE.ID).
-	private String id;
-	// A scan request can optionally provide the address of the ClamAV server to
-	// use. If this is left empty, the default value from the service's cfg file
-	// will be used (i.e. localhost:3310).
-	private String clamAVHost;
-	private int clamAVPort;
-	
-	public String getClamAVHost() {
-		return clamAVHost;
-	}
+  // The ID of the file to check (as present in FLU_FILE.ID).
+  private String id;
+  // A scan request can optionally provide the address of the ClamAV server to
+  // use. If this is left empty, the default value from the service's cfg file
+  // will be used (i.e. localhost:3310).
+  private String clamAVHost;
+  private int clamAVPort;
 
-	public void setClamAVHost(String clamAVHost) {
-		this.clamAVHost = clamAVHost;
-	}
+  public String getClamAVHost() {
+    return clamAVHost;
+  }
 
-	public int getClamAVPort() {
-		return clamAVPort;
-	}
+  public void setClamAVHost(String clamAVHost) {
+    this.clamAVHost = clamAVHost;
+  }
 
-	public void setClamAVPort(int clamAVPort) {
-		this.clamAVPort = clamAVPort;
-	}
+  public int getClamAVPort() {
+    return clamAVPort;
+  }
 
-	public String getId() {
-		return id;
-	}
+  public void setClamAVPort(int clamAVPort) {
+    this.clamAVPort = clamAVPort;
+  }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public String getId() {
+    return id;
+  }
 
-	public VirusScanRequest(String id) {
-		super();
-		this.id = id;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public VirusScanRequest() {
-		super();
-	}
+  public VirusScanRequest(String id) {
+    super();
+    this.id = id;
+  }
+
+  public VirusScanRequest() {
+    super();
+  }
 
 }

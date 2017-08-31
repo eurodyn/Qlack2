@@ -14,9 +14,7 @@
 */
 package com.eurodyn.qlack2.fuse.fileupload.api.request;
 
-import com.eurodyn.qlack2.fuse.idm.api.signing.QRequest;
-
-public class FileUploadRequest extends QRequest {
+public class FileUploadRequest {
 	private long chunkNumber;
 	private long totalChunks;
 	private long chunkSize;

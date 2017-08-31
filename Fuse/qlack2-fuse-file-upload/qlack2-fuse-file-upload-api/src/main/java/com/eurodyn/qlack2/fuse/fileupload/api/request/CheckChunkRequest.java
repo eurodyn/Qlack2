@@ -14,30 +14,29 @@
 */
 package com.eurodyn.qlack2.fuse.fileupload.api.request;
 
-import com.eurodyn.qlack2.fuse.idm.api.signing.QRequest;
+public class CheckChunkRequest {
 
-public class CheckChunkRequest extends QRequest {
-	private String fileAlias;
-	private long chunkNumber;
+  private String fileAlias;
+  private long chunkNumber;
 
-	public String getFileAlias() {
-		return fileAlias;
-	}
+  public String getFileAlias() {
+    return fileAlias;
+  }
 
-	public void setFileAlias(String fileAlias) {
-		this.fileAlias = fileAlias;
-	}
+  public void setFileAlias(String fileAlias) {
+    this.fileAlias = fileAlias;
+  }
 
-	public long getChunkNumber() {
-		return chunkNumber;
-	}
+  public long getChunkNumber() {
+    return chunkNumber;
+  }
 
-	public void setChunkNumber(long chunkNumber) {
-		this.chunkNumber = chunkNumber;
-	}
+  public void setChunkNumber(long chunkNumber) {
+    this.chunkNumber = chunkNumber;
+  }
 
-	public CheckChunkRequest() {
+  public CheckChunkRequest() {
 
-	}
+  }
 
 }

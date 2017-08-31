@@ -1,16 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>qlack2-fuse-file-upload</artifactId>
+    <groupId>com.eurodyn.qlack2.fuse</groupId>
+    <version>2.2.5-SNAPSHOT</version>
+  </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>com.eurodyn.qlack2.fuse</groupId>
-    <artifactId>qlack2-fuse-file-upload</artifactId>
-    <version>2.2.5-SNAPSHOT</version>
-    <relativePath>..</relativePath>
-  </parent>
-
-  <artifactId>qlack2-fuse-file-upload-commands</artifactId>
+  <artifactId>qlack2-fuse-file-upload-rest</artifactId>
   <packaging>bundle</packaging>
 
   <build>
@@ -20,31 +19,32 @@
         <artifactId>maven-bundle-plugin</artifactId>
         <configuration>
           <instructions>
-            <Bundle-Description>QLACK2 :: Fuse :: File upload :: commands</Bundle-Description>
-            <Karaf-Commands>*</Karaf-Commands>
+            <Bundle-Description>QLACK2 :: Fuse :: File upload :: rest</Bundle-Description>
           </instructions>
         </configuration>
       </plugin>
     </plugins>
   </build>
-
   <dependencies>
     <dependency>
       <groupId>com.eurodyn.qlack2.fuse</groupId>
       <artifactId>qlack2-fuse-file-upload-api</artifactId>
-      <version>2.2.5-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.karaf.shell</groupId>
-      <artifactId>org.apache.karaf.shell.core</artifactId>
-      <version>${karaf.version}</version>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+      <version>${karaf.cxf.version}</version>
     </dependency>
     <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>${commons.io.version}</version>
+      <groupId>org.ops4j.pax.cdi</groupId>
+      <artifactId>pax-cdi-api</artifactId>
+      <version>${pax.cdi.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <version>${javax.inject.version}</version>
     </dependency>
   </dependencies>
-
-
 </project>
