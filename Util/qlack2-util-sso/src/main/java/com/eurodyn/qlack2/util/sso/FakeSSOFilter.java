@@ -5,6 +5,8 @@ import com.eurodyn.qlack2.util.sso.dto.SAMLAttributeDTO;
 import com.eurodyn.qlack2.util.sso.dto.WebSSOHolder;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.container.ContainerResponseContext;
+import javax.ws.rs.container.ContainerResponseFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import java.util.List;
  * actually take into account SSO/SAMLv2 but instead injects user-defined SAML claims into the
  * calling sequence.
  */
-public class FakeSSOFilter implements ContainerRequestFilter {
+public class FakeSSOFilter implements ContainerRequestFilter, ContainerResponseFilter {
 
   /**
    * A list of fake attributes to include. Make sure this an even numbered list, with the name
@@ -47,5 +49,13 @@ public class FakeSSOFilter implements ContainerRequestFilter {
   @Override
   public void filter(ContainerRequestContext requestContext) throws IOException {
     WebSSOHolder.setAttributes(getFakeAttributesAsSAMLAttributes());
+  }
+
+  @Override
+  public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
+    throws IOException {
+    /** Set a fake Cookie, so that front-end checks believe the user was properly authenticated. */
+    responseContext.getHeaders().add("Set-Cookie", Constants.WEB_SSO_COOKIE_NAME +
+      "=fake-sso-cookie; Path=/");
   }
 }

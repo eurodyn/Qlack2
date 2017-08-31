@@ -1,14 +1,12 @@
 package com.eurodyn.qlack2.util.sso;
-import com.eurodyn.qlack2.util.sso.dto.LogoutResponse;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
+import javax.ws.rs.CookieParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Response;
-
 import org.apache.cxf.jaxrs.utils.ExceptionUtils;
 import org.apache.cxf.rs.security.saml.sso.state.SPStateManager;
-import org.apache.cxf.security.SecurityContext;
 
 
 /**
@@ -24,13 +22,13 @@ public class LogoutService {
   }
 
   @GET
-  public Response logout(@CookieParam("org.apache.cxf.websso.context") Cookie context) {
+  public Response logout(@CookieParam(Constants.WEB_SSO_COOKIE_NAME) Cookie context) {
     this.doLogout(context);
     return Response.status(302).header("location", mainApplicationAddress).build();
   }
 
   @POST
-  public Response postLogout(@CookieParam("org.apache.cxf.websso.context") Cookie context) {
+  public Response postLogout(@CookieParam(Constants.WEB_SSO_COOKIE_NAME) Cookie context) {
     return this.logout(context);
   }
 
