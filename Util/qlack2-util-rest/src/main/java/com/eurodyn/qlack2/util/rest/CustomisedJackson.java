@@ -17,19 +17,32 @@ package com.eurodyn.qlack2.util.rest;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
+/**
+ * @deprecated You should use a {@link javax.ws.rs.ext.ContextResolver} defined specifically for
+ * your project. This class will be removed in future releases.
+ * Example: https://stackoverflow.com/questions/14400193/jackson-json-not-working-with-cxf
+ */
 public class CustomisedJackson extends ObjectMapper {
-	private static final long serialVersionUID = 2642094423231515852L;
 
-	public CustomisedJackson() {
-		super();
-	}
-	
-	public void setAcceptSingleValueAsArray(boolean state) {
-		super.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, state);
-	}
-	
-	public void setSerialiseNullValues(boolean b) {
-		super.setSerializationInclusion(b ? Include.ALWAYS : Include.NON_EMPTY);
-	}
+  public CustomisedJackson() {
+    super();
+  }
+
+  public void setAcceptSingleValueAsArray(boolean state) {
+    super.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, state);
+  }
+
+  public void setSerialiseNullValues(boolean b) {
+    super.setSerializationInclusion(b ? Include.ALWAYS : Include.NON_EMPTY);
+  }
+
+  public void setWriteDatesAsTimestamps(boolean b) {
+    super.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, b);
+  }
+
+  public void setWriteDatesAsNanoseconds(boolean b) {
+    super.configure(SerializationFeature.WRITE_DATE_TIMESTAMPS_AS_NANOSECONDS, b);
+  }
 }
