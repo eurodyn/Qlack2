@@ -7,7 +7,9 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" name="QLACK2-FUSE">
   <!-- External repos -->
   <repository>mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/${project.version}/xml/features</repository>
-  <repository>mvn:org.code-house.jackson/features/${jackson2.version}/xml/features</repository>
+  <repository>mvn:org.code-house.jackson/features/
+
+    ${jackson2.version}/xml/features</repository>
   <repository>mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/${project.version}/xml/features</repository>
 
   <!-- ***************************************************************************************** -->
@@ -18,8 +20,8 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <feature>qlack2-fuse-search-impl</feature>
   </feature>
   <feature description="QLACK2 Fuse - Search API" name="qlack2-fuse-search-api" version="${project.version}">
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-search-api/${project.version}</bundle>
     <feature>qlack2-common-util</feature>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-search-api/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Search IMPL" name="qlack2-fuse-search-impl" version="${project.version}">
     <feature>pax-cdi</feature>
@@ -54,6 +56,53 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:commons-io/commons-io/${commons.io.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-file-upload-impl/${project.version}</bundle>
   </feature>
+
+  <!-- ***************************************************************************************** -->
+  <!-- AUDITING                                                                                  -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - Auditing" name="qlack2-fuse-auditing" version="${project.version}">
+    <feature>qlack2-fuse-auditing-api</feature>
+    <feature>qlack2-fuse-auditing-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - Auditing" name="qlack2-fuse-auditing-impl" version="${project.version}">
+    <feature prerequisite="true">wrap</feature>
+    <feature>qlack2-util-repack-jackson</feature>
+    <feature>qlack2-util-repack-jpadb</feature>
+    <feature>eventadmin</feature>
+    <feature>qlack2-common-util</feature>
+    <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
+    <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-auditing-impl/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Auditing" name="qlack2-fuse-auditing-api" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-auditing-api/${project.version}</bundle>
+  </feature>
+
+  <!-- ***************************************************************************************** -->
+  <!-- AUDITING                                                                                  -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - Lexicon" name="qlack2-fuse-lexicon" version="${project.version}">
+    <feature>qlack2-fuse-lexicon-api</feature>
+    <feature>qlack2-fuse-lexicon-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - Lexicon API" name="qlack2-fuse-lexicon-api" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-lexicon-api/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Lexicon IMPL" name="qlack2-fuse-lexicon-impl" version="${project.version}">
+    <feature prerequisite="true">wrap</feature>
+    <feature>eventadmin</feature>
+    <feature>qlack2-util-repack-querydsl</feature>
+    <feature>qlack2-util-repack-jpadb</feature>
+    <feature>qlack2-common-util</feature>
+    <bundle>mvn:org.freemarker/freemarker/${freemarker.version}</bundle>
+    <bundle>mvn:org.yaml/snakeyaml/${snakeyaml.version}</bundle>
+    <bundle>mvn:joda-time/joda-time/${joda.version}</bundle>
+    <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
+    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.poi/${apache.poi.servicemix.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-lexicon-impl/${project.version}</bundle>
+  </feature>
+
 
 
   <feature description="QLACK2 Fuse - AAA" name="qlack2-fuse-AAA" version="${project.version}">
@@ -118,26 +167,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-event-publisher-impl/${project.version}</bundle>
   </feature>
 
-  <feature description="QLACK2 Fuse - Lexicon" name="qlack2-fuse-lexicon" version="${project.version}">
-    <feature>qlack2-util-repack-querydsl</feature>
-    <feature prerequisite="true">wrap</feature>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-lexicon-api/${project.version}</bundle>
-    <feature>qlack2-fuse-lexicon-impl</feature>
-  </feature>
-
-  <feature description="QLACK2 Fuse - Lexicon (only impl part)" name="qlack2-fuse-lexicon-impl" version="${project.version}">
-    <feature>eventadmin</feature>
-    <feature>qlack2-util-repack-jpadb</feature>
-    <feature>qlack2-common-util</feature>
-    <bundle>mvn:org.freemarker/freemarker/${freemarker.version}</bundle>
-    <bundle>mvn:org.yaml/snakeyaml/${snakeyaml.version}</bundle>
-    <bundle>mvn:joda-time/joda-time/${joda.version}</bundle>
-    <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
-    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
-    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.poi/${apache.poi.servicemix.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-lexicon-impl/${project.version}</bundle>
-  </feature>
-
   <feature description="QLACK2 Fuse - Ticket Server" name="qlack2-fuse-ticketserver" version="${project.version}">
     <configfile finalname="/etc/com.eurodyn.qlack2.fuse.ticketserver.cfg">mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-ticket-server-impl/${project.version}/cfg/config-admin</configfile>
     <feature>qlack2-util-repack-jpadb</feature>
@@ -179,16 +208,12 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-imaging-impl/${project.version}</bundle>
   </feature>
 
-  <feature description="QLACK2 Fuse - Auditing" name="qlack2-fuse-auditing" version="${project.version}">
-    <feature prerequisite="true">wrap</feature>
-    <feature>qlack2-util-repack-jackson</feature>
-    <feature>qlack2-util-repack-jpadb</feature>
-    <feature>eventadmin</feature>
-    <feature>qlack2-common-util</feature>
-    <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
-    <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-auditing-api/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-auditing-impl/${project.version}</bundle>
+  <feature description="QLACK2 Fuse - Audit client" name="qlack2-fuse-auditing-client" version="${project.version}">
+    <configfile finalname="/etc/com.eurodyn.qlack2.fuse.auditingclient.cfg">mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-auditing-client-impl/${project.version}/cfg/config-admin</configfile>
+    <feature>qlack2-fuse-auditing</feature>
+    <feature>qlack2-fuse-eventpublisher</feature>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-auditing-client-api/${project.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-auditing-client-impl/${project.version}</bundle>
   </feature>
 
   <feature description="QLACK2 Fuse - Rules Runtime" name="qlack2-fuse-rules-runtime" version="${project.version}">
@@ -339,14 +364,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <feature>qlack2-util-repack-querydsl</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-settings-api/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-settings-impl/${project.version}</bundle>
-  </feature>
-
-  <feature description="QLACK2 Fuse - Audit client" name="qlack2-fuse-auditing-client" version="${project.version}">
-    <configfile finalname="/etc/com.eurodyn.qlack2.fuse.auditingclient.cfg">mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-auditing-client-impl/${project.version}/cfg/config-admin</configfile>
-    <feature>qlack2-fuse-auditing</feature>
-    <feature>qlack2-fuse-eventpublisher</feature>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-auditing-client-api/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-auditing-client-impl/${project.version}</bundle>
   </feature>
 
   <feature description="QLACK2 Fuse - Security proxy" name="qlack2-fuse-security-proxy" version="${project.version}">
