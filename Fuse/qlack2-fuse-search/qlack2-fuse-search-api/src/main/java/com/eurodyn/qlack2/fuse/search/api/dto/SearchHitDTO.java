@@ -19,6 +19,8 @@ public class SearchHitDTO {
 	// a search hit.
 	private String type;
 
+  private String id;
+
 	/**
 	 * @return the source
 	 */
@@ -64,11 +66,18 @@ public class SearchHitDTO {
 		this.type = type;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
+  /**
+   * @return the id
+   */
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
 	@Override
 	public String toString() {
 		return "SearchHitDTO [source=" + source + ", score=" + score + ", type=" + type + "]";

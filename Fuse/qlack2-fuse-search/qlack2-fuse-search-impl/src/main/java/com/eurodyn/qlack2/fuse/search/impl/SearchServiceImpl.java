@@ -28,6 +28,8 @@ import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMultiMatch;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySpec;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryString;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTerm;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTerms;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryRange;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryWildcard;
 import com.eurodyn.qlack2.fuse.search.api.exception.QSearchException;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.request.InternalSearchRequest;
@@ -137,7 +139,7 @@ public class SearchServiceImpl implements SearchService {
 				sh.setScore(hit.getScore());
 				sh.setType(hit.getType());
 				sh.setSource(hit.getSource());
-
+        sh.setId(hit.getId());
 				result.getHits().add(sh);
 			}
 		}
@@ -244,8 +246,29 @@ public class SearchServiceImpl implements SearchService {
 				.append(query.getWildcard())
 				.append("\" }");
 		}
+	   else if (dto instanceof QueryTerms) {
+      QueryTerms query = (QueryTerms) dto;
+
+      builder.append("\"terms\" : { \"")
+        .append(query.getField())
+        .append("\" : [ ")
+        .append(query.getValues())
+        .append(" ] }");
+    }
+    else if (dto instanceof QueryRange) {
+      QueryRange query = (QueryRange) dto;
+
+      builder.append("\"range\" : { \"")
+        .append(query.getField())
+        .append("\" : { \"gte\" : \"")
+        .append(query.getFromValue())
+        .append("\" , \"lte\" : \"")
+        .append(query.getToValue())
+        .append("\" } }");
+    }
 
 		return builder.append("}")
-			.toString();
+      .toString().replace("\"null\"","null");
 	}
+
 }

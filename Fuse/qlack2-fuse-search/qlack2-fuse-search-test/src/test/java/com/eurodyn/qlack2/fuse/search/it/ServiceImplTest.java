@@ -23,6 +23,7 @@ import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMultiMatch;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySpec;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryString;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTerm;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTerms;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryWildcard;
 import com.eurodyn.qlack2.fuse.search.api.request.CreateIndexRequest;
 import com.eurodyn.qlack2.fuse.search.api.request.UpdateMappingRequest;
@@ -244,6 +245,8 @@ public class ServiceImplTest extends ITTestConf {
 					.setTerm("surname", "surname1"), BooleanType.MUST)
 			.setTerm(new QueryTerm()
 				.setTerm("name", "name2"), BooleanType.SHOULD)
+      .setTerm(new QueryTerms()
+        .setTerm("name", "name2"), BooleanType.SHOULD)
 			.setIndex(indexName);
 
 		result = searchService.search(query);
