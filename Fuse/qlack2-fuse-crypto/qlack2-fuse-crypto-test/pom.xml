@@ -21,10 +21,46 @@
             <project.version>${project.version}</project.version>
             <org.ops4j.pax.url.mvn.localRepository>${settings.localRepository}</org.ops4j.pax.url.mvn.localRepository>
           </systemPropertyVariables>
+          <environmentVariables>
+            <jcoverage.command>${jcoverage.command}</jcoverage.command>
+          </environmentVariables>
           <includes>
             <include>**/AllITTests.java</include>
           </includes>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.7.9</version>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+            <configuration>
+              <propertyName>jcoverage.command</propertyName>
+              <includes>
+                <include>com.eurodyn*</include>
+              </includes>
+              <!--<destFile>../../../jacoco.exec</destFile>-->
+              <append>false</append>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>post-unit-test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
@@ -61,32 +97,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.40</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>com.eurodyn.qlack2.fuse</groupId>
-      <artifactId>qlack2-fuse-crypto-impl</artifactId>
+      <artifactId>qlack2-fuse-crypto-api</artifactId>
       <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.liquibase</groupId>
-      <artifactId>liquibase-core</artifactId>
-      <version>3.5.3</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.eurodyn.qlack2.util</groupId>
-      <artifactId>qlack2-util-liquibase-api</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-entitymanager</artifactId>
-      <version>${karaf.hibernate.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -96,21 +109,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.eurodyn.qlack2.util</groupId>
-      <artifactId>qlack2-util-avail-check-mysql</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.eurodyn.qlack2.util</groupId>
-      <artifactId>qlack2-util-avail-check-core</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.eurodyn.qlack2.util</groupId>
-      <artifactId>qlack2-util-docker</artifactId>
-      <version>${project.version}</version>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <version>${javax.inject.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

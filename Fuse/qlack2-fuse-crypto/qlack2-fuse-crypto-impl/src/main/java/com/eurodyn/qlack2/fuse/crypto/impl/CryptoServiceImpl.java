@@ -14,35 +14,32 @@
 */
 package com.eurodyn.qlack2.fuse.crypto.impl;
 
+import com.eurodyn.qlack2.fuse.crypto.api.CryptoService;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
+
 import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.digest.DigestUtils;
-
-import com.eurodyn.qlack2.fuse.crypto.api.CryptoService;
-
 public class CryptoServiceImpl implements CryptoService {
 
-	@Override
-	public String hmacSha256(String secret, String message, Charset charSet)
-	throws NoSuchAlgorithmException, InvalidKeyException {
-		Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-		SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(),
-				"HmacSHA256");
-		sha256_HMAC.init(secret_key);
+  @Override
+  public String hmacSha256(String secret, String message, Charset charSet)
+    throws NoSuchAlgorithmException, InvalidKeyException {
+    Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+    SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(),
+      "HmacSHA256");
+    sha256_HMAC.init(secret_key);
 
-		return Base64.encodeBase64String((sha256_HMAC.doFinal(
-				message.getBytes(charSet))));
-	}
+    return Hex.encodeHexString(sha256_HMAC.doFinal(message.getBytes(charSet)));
+  }
 
-	@Override
-	public String md5(String message) throws NoSuchAlgorithmException {
-		return DigestUtils.md5Hex(message);
-	}
+  @Override
+  public String md5(String message) throws NoSuchAlgorithmException {
+    return DigestUtils.md5Hex(message);
+  }
 
 }
