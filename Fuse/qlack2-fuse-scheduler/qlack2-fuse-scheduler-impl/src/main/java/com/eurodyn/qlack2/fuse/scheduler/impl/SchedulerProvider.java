@@ -1,213 +1,153 @@
 package com.eurodyn.qlack2.fuse.scheduler.impl;
 
+import com.eurodyn.qlack2.fuse.scheduler.api.exception.QSchedulerException;
+import com.eurodyn.qlack2.fuse.scheduler.impl.utils.Constants;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.inject.Singleton;
+import javax.transaction.Transactional;
+import org.apache.aries.blueprint.annotation.config.ConfigProperty;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.impl.StdSchedulerFactory;
+
+import java.text.MessageFormat;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.impl.StdSchedulerFactory;
-import org.quartz.impl.jdbcjobstore.JobStoreCMT;
-import org.quartz.impl.jdbcjobstore.JobStoreTX;
-import org.quartz.simpl.RAMJobStore;
-
-import com.eurodyn.qlack2.fuse.scheduler.api.exception.QSchedulerException;
-
+@Transactional
+@Singleton
 public class SchedulerProvider {
 
-	private static final Logger logger = Logger.getLogger(SchedulerProvider.class.getName());
+  private static final Logger logger = Logger.getLogger(SchedulerProvider.class.getName());
 
-	private static final String DATA_SOURCE_NAME = "quartz";
+  /**
+   * The container-managed DS to be used by the API of the scheduler
+   */
+  @ConfigProperty("${managedDS}")
+  private String managedDS;
 
-	private static final String DATA_SOURCE_NON_MANAGED_TX_NAME = "quartzNonManagedTX";
+  /**
+   * The non-managed DS to be used internally by the scheduler
+   */
+  @ConfigProperty("${nonManagedDS}")
+  private String nonManagedDS;
 
-	private static final String PROP_THREAD_POOL_THREAD_COUNT =
-			StdSchedulerFactory.PROP_THREAD_POOL_PREFIX + ".threadCount";
+  /**
+   * Reference to the scheduler
+   */
+  private Scheduler scheduler;
 
-	private static final String PROP_JOB_STORE_DRIVER_DELEGATE_CLASS =
-			StdSchedulerFactory.PROP_JOB_STORE_PREFIX + ".driverDelegateClass";
+  private Properties getConfigProperties() {
+    Properties properties = new Properties();
 
-	private static final String PROP_JOB_STORE_TABLE_PREFIX =
-			StdSchedulerFactory.PROP_JOB_STORE_PREFIX + ".tablePrefix";
+    /** Set the Job Store as CMT */
+    properties.put(StdSchedulerFactory.PROP_JOB_STORE_CLASS, Constants.QUARTZ_JOBSTORE_CLASS);
 
-	private static final String PROP_JOB_STORE_IS_CLUSTERED =
-			StdSchedulerFactory.PROP_JOB_STORE_PREFIX + ".isClustered";
+    /** Quartz tables' prefix */
+    properties.put(StdSchedulerFactory.PROP_TABLE_PREFIX, Constants.QUARTZ_TABLE_PREFIX);
 
-	private static final String PROP_JOB_STORE_DATA_SOURCE =
-			StdSchedulerFactory.PROP_JOB_STORE_PREFIX + ".dataSource";
+    /** Set the number of threads to use for the scheduler */
+    properties.put(StdSchedulerFactory.PROP_THREAD_POOL_PREFIX + ".threadCount", String.valueOf(
+      Constants.QUARTZ_THREADS));
 
-	private static final String PROP_JOB_STORE_NON_MANAGED_TX_DATA_SOURCE =
-			StdSchedulerFactory.PROP_JOB_STORE_PREFIX + ".nonManagedTXDataSource";
+    /** The prefix of scheduler's tables in the DB */
+    properties.put(StdSchedulerFactory.PROP_JOB_STORE_PREFIX + ".tablePrefix",
+      Constants.QUARTZ_TABLE_PREFIX);
 
-	private static final String PROP_JOB_STORE_DONT_SET_AUTO_COMMIT_FALSE =
-			StdSchedulerFactory.PROP_JOB_STORE_PREFIX + ".dontSetAutoCommitFalse";
+    /** The JNDI name for the managed & non-managed datasource */
+    properties
+      .put(StdSchedulerFactory.PROP_DATASOURCE_PREFIX + ".managed.jndiURL", managedDS);
+    properties.put(StdSchedulerFactory.PROP_DATASOURCE_PREFIX + ".nonManaged.jndiURL",
+      nonManagedDS);
 
-	private static final String PROP_JOB_STORE_DONT_SET_NON_MANAGED_TX_AUTO_COMMIT_FALSE =
-			StdSchedulerFactory.PROP_JOB_STORE_PREFIX + ".dontSetNonManagedTXConnectionAutoCommitFalse";
+    /** The driver to use for the Job Store - we use a generic JDBC driver not targeting a specific DB */
+    properties.put(StdSchedulerFactory.PROP_JOB_STORE_PREFIX + ".driverDelegateClass",
+      Constants.QUARTZ_DRIVERDELEGATE_CLASS);
 
-	private static final String PROP_DATA_SOURCE_JNDI_URL =
-			StdSchedulerFactory.PROP_DATASOURCE_PREFIX + "." + DATA_SOURCE_NAME + ".jndiURL";
+    /** The names of the managed & non-managed DSs */
+    properties.put(StdSchedulerFactory.PROP_JOB_STORE_PREFIX + ".dataSource", "managed");
+    properties
+      .put(StdSchedulerFactory.PROP_JOB_STORE_PREFIX + ".nonManagedTXDataSource", "nonManaged");
 
-	private static final String PROP_DATA_SOURCE_NON_MANAGED_TX_JNDI_URL =
-			StdSchedulerFactory.PROP_DATASOURCE_PREFIX + "." + DATA_SOURCE_NON_MANAGED_TX_NAME + ".jndiURL";
+    /** Perform a JNDI lookup each time a new connection is required */
+    properties.put(StdSchedulerFactory.PROP_DATASOURCE_PREFIX + ".nonManaged.jndiAlwaysLookup",
+      true);
+    properties.put(StdSchedulerFactory.PROP_DATASOURCE_PREFIX + ".managed.jndiAlwaysLookup",
+      true);
 
-	private Long schedulerIdleWaitTime;
-	private Integer threadPoolThreadCount;
+    /** Enable clustering */
+    properties.put("org.quartz.jobStore.isClustered", "true");
+    properties.put("org.quartz.scheduler.instanceId", "AUTO");
 
-	private String jobStoreClass = RAMJobStore.class.getName();
-	private String jobStoreDriverDelegateClass;
-	private Boolean jobStoreIsClustered;
-	private Boolean jobStoreDontSetAutoCommitFalse = true;
-	private Boolean jobStoreDontSetNonManagedTXConnectionAutoCommitFalse = false;
+    /** Debug output */
+    for (Entry<Object, Object> entry : properties.entrySet()) {
+      logger
+        .log(Level.CONFIG, "Property {0} = {1}", new Object[]{entry.getKey(), entry.getValue()});
+    }
 
-	private String dataSourceJndiURL;
-	private String dataSourceNonManagedTXJndiURL;
+    return properties;
+  }
 
-	public void setSchedulerIdleWaitTime(Long schedulerIdleWaitTime) {
-		this.schedulerIdleWaitTime = schedulerIdleWaitTime;
-	}
+  /**
+   * Initialize the Scheduler instance.
+   */
+  private void initScheduler() throws SchedulerException {
+    logger.log(Level.CONFIG, "Initialising default scheduler...");
+    StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
 
-	public void setThreadPoolThreadCount(Integer threadPoolThreadCount) {
-		this.threadPoolThreadCount = threadPoolThreadCount;
-	}
+    /** Set TCCL to scheduler bundle, so that we can find the ServiceInvokerJob class */
+    ClassLoader initClassLoader = Thread.currentThread().getContextClassLoader();
+    Thread.currentThread().setContextClassLoader(SchedulerProvider.class.getClassLoader());
+    try {
+      schedulerFactory.initialize(getConfigProperties());
+      scheduler = schedulerFactory.getScheduler();
+    } finally {
+      Thread.currentThread().setContextClassLoader(initClassLoader);
+    }
 
-	public void setJobStoreClass(String jobStoreClass) {
-		this.jobStoreClass = jobStoreClass;
-	}
+    logger.log(Level.CONFIG, "Default scheduler initialised.");
+  }
 
-	public void setJobStoreDriverDelegateClass(String jobStoreDriverDelegateClass) {
-		this.jobStoreDriverDelegateClass = jobStoreDriverDelegateClass;
-	}
 
-	public void setJobStoreIsClustered(Boolean jobStoreIsClustered) {
-		this.jobStoreIsClustered = jobStoreIsClustered;
-	}
+  /**
+   * Start the Scheduler instance.
+   */
+  @PostConstruct
+  public void startScheduler() throws QSchedulerException {
+    try {
+      if (scheduler == null) {
+        initScheduler();
+      }
+      logger.log(Level.CONFIG, MessageFormat.format("Starting scheduler with {0} seconds delay...",
+        Constants.QUARTZ_STARTUP_DELAY_SEC));
+      scheduler.startDelayed(Constants.QUARTZ_STARTUP_DELAY_SEC);
+      logger.log(Level.CONFIG, "Scheduler started [{0}].", scheduler);
+    } catch (SchedulerException ex) {
+      throw new QSchedulerException("Cannot start the scheduler", ex);
+    }
+  }
 
-	public void setJobStoreDontSetAutoCommitFalse(Boolean jobStoreDontSetAutoCommitFalse) {
-		this.jobStoreDontSetAutoCommitFalse = jobStoreDontSetAutoCommitFalse;
-	}
+  /**
+   * Shutdown the Scheduler instance.
+   */
+  @PreDestroy
+  public void shutdownScheduler() throws QSchedulerException {
+    try {
+      if (scheduler != null) {
+        logger.log(Level.CONFIG, "Shutting-down scheduler...");
+        scheduler.shutdown();
+        logger.log(Level.CONFIG, "Scheduler shutdown.");
+      }
+    } catch (SchedulerException ex) {
+      throw new QSchedulerException("Cannot shutdown the scheduler", ex);
+    }
+  }
 
-	public void setJobStoreDontSetNonManagedTXConnectionAutoCommitFalse(Boolean jobStoreDontSetNonManagedTXConnectionAutoCommitFalse) {
-		this.jobStoreDontSetNonManagedTXConnectionAutoCommitFalse = jobStoreDontSetNonManagedTXConnectionAutoCommitFalse;
-	}
-
-	public void setDataSourceJndiURL(String dataSourceJndiURL) {
-		this.dataSourceJndiURL = dataSourceJndiURL;
-	}
-
-	public void setDataSourceNonManagedTXJndiURL(String dataSourceNonManagedTXJndiURL) {
-		this.dataSourceNonManagedTXJndiURL = dataSourceNonManagedTXJndiURL;
-	}
-
-	private Scheduler scheduler;
-
-	/**
-	 * Initialize the Scheduler instance.
-	 *
-	 * @throws SchedulerException
-	 */
-	private void initScheduler() throws SchedulerException {
-		logger.log(Level.CONFIG, "Initialising default scheduler...");
-		StdSchedulerFactory schedulerFactory = new StdSchedulerFactory();
-
-		Properties properties = getConfigProperties();
-
-		// Set TCCL to scheduler bundle, so that we can find the ServiceInvokerJob class
-		ClassLoader initClassLoader = Thread.currentThread().getContextClassLoader();
-		Thread.currentThread().setContextClassLoader(SchedulerProvider.class.getClassLoader());
-		try {
-			schedulerFactory.initialize(properties);
-			scheduler = schedulerFactory.getScheduler();
-		} finally {
-			Thread.currentThread().setContextClassLoader(initClassLoader);
-		}
-
-		logger.log(Level.CONFIG, "Default scheduler initialised.");
-	}
-
-	private Properties getConfigProperties() {
-		Properties properties = new Properties();
-
-		properties.put(StdSchedulerFactory.PROP_SCHED_SKIP_UPDATE_CHECK, "true");
-
-		if (schedulerIdleWaitTime != null) {
-			properties.put(StdSchedulerFactory.PROP_SCHED_IDLE_WAIT_TIME, Long.toString(schedulerIdleWaitTime));
-		}
-
-		if (threadPoolThreadCount != null) {
-			properties.put(PROP_THREAD_POOL_THREAD_COUNT, Integer.toString(threadPoolThreadCount));
-		}
-
-		properties.put(StdSchedulerFactory.PROP_JOB_STORE_CLASS, jobStoreClass);
-
-		if (jobStoreClass.equals(JobStoreTX.class.getName()) || jobStoreClass.equals(JobStoreCMT.class.getName())) {
-			if (jobStoreDriverDelegateClass != null) {
-				properties.put(PROP_JOB_STORE_DRIVER_DELEGATE_CLASS, jobStoreDriverDelegateClass);
-			}
-
-			properties.put(PROP_JOB_STORE_TABLE_PREFIX, "sch_");
-
-			if (jobStoreIsClustered != null) {
-				properties.put(PROP_JOB_STORE_IS_CLUSTERED, Boolean.toString(jobStoreIsClustered));
-			}
-
-			properties.put(PROP_JOB_STORE_DATA_SOURCE, DATA_SOURCE_NAME);
-			properties.put(PROP_JOB_STORE_DONT_SET_AUTO_COMMIT_FALSE, Boolean.toString(jobStoreDontSetAutoCommitFalse));
-			properties.put(PROP_DATA_SOURCE_JNDI_URL, dataSourceJndiURL);
-
-			if (jobStoreClass.equals(JobStoreCMT.class.getName())) {
-				properties.put(PROP_JOB_STORE_NON_MANAGED_TX_DATA_SOURCE, DATA_SOURCE_NON_MANAGED_TX_NAME);
-				properties.put(PROP_JOB_STORE_DONT_SET_NON_MANAGED_TX_AUTO_COMMIT_FALSE, Boolean.toString(jobStoreDontSetNonManagedTXConnectionAutoCommitFalse));
-				properties.put(PROP_DATA_SOURCE_NON_MANAGED_TX_JNDI_URL, dataSourceNonManagedTXJndiURL);
-			}
-		}
-
-		for (Entry<Object, Object> entry : properties.entrySet()) {
-			logger.log(Level.CONFIG, "Property {0} = {1}", new Object[]{ entry.getKey(), entry.getValue() });
-		}
-		return properties;
-	}
-
-	/**
-	 * Start the Scheduler instance.
-	 *
-	 * @throws QSchedulerException
-	 */
-	public void startScheduler() throws QSchedulerException {
-		try {
-			if (scheduler == null) {
-				initScheduler();
-			}
-
-			logger.log(Level.CONFIG, "Starting scheduler...");
-			// XXX start delayed for OSGi services to become avail ?
-			scheduler.start();
-			logger.log(Level.CONFIG, "Scheduler started [{0}].", scheduler);
-		} catch (SchedulerException ex) {
-			throw new QSchedulerException("Cannot start the scheduler", ex);
-		}
-	}
-
-	/**
-	 * Shutdown the Scheduler instance.
-	 *
-	 * @throws QSchedulerException
-	 */
-	public void shutdownScheduler() throws QSchedulerException {
-		try {
-			if (scheduler != null) {
-				logger.log(Level.CONFIG, "Shutting-down scheduler...");
-				scheduler.shutdown();
-				logger.log(Level.CONFIG, "Scheduler shutdown.");
-			}
-		} catch (SchedulerException ex) {
-			throw new QSchedulerException("Cannot shutdown the scheduler", ex);
-		}
-	}
-
-	public Scheduler getScheduler() {
-		return scheduler;
-	}
+  public Scheduler getScheduler() {
+    return scheduler;
+  }
 
 }
