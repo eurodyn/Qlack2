@@ -198,17 +198,17 @@
 		<dependency>
 			<groupId>com.eurodyn.qlack2.fuse</groupId>
 			<artifactId>qlack2-fuse-auditing-api</artifactId>
-			<version>2.2.5-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eurodyn.qlack2.fuse</groupId>
 			<artifactId>qlack2-fuse-event-publisher-api</artifactId>
-			<version>2.2.5-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eurodyn.qlack2.fuse</groupId>
 			<artifactId>qlack2-fuse-rules-runtime-api</artifactId>
-			<version>2.2.5-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.ops4j.pax.cdi</groupId>
@@ -219,5 +219,10 @@
 			<groupId>com.eurodyn.qlack2.util</groupId>
 			<artifactId>qlack2-util-liquibase-api</artifactId>
 		</dependency>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <version>${javax.inject.version}</version>
+    </dependency>
 	</dependencies>
 </project>
