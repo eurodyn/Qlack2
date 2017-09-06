@@ -100,7 +100,7 @@
       <plugin>
         <groupId>org.apache.aries.blueprint</groupId>
         <artifactId>blueprint-maven-plugin</artifactId>
-        <version>${blueprint.maven.plugin}</version>
+        <version>${blueprint-maven-plugin.version}</version>
         <configuration>
           <scanPaths>
             <scanPath>com.eurodyn.qlack2.fuse.ticketserver.impl</scanPath>
