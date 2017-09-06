@@ -106,7 +106,7 @@
     <javax.transaction.version>1.2</javax.transaction.version>
     <javax.validation.validation-api>1.1.0.Final</javax.validation.validation-api>
     <javax.ws.rs-api.version>2.0</javax.ws.rs-api.version>
-    <jbpm.version>6.2.0.Final</jbpm.version>
+    <jbpm.version>6.4.0.Final</jbpm.version>
     <jedis.version>2.7.3</jedis.version>
     <joda.version>2.2</joda.version>
     <junit.version>4.12</junit.version>
@@ -175,6 +175,10 @@
         Releases
       </name>
       <url>http://repository.springsource.com/maven/bundles/external</url>
+    </repository>
+    <repository>
+      <id>JBoss repository</id>
+      <url>http://repository.jboss.org/nexus/content/groups/public/</url>
     </repository>
   </repositories>
 
