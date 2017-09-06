@@ -469,7 +469,7 @@ public class UserServiceImpl implements UserService {
         cq.multiselect(root, root.get(criteria.getSortColumn()));
         orderExpr = root.get(criteria.getSortColumn());
       } else if (criteria.getSortAttribute() != null) {
-        Join<User, UserAttribute> join = root.joinSet("userAttributes",
+        Join<User, UserAttribute> join = root.joinList("userAttributes",
           JoinType.LEFT);
         cq.multiselect(root, join.get("data"));
         Predicate pr = cb.equal(join.get("name"),
