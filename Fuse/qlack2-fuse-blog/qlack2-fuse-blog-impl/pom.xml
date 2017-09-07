@@ -109,7 +109,7 @@
 		<dependency>
 			<groupId>javax.transaction</groupId>
 			<artifactId>javax.transaction-api</artifactId>
-			<version>${javax.transaction.version}</version>
+			<version>${javax.transaction-api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.inject</groupId>

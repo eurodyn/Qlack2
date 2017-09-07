@@ -151,12 +151,12 @@
     <dependency>
       <groupId>org.apache.aries.blueprint</groupId>
       <artifactId>blueprint-maven-plugin-annotation</artifactId>
-      <version>1.1.0</version>
+      <version>${blueprint-maven-plugin-annotation.version}</version>
     </dependency>
     <dependency>
       <groupId>javax.transaction</groupId>
       <artifactId>javax.transaction-api</artifactId>
-      <version>1.2</version>
+      <version>${javax.transaction-api.version}</version>
     </dependency>
   </dependencies>
 

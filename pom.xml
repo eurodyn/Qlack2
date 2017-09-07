@@ -102,7 +102,7 @@
     <javax.interceptor-api.version>1.2</javax.interceptor-api.version>
     <javax.persistence.version>2.1.1</javax.persistence.version>
     <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
-    <javax.transaction.version>1.2</javax.transaction.version>
+    <javax.transaction-api.version>1.2</javax.transaction-api.version>
     <javax.validation.validation-api>1.1.0.Final</javax.validation.validation-api>
     <javax.ws.rs-api.version>2.0</javax.ws.rs-api.version>
     <jbpm.version>6.4.0.Final</jbpm.version>
@@ -160,6 +160,7 @@
     <org.apache.servicemix.bundles.javax-inject.version>1_2</org.apache.servicemix.bundles.javax-inject.version>
     <HikariCP-java6.version>2.3.13</HikariCP-java6.version>
     <c3p0.version>0.9.1.1</c3p0.version>
+    <blueprint-maven-plugin-annotation.version>1.1.0</blueprint-maven-plugin-annotation.version>
   </properties>
 
   <repositories>
