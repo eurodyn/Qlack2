@@ -26,82 +26,83 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "mai_attachment")
 public class Attachment implements java.io.Serializable {
-	private static final long serialVersionUID = 8466250671151549360L;
 
-	@Id
-	private String id;
+  private static final long serialVersionUID = 8466250671151549360L;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "email_id", nullable = false)
-	private Email email;
+  @Id
+  private String id;
 
-	@Column(name = "filename", nullable = false, length = 254)
-	private String filename;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "email_id", nullable = false)
+  private Email email;
 
-	@Column(name = "content_type", nullable = false, length = 254)
-	private String contentType;
+  @Column(name = "filename", nullable = false, length = 254)
+  private String filename;
 
-	@Lob
-	@Column(name = "data", nullable = false)
-	private byte[] data;
+  @Column(name = "content_type", nullable = false, length = 254)
+  private String contentType;
 
-	@Column(name = "attachment_size")
-	private Long attachmentSize;
+  @Lob
+  @Column(name = "data", nullable = false)
+  private byte[] data;
 
-	// -- Constructors
+  @Column(name = "attachment_size")
+  private Long attachmentSize;
 
-	public Attachment() {
-		this.id = java.util.UUID.randomUUID().toString();
-	}
+  // -- Constructors
 
-	// -- Accessors
+  public Attachment() {
+    this.id = java.util.UUID.randomUUID().toString();
+  }
 
-	public String getId() {
-		return this.id;
-	}
+  // -- Accessors
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public String getId() {
+    return this.id;
+  }
 
-	public Email getEmail() {
-		return this.email;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public void setEmail(Email email) {
-		this.email = email;
-	}
+  public Email getEmail() {
+    return this.email;
+  }
 
-	public String getFilename() {
-		return this.filename;
-	}
+  public void setEmail(Email email) {
+    this.email = email;
+  }
 
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
+  public String getFilename() {
+    return this.filename;
+  }
 
-	public String getContentType() {
-		return this.contentType;
-	}
+  public void setFilename(String filename) {
+    this.filename = filename;
+  }
 
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
-	}
+  public String getContentType() {
+    return this.contentType;
+  }
 
-	public byte[] getData() {
-		return this.data;
-	}
+  public void setContentType(String contentType) {
+    this.contentType = contentType;
+  }
 
-	public void setData(byte[] data) {
-		this.data = data;
-	}
+  public byte[] getData() {
+    return this.data;
+  }
 
-	public Long getAttachmentSize() {
-		return this.attachmentSize;
-	}
+  public void setData(byte[] data) {
+    this.data = data;
+  }
 
-	public void setAttachmentSize(Long attachmentSize) {
-		this.attachmentSize = attachmentSize;
-	}
+  public Long getAttachmentSize() {
+    return this.attachmentSize;
+  }
+
+  public void setAttachmentSize(Long attachmentSize) {
+    this.attachmentSize = attachmentSize;
+  }
 
 }

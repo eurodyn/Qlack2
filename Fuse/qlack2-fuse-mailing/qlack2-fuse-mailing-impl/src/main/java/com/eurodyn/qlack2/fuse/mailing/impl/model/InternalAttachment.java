@@ -14,8 +14,6 @@
  */
 package com.eurodyn.qlack2.fuse.mailing.impl.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -26,103 +24,107 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NoResultException;
 import javax.persistence.Table;
 
+import java.util.List;
+
 @Entity
 @Table(name = "mai_internal_attachment")
 public class InternalAttachment implements java.io.Serializable {
-	private static final long serialVersionUID = -2750244377258906052L;
 
-	@Id
-	private String id;
+  private static final long serialVersionUID = -2750244377258906052L;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "messages_id", nullable = false)
-	private InternalMessages messages;
+  @Id
+  private String id;
 
-	@Column(name = "filename", length = 254)
-	private String filename;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "messages_id", nullable = false)
+  private InternalMessages messages;
 
-	@Column(name = "content_type", length = 254)
-	private String contentType;
+  @Column(name = "filename", length = 254)
+  private String filename;
 
-	@Column(name = "data")
-	private byte[] data;
+  @Column(name = "content_type", length = 254)
+  private String contentType;
 
-	@Column(name = "format", length = 45)
-	private String format;
+  @Column(name = "data")
+  private byte[] data;
 
-	// -- Constructors
+  @Column(name = "format", length = 45)
+  private String format;
 
-	public InternalAttachment() {
-		this.id = java.util.UUID.randomUUID().toString();
-	}
+  // -- Constructors
 
-	// -- Queries
+  public InternalAttachment() {
+    this.id = java.util.UUID.randomUUID().toString();
+  }
 
-	public static InternalAttachment findById(EntityManager em, String id) {
-		String jpql = "SELECT a FROM InternalAttachment a WHERE a.id = :id";
+  // -- Queries
 
-		try {
-			return em.createQuery(jpql, InternalAttachment.class).setParameter("id", id).getSingleResult();
-		}
-		catch (NoResultException e) {
-			return null;
-		}
-	}
+  public static InternalAttachment findById(EntityManager em, String id) {
+    String jpql = "SELECT a FROM InternalAttachment a WHERE a.id = :id";
 
-	public static List<InternalAttachment> findByMessagesId(EntityManager em, String messageId) {
-		String jpql = "SELECT a FROM InternalAttachment a WHERE a.messages.id = :messageId";
+    try {
+      return em.createQuery(jpql, InternalAttachment.class).setParameter("id", id)
+        .getSingleResult();
+    } catch (NoResultException e) {
+      return null;
+    }
+  }
 
-		return em.createQuery(jpql, InternalAttachment.class).setParameter("messageId", messageId).getResultList();
-	}
+  public static List<InternalAttachment> findByMessagesId(EntityManager em, String messageId) {
+    String jpql = "SELECT a FROM InternalAttachment a WHERE a.messages.id = :messageId";
 
-	// -- Accessors
+    return em.createQuery(jpql, InternalAttachment.class).setParameter("messageId", messageId)
+      .getResultList();
+  }
 
-	public String getId() {
-		return this.id;
-	}
+  // -- Accessors
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public String getId() {
+    return this.id;
+  }
 
-	public InternalMessages getMessages() {
-		return this.messages;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public void setMessages(InternalMessages messages) {
-		this.messages = messages;
-	}
+  public InternalMessages getMessages() {
+    return this.messages;
+  }
 
-	public String getFilename() {
-		return this.filename;
-	}
+  public void setMessages(InternalMessages messages) {
+    this.messages = messages;
+  }
 
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
+  public String getFilename() {
+    return this.filename;
+  }
 
-	public String getContentType() {
-		return this.contentType;
-	}
+  public void setFilename(String filename) {
+    this.filename = filename;
+  }
 
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
-	}
+  public String getContentType() {
+    return this.contentType;
+  }
 
-	public byte[] getData() {
-		return this.data;
-	}
+  public void setContentType(String contentType) {
+    this.contentType = contentType;
+  }
 
-	public void setData(byte[] data) {
-		this.data = data;
-	}
+  public byte[] getData() {
+    return this.data;
+  }
 
-	public String getFormat() {
-		return this.format;
-	}
+  public void setData(byte[] data) {
+    this.data = data;
+  }
 
-	public void setFormat(String format) {
-		this.format = format;
-	}
+  public String getFormat() {
+    return this.format;
+  }
+
+  public void setFormat(String format) {
+    this.format = format;
+  }
 
 }

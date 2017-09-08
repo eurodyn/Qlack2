@@ -14,32 +14,35 @@
  */
 package com.eurodyn.qlack2.fuse.mailing.api;
 
-import java.util.List;
-
 import com.eurodyn.qlack2.fuse.mailing.api.dto.EmailDTO;
+
+import java.util.List;
 
 /**
  * Manage email queue.
  *
  * @author European Dynamics SA.
- *
  */
 public interface MailService {
 
-	public static enum EMAIL_STATUS {
-		QUEUED, SENT, FAILED, CANCELED
-	};
+  void sendOne(String emailId);
 
-	String queueEmail(EmailDTO dto);
+  String queueEmail(EmailDTO dto);
 
-	List<String> queueEmails(List<EmailDTO> dtos);
+  List<String> queueEmails(List<EmailDTO> dtos);
 
-	void updateStatus(String id, EMAIL_STATUS status);
+  void updateStatus(String id, EMAIL_STATUS status);
 
-	void deleteFromQueue(String emailId);
+  void deleteFromQueue(String emailId);
 
-	void cleanup(Long date, EMAIL_STATUS[] status);
+  void cleanup(Long date, EMAIL_STATUS[] status);
 
-	EmailDTO getMail(String emailId);
+  EmailDTO getMail(String emailId);
+
+  List<EmailDTO> getByStatus(EMAIL_STATUS status);
+
+  public static enum EMAIL_STATUS {
+    QUEUED, SENT, FAILED, CANCELED
+  }
 
 }

@@ -24,6 +24,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   <feature description="QLACK2 Fuse - Search IMPL" name="qlack2-fuse-search-impl" version="${project.version}">
     <feature>pax-cdi</feature>
     <feature>jackson-databind</feature>
+    <feature>qlack2-</feature>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.javax-inject/${org.apache.servicemix.bundles.javax-inject.version}</bundle>
     <bundle>mvn:org.apache.httpcomponents/httpcore-osgi/4.4.6</bundle>
@@ -104,16 +105,13 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   <!-- ***************************************************************************************** -->
   <!-- RULES RUNTIME                                                                             -->
   <!-- ***************************************************************************************** -->
-
   <feature description="QLACK2 Fuse - Rules Runtime" name="qlack2-fuse-rules-runtime" version="${project.version}">
     <feature>qlack2-fuse-rules-runtime-api</feature>
     <feature>qlack2-fuse-rules-runtime-impl</feature>
   </feature>
-
   <feature description="QLACK2 Fuse - Rules Runtime API" name="qlack2-fuse-rules-runtime-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-rules-runtime-api/${project.version}</bundle>
   </feature>
-
   <feature description="QLACK2 Fuse - Rules Runtime IMPL" name="qlack2-fuse-rules-runtime-impl" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-util-repack-jpadb</feature>
@@ -122,6 +120,30 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-rules-runtime-impl/${project.version}</bundle>
   </feature>
 
+  <!-- ***************************************************************************************** -->
+  <!-- MAILING                                                                                   -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - Mailing" name="qlack2-fuse-mailing" version="${project.version}">
+    <feature>qlack2-fuse-mailing-api</feature>
+    <feature>qlack2-fuse-mailing-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - Mailing" name="qlack2-fuse-mailing-api" version="${project.version}">
+    <feature>qlack2-common-util</feature>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-mailing-api/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Mailing" name="qlack2-fuse-mailing-impl" version="${project.version}">
+    <feature prerequisite="true">wrap</feature>
+    <feature>qlack2-util-repack-jpadb</feature>
+    <feature>qlack2-util-liquibase</feature>
+    <bundle>mvn:org.apache.aries.blueprint/blueprint-maven-plugin-annotation/${blueprint-maven-plugin-annotation.version}</bundle>
+    <bundle>mvn:org.apache.commons/commons-email/${commons-email.version}</bundle>
+    <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
+    <bundle>mvn:com.sun.mail/javax.mail/${javax.mail.version}</bundle>
+    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-mailing-impl/${project.version}</bundle>
+  </feature>
+
+  <!-- Features which haven't been split to api/impl yet -->
   <feature description="QLACK2 Fuse - AAA" name="qlack2-fuse-AAA" version="${project.version}">
     <configfile finalname="/etc/com.eurodyn.qlack2.fuse.aaa.cfg">mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-aaa-impl/${project.version}/cfg/config-admin</configfile>
     <feature>eventadmin</feature>
@@ -131,6 +153,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <feature>qlack2-util-repack-jackson</feature>
     <feature>qlack2-util-repack-querydsl</feature>
     <feature>pax-cdi</feature>
+    <bundle>mvn:javax.annotation/javax.annotation-api/${javax.annotation-api.version}</bundle>
     <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
     <bundle>mvn:joda-time/joda-time/${joda.version}</bundle>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
@@ -245,20 +268,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-workflow-runtime-impl/${project.version}</bundle>
   </feature>
 
-  <feature description="QLACK2 Fuse - Mailing" name="qlack2-fuse-mailing" version="${project.version}">
-    <!-- The config file com.eurodyn.qlack2.fuse.mailing.cfg should not be installed in case external Karaf configuration is set in the felix.fileinstall.dir property -->
-    <!--  of org.apache.felix.fileinstall-defa.cfg (usually for Karaf deliveries). -->
-    <!-- <configfile finalname="/etc/com.eurodyn.qlack2.fuse.mailing.cfg">mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-mailing-impl/${project.version}/cfg/config-admin</configfile> -->
-    <feature prerequisite="true">wrap</feature>
-    <feature>qlack2-util-repack-jpadb</feature>
-    <feature>qlack2-common-util</feature>
-    <bundle>mvn:javax.mail/mail/1.4.7</bundle>
-    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-mailing-api/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-mailing-impl/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-mailing-commands/${project.version}</bundle>
-  </feature>
-
   <feature description="QLACK2 Fuse - Scheduler" name="qlack2-fuse-scheduler" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-util-repack-jpadb</feature>
@@ -269,6 +278,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:com.zaxxer/HikariCP-java6/${HikariCP-java6.version}</bundle>
     <bundle>mvn:org.javassist/javassist/${javassist.version}</bundle>
     <bundle>mvn:org.quartz-scheduler/quartz/${quartz.version}</bundle>
+    <bundle>mvn:org.apache.aries.blueprint/blueprint-maven-plugin-annotation/${blueprint-maven-plugin-annotation.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-scheduler-api/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-scheduler-impl/${project.version}</bundle>
   </feature>

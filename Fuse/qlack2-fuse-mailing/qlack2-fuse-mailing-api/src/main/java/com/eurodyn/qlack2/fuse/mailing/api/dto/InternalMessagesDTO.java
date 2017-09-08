@@ -23,98 +23,99 @@ import java.util.List;
  * @author European Dynamics SA.
  */
 public class InternalMessagesDTO extends MailBaseDTO {
-	private static final long serialVersionUID = -1472700801352450573L;
 
-	private String subject;
-	private String message;
-	private String from;
-	private String to;
-	private Date dateSent;
-	private Date dateReceived;
-	private String status;
-	private String deleteType;
-	private List<InternalAttachmentDTO> attachments;
-	private String fwdAttachmentId;
+  private static final long serialVersionUID = -1472700801352450573L;
 
-	// -- Accessors
+  private String subject;
+  private String message;
+  private String from;
+  private String to;
+  private Date dateSent;
+  private Date dateReceived;
+  private String status;
+  private String deleteType;
+  private List<InternalAttachmentDTO> attachments;
+  private String fwdAttachmentId;
 
-	public String getSubject() {
-		return subject;
-	}
+  // -- Accessors
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+  public String getSubject() {
+    return subject;
+  }
 
-	public String getMessage() {
-		return message;
-	}
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+  public String getMessage() {
+    return message;
+  }
 
-	public String getFrom() {
-		return from;
-	}
+  public void setMessage(String message) {
+    this.message = message;
+  }
 
-	public void setFrom(String from) {
-		this.from = from;
-	}
+  public String getFrom() {
+    return from;
+  }
 
-	public String getTo() {
-		return to;
-	}
+  public void setFrom(String from) {
+    this.from = from;
+  }
 
-	public void setTo(String to) {
-		this.to = to;
-	}
+  public String getTo() {
+    return to;
+  }
 
-	public Date getDateSent() {
-		return dateSent;
-	}
+  public void setTo(String to) {
+    this.to = to;
+  }
 
-	public void setDateSent(Long dateSent) {
-		this.dateSent = new Date(dateSent);
-	}
+  public Date getDateSent() {
+    return dateSent;
+  }
 
-	public Date getDateReceived() {
-		return dateReceived;
-	}
+  public void setDateSent(Long dateSent) {
+    this.dateSent = new Date(dateSent);
+  }
 
-	public void setDateReceived(Long dateReceived) {
-		this.dateReceived = new Date(dateReceived);
-	}
+  public Date getDateReceived() {
+    return dateReceived;
+  }
 
-	public String getStatus() {
-		return status;
-	}
+  public void setDateReceived(Long dateReceived) {
+    this.dateReceived = new Date(dateReceived);
+  }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+  public String getStatus() {
+    return status;
+  }
 
-	public String getDeleteType() {
-		return deleteType;
-	}
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-	public void setDeleteType(String deleteType) {
-		this.deleteType = deleteType;
-	}
+  public String getDeleteType() {
+    return deleteType;
+  }
 
-	public List<InternalAttachmentDTO> getAttachments() {
-		return attachments;
-	}
+  public void setDeleteType(String deleteType) {
+    this.deleteType = deleteType;
+  }
 
-	public void setAttachments(List<InternalAttachmentDTO> attachments) {
-		this.attachments = attachments;
-	}
+  public List<InternalAttachmentDTO> getAttachments() {
+    return attachments;
+  }
 
-	public String getFwdAttachmentId() {
-		return fwdAttachmentId;
-	}
+  public void setAttachments(List<InternalAttachmentDTO> attachments) {
+    this.attachments = attachments;
+  }
 
-	public void setFwdAttachmentId(String fwdAttachmentId) {
-		this.fwdAttachmentId = fwdAttachmentId;
-	}
+  public String getFwdAttachmentId() {
+    return fwdAttachmentId;
+  }
+
+  public void setFwdAttachmentId(String fwdAttachmentId) {
+    this.fwdAttachmentId = fwdAttachmentId;
+  }
 }

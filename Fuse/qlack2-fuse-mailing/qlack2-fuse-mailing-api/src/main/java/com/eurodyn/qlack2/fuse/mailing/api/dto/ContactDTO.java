@@ -22,61 +22,62 @@ import java.io.Serializable;
  * @author European Dynamics SA.
  */
 public class ContactDTO implements Serializable {
-	private static final long serialVersionUID = 5296937341555434395L;
 
-	private String id;
-	private String userID;
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String locale;
+  private static final long serialVersionUID = 5296937341555434395L;
 
-	public String getId() {
-		return id;
-	}
+  private String id;
+  private String userID;
+  private String firstName;
+  private String lastName;
+  private String email;
+  private String locale;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public String getId() {
+    return id;
+  }
 
-	public String getUserID() {
-		return userID;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public void setUserID(String userID) {
-		this.userID = userID;
-	}
+  public String getUserID() {
+    return userID;
+  }
 
-	public String getFirstName() {
-		return firstName;
-	}
+  public void setUserID(String userID) {
+    this.userID = userID;
+  }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+  public String getFirstName() {
+    return firstName;
+  }
 
-	public String getLastName() {
-		return lastName;
-	}
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+  public String getLastName() {
+    return lastName;
+  }
 
-	public String getEmail() {
-		return email;
-	}
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+  public String getEmail() {
+    return email;
+  }
 
-	public String getLocale() {
-		return locale;
-	}
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-	public void setLocale(String locale) {
-		this.locale = locale;
-	}
+  public String getLocale() {
+    return locale;
+  }
+
+  public void setLocale(String locale) {
+    this.locale = locale;
+  }
 
 }

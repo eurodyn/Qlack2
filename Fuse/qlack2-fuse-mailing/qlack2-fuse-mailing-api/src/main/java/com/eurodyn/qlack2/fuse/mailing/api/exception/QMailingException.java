@@ -17,25 +17,24 @@ package com.eurodyn.qlack2.fuse.mailing.api.exception;
 import com.eurodyn.qlack2.common.util.exception.QException;
 
 /**
- * This exception class having different types of exceptions which occurs in
- * Mailing module.
+ * Exceptions wrapper for Mailing module.
  *
  * @author European Dynamics SA
  */
 public class QMailingException extends QException {
 
-	private static final long serialVersionUID = -2941234800849662631L;
+  private static final long serialVersionUID = -2941234800849662631L;
 
-	public QMailingException(String message) {
-		super(message);
-	}
+  public QMailingException(String message) {
+    super(message);
+  }
 
-	public QMailingException(String message, Throwable cause) {
-		super(message, cause);
-	}
+  public QMailingException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-	public QMailingException(Throwable cause) {
-		super(cause);
-	}
+  public QMailingException(Throwable cause) {
+    super(cause);
+  }
 
 }

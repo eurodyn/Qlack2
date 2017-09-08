@@ -20,163 +20,142 @@ import com.eurodyn.qlack2.fuse.mailing.api.dto.DistributionListDTO;
 import com.eurodyn.qlack2.fuse.mailing.impl.model.Contact;
 import com.eurodyn.qlack2.fuse.mailing.impl.model.DistributionList;
 import com.eurodyn.qlack2.fuse.mailing.impl.util.ConverterUtil;
-
+import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Provide distribution list related services. For details regarding the
- * functionality offered see the respective interfaces.
+ * Provide distribution list related services. For details regarding the functionality offered see
+ * the respective interfaces.
  *
  * @author European Dynamics SA.
  */
 @Transactional
+@Singleton
+@OsgiServiceProvider(classes = {DistributionListService.class})
 public class DistributionListServiceImpl implements DistributionListService {
-	@PersistenceContext(unitName = "fuse-mailing")
-	private EntityManager em;
 
-	/**
-	 * Create a new distribution list.
-	 *
-	 * @param dto
-	 */
-	@Override
-	@Transactional(TxType.REQUIRED)
-	public void createDistributionList(DistributionListDTO dto) {
-		DistributionList dlist = ConverterUtil.dlistConvert(dto);
-		em.persist(dlist);
-	}
+  @PersistenceContext(unitName = "fuse-mailing")
+  private EntityManager em;
 
-	/**
-	 * Edit an existing distribution list.
-	 *
-	 * @param dto
-	 */
-	@Override
-	@Transactional(TxType.REQUIRED)
-	public void editDistributionList(DistributionListDTO dto) {
-		String id = dto.getId();
-		DistributionList dlist = ConverterUtil.dlistConvert(dto);
-		dlist.setId(id);
-		em.merge(dlist);
-	}
+  /**
+   * Create a new distribution list.
+   */
+  @Override
+  @Transactional(TxType.REQUIRED)
+  public void createDistributionList(DistributionListDTO dto) {
+    DistributionList dlist = ConverterUtil.dlistConvert(dto);
+    em.persist(dlist);
+  }
 
-	/**
-	 * Delete a distribution list.
-	 *
-	 * @param id
-	 */
-	@Override
-	@Transactional(TxType.REQUIRED)
-	public void deleteDistributionList(String id) {
-		DistributionList dlist = findById(id);
-		em.remove(dlist);
-	}
+  /**
+   * Edit an existing distribution list.
+   */
+  @Override
+  @Transactional(TxType.REQUIRED)
+  public void editDistributionList(DistributionListDTO dto) {
+    String id = dto.getId();
+    DistributionList dlist = ConverterUtil.dlistConvert(dto);
+    dlist.setId(id);
+    em.merge(dlist);
+  }
 
-	/**
-	 * Find a specific distribution list.
-	 *
-	 * @param id
-	 * @return
-	 */
-	@Override
-	@Transactional(TxType.REQUIRED)
-	public DistributionListDTO find(Object id) {
-		DistributionList dlist = findById(id);
-		return ConverterUtil.dlistConvert(dlist);
-	}
+  /**
+   * Delete a distribution list.
+   */
+  @Override
+  @Transactional(TxType.REQUIRED)
+  public void deleteDistributionList(String id) {
+    DistributionList dlist = findById(id);
+    em.remove(dlist);
+  }
 
-	/**
-	 * Find DistributionList Entity object for provided id.
-	 *
-	 * @param id
-	 * @return DistributionList
-	 */
-	private DistributionList findById(Object id) {
-		return em.find(DistributionList.class, id);
-	}
+  /**
+   * Find a specific distribution list.
+   */
+  @Override
+  @Transactional(TxType.REQUIRED)
+  public DistributionListDTO find(Object id) {
+    DistributionList dlist = findById(id);
+    return ConverterUtil.dlistConvert(dlist);
+  }
 
-	/**
-	 * Search for a specific distribution list, with the criteria provided.
-	 * (Only the name can be provided as criteria at the moment.)
-	 *
-	 * @param name
-	 * @return
-	 */
-	@Override
-	@Transactional(TxType.REQUIRED)
-	public List<DistributionListDTO> search(String name) {
-		List<DistributionList> distributionList = null;
-		if (name == null) {
-			distributionList = DistributionList.findAll(em);
-		}
-		else {
-			distributionList = DistributionList.findByName(em, name);
-		}
+  /**
+   * Find DistributionList Entity object for provided id.
+   *
+   * @return DistributionList
+   */
+  private DistributionList findById(Object id) {
+    return em.find(DistributionList.class, id);
+  }
 
-		List<DistributionListDTO> distributionDtoList = new ArrayList<>();
-		for (DistributionList distribution : distributionList) {
-			DistributionListDTO distributionListDto = ConverterUtil.dlistConvert(distribution);
-			distributionDtoList.add(distributionListDto);
-		}
+  /**
+   * Search for a specific distribution list, with the criteria provided. (Only the name can be
+   * provided as criteria at the moment.)
+   */
+  @Override
+  @Transactional(TxType.REQUIRED)
+  public List<DistributionListDTO> search(String name) {
+    List<DistributionList> distributionList = null;
+    if (name == null) {
+      distributionList = DistributionList.findAll(em);
+    } else {
+      distributionList = DistributionList.findByName(em, name);
+    }
 
-		return distributionDtoList;
-	}
+    List<DistributionListDTO> distributionDtoList = new ArrayList<>();
+    for (DistributionList distribution : distributionList) {
+      DistributionListDTO distributionListDto = ConverterUtil.dlistConvert(distribution);
+      distributionDtoList.add(distributionListDto);
+    }
 
-	/**
-	 * Create a new contact.
-	 *
-	 * @param dto
-	 *
-	 * @return id of contact
-	 */
-	@Override
-	@Transactional(TxType.REQUIRED)
-	public String createContact(ContactDTO dto) {
-		Contact contact = ConverterUtil.contactConvert(dto);
-		em.persist(contact);
+    return distributionDtoList;
+  }
 
-		return contact.getId();
-	}
+  /**
+   * Create a new contact.
+   *
+   * @return id of contact
+   */
+  @Override
+  @Transactional(TxType.REQUIRED)
+  public String createContact(ContactDTO dto) {
+    Contact contact = ConverterUtil.contactConvert(dto);
+    em.persist(contact);
 
-	/**
-	 * Add a contact to a distribution list.
-	 *
-	 * @param distributionId
-	 * @param contactId
-	 */
-	@Override
-	@Transactional(TxType.REQUIRED)
-	public void addContactToDistributionList(String distributionId, String contactId) {
-		// This will probably load the parent dlist and all sibling contacts, otoh
-		// it keeps updated the loaded instances on both sides of the relationship.
-		DistributionList dlist = findById(distributionId);
-		Contact contact = findContactById(contactId);
-		dlist.getContacts().add(contact);
-	}
+    return contact.getId();
+  }
 
-	/**
-	 * Remove a contact from a distribution list.
-	 *
-	 * @param distributionId
-	 * @param contactId
-	 */
-	@Override
-	@Transactional(TxType.REQUIRED)
-	public void removeContactFromDistributionList(String distributionId, String contactId) {
-		// This will probably load the parent dlist and all sibling contacts, otoh
-		// it keeps updated the loaded instances on both sides of the relationship.
-		DistributionList dlist = findById(distributionId);
-		Contact contact = findContactById(contactId);
-		dlist.getContacts().remove(contact);
-	}
+  /**
+   * Add a contact to a distribution list.
+   */
+  @Override
+  @Transactional(TxType.REQUIRED)
+  public void addContactToDistributionList(String distributionId, String contactId) {
+    DistributionList dlist = findById(distributionId);
+    Contact contact = findContactById(contactId);
+    dlist.getContacts().add(contact);
+  }
 
-	private Contact findContactById(String contactId) {
-		return em.find(Contact.class, contactId);
-	}
+  /**
+   * Remove a contact from a distribution list.
+   */
+  @Override
+  @Transactional(TxType.REQUIRED)
+  public void removeContactFromDistributionList(String distributionId, String contactId) {
+    DistributionList dlist = findById(distributionId);
+    Contact contact = findContactById(contactId);
+    dlist.getContacts().remove(contact);
+  }
+
+  private Contact findContactById(String contactId) {
+    return em.find(Contact.class, contactId);
+  }
 
 }

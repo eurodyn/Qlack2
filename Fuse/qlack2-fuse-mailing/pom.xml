@@ -1,21 +1,22 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.eurodyn.qlack2.fuse</groupId>
-		<artifactId>qlack2-fuse</artifactId>
-		<version>2.2.5-SNAPSHOT</version>
-		<relativePath>..</relativePath>
-	</parent>
+  <parent>
+    <groupId>com.eurodyn.qlack2.fuse</groupId>
+    <artifactId>qlack2-fuse</artifactId>
+    <version>2.2.5-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
 
-	<artifactId>qlack2-fuse-mailing</artifactId>
-	<packaging>pom</packaging>
+  <artifactId>qlack2-fuse-mailing</artifactId>
+  <packaging>pom</packaging>
 
-	<modules>
-		<module>qlack2-fuse-mailing-api</module>
-		<module>qlack2-fuse-mailing-impl</module>
-		<module>qlack2-fuse-mailing-commands</module>
-		<module>qlack2-fuse-mailing-test</module>
-	</modules>
+  <modules>
+    <module>qlack2-fuse-mailing-api</module>
+    <module>qlack2-fuse-mailing-impl</module>
+    <module>qlack2-fuse-mailing-test</module>
+  </modules>
 
 </project>

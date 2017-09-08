@@ -1,216 +1,136 @@
 package com.eurodyn.qlack2.fuse.mailing.impl.monitor;
 
+import com.eurodyn.qlack2.fuse.mailing.api.dto.AttachmentDTO;
+import com.eurodyn.qlack2.fuse.mailing.api.dto.EmailDTO;
+import com.eurodyn.qlack2.fuse.mailing.api.dto.EmailDTO.EMAIL_TYPE;
+import com.eurodyn.qlack2.fuse.mailing.api.exception.QMailingException;
+import javax.activation.DataSource;
+import javax.inject.Singleton;
+import javax.mail.util.ByteArrayDataSource;
+import org.apache.aries.blueprint.annotation.config.ConfigProperty;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.mail.Email;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
+import org.apache.commons.mail.MultiPartEmail;
+import org.apache.commons.mail.SimpleEmail;
+
+import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.activation.DataHandler;
-import javax.mail.Address;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.util.ByteArrayDataSource;
-
-import org.apache.commons.lang3.StringUtils;
-
-import com.eurodyn.qlack2.fuse.mailing.api.dto.AttachmentDTO;
-import com.eurodyn.qlack2.fuse.mailing.api.dto.EmailDTO;
-import com.eurodyn.qlack2.fuse.mailing.api.exception.QMailingException;
-
+@Singleton
 public class MailQueueSender {
-	private static final Logger LOGGER = Logger.getLogger(MailQueueSender.class
-			.getName());
 
-	private Session session;
+  /**
+   * Logger reference
+   */
+  private static final Logger LOGGER = Logger.getLogger(MailQueueSender.class.getName());
 
-	private boolean debug;
-	private boolean starttls;
+  @ConfigProperty("${debug}")
+  private boolean debug;
+  @ConfigProperty("${server.starttls}")
+  private boolean startTLS;
+  @ConfigProperty("${server.host}")
+  private String host;
+  @ConfigProperty("${server.port}")
+  private int port;
+  @ConfigProperty("${server.username}")
+  private String username;
+  @ConfigProperty("${server.password}")
+  private String password;
 
-	private String host;
-	private int port;
+  /**
+   * Setup commons attributes of the email not related to its type.
+   *
+   * @param email The Email to set the attributes to.
+   * @param vo The DTO with the attributes to set.
+   * @throws EmailException Indicating an error while setting recipients.
+   */
+  private void setupCommons(Email email, EmailDTO vo) throws EmailException {
+    email.setHostName(host);
+    email.setSmtpPort(port);
+    email.setFrom(vo.getFrom());
+    email.setSubject(vo.getSubject());
+    email.setSentDate(new Date());
 
-	private String username;
-	private String password;
+    if (CollectionUtils.isNotEmpty(vo.getToContact())) {
+      for (String recipient : vo.getToContact()) {
+        email.addTo(recipient);
+      }
+    }
 
-	public void setDebug(boolean debug) {
-		this.debug = debug;
-	}
+    if (CollectionUtils.isNotEmpty(vo.getCcContact())) {
+      for (String recipient : vo.getCcContact()) {
+        email.addCc(recipient);
+      }
+    }
 
-	public void setStarttls(boolean starttls) {
-		this.starttls = starttls;
-	}
+    if (CollectionUtils.isNotEmpty(vo.getBccContact())) {
+      for (String recipient : vo.getBccContact()) {
+        email.addBcc(recipient);
+      }
+    }
 
-	public void setHost(String host) {
-		this.host = host;
-	}
+    if (CollectionUtils.isNotEmpty(vo.getReplyToContact())) {
+      for (String recipient : vo.getReplyToContact()) {
+        email.addReplyTo(recipient);
+      }
+    }
+  }
 
-	public void setPort(int port) {
-		this.port = port;
-	}
+  /**
+   * Attaches email attachments.
+   * @param email The email to attach the attachments to.
+   * @param vo The DTO with the attachments to attach.
+   * @throws EmailException Indicating an error while processing attachments.
+   */
+  private void setupAttachments(MultiPartEmail email,  EmailDTO vo) throws EmailException {
+    for (AttachmentDTO attachmentDTO : vo.getAttachments()) {
+      DataSource source = new ByteArrayDataSource(attachmentDTO.getData(), attachmentDTO.getContentType());
+      email.attach(source, attachmentDTO.getFilename(), attachmentDTO.getFilename());
+    }
+  }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+  /**
+   * Send the email.
+   */
+  public void send(EmailDTO vo) throws QMailingException {
+    Email email;
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    try {
+      if (vo.getEmailType() == EMAIL_TYPE.HTML) { // HTML email
+        email = new HtmlEmail();
+        setupAttachments(((HtmlEmail) email), vo);
+        ((HtmlEmail) email).setHtmlMsg(vo.getBody());
+      } else {  // Plaintext email
+        if (!CollectionUtils.isEmpty(vo.getAttachments())) {
+          email = new MultiPartEmail();
+          setupAttachments(((MultiPartEmail) email), vo);
+        } else {
+          email = new SimpleEmail();
+        }
+        email.setMsg(vo.getBody());
+      }
+      setupCommons(email, vo);
 
-	public void init() {
-		Properties properties = new Properties();
+      LOGGER.log(Level.FINEST, "Sending email {0} to {1} with TLS={2}.", new Object[]{
+        vo.getSubject(), Arrays.asList(vo.getToContact()), startTLS
+      });
 
-		properties.put("mail.transport.protocol", "smtp");
-		properties.put("mail.smtp.auth", "false");
-		properties.put("mail.smtp.starttls.enable", Boolean.toString(starttls));
-		properties.put("mail.smtp.host", host);
-		properties.put("mail.smtp.port", port);
+      /** Enable authentication */
+      if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password)) {
+        email.setAuthentication(username, password);
+      }
 
-		properties.put("mail.debug", Boolean.toString(debug));
+      /** Enable STARTTLS */
+      email.setStartTLSRequired(startTLS);
 
-		session = Session.getInstance(properties);
-	}
-
-	public void destroy() {
-	}
-
-	/**
-	 * Send the email.
-	 *
-	 * @param vo
-	 * @throws QMailingException
-	 */
-	public void send(EmailDTO vo) throws QMailingException {
-		/*
-		 * We currently create a new transport for each queued email. We may be
-		 * better off creating one transport for each batch of queued mails.
-		 */
-		Transport transport = null;
-		try {
-			// Create a message
-			MimeMessage msg = new MimeMessage(session);
-
-			// Set the From field
-			if (StringUtils.isEmpty(vo.getFrom())) {
-				msg.setFrom(new InternetAddress(
-						"Qlack Mailing <no-reply@qlack.eurodyn.com>"));
-			} else {
-				msg.setFrom(new InternetAddress(vo.getFrom()));
-			}
-
-			// Set the To field. (Multiple addresses can be separated by
-			// semicolons)
-			List<String> toAddresses = vo.getToContact();
-			if (toAddresses != null && !toAddresses.isEmpty()) {
-				msg.setRecipients(Message.RecipientType.TO,
-						stringListToAddressList(toAddresses));
-			}
-
-			// Set the CC field.
-			List<String> ccAddresses = vo.getCcContact();
-			if (ccAddresses != null && !ccAddresses.isEmpty()) {
-				msg.setRecipients(Message.RecipientType.CC,
-						stringListToAddressList(ccAddresses));
-			}
-
-			// Set the BCC field.
-			List<String> bccAddresses = vo.getBccContact();
-			if (bccAddresses != null && !bccAddresses.isEmpty()) {
-				msg.setRecipients(Message.RecipientType.BCC,
-						stringListToAddressList(bccAddresses));
-			}
-
-			// Set the Reply-To field.
-			List<String> replyToAddresses = vo.getReplyToContact();
-			if (replyToAddresses != null && !replyToAddresses.isEmpty()) {
-				msg.setReplyTo(stringListToAddressList(replyToAddresses));
-			}
-
-			// Set the subject and date.
-			msg.setSubject(vo.getSubject(), "utf-8");
-			msg.setSentDate(new Date());
-
-			// Set the content. Need to work in parts in case of attachements.
-			if ((vo.getAttachments() != null) && !vo.getAttachments().isEmpty()) {
-				Multipart multipart = new MimeMultipart();
-
-				// Part one is the general text of the message.
-				MimeBodyPart messageBodyPart = new MimeBodyPart();
-				if (vo.getEmailType() == EmailDTO.EMAIL_TYPE.TEXT) {
-					messageBodyPart.setText(vo.getBody(), "utf-8");
-				} else if (vo.getEmailType() == EmailDTO.EMAIL_TYPE.HTML) {
-					messageBodyPart.setContent(vo.getBody(),
-							"text/html; charset=utf-8");
-				}
-				multipart.addBodyPart(messageBodyPart);
-
-				// Part two, three, four, etc. are attachments
-				List<AttachmentDTO> attachmentList = vo.getAttachments();
-				for (AttachmentDTO attachmentDTO : attachmentList) {
-					String filename = attachmentDTO.getFilename();
-					byte[] data = attachmentDTO.getData();
-					String contentType = attachmentDTO.getContentType();
-					if (filename != null && !filename.equals("")
-							&& data != null) {
-						ByteArrayDataSource mimePartDataSource = new ByteArrayDataSource(
-								data, contentType);
-						MimeBodyPart attachment = new MimeBodyPart();
-						attachment.setDataHandler(new DataHandler(
-								mimePartDataSource));
-						attachment.setFileName(filename);
-						multipart.addBodyPart(attachment);
-					}
-				}
-
-				// Put parts in message
-				msg.setContent(multipart);
-			} else { // A message without attachments.
-				if (vo.getEmailType() == EmailDTO.EMAIL_TYPE.TEXT) {
-					msg.setText(vo.getBody(), "\"UTF-8\"");
-				} else if (vo.getEmailType() == EmailDTO.EMAIL_TYPE.HTML) {
-					msg.setContent(vo.getBody(), "text/html;charset=\"UTF-8\"");
-				}
-			}
-
-			// Initiate the send process.
-			transport = session.getTransport();
-			if (StringUtils.isBlank(username)) {
-				LOGGER.log(Level.FINEST, "Sending email with no auth");
-				transport.connect();
-			} else {
-				LOGGER.log(Level.FINEST, "Sending email with auth, user: " + username);
-				transport.connect(host, port, username, password);
-			}
-
-			transport.sendMessage(msg, msg.getAllRecipients());
-		} catch (MessagingException ex) {
-			throw new QMailingException("Cannot send message", ex);
-		} finally {
-			try {
-				if (transport != null) {
-					transport.close();
-				}
-			} catch (MessagingException ex) {
-				LOGGER.log(Level.WARNING, "Unexpected error during close", ex);
-			}
-		}
-	}
-
-	private Address[] stringListToAddressList(List<String> addresses)
-			throws AddressException {
-		Address[] retVal = new Address[addresses.size()];
-		for (int i = 0; i < addresses.size(); i++) {
-			retVal[i] = new InternetAddress(addresses.get(i));
-		}
-		return retVal;
-	}
-
+      email.send();
+    } catch (Exception e) {
+      throw new QMailingException("There was a problem sending email.", e);
+    }
+  }
 }

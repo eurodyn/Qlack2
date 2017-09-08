@@ -14,8 +14,16 @@
  */
 package com.eurodyn.qlack2.fuse.mailing.impl.util;
 
-import com.eurodyn.qlack2.fuse.mailing.api.dto.*;
-import com.eurodyn.qlack2.fuse.mailing.impl.model.*;
+import com.eurodyn.qlack2.fuse.mailing.api.dto.ContactDTO;
+import com.eurodyn.qlack2.fuse.mailing.api.dto.DistributionListDTO;
+import com.eurodyn.qlack2.fuse.mailing.api.dto.EmailDTO;
+import com.eurodyn.qlack2.fuse.mailing.api.dto.InternalAttachmentDTO;
+import com.eurodyn.qlack2.fuse.mailing.api.dto.InternalMessagesDTO;
+import com.eurodyn.qlack2.fuse.mailing.impl.model.Contact;
+import com.eurodyn.qlack2.fuse.mailing.impl.model.DistributionList;
+import com.eurodyn.qlack2.fuse.mailing.impl.model.Email;
+import com.eurodyn.qlack2.fuse.mailing.impl.model.InternalAttachment;
+import com.eurodyn.qlack2.fuse.mailing.impl.model.InternalMessages;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,242 +37,240 @@ import java.util.StringTokenizer;
  */
 public class ConverterUtil {
 
-	/**
-	 * Converts the entity DistributionList to data transfer object DistributionListDTO
-	 *
-	 * @param entity DistributionList entity.
-	 * @return DistributionListDTO Data transfer object, null if entity is null.
-	 */
-	public static DistributionListDTO dlistConvert(DistributionList entity) {
-		if (entity == null) {
-			return null;
-		}
+  /**
+   * Converts the entity DistributionList to data transfer object DistributionListDTO
+   *
+   * @param entity DistributionList entity.
+   * @return DistributionListDTO Data transfer object, null if entity is null.
+   */
+  public static DistributionListDTO dlistConvert(DistributionList entity) {
+    if (entity == null) {
+      return null;
+    }
 
-		DistributionListDTO dto = new DistributionListDTO();
-		dto.setId(entity.getId());
-		dto.setName(entity.getName());
-		dto.setDescription(entity.getDescription());
-		dto.setCreatedBy(entity.getCreatedBy());
-		dto.setCreatedOn(entity.getCreatedOn());
+    DistributionListDTO dto = new DistributionListDTO();
+    dto.setId(entity.getId());
+    dto.setName(entity.getName());
+    dto.setDescription(entity.getDescription());
+    dto.setCreatedBy(entity.getCreatedBy());
+    dto.setCreatedOn(entity.getCreatedOn());
 
-		return dto;
-	}
+    return dto;
+  }
 
-	/**
-	 * Converts the entity data transfer object DistributionListDTO to DistributionList.
-	 *
-	 * @param dto Data transfer object
-	 * @return DistributionList entity, null if DTO is null.
-	 */
-	public static DistributionList dlistConvert(DistributionListDTO dto) {
-		if (dto == null) {
-			return null;
-		}
+  /**
+   * Converts the entity data transfer object DistributionListDTO to DistributionList.
+   *
+   * @param dto Data transfer object
+   * @return DistributionList entity, null if DTO is null.
+   */
+  public static DistributionList dlistConvert(DistributionListDTO dto) {
+    if (dto == null) {
+      return null;
+    }
 
-		DistributionList entity = new DistributionList();
-		entity.setName(dto.getName());
-		entity.setDescription(dto.getDescription());
+    DistributionList entity = new DistributionList();
+    entity.setName(dto.getName());
+    entity.setDescription(dto.getDescription());
 
-		return entity;
-	}
+    return entity;
+  }
 
-	/**
-	 * Converts the entity data transfer object ContactDTO to Contact.
-	 *
-	 * @param dto
-	 * @return
-	 */
-	public static Contact contactConvert(ContactDTO dto) {
-		Contact entity = new Contact();
-		entity.setEmail(dto.getEmail());
-		entity.setFirstName(dto.getFirstName());
-		entity.setLastName(dto.getLastName());
-		entity.setLocale(dto.getLocale());
-		entity.setUserId(dto.getUserID());
+  /**
+   * Converts the entity data transfer object ContactDTO to Contact.
+   */
+  public static Contact contactConvert(ContactDTO dto) {
+    Contact entity = new Contact();
+    entity.setEmail(dto.getEmail());
+    entity.setFirstName(dto.getFirstName());
+    entity.setLastName(dto.getLastName());
+    entity.setLocale(dto.getLocale());
+    entity.setUserId(dto.getUserID());
 
-		return entity;
-	}
+    return entity;
+  }
 
-	/**
-	 * Creates a list of e-mails.
-	 *
-	 * @param emails String of e-mails separated by token .
-	 * @return list of e-mails.
-	 */
-	public static List<String> createRecepientlist(String emails) {
-		List<String> contacts = new ArrayList<>();
+  /**
+   * Creates a list of e-mails.
+   *
+   * @param emails String of e-mails separated by token .
+   * @return list of e-mails.
+   */
+  public static List<String> createRecepientlist(String emails) {
+    List<String> contacts = new ArrayList<>();
 
-		StringTokenizer st = new StringTokenizer(emails, ",");
-		while (st.hasMoreElements()) {
-			String next = (String) st.nextElement();
-			contacts.add(next);
-		}
+    StringTokenizer st = new StringTokenizer(emails, ",");
+    while (st.hasMoreElements()) {
+      String next = (String) st.nextElement();
+      contacts.add(next);
+    }
 
-		return contacts.isEmpty() ? null : contacts;
-	}
+    return contacts.isEmpty() ? null : contacts;
+  }
 
-	/**
-	 * Create e-mails string separated by token
-	 *
-	 * @param emails List of e-mails.
-	 * @return String of token separated e-mails.
-	 */
-	public static String createRecepientlist(List<String> emails) {
+  /**
+   * Create e-mails string separated by token
+   *
+   * @param emails List of e-mails.
+   * @return String of token separated e-mails.
+   */
+  public static String createRecepientlist(List<String> emails) {
 
-		StringBuilder emailAddress = new StringBuilder();
-		if (emails != null && !emails.isEmpty()) {
-			for (String email : emails) {
-				if (emailAddress.length() > 0) {
-					emailAddress.append(",");
-				}
-				emailAddress.append(email);
-			}
-		}
+    StringBuilder emailAddress = new StringBuilder();
+    if (emails != null && !emails.isEmpty()) {
+      for (String email : emails) {
+        if (emailAddress.length() > 0) {
+          emailAddress.append(",");
+        }
+        emailAddress.append(email);
+      }
+    }
 
-		return emailAddress.length() > 0 ? emailAddress.toString() : null;
-	}
+    return emailAddress.length() > 0 ? emailAddress.toString() : null;
+  }
 
-	/**
-	 * Converts InternalMessagesDTO DTO to InternalMessages without attachments.
-	 *
-	 * @param dto internal message data transfer object.
-	 * @return InternalMessages entity.
-	 */
-	public static InternalMessages internalMessageConvert(InternalMessagesDTO dto) {
-		if (dto == null) {
-			return null;
-		}
+  /**
+   * Converts InternalMessagesDTO DTO to InternalMessages without attachments.
+   *
+   * @param dto internal message data transfer object.
+   * @return InternalMessages entity.
+   */
+  public static InternalMessages internalMessageConvert(InternalMessagesDTO dto) {
+    if (dto == null) {
+      return null;
+    }
 
-		InternalMessages entity = new InternalMessages();
+    InternalMessages entity = new InternalMessages();
 
-		entity.setSubject(dto.getSubject());
-		entity.setMessage(dto.getMessage());
-		entity.setMailFrom(dto.getFrom());
-		entity.setMailTo(dto.getTo());
-		entity.setDateSent(dto.getDateSent().getTime());
-		entity.setDateReceived(dto.getDateReceived().getTime());
+    entity.setSubject(dto.getSubject());
+    entity.setMessage(dto.getMessage());
+    entity.setMailFrom(dto.getFrom());
+    entity.setMailTo(dto.getTo());
+    entity.setDateSent(dto.getDateSent().getTime());
+    entity.setDateReceived(dto.getDateReceived().getTime());
 
-		return entity;
-	}
+    return entity;
+  }
 
-	/**
-	 * Converts the InternalAttachment entity to data transfer object.
-	 *
-	 * @param dto internal message data transfer object.
-	 * @return InternalAttachment entity.
-	 */
-	public static InternalAttachment internalAttachmentConvert(InternalAttachmentDTO dto) {
-		if (dto == null) {
-			return null;
-		}
+  /**
+   * Converts the InternalAttachment entity to data transfer object.
+   *
+   * @param dto internal message data transfer object.
+   * @return InternalAttachment entity.
+   */
+  public static InternalAttachment internalAttachmentConvert(InternalAttachmentDTO dto) {
+    if (dto == null) {
+      return null;
+    }
 
-		InternalAttachment entity = new InternalAttachment();
+    InternalAttachment entity = new InternalAttachment();
 
-		entity.setContentType(dto.getContentType());
-		entity.setData(dto.getData());
-		entity.setFilename(dto.getFilename());
-		entity.setFormat(dto.getFormat());
+    entity.setContentType(dto.getContentType());
+    entity.setData(dto.getData());
+    entity.setFilename(dto.getFilename());
+    entity.setFormat(dto.getFormat());
 
-		return entity;
-	}
+    return entity;
+  }
 
-	/**
-	 * Converts InternalMessages entity to InternalMessagesDTO.
-	 *
-	 * @param entity InternalMessages
-	 * @return InternalMessagesDTO
-	 */
-	public static InternalMessagesDTO internalMessageConvert(InternalMessages entity) {
-		if (entity == null) {
-			return null;
-		}
+  /**
+   * Converts InternalMessages entity to InternalMessagesDTO.
+   *
+   * @param entity InternalMessages
+   * @return InternalMessagesDTO
+   */
+  public static InternalMessagesDTO internalMessageConvert(InternalMessages entity) {
+    if (entity == null) {
+      return null;
+    }
 
-		InternalMessagesDTO dto = new InternalMessagesDTO();
-		dto.setId(entity.getId());
-		dto.setSubject(entity.getSubject());
-		dto.setMessage(entity.getMessage());
-		dto.setFrom(entity.getMailFrom());
-		dto.setTo(entity.getMailTo());
-		dto.setDateSent(entity.getDateSent());
-		dto.setDateReceived(entity.getDateReceived());
-		dto.setStatus(entity.getStatus());
-		dto.setDeleteType(entity.getDeleteType());
+    InternalMessagesDTO dto = new InternalMessagesDTO();
+    dto.setId(entity.getId());
+    dto.setSubject(entity.getSubject());
+    dto.setMessage(entity.getMessage());
+    dto.setFrom(entity.getMailFrom());
+    dto.setTo(entity.getMailTo());
+    dto.setDateSent(entity.getDateSent());
+    dto.setDateReceived(entity.getDateReceived());
+    dto.setStatus(entity.getStatus());
+    dto.setDeleteType(entity.getDeleteType());
 
-		Set<InternalAttachment> entityAttachments = entity.getAttachments();
+    Set<InternalAttachment> entityAttachments = entity.getAttachments();
 
-		List<InternalAttachmentDTO> dtoAttachments = new ArrayList<>();
-		if (entityAttachments != null && !entityAttachments.isEmpty()) {
-			for (InternalAttachment attachment : entityAttachments) {
-				dtoAttachments.add(internalAttachmentConvert(attachment));
-			}
-		}
-		dto.setAttachments(dtoAttachments);
+    List<InternalAttachmentDTO> dtoAttachments = new ArrayList<>();
+    if (entityAttachments != null && !entityAttachments.isEmpty()) {
+      for (InternalAttachment attachment : entityAttachments) {
+        dtoAttachments.add(internalAttachmentConvert(attachment));
+      }
+    }
+    dto.setAttachments(dtoAttachments);
 
-		return dto;
-	}
+    return dto;
+  }
 
-	/**
-	 * Converts the InternalAttachment entity to DTO.
-	 *
-	 * @param entity Internal attachment.
-	 * @return InternalAttachment entity.
-	 */
-	public static InternalAttachmentDTO internalAttachmentConvert(InternalAttachment entity) {
-		if (entity == null) {
-			return null;
-		}
+  /**
+   * Converts the InternalAttachment entity to DTO.
+   *
+   * @param entity Internal attachment.
+   * @return InternalAttachment entity.
+   */
+  public static InternalAttachmentDTO internalAttachmentConvert(InternalAttachment entity) {
+    if (entity == null) {
+      return null;
+    }
 
-		InternalAttachmentDTO dto = new InternalAttachmentDTO();
+    InternalAttachmentDTO dto = new InternalAttachmentDTO();
 
-		dto.setId(entity.getId());
-		dto.setMessagesId(entity.getMessages().getId());
-		dto.setContentType(entity.getContentType());
-		dto.setData(entity.getData());
-		dto.setFilename(entity.getFilename());
-		dto.setFormat(entity.getFormat());
+    dto.setId(entity.getId());
+    dto.setMessagesId(entity.getMessages().getId());
+    dto.setContentType(entity.getContentType());
+    dto.setData(entity.getData());
+    dto.setFilename(entity.getFilename());
+    dto.setFormat(entity.getFormat());
 
-		return dto;
-	}
+    return dto;
+  }
 
-	/**
-	 * Converts list of InternalMessages entities to list data transfer object.
-	 *
-	 * @param internalMessagesList list of InternalMessages entities.
-	 * @return list of data transfer object.
-	 */
-	public static List<InternalMessagesDTO> internalMessageConvertList(List<InternalMessages> internalMessagesList) {
-		List<InternalMessagesDTO> messagesDtoList = new ArrayList<>();
+  /**
+   * Converts list of InternalMessages entities to list data transfer object.
+   *
+   * @param internalMessagesList list of InternalMessages entities.
+   * @return list of data transfer object.
+   */
+  public static List<InternalMessagesDTO> internalMessageConvertList(
+    List<InternalMessages> internalMessagesList) {
+    List<InternalMessagesDTO> messagesDtoList = new ArrayList<>();
 
-		for (InternalMessages internalMessages : internalMessagesList) {
-			InternalMessagesDTO dto = internalMessageConvert(internalMessages);
-			messagesDtoList.add(dto);
-		}
+    for (InternalMessages internalMessages : internalMessagesList) {
+      InternalMessagesDTO dto = internalMessageConvert(internalMessages);
+      messagesDtoList.add(dto);
+    }
 
-		return messagesDtoList;
-	}
+    return messagesDtoList;
+  }
 
-	/**
-	 * Converts the Email entity to DTO.
-	 *
-	 * @param entity Email.
-	 * @return EmailDTO
-	 */
-	public static EmailDTO emailConvert(Email entity) {
-		if (entity == null) {
-			return null;
-		}
+  /**
+   * Converts the Email entity to DTO.
+   *
+   * @param entity Email.
+   * @return EmailDTO
+   */
+  public static EmailDTO emailConvert(Email entity) {
+    if (entity == null) {
+      return null;
+    }
 
-		EmailDTO dto = new EmailDTO();
-		dto.setId(entity.getId());
-		dto.setDateSent(entity.getDateSent());
-		dto.setStatus(entity.getStatus());
-		dto.setBody(entity.getBody());
-		dto.setFrom(entity.getFromEmail());
-		dto.setServerResponse(entity.getServerResponse());
-		dto.setSubject(entity.getSubject());
-		dto.setStatus(entity.getStatus());
+    EmailDTO dto = new EmailDTO();
+    dto.setId(entity.getId());
+    dto.setDateSent(entity.getDateSent());
+    dto.setStatus(entity.getStatus());
+    dto.setBody(entity.getBody());
+    dto.setFrom(entity.getFromEmail());
+    dto.setServerResponse(entity.getServerResponse());
+    dto.setSubject(entity.getSubject());
+    dto.setStatus(entity.getStatus());
 
-		return dto;
-	}
+    return dto;
+  }
 
 }

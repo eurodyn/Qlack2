@@ -19,32 +19,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
  * @author European Dynamics SA
  */
 public class AttributeDTO implements Serializable {
-	private static final long serialVersionUID = -4465643192637918032L;
 
-	private Map<String, Object> attribute = new HashMap<String, Object>();
+  private static final long serialVersionUID = -4465643192637918032L;
 
-	public Object clearAttribute(String key) {
-		return this.getAttribute().remove(key);
-	}
+  private Map<String, Object> attribute = new HashMap<String, Object>();
 
-	public Object getAttribute(String key) {
-		return this.getAttribute().get(key);
-	}
+  public Object clearAttribute(String key) {
+    return this.getAttribute().remove(key);
+  }
 
-	public void setAttribute(String key, Object value) {
-		this.getAttribute().put(key, value);
-	}
+  public Object getAttribute(String key) {
+    return this.getAttribute().get(key);
+  }
 
-	public Map<String, Object> getAttribute() {
-		return attribute;
-	}
+  public void setAttribute(String key, Object value) {
+    this.getAttribute().put(key, value);
+  }
 
-	public void setAttribute(Map<String, Object> attribute) {
-		this.attribute = attribute;
-	}
+  public Map<String, Object> getAttribute() {
+    return attribute;
+  }
+
+  public void setAttribute(Map<String, Object> attribute) {
+    this.attribute = attribute;
+  }
 
 }

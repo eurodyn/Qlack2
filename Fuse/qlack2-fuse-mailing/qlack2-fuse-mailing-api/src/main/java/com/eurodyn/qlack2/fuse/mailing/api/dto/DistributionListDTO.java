@@ -22,59 +22,60 @@ import java.util.List;
  * @author European Dynamics SA.
  */
 public class DistributionListDTO extends MailBaseDTO {
-	private static final long serialVersionUID = -2413102270929887384L;
 
-	private String name;
-	private String description;
-	private List<ContactDTO> contacts;
+  private static final long serialVersionUID = -2413102270929887384L;
 
-	private String createdBy;
-	private Long createdOn;
+  private String name;
+  private String description;
+  private List<ContactDTO> contacts;
 
-	// -- Constructors
+  private String createdBy;
+  private Long createdOn;
 
-	public DistributionListDTO() {
-	}
+  // -- Constructors
 
-	// -- Accessors
+  public DistributionListDTO() {
+  }
 
-	public String getName() {
-		return name;
-	}
+  // -- Accessors
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public String getName() {
+    return name;
+  }
 
-	public String getDescription() {
-		return description;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+  public String getDescription() {
+    return description;
+  }
 
-	public List<ContactDTO> getContacts() {
-		return contacts;
-	}
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-	public void setContacts(List<ContactDTO> contacts) {
-		this.contacts = contacts;
-	}
+  public List<ContactDTO> getContacts() {
+    return contacts;
+  }
 
-	public String getCreatedBy() {
-		return createdBy;
-	}
+  public void setContacts(List<ContactDTO> contacts) {
+    this.contacts = contacts;
+  }
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
+  public String getCreatedBy() {
+    return createdBy;
+  }
 
-	public Long getCreatedOn() {
-		return createdOn;
-	}
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
 
-	public void setCreatedOn(Long createdOn) {
-		this.createdOn = createdOn;
-	}
+  public Long getCreatedOn() {
+    return createdOn;
+  }
+
+  public void setCreatedOn(Long createdOn) {
+    this.createdOn = createdOn;
+  }
 }

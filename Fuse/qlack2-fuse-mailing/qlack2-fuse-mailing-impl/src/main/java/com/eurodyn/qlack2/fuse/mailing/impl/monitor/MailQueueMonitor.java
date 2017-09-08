@@ -14,150 +14,132 @@
  */
 package com.eurodyn.qlack2.fuse.mailing.impl.monitor;
 
-import java.util.ArrayList;
+import com.eurodyn.qlack2.fuse.mailing.api.MailService;
+import com.eurodyn.qlack2.fuse.mailing.api.dto.AttachmentDTO;
+import com.eurodyn.qlack2.fuse.mailing.api.dto.EmailDTO;
+import com.eurodyn.qlack2.fuse.mailing.api.exception.QMailingException;
+import com.eurodyn.qlack2.fuse.mailing.impl.model.Attachment;
+import com.eurodyn.qlack2.fuse.mailing.impl.model.Email;
+import com.eurodyn.qlack2.fuse.mailing.impl.util.ConverterUtil;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import org.apache.aries.blueprint.annotation.config.ConfigProperty;
+
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
-
-import com.eurodyn.qlack2.fuse.mailing.api.MailService;
-import com.eurodyn.qlack2.fuse.mailing.api.dto.AttachmentDTO;
-import com.eurodyn.qlack2.fuse.mailing.api.dto.EmailDTO;
-import com.eurodyn.qlack2.fuse.mailing.impl.model.Attachment;
-import com.eurodyn.qlack2.fuse.mailing.impl.model.Email;
-import com.eurodyn.qlack2.fuse.mailing.impl.util.ConverterUtil;
-
 /**
  * Monitor email queue.
- *
- * The JavaMail API does not support transaction management. Discussed solutions
- * on the Internet are based on the idea of decoupling the actual sending of the
- * email from the ongoing transaction. Mentioned solutions include using a JMS
- * queue, an EJB timer with timeout 0, or the 'afterCommit' callback of
- * transaction synchronizations.
- *
- * Our solution concides with the above direction. The client transaction just
- * writes an entry in the database table and another thread just reads and
- * updates each entry along with sending the emails.
- *
- * In case the 'send email' action fails, the whole transaction is rollbacked.
- * In case the database operation fails at flush and commit time (after this
- * method completes), we send an email twice which we consider acceptable.
- *
- * There is an Oracle CM product which seems to has support for applying
- * transaction management to messaging operations.
  *
  * @author European Dynamics SA
  */
 @Transactional
+@Singleton
 public class MailQueueMonitor {
-	private static final Logger LOGGER = Logger.getLogger(MailQueueMonitor.class.getName());
-	@PersistenceContext(unitName = "fuse-mailing")
-	private EntityManager em;
-	
-	private byte maxTries;
 
-//	private TransactionManager tm;
+  /**
+   * Logger reference
+   */
+  private static final Logger LOGGER = Logger.getLogger(MailQueueMonitor.class.getName());
 
-	private MailQueueSender sender;
+  @PersistenceContext(unitName = "fuse-mailing")
+  private EntityManager em;
 
-	public void setMaxTries(byte maxTries) {
-		this.maxTries = maxTries;
-	}
 
-//	public void setEm(EntityManager em) {
-//		this.em = em;
-//	}
 
-//	public void setTm(TransactionManager tm) {
-//		this.tm = tm;
-//	}
+  @ConfigProperty("${maxTries}")
+  private byte maxTries;
 
-	public void setSender(MailQueueSender sender) {
-		this.sender = sender;
-	}
+  @Inject
+  private MailQueueSender sender;
 
-	/**
-	 * Check for QUEUED emails and send them.
-	 */
-	public void checkAndSendQueued() {
-		//logTransactionalContext();
+  private void send(Email email) {
+    /** Create a DTO for the email about to be sent */
+    EmailDTO dto = new EmailDTO();
+    dto.setId(email.getId());
+    dto.setSubject(email.getSubject());
+    dto.setBody(email.getBody());
+    dto.setFrom(email.getFromEmail());
+    if (email.getToEmails() != null) {
+      dto.setToContact(ConverterUtil.createRecepientlist(email.getToEmails()));
+    }
+    if (email.getCcEmails() != null) {
+      dto.setCcContact(ConverterUtil.createRecepientlist(email.getCcEmails()));
+    }
+    if (email.getBccEmails() != null) {
+      dto.setBccContact(ConverterUtil.createRecepientlist(email.getBccEmails()));
+    }
+    if (email.getReplyToEmails() != null) {
+      dto.setReplyToContact(ConverterUtil.createRecepientlist(email.getReplyToEmails()));
+    }
+    if (email.getEmailType().equals("HTML")) {
+      dto.setEmailType(EmailDTO.EMAIL_TYPE.HTML);
+    } else {
+      dto.setEmailType(EmailDTO.EMAIL_TYPE.TEXT);
+    }
 
-		List<Email> emails = Email.findQueued(em, maxTries);
-		LOGGER.log(Level.FINEST, "Found {0} email(s) to be sent.", emails.size());
+    /** Process attachments. */
+    Set<Attachment> attachments = email.getAttachments();
+    for (Attachment attachment : attachments) {
+      AttachmentDTO attachmentDTO = new AttachmentDTO();
+      attachmentDTO.setContentType(attachment.getContentType());
+      attachmentDTO.setData(attachment.getData());
+      attachmentDTO.setFilename(attachment.getFilename());
+      dto.addAttachment(attachmentDTO);
+    }
 
-		for (Email email : emails) {
-			email.setTries((byte) (email.getTries() + 1));
-			email.setDateSent(System.currentTimeMillis());
+    /** Update email's tries and date sent in the database, irrespectively of the outcome of the
+     * sendig process.
+     */
+    email.setTries((byte) (email.getTries() + 1));
+    email.setDateSent(System.currentTimeMillis());
 
-			// Create a DTO for this email.
-			EmailDTO dto = new EmailDTO();
-			dto.setId(email.getId());
-			dto.setSubject(email.getSubject());
-			dto.setBody(email.getBody());
-			dto.setFrom(email.getFromEmail());
-			if (email.getToEmails() != null) {
-				dto.setToContact(ConverterUtil.createRecepientlist(email.getToEmails()));
-			}
-			if (email.getCcEmails() != null) {
-				dto.setCcContact(ConverterUtil.createRecepientlist(email.getCcEmails()));
-			}
-			if (email.getBccEmails() != null) {
-				dto.setBccContact(ConverterUtil.createRecepientlist(email.getBccEmails()));
-			}
-			if (email.getReplyToEmails() != null) {
-				dto.setReplyToContact(ConverterUtil.createRecepientlist(email.getReplyToEmails()));
-			}
-			if (email.getEmailType().equals("HTML")) {
-				dto.setEmailType(EmailDTO.EMAIL_TYPE.HTML);
-			}
-			else {
-				dto.setEmailType(EmailDTO.EMAIL_TYPE.TEXT);
-			}
+    /** Try to send the email */
+    try {
+      sender.send(dto);
 
-			// Process attachments.
-			Set<Attachment> attachments = email.getAttachments();
+      /** If the email was sent successfully, we can update its status to Sent, so that the scheduler
+       * does not try to resend it.
+       */
+      email.setStatus(MailService.EMAIL_STATUS.SENT.toString());
+    } catch (QMailingException ex) {
+      LOGGER.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+      /** Set the reason for failure in the database */
+      //TODO This takes into account the top-level Exception which very often hides the real reason
+      //something failed. It would be nice to have some helper method to unwrap all exceptions and
+      //provide a concatenated string with all error messages.
+      Throwable t = ex.getCause() != null ? ex.getCause() : ex;
+      email.setServerResponse(t.getLocalizedMessage());
+      email.setServerResponseDate(System.currentTimeMillis());
+      /** If anything went wrong during delivery check if the maximum attempts have been reached
+       * and mark the email as Failed in that case.
+       */
+      if (email.getTries() >= maxTries) {
+        email.setStatus(MailService.EMAIL_STATUS.FAILED.toString());
+      }
+    }
+    em.merge(email);
+  }
 
-			List<AttachmentDTO> attachmentList = new ArrayList<>();
-			for (Attachment attachment : attachments) {
-				AttachmentDTO attachmentDTO = new AttachmentDTO();
-				attachmentDTO.setContentType(attachment.getContentType());
-				attachmentDTO.setData(attachment.getData());
-				attachmentDTO.setFilename(attachment.getFilename());
-				attachmentList.add(attachmentDTO);
-			}
-			dto.setAttachments(attachmentList);
+  public void sendOne(String emailId) {
+    send(Email.find(em, emailId));
+  }
 
-			try {
-				sender.send(dto);
+  /**
+   * Check for QUEUED emails and send them.
+   */
+  public void checkAndSendQueued() {
+    List<Email> emails = Email.findQueued(em, maxTries);
+    LOGGER.log(Level.FINEST, "Found {0} email(s) to be sent.", emails.size());
 
-				email.setStatus(MailService.EMAIL_STATUS.SENT.toString());
-			}
-			catch (Exception ex) {
-				LOGGER.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
-				if (email.getTries() >= maxTries) {
-					email.setStatus(MailService.EMAIL_STATUS.FAILED.toString());
-
-					Throwable t = ex.getCause() != null ? ex.getCause() : ex;
-					email.setServerResponse(t.getLocalizedMessage());
-					email.setServerResponseDate(System.currentTimeMillis());
-				}
-			}
-		}
-	}
-
-//	private void logTransactionalContext() {
-//		try {
-//			Transaction tx = tm.getTransaction();
-//			LOGGER.log(Level.FINEST, "Current transaction: {0}", tx);
-//		}
-//		catch (SystemException e) {
-//			LOGGER.log(Level.WARNING, "Cannot get current transaction", e);
-//		}
-//	}
+    for (Email email : emails) {
+      send(email);
+    }
+  }
 
 }

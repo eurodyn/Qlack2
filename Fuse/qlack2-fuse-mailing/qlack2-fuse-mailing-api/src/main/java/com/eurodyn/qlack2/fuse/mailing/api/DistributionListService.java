@@ -14,10 +14,10 @@
  */
 package com.eurodyn.qlack2.fuse.mailing.api;
 
-import java.util.List;
-
 import com.eurodyn.qlack2.fuse.mailing.api.dto.ContactDTO;
 import com.eurodyn.qlack2.fuse.mailing.api.dto.DistributionListDTO;
+
+import java.util.List;
 
 /**
  * Provide services to manage distribution lists.
@@ -26,19 +26,19 @@ import com.eurodyn.qlack2.fuse.mailing.api.dto.DistributionListDTO;
  */
 public interface DistributionListService {
 
-	DistributionListDTO find(Object id);
+  DistributionListDTO find(Object id);
 
-	List<DistributionListDTO> search(String name);
+  List<DistributionListDTO> search(String name);
 
-	void createDistributionList(DistributionListDTO dto);
+  void createDistributionList(DistributionListDTO dto);
 
-	void editDistributionList(DistributionListDTO dto);
+  void editDistributionList(DistributionListDTO dto);
 
-	void deleteDistributionList(String id);
+  void deleteDistributionList(String id);
 
-	String createContact(ContactDTO dto);
+  String createContact(ContactDTO dto);
 
-	void addContactToDistributionList(String distributionId, String contactId);
+  void addContactToDistributionList(String distributionId, String contactId);
 
-	void removeContactFromDistributionList(String distributionId, String contactId);
+  void removeContactFromDistributionList(String distributionId, String contactId);
 }

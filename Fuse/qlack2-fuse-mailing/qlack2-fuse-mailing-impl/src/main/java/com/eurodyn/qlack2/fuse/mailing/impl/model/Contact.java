@@ -14,9 +14,6 @@
  */
 package com.eurodyn.qlack2.fuse.mailing.impl.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,102 +23,106 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "mai_contact")
 public class Contact implements java.io.Serializable {
-	private static final long serialVersionUID = -6946929853243814803L;
 
-	@Id
-	private String id;
+  private static final long serialVersionUID = -6946929853243814803L;
 
-	@Column(name = "email", nullable = false, length = 45)
-	private String email;
+  @Id
+  private String id;
 
-	@Column(name = "first_name", length = 254)
-	private String firstName;
+  @Column(name = "email", nullable = false, length = 45)
+  private String email;
 
-	@Column(name = "last_name", length = 254)
-	private String lastName;
+  @Column(name = "first_name", length = 254)
+  private String firstName;
 
-	@Column(name = "locale", length = 5)
-	private String locale;
+  @Column(name = "last_name", length = 254)
+  private String lastName;
 
-	@Column(name = "user_id", length = 36)
-	private String userId;
+  @Column(name = "locale", length = 5)
+  private String locale;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "mai_distr_list_has_contact",
-		joinColumns = {
-			@JoinColumn(name = "contact_id", nullable = false, updatable = false)
-		},
-		inverseJoinColumns = {
-			@JoinColumn(name = "distribution_list_id", nullable = false, updatable = false)
-		}
-	)
-	private Set<DistributionList> distributionLists = new HashSet<DistributionList>(0);
+  @Column(name = "user_id", length = 36)
+  private String userId;
 
-	// -- Constructors
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(name = "mai_distr_list_has_contact",
+    joinColumns = {
+      @JoinColumn(name = "contact_id", nullable = false, updatable = false)
+    },
+    inverseJoinColumns = {
+      @JoinColumn(name = "distribution_list_id", nullable = false, updatable = false)
+    }
+  )
+  private Set<DistributionList> distributionLists = new HashSet<DistributionList>(0);
 
-	public Contact() {
-		this.id = java.util.UUID.randomUUID().toString();
-	}
+  // -- Constructors
 
-	// -- Accessors
+  public Contact() {
+    this.id = java.util.UUID.randomUUID().toString();
+  }
 
-	public String getId() {
-		return this.id;
-	}
+  // -- Accessors
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public String getId() {
+    return this.id;
+  }
 
-	public String getEmail() {
-		return this.email;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+  public String getEmail() {
+    return this.email;
+  }
 
-	public String getFirstName() {
-		return this.firstName;
-	}
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+  public String getFirstName() {
+    return this.firstName;
+  }
 
-	public String getLastName() {
-		return this.lastName;
-	}
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+  public String getLastName() {
+    return this.lastName;
+  }
 
-	public String getLocale() {
-		return this.locale;
-	}
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 
-	public void setLocale(String locale) {
-		this.locale = locale;
-	}
+  public String getLocale() {
+    return this.locale;
+  }
 
-	public String getUserId() {
-		return this.userId;
-	}
+  public void setLocale(String locale) {
+    this.locale = locale;
+  }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+  public String getUserId() {
+    return this.userId;
+  }
 
-	public Set<DistributionList> getDistributionLists() {
-		return this.distributionLists;
-	}
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
 
-	public void setDistributionLists(Set<DistributionList> distributionLists) {
-		this.distributionLists = distributionLists;
-	}
+  public Set<DistributionList> getDistributionLists() {
+    return this.distributionLists;
+  }
+
+  public void setDistributionLists(Set<DistributionList> distributionLists) {
+    this.distributionLists = distributionLists;
+  }
 
 }

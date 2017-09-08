@@ -14,10 +14,6 @@
  */
 package com.eurodyn.qlack2.fuse.mailing.impl.model;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -28,105 +24,110 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name = "mai_distribution_list")
 public class DistributionList implements java.io.Serializable {
-	private static final long serialVersionUID = 9030420428317901264L;
 
-	@Id
-	private String id;
+  private static final long serialVersionUID = 9030420428317901264L;
 
-	@Column(name = "list_name", nullable = false, length = 45)
-	private String name;
+  @Id
+  private String id;
 
-	@Column(name = "description", length = 45)
-	private String description;
+  @Column(name = "list_name", nullable = false, length = 45)
+  private String name;
 
-	@Column(name = "created_by", length = 254)
-	private String createdBy;
+  @Column(name = "description", length = 45)
+  private String description;
 
-	@Column(name = "created_on")
-	private Long createdOn;
+  @Column(name = "created_by", length = 254)
+  private String createdBy;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "mai_distr_list_has_contact",
-		joinColumns = {
-			@JoinColumn(name = "distribution_list_id", nullable = false, updatable = false)
-		},
-		inverseJoinColumns = {
-			@JoinColumn(name = "contact_id", nullable = false, updatable = false)
-		}
-	)
-	private Set<Contact> contacts = new HashSet<Contact>(0);
+  @Column(name = "created_on")
+  private Long createdOn;
 
-	// -- Constructors
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(name = "mai_distr_list_has_contact",
+    joinColumns = {
+      @JoinColumn(name = "distribution_list_id", nullable = false, updatable = false)
+    },
+    inverseJoinColumns = {
+      @JoinColumn(name = "contact_id", nullable = false, updatable = false)
+    }
+  )
+  private Set<Contact> contacts = new HashSet<Contact>(0);
 
-	public DistributionList() {
-		this.id = java.util.UUID.randomUUID().toString();
-	}
+  // -- Constructors
 
-	// -- Queries
+  public DistributionList() {
+    this.id = java.util.UUID.randomUUID().toString();
+  }
 
-	public static List<DistributionList> findAll(EntityManager em) {
-		String jpql = "SELECT dl FROM DistributionList dl";
+  // -- Queries
 
-		return em.createQuery(jpql, DistributionList.class).getResultList();
-	}
+  public static List<DistributionList> findAll(EntityManager em) {
+    String jpql = "SELECT dl FROM DistributionList dl";
 
-	public static List<DistributionList> findByName(EntityManager em, String name) {
-		String jpql = "SELECT dl FROM DistributionList dl WHERE dl.name = :name";
+    return em.createQuery(jpql, DistributionList.class).getResultList();
+  }
 
-		return em.createQuery(jpql, DistributionList.class).setParameter("name", name).getResultList();
-	}
+  public static List<DistributionList> findByName(EntityManager em, String name) {
+    String jpql = "SELECT dl FROM DistributionList dl WHERE dl.name = :name";
 
-	// -- Accessors
+    return em.createQuery(jpql, DistributionList.class).setParameter("name", name).getResultList();
+  }
 
-	public String getId() {
-		return this.id;
-	}
+  // -- Accessors
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public String getId() {
+    return this.id;
+  }
 
-	public String getName() {
-		return this.name;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  public String getName() {
+    return this.name;
+  }
 
-	public String getDescription() {
-		return this.description;
-	}
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+  public String getDescription() {
+    return this.description;
+  }
 
-	public String getCreatedBy() {
-		return this.createdBy;
-	}
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
+  public String getCreatedBy() {
+    return this.createdBy;
+  }
 
-	public Long getCreatedOn() {
-		return this.createdOn;
-	}
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
 
-	public void setCreatedOn(Long createdOn) {
-		this.createdOn = createdOn;
-	}
+  public Long getCreatedOn() {
+    return this.createdOn;
+  }
 
-	public Set<Contact> getContacts() {
-		return this.contacts;
-	}
+  public void setCreatedOn(Long createdOn) {
+    this.createdOn = createdOn;
+  }
 
-	public void setContacts(Set<Contact> contacts) {
-		this.contacts = contacts;
-	}
+  public Set<Contact> getContacts() {
+    return this.contacts;
+  }
+
+  public void setContacts(Set<Contact> contacts) {
+    this.contacts = contacts;
+  }
 
 }

@@ -20,53 +20,54 @@ package com.eurodyn.qlack2.fuse.mailing.api.dto;
  * @author European Dynamics SA.
  */
 public class InternalAttachmentDTO extends MailBaseDTO {
-	private static final long serialVersionUID = 3617360335452508288L;
 
-	private String messagesId;
-	private String filename;
-	private String contentType;
-	private byte[] data;
-	private String format;
+  private static final long serialVersionUID = 3617360335452508288L;
 
-	// -- Accessors
+  private String messagesId;
+  private String filename;
+  private String contentType;
+  private byte[] data;
+  private String format;
 
-	public String getMessagesId() {
-		return messagesId;
-	}
+  // -- Accessors
 
-	public void setMessagesId(String messagesId) {
-		this.messagesId = messagesId;
-	}
+  public String getMessagesId() {
+    return messagesId;
+  }
 
-	public String getFilename() {
-		return filename;
-	}
+  public void setMessagesId(String messagesId) {
+    this.messagesId = messagesId;
+  }
 
-	public void setFilename(String filename) {
-		this.filename = filename;
-	}
+  public String getFilename() {
+    return filename;
+  }
 
-	public String getContentType() {
-		return contentType;
-	}
+  public void setFilename(String filename) {
+    this.filename = filename;
+  }
 
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
-	}
+  public String getContentType() {
+    return contentType;
+  }
 
-	public byte[] getData() {
-		return data;
-	}
+  public void setContentType(String contentType) {
+    this.contentType = contentType;
+  }
 
-	public void setData(byte[] data) {
-		this.data = data;
-	}
+  public byte[] getData() {
+    return data;
+  }
 
-	public String getFormat() {
-		return format;
-	}
+  public void setData(byte[] data) {
+    this.data = data;
+  }
 
-	public void setFormat(String format) {
-		this.format = format;
-	}
+  public String getFormat() {
+    return format;
+  }
+
+  public void setFormat(String format) {
+    this.format = format;
+  }
 }

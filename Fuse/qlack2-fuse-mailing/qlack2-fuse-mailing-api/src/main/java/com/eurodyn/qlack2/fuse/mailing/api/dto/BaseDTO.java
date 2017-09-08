@@ -17,31 +17,31 @@ package com.eurodyn.qlack2.fuse.mailing.api.dto;
 import java.io.Serializable;
 
 public class BaseDTO extends AttributeDTO implements Serializable {
-	private static final long serialVersionUID = -5465643192637918032L;
 
-	private String id;
+  private static final long serialVersionUID = -5465643192637918032L;
 
-	/**
-	 * This user id is used to identify the user calling an action in order to
-	 * use it when generating notification messages or when this information
-	 * should be stored along with the relevant item in the db. Please note that
-	 * it should *not* be used for security checks.
-	 */
-	private String srcUserId;
+  private String id;
 
-	public String getId() {
-		return id;
-	}
+  /**
+   * This user id is used to identify the user calling an action in order to use it when generating
+   * notification messages or when this information should be stored along with the relevant item in
+   * the db. Please note that it should *not* be used for security checks.
+   */
+  private String srcUserId;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public String getId() {
+    return id;
+  }
 
-	public String getSrcUserId() {
-		return srcUserId;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public void setSrcUserId(String srcUserId) {
-		this.srcUserId = srcUserId;
-	}
+  public String getSrcUserId() {
+    return srcUserId;
+  }
+
+  public void setSrcUserId(String srcUserId) {
+    this.srcUserId = srcUserId;
+  }
 }

@@ -20,17 +20,18 @@ package com.eurodyn.qlack2.fuse.mailing.api.dto;
  * @author European Dynamics SA.
  */
 public class MailBaseDTO extends BaseDTO {
-	private static final long serialVersionUID = -1933709539623190652L;
 
-	private String id;
+  private static final long serialVersionUID = -1933709539623190652L;
 
-	@Override
-	public String getId() {
-		return id;
-	}
+  private String id;
 
-	@Override
-	public void setId(String id) {
-		this.id = id;
-	}
+  @Override
+  public String getId() {
+    return id;
+  }
+
+  @Override
+  public void setId(String id) {
+    this.id = id;
+  }
 }

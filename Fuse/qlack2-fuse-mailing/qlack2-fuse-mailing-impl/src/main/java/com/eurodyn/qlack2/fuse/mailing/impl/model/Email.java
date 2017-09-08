@@ -14,12 +14,8 @@
  */
 package com.eurodyn.qlack2.fuse.mailing.impl.model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
+import com.eurodyn.qlack2.fuse.mailing.api.MailService;
+import com.eurodyn.qlack2.fuse.mailing.api.MailService.EMAIL_STATUS;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -28,242 +24,250 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.eurodyn.qlack2.fuse.mailing.api.MailService;
-import com.eurodyn.qlack2.fuse.mailing.api.MailService.EMAIL_STATUS;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "mai_email")
 public class Email implements java.io.Serializable {
-	private static final long serialVersionUID = -7910084656626067867L;
 
-	@Id
-	private String id;
+  private static final long serialVersionUID = -7910084656626067867L;
 
-	@Column(name = "subject", length = 254)
-	private String subject;
+  @Id
+  private String id;
 
-	@Column(name = "body", length = 65535)
-	private String body;
+  @Column(name = "subject", length = 254)
+  private String subject;
 
-	@Column(name = "from_email")
-	private String fromEmail;
+  @Column(name = "body", length = 65535)
+  private String body;
 
-	@Column(name = "to_emails", length = 1024)
-	private String toEmails;
+  @Column(name = "from_email")
+  private String fromEmail;
 
-	@Column(name = "cc_emails", length = 1024)
-	private String ccEmails;
+  @Column(name = "to_emails", length = 1024)
+  private String toEmails;
 
-	@Column(name = "bcc_emails", length = 1024)
-	private String bccEmails;
-	
-	@Column(name = "reply_to_emails", length = 1024)
-	private String replyToEmails;
+  @Column(name = "cc_emails", length = 1024)
+  private String ccEmails;
 
-	@Column(name = "email_type", length = 64)
-	private String emailType;
+  @Column(name = "bcc_emails", length = 1024)
+  private String bccEmails;
 
-	@Column(name = "status", length = 32)
-	private String status;
+  @Column(name = "reply_to_emails", length = 1024)
+  private String replyToEmails;
 
-	@Column(name = "tries", nullable = false)
-	private byte tries;
+  @Column(name = "email_type", length = 64)
+  private String emailType;
 
-	@Column(name = "added_on_date", nullable = false)
-	private long addedOnDate;
+  @Column(name = "status", length = 32)
+  private String status;
 
-	@Column(name = "date_sent")
-	private Long dateSent;
+  @Column(name = "tries", nullable = false)
+  private byte tries;
 
-	@Column(name = "server_response_date")
-	private Long serverResponseDate;
+  @Column(name = "added_on_date", nullable = false)
+  private long addedOnDate;
 
-	@Column(name = "server_response", length = 1024)
-	private String serverResponse;
+  @Column(name = "date_sent")
+  private Long dateSent;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "email")
-	private Set<Attachment> attachments = new HashSet<Attachment>(0);
+  @Column(name = "server_response_date")
+  private Long serverResponseDate;
 
-	// -- Constructors
+  @Column(name = "server_response", length = 1024)
+  private String serverResponse;
 
-	public Email() {
-		this.id = java.util.UUID.randomUUID().toString();
-	}
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "email")
+  private Set<Attachment> attachments = new HashSet<Attachment>(0);
 
-	// -- Queries
+  // -- Constructors
 
-	public static List<Email> findQueued(EntityManager em, byte maxTries) {
-		String jpql =
-				"SELECT m FROM Email m " +
-				"WHERE m.status = :status AND m.tries < :tries";
+  public Email() {
+    this.id = java.util.UUID.randomUUID().toString();
+  }
 
-		return em.createQuery(jpql, Email.class)
-				.setParameter("status", MailService.EMAIL_STATUS.QUEUED.toString())
-				.setParameter("tries", maxTries)
-				.getResultList();
-	}
+  // -- Queries
+  public static Email find(EntityManager em, String id) {
+    return em.find(Email.class, id);
+  }
 
-	public static List<Email> findByDateAndStatus(EntityManager em, Long date, EMAIL_STATUS[] statuses) {
-		String select =
-				"SELECT m FROM Email m ";
+  public static List<Email> findQueued(EntityManager em, byte maxTries) {
+    String jpql =
+      "SELECT m FROM Email m " +
+        "WHERE m.status = :status AND m.tries < :tries";
 
-		List<String> predicates = new ArrayList<>(2);
-		if (date != null) {
-			predicates.add("(addedOnDate <= " + date.longValue() + ")");
-		}
-		if (statuses != null && statuses.length > 0) {
-			// open-coded join()
-			StringBuilder sb = new StringBuilder("(status IN ('");
-			sb.append(statuses[0].toString());
-			for (int i = 1; i < statuses.length; i++) {
-				sb.append("',' ").append(statuses[i].toString());
-			}
-			sb.append("'))");
-			predicates.add(sb.toString());
-		}
+    return em.createQuery(jpql, Email.class)
+      .setParameter("status", MailService.EMAIL_STATUS.QUEUED.toString())
+      .setParameter("tries", maxTries)
+      .getResultList();
+  }
 
-		// open-coded join()
-		StringBuilder sb = new StringBuilder(select);
-		Iterator<String> iter = predicates.iterator();
-		if (iter.hasNext()) {
-			sb.append(" WHERE ").append(iter.next());
-			while (iter.hasNext()) {
-				sb.append(" AND ").append(iter.next());
-			}
-		}
-		String jpql = sb.toString();
+  public static List<Email> findByDateAndStatus(EntityManager em, Long date,
+    EMAIL_STATUS... statuses) {
+    String select =
+      "SELECT m FROM Email m ";
 
-		return em.createQuery(jpql, Email.class).getResultList();
-	}
+    List<String> predicates = new ArrayList<>(2);
+    if (date != null) {
+      predicates.add("(addedOnDate <= " + date.longValue() + ")");
+    }
+    if (statuses != null && statuses.length > 0) {
+      // open-coded join()
+      StringBuilder sb = new StringBuilder("(status IN ('");
+      sb.append(statuses[0].toString());
+      for (int i = 1; i < statuses.length; i++) {
+        sb.append("',' ").append(statuses[i].toString());
+      }
+      sb.append("'))");
+      predicates.add(sb.toString());
+    }
 
-	// -- Accessors
+    // open-coded join()
+    StringBuilder sb = new StringBuilder(select);
+    Iterator<String> iter = predicates.iterator();
+    if (iter.hasNext()) {
+      sb.append(" WHERE ").append(iter.next());
+      while (iter.hasNext()) {
+        sb.append(" AND ").append(iter.next());
+      }
+    }
+    String jpql = sb.toString();
 
-	public String getId() {
-		return this.id;
-	}
+    return em.createQuery(jpql, Email.class).getResultList();
+  }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  // -- Accessors
 
-	public String getSubject() {
-		return this.subject;
-	}
+  public String getId() {
+    return this.id;
+  }
 
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public String getBody() {
-		return this.body;
-	}
+  public String getSubject() {
+    return this.subject;
+  }
 
-	public void setBody(String body) {
-		this.body = body;
-	}
+  public void setSubject(String subject) {
+    this.subject = subject;
+  }
 
-	public String getFromEmail() {
-		return this.fromEmail;
-	}
+  public String getBody() {
+    return this.body;
+  }
 
-	public void setFromEmail(String fromEmail) {
-		this.fromEmail = fromEmail;
-	}
+  public void setBody(String body) {
+    this.body = body;
+  }
 
-	public String getToEmails() {
-		return this.toEmails;
-	}
+  public String getFromEmail() {
+    return this.fromEmail;
+  }
 
-	public void setToEmails(String toEmails) {
-		this.toEmails = toEmails;
-	}
+  public void setFromEmail(String fromEmail) {
+    this.fromEmail = fromEmail;
+  }
 
-	public String getCcEmails() {
-		return this.ccEmails;
-	}
+  public String getToEmails() {
+    return this.toEmails;
+  }
 
-	public void setCcEmails(String ccEmails) {
-		this.ccEmails = ccEmails;
-	}
+  public void setToEmails(String toEmails) {
+    this.toEmails = toEmails;
+  }
 
-	public String getBccEmails() {
-		return this.bccEmails;
-	}
+  public String getCcEmails() {
+    return this.ccEmails;
+  }
 
-	public void setBccEmails(String bccEmails) {
-		this.bccEmails = bccEmails;
-	}
+  public void setCcEmails(String ccEmails) {
+    this.ccEmails = ccEmails;
+  }
 
-	public String getReplyToEmails() {
-		return replyToEmails;
-	}
+  public String getBccEmails() {
+    return this.bccEmails;
+  }
 
-	public void setReplyToEmails(String replyToEmails) {
-		this.replyToEmails = replyToEmails;
-	}
+  public void setBccEmails(String bccEmails) {
+    this.bccEmails = bccEmails;
+  }
 
-	public String getStatus() {
-		return this.status;
-	}
+  public String getReplyToEmails() {
+    return replyToEmails;
+  }
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+  public void setReplyToEmails(String replyToEmails) {
+    this.replyToEmails = replyToEmails;
+  }
 
-	public String getServerResponse() {
-		return this.serverResponse;
-	}
+  public String getStatus() {
+    return this.status;
+  }
 
-	public void setServerResponse(String serverResponse) {
-		this.serverResponse = serverResponse;
-	}
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-	public Long getServerResponseDate() {
-		return this.serverResponseDate;
-	}
+  public String getServerResponse() {
+    return this.serverResponse;
+  }
 
-	public void setServerResponseDate(Long serverResponseDate) {
-		this.serverResponseDate = serverResponseDate;
-	}
+  public void setServerResponse(String serverResponse) {
+    this.serverResponse = serverResponse;
+  }
 
-	public String getEmailType() {
-		return this.emailType;
-	}
+  public Long getServerResponseDate() {
+    return this.serverResponseDate;
+  }
 
-	public void setEmailType(String emailType) {
-		this.emailType = emailType;
-	}
+  public void setServerResponseDate(Long serverResponseDate) {
+    this.serverResponseDate = serverResponseDate;
+  }
 
-	public Long getDateSent() {
-		return this.dateSent;
-	}
+  public String getEmailType() {
+    return this.emailType;
+  }
 
-	public void setDateSent(Long dateSent) {
-		this.dateSent = dateSent;
-	}
+  public void setEmailType(String emailType) {
+    this.emailType = emailType;
+  }
 
-	public long getAddedOnDate() {
-		return this.addedOnDate;
-	}
+  public Long getDateSent() {
+    return this.dateSent;
+  }
 
-	public void setAddedOnDate(long addedOnDate) {
-		this.addedOnDate = addedOnDate;
-	}
+  public void setDateSent(Long dateSent) {
+    this.dateSent = dateSent;
+  }
 
-	public byte getTries() {
-		return this.tries;
-	}
+  public long getAddedOnDate() {
+    return this.addedOnDate;
+  }
 
-	public void setTries(byte tries) {
-		this.tries = tries;
-	}
+  public void setAddedOnDate(long addedOnDate) {
+    this.addedOnDate = addedOnDate;
+  }
 
-	public Set<Attachment> getAttachments() {
-		return this.attachments;
-	}
+  public byte getTries() {
+    return this.tries;
+  }
 
-	public void setAttachments(Set<Attachment> attachments) {
-		this.attachments = attachments;
-	}
+  public void setTries(byte tries) {
+    this.tries = tries;
+  }
+
+  public Set<Attachment> getAttachments() {
+    return this.attachments;
+  }
+
+  public void setAttachments(Set<Attachment> attachments) {
+    this.attachments = attachments;
+  }
 
 }

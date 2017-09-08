@@ -1,94 +1,86 @@
 package com.eurodyn.qlack2.fuse.mailing.impl.monitor;
 
+import com.eurodyn.qlack2.fuse.mailing.api.MailQueueMonitorClock;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import org.apache.aries.blueprint.annotation.config.ConfigProperty;
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.eurodyn.qlack2.fuse.mailing.api.MailQueueMonitorClock;
-
+@Singleton
+@OsgiServiceProvider(classes = {MailQueueMonitorClock.class})
 public class MailQueueMonitorClockImpl implements MailQueueMonitorClock, Runnable {
-	private static final Logger LOGGER =
-			Logger.getLogger(MailQueueMonitorClockImpl.class.getName());
 
-	private Thread thread;
+  /**
+   * Logger reference
+   */
+  private static final Logger LOGGER =
+    Logger.getLogger(MailQueueMonitorClockImpl.class.getName());
 
-	private boolean autostart;
-	private long interval;
+  private Thread thread;
 
-	private MailQueueMonitor monitor;
+  @ConfigProperty("${interval}")
+  private long interval;
 
-	public void setAutostart(boolean autostart) {
-		this.autostart = autostart;
-	}
+  @Inject
+  private MailQueueMonitor monitor;
 
-	public void setInterval(long interval) {
-		this.interval = interval;
-	}
+  @Override
+  @PostConstruct
+  public void start() {
+    if (thread != null) {
+      LOGGER.log(Level.FINE, "Mail queue monitor is started.");
+      return;
+    }
 
-	public void setMonitor(MailQueueMonitor monitor) {
-		this.monitor = monitor;
-	}
+    LOGGER.log(Level.FINE, "Mail queue monitor starting ...");
+    thread = new Thread(this, "Mail queue monitor thread");
+    thread.start();
+  }
 
-	public void init() {
-		if (autostart) {
-			start();
-		}
-	}
+  @Override
+  @PreDestroy
+  public void stop() {
+    if (thread == null) {
+      LOGGER.log(Level.FINE, "Mail queue monitor is stopped.");
+      return;
+    }
 
-	public void destroy() {
-		stop();
-	}
+    LOGGER.log(Level.FINE, "Mail queue monitor stopping ...");
+    thread.interrupt();
+    thread = null;
+  }
 
-	@Override
-	public synchronized void start() {
-		if (thread != null) {
-			LOGGER.log(Level.FINE, "Mail queue monitor is started.");
-			return;
-		}
+  @Override
+  public void status() {
+    LOGGER.log(Level.FINE, "Checking mail queue monitor status ...");
+    if (thread != null && thread.isAlive()) {
+      LOGGER.log(Level.FINE, "Mail queue monitor is running.");
+    } else {
+      LOGGER.log(Level.FINE, "Mail queue monitor is stopped.");
+    }
+  }
 
-		LOGGER.log(Level.FINE, "Mail queue monitor starting ...");
-		thread = new Thread(this, "Mail queue monitor thread");
-		thread.start();
-	}
+  @Override
+  public void run() {
+    try {
+      Thread current = Thread.currentThread();
+      while (!current.isInterrupted()) {
+        tick();
+        Thread.sleep(interval);
+      }
+    } catch (InterruptedException ex) {
+      LOGGER.log(Level.FINEST, "Mail queue monitor interrupted.");
+    }
+  }
 
-	@Override
-	public synchronized void stop() {
-		if (thread == null) {
-			LOGGER.log(Level.FINE, "Mail queue monitor is stopped.");
-			return;
-		}
-
-		LOGGER.log(Level.FINE, "Mail queue monitor stopping ...");
-		thread.interrupt();
-		thread = null;
-	}
-
-	@Override
-	public synchronized void status() {
-		LOGGER.log(Level.FINE, "Checking mail queue monitor status ...");
-		if (thread != null && thread.isAlive()) {
-			LOGGER.log(Level.FINE, "Mail queue monitor is running.");
-		}
-		else {
-			LOGGER.log(Level.FINE, "Mail queue monitor is stopped.");
-		}
-	}
-
-	@Override
-	public void run() {
-		try {
-			Thread current = Thread.currentThread();
-			while (!current.isInterrupted()) {
-				tick();
-				Thread.sleep(interval);
-			}
-		} catch (InterruptedException ex) {
-			LOGGER.log(Level.FINEST, "Mail queue monitor interrupted.");
-		}
-	}
-
-	private void tick() {
-		LOGGER.log(Level.FINEST, "Mail queue monitor executing ...");
-		monitor.checkAndSendQueued();
-	}
+  private void tick() {
+    LOGGER.log(Level.FINEST, "Mail queue monitor executing ...");
+    monitor.checkAndSendQueued();
+  }
 
 }
