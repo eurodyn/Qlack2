@@ -24,7 +24,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   <feature description="QLACK2 Fuse - Search IMPL" name="qlack2-fuse-search-impl" version="${project.version}">
     <feature>pax-cdi</feature>
     <feature>jackson-databind</feature>
-    <feature>qlack2-</feature>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.javax-inject/${org.apache.servicemix.bundles.javax-inject.version}</bundle>
     <bundle>mvn:org.apache.httpcomponents/httpcore-osgi/4.4.6</bundle>
