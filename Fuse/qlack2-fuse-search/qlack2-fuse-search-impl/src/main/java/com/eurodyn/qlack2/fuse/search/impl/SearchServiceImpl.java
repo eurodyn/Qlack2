@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.*;
 import org.apache.http.nio.entity.NStringEntity;
 import org.elasticsearch.client.Response;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
@@ -21,16 +22,7 @@ import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import com.eurodyn.qlack2.fuse.search.api.SearchService;
 import com.eurodyn.qlack2.fuse.search.api.dto.SearchHitDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.SearchResultDTO;
-import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryBoolean;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryBoolean.BooleanType;
-import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMatch;
-import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMultiMatch;
-import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySpec;
-import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryString;
-import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTerm;
-import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTerms;
-import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryRange;
-import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryWildcard;
 import com.eurodyn.qlack2.fuse.search.api.exception.QSearchException;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.request.InternalSearchRequest;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.response.QueryResponse;
@@ -91,11 +83,13 @@ public class SearchServiceImpl implements SearchService {
 
 		endpointBuilder.append("/_search");
 
+    QuerySort dtoSort = dto.getQuerySort();
 		InternalSearchRequest internalRequest = new InternalSearchRequest();
 		internalRequest.setFrom(dto.getStartRecord());
 		internalRequest.setSize(dto.getPageSize());
 		internalRequest.setExplain(dto.isExplain());
 		internalRequest.setQuery(buildQuery(dto));
+    internalRequest.setSort(buildSort(dtoSort));
 
 		Response response;
 		try {
@@ -263,12 +257,30 @@ public class SearchServiceImpl implements SearchService {
         .append("\" : { \"gte\" : \"")
         .append(query.getFromValue())
         .append("\" , \"lte\" : \"")
-        .append(query.getToValue())
+         .append(query.getToValue())
         .append("\" } }");
     }
-
-		return builder.append("}")
+    System.out.println(builder.toString());
+    return builder.append("}")
       .toString().replace("\"null\"","null");
+
+	//	System.out.println(builder.toString());
 	}
+
+  private String buildSort(QuerySort dto) {
+    StringBuilder builder = new StringBuilder("");
+
+    if (dto instanceof QuerySort) {
+      QuerySort sort = (QuerySort) dto;
+
+      builder.append("\"")
+        .append(sort.getField())
+        .append("\"");
+    }
+
+    System.out.println(builder.toString());
+    return builder.toString();
+
+  }
 
 }

@@ -1,5 +1,6 @@
 package com.eurodyn.qlack2.fuse.search.api.dto.queries;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,6 +36,8 @@ public abstract class QuerySpec {
 	// Whether to include ES's explain info.
 	// See: https://www.elastic.co/guide/en/elasticsearch/reference/1.7/search-explain.html
 	private boolean explain = false;
+
+	protected QuerySort querySort;
 
 	/**
 	 * Sets the indices against which the query is executed.
@@ -85,6 +88,11 @@ public abstract class QuerySpec {
 		this.explain = explain;
 		return this;
 	}
+
+	public QuerySpec setQuerySort(QuerySort querySort) {
+	  this.querySort = querySort;
+	  return this;
+  }
 
 	/**
 	 * @return the indices
@@ -152,5 +160,9 @@ public abstract class QuerySpec {
 		this.includeResults = false;
 		return this;
 	}
+
+  public QuerySort getQuerySort() {
+	  return querySort;
+  }
 
 }

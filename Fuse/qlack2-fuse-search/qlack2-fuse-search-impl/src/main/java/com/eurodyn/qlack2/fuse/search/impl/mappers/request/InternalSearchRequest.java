@@ -13,6 +13,9 @@ public class InternalSearchRequest {
 	@JsonRawValue
 	private String query;
 
+	@JsonRawValue
+  private String sort;
+
 	public int getFrom() {
 		return from;
 	}
@@ -38,10 +41,19 @@ public class InternalSearchRequest {
 	}
 
 	public String getQuery() {
-		return query;
-	}
+    return query;
+  }
 
-	public void setQuery(String query) {
-		this.query = query;
-	}
+  public void setQuery(String query) {
+    this.query = query;
+  }
+
+  public String getSort() {
+    return sort;
+  }
+
+  public void setSort(String sort) {
+    this.sort = sort;
+  }
+
 }
