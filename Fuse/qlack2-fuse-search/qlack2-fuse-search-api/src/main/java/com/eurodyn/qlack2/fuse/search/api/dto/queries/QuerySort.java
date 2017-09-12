@@ -24,7 +24,7 @@ public class QuerySort {
 	private String field;
 
 	// The value to lookup.
-	private String order = "asc";
+	private String order;
 
 	/**
 	 * A convenience method to set the term of this query.

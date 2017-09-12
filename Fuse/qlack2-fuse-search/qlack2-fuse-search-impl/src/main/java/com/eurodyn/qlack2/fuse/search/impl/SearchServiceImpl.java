@@ -260,7 +260,6 @@ public class SearchServiceImpl implements SearchService {
          .append(query.getToValue())
         .append("\" } }");
     }
-    System.out.println(builder.toString());
     return builder.append("}")
       .toString().replace("\"null\"","null");
 
@@ -268,17 +267,25 @@ public class SearchServiceImpl implements SearchService {
 	}
 
   private String buildSort(QuerySort dto) {
-    StringBuilder builder = new StringBuilder("");
+    StringBuilder builder = new StringBuilder("[");
 
     if (dto instanceof QuerySort) {
       QuerySort sort = (QuerySort) dto;
 
+      builder.append("{");
+
       builder.append("\"")
         .append(sort.getField())
-        .append("\"");
+        .append("\"")
+        .append(" : {")
+          .append("\"order\"").append(" : ").append("\"").append(sort.getOrder()).append("\"")
+        .append("}");
+
+      builder.append("}");
     }
 
-    System.out.println(builder.toString());
+    builder.append("]");
+
     return builder.toString();
 
   }
