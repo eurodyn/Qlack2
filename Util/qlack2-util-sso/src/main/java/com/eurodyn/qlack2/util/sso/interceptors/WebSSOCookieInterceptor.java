@@ -137,6 +137,18 @@ public class WebSSOCookieInterceptor extends JAXRSInInterceptor {
     return retVal;
   }
 
+  private String dumpCookie(Cookie cookie) {
+    StringBuffer retVal = new StringBuffer("Cookie ");
+    retVal.append("Name: " + cookie.getName());
+    retVal.append(", Domain: " + cookie.getDomain());
+    retVal.append(", Path: " + cookie.getPath());
+    retVal.append(", Value: " + cookie.getValue());
+    retVal.append(", Age: " + cookie.getMaxAge());
+    retVal.append(", Secure: " + cookie.getSecure());
+
+    return retVal.toString();
+  }
+
   @Override
   public void handleMessage(Message message) {
     /** Security note: Make sure this interceptor is behind your SP-filter, so that access to the
@@ -145,6 +157,10 @@ public class WebSSOCookieInterceptor extends JAXRSInInterceptor {
     HttpServletRequest request = (HttpServletRequest) message
       .get(AbstractHTTPDestination.HTTP_REQUEST);
     if (request.getCookies() != null) {
+      Arrays.stream(request.getCookies()).forEach(o -> {
+        LOGGER.log(Level.FINEST, dumpCookie(o));
+      });
+
       final List<Cookie> ssoCookies = Arrays.stream(request.getCookies())
         .filter(c -> c.getName().equals(SSOConstants.SECURITY_CONTEXT_TOKEN))
         .collect(Collectors.toList());
