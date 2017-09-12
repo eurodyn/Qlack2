@@ -88,9 +88,11 @@ public class MailQueueSender {
    * @throws EmailException Indicating an error while processing attachments.
    */
   private void setupAttachments(MultiPartEmail email,  EmailDTO vo) throws EmailException {
-    for (AttachmentDTO attachmentDTO : vo.getAttachments()) {
-      DataSource source = new ByteArrayDataSource(attachmentDTO.getData(), attachmentDTO.getContentType());
-      email.attach(source, attachmentDTO.getFilename(), attachmentDTO.getFilename());
+    if (!CollectionUtils.isEmpty(vo.getAttachments())) {
+      for (AttachmentDTO attachmentDTO : vo.getAttachments()) {
+        DataSource source = new ByteArrayDataSource(attachmentDTO.getData(), attachmentDTO.getContentType());
+        email.attach(source, attachmentDTO.getFilename(), attachmentDTO.getFilename());
+      }
     }
   }
 
