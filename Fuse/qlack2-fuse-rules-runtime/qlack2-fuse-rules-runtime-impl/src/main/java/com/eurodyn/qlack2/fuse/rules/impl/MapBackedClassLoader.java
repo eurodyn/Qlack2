@@ -21,155 +21,158 @@ import java.util.logging.Logger;
  * This just extends Christina from single to multiple classes (map) ...
  */
 public class MapBackedClassLoader extends ClassLoader {
-	private static final Logger logger = Logger.getLogger(MapBackedClassLoader.class.getName());
 
-	private static final ProtectionDomain PROTECTION_DOMAIN;
+  private static final Logger logger = Logger.getLogger(MapBackedClassLoader.class.getName());
 
-	private Map<String, byte[]> store;
+  private static final ProtectionDomain PROTECTION_DOMAIN;
 
-	static {
-		PROTECTION_DOMAIN = AccessController.doPrivileged(new PrivilegedAction<ProtectionDomain>() {
-					@Override
-					public ProtectionDomain run() {
-						return MapBackedClassLoader.class.getProtectionDomain();
-					}
-				});
-	}
+  private Map<String, byte[]> store;
 
-	public MapBackedClassLoader(ClassLoader parentClassLoader) {
-		super(parentClassLoader);
-		this.store = new HashMap<String, byte[]>();
-	}
+  static {
+    PROTECTION_DOMAIN = AccessController.doPrivileged(new PrivilegedAction<ProtectionDomain>() {
+      @Override
+      public ProtectionDomain run() {
+        return MapBackedClassLoader.class.getProtectionDomain();
+      }
+    });
+  }
 
-	public Map<String, byte[]> getStore() {
-		return this.store;
-	}
+  public MapBackedClassLoader(ClassLoader parentClassLoader) {
+    super(parentClassLoader);
+    this.store = new HashMap<String, byte[]>();
+  }
 
-	public void addResource(String className, byte[] bytes) {
-		addClass(className, bytes);
-	}
+  public Map<String, byte[]> getStore() {
+    return this.store;
+  }
 
-	public void addClass(final String className, byte[] bytes) {
-		synchronized (this.store) {
-			String path = convertResourcePathToClassName(className);
-			this.store.put(path, bytes);
-		}
-	}
+  public void addResource(String className, byte[] bytes) {
+    addClass(className, bytes);
+  }
 
-	private static String convertResourcePathToClassName(final String pName) {
-		return pName.replaceAll(".java$|.class$", "").replace('/', '.');
-	}
+  public void addClass(final String className, byte[] bytes) {
+    synchronized (this.store) {
+      String path = convertResourcePathToClassName(className);
+      this.store.put(path, bytes);
+    }
+  }
 
-	public Class<?> fastFindClass(final String name) {
-		logger.log(Level.FINE, "Loading class {0}", name);
+  private static String convertResourcePathToClassName(final String pName) {
+    return pName.replaceAll(".java$|.class$", "").replace('/', '.');
+  }
 
-		final Class<?> clazz = findLoadedClass(name);
+  public Class<?> fastFindClass(final String name) {
+    logger.log(Level.FINER, "Loading class {0}", name);
 
-		if (clazz == null) {
-			byte[] clazzBytes;
-			synchronized (this.store) {
-				clazzBytes = this.store.get(name);
-			}
+    final Class<?> clazz = findLoadedClass(name);
 
-			if (clazzBytes != null) {
-				// new class definition ...
-				return defineClass(name, clazzBytes, 0, clazzBytes.length, PROTECTION_DOMAIN);
-			}
-		}
-		return clazz;
-	}
+    if (clazz == null) {
+      byte[] clazzBytes;
+      synchronized (this.store) {
+        clazzBytes = this.store.get(name);
+      }
 
-	@Override
-	protected Class<?> findClass(final String name) throws ClassNotFoundException {
-		return fastFindClass(name);
-	}
+      if (clazzBytes != null) {
+        // new class definition ...
+        logger.log(Level.FINER, "Define class {0}", name);
+        return defineClass(name, clazzBytes, 0, clazzBytes.length, PROTECTION_DOMAIN);
+      }
+    }
+    return clazz;
+  }
 
-	@Override
-	public synchronized Class<?> loadClass(final String name, final boolean resolve) throws ClassNotFoundException {
-		Class<?> clazz = fastFindClass(name);
+  @Override
+  protected Class<?> findClass(final String name) throws ClassNotFoundException {
+    return fastFindClass(name);
+  }
 
-		if (clazz == null) {
-			ClassLoader parent = this.getParent();
-			if (parent != null) {
-				clazz = Class.forName(name, true, parent);
-			}
-		}
+  @Override
+  public synchronized Class<?> loadClass(final String name, final boolean resolve)
+    throws ClassNotFoundException {
+    Class<?> clazz = fastFindClass(name);
 
-		if (resolve) {
-			this.resolveClass(clazz);
-		}
+    if (clazz == null) {
+      ClassLoader parent = this.getParent();
+      if (parent != null) {
+        clazz = Class.forName(name, true, parent);
+      }
+    }
 
-		return clazz;
-	}
+    if (resolve) {
+      this.resolveClass(clazz);
+    }
 
-	@Override
-	public InputStream getResourceAsStream(final String name) {
-		byte[] bytes = null;
-		synchronized (this.store) {
-			String path = convertResourcePathToClassName(name);
-			bytes = this.store.get(path);
-		}
+    return clazz;
+  }
 
-		if (bytes != null) {
-			return new ByteArrayInputStream(bytes);
-		} else {
-			InputStream input = this.getParent().getResourceAsStream(name);
-			if (input == null) {
-				input = super.getResourceAsStream(name);
-			}
-			return input;
-		}
-	}
+  @Override
+  public InputStream getResourceAsStream(final String name) {
+    byte[] bytes = null;
+    synchronized (this.store) {
+      String path = convertResourcePathToClassName(name);
+      bytes = this.store.get(path);
+    }
 
-	@Override
-	public URL getResource(final String name) {
-		// override getResource for drools dialect "java" compilation
+    if (bytes != null) {
+      return new ByteArrayInputStream(bytes);
+    } else {
+      InputStream input = this.getParent().getResourceAsStream(name);
+      if (input == null) {
+        input = super.getResourceAsStream(name);
+      }
+      return input;
+    }
+  }
 
-		byte[] bytes = null;
-		synchronized (this.store) {
-			String path = convertResourcePathToClassName(name);
-			bytes = this.store.get(path);
-		}
+  @Override
+  public URL getResource(final String name) {
+    // override getResource for drools dialect "java" compilation
 
-		if (bytes != null) {
-			return createURL(name, bytes);
-		} else {
-			URL url = this.getParent().getResource(name);
-			if (url == null) {
-				url = super.getResource(name);
-			}
-			return url;
-		}
-	}
+    byte[] bytes = null;
+    synchronized (this.store) {
+      String path = convertResourcePathToClassName(name);
+      bytes = this.store.get(path);
+    }
 
-	private URL createURL(final String name, final byte[] bytes) {
+    if (bytes != null) {
+      return createURL(name, bytes);
+    } else {
+      URL url = this.getParent().getResource(name);
+      if (url == null) {
+        url = super.getResource(name);
+      }
+      return url;
+    }
+  }
 
-		URLStreamHandler handler = new URLStreamHandler() {
-			final InputStream stream = new ByteArrayInputStream(bytes);
+  private URL createURL(final String name, final byte[] bytes) {
 
-			@Override
-			protected URLConnection openConnection(URL u) throws IOException {
-				return new URLConnection(u) {
-					@Override
-					public void connect() throws IOException {
-					}
+    URLStreamHandler handler = new URLStreamHandler() {
+      final InputStream stream = new ByteArrayInputStream(bytes);
 
-					@Override
-					public InputStream getInputStream() throws IOException {
-						return stream;
-					}
-				};
-			}
-		};
+      @Override
+      protected URLConnection openConnection(URL u) throws IOException {
+        return new URLConnection(u) {
+          @Override
+          public void connect() throws IOException {
+          }
 
-		URL url = null;
-		try {
-			url = new URL("", "", 0, name, handler);
-		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
-		}
+          @Override
+          public InputStream getInputStream() throws IOException {
+            return stream;
+          }
+        };
+      }
+    };
 
-		return url;
-	}
+    URL url = null;
+    try {
+      url = new URL("", "", 0, name, handler);
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
+
+    return url;
+  }
 
 }

@@ -192,9 +192,19 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jbpm</groupId>
-			<artifactId>jbpm-workitems</artifactId>
+      <artifactId>jbpm-workitems-bpmn2</artifactId>
 			<version>${jbpm.version}</version>
 		</dependency>
+    <dependency>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-workitems-email</artifactId>
+      <version>${jbpm.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jbpm</groupId>
+      <artifactId>jbpm-workitems-rest</artifactId>
+      <version>${jbpm.version}</version>
+    </dependency>
 		<dependency>
 			<groupId>com.eurodyn.qlack2.fuse</groupId>
 			<artifactId>qlack2-fuse-auditing-api</artifactId>

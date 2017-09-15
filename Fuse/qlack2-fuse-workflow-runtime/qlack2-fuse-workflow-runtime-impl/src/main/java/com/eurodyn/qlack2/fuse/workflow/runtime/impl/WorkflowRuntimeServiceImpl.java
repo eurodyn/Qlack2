@@ -1,5 +1,16 @@
 package com.eurodyn.qlack2.fuse.workflow.runtime.impl;
 
+import com.eurodyn.qlack2.fuse.auditing.api.Constants;
+import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLogDTO;
+import com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService;
+import com.eurodyn.qlack2.fuse.workflow.runtime.api.QWorkflowRuntimeException;
+import com.eurodyn.qlack2.fuse.workflow.runtime.api.WorkflowRuntimeService;
+import com.eurodyn.qlack2.fuse.workflow.runtime.api.dto.ProcessInstanceDesc;
+import com.eurodyn.qlack2.fuse.workflow.runtime.api.dto.TaskSummary;
+import com.eurodyn.qlack2.fuse.workflow.runtime.impl.model.ProcessContent;
+import com.eurodyn.qlack2.fuse.workflow.runtime.impl.util.ConverterUtil;
+import com.eurodyn.qlack2.fuse.workflow.runtime.impl.util.JndiUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -13,14 +24,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.transaction.TransactionManager;
 import javax.transaction.TransactionSynchronizationRegistry;
 import javax.transaction.UserTransaction;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.drools.compiler.builder.impl.KnowledgeBuilderImpl;
 import org.drools.core.impl.InternalKnowledgeBase;
@@ -54,18 +63,6 @@ import org.kie.internal.builder.KnowledgeBuilder;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.io.ResourceFactory;
 import org.kie.internal.runtime.manager.context.ProcessInstanceIdContext;
-
-import com.eurodyn.qlack2.fuse.auditing.api.Constants;
-import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLogDTO;
-import com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService;
-import com.eurodyn.qlack2.fuse.workflow.runtime.api.QWorkflowRuntimeException;
-import com.eurodyn.qlack2.fuse.workflow.runtime.api.WorkflowRuntimeService;
-import com.eurodyn.qlack2.fuse.workflow.runtime.api.dto.ProcessInstanceDesc;
-import com.eurodyn.qlack2.fuse.workflow.runtime.api.dto.TaskSummary;
-import com.eurodyn.qlack2.fuse.workflow.runtime.impl.model.ProcessContent;
-import com.eurodyn.qlack2.fuse.workflow.runtime.impl.util.ConverterUtil;
-import com.eurodyn.qlack2.fuse.workflow.runtime.impl.util.JndiUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class WorkflowRuntimeServiceImpl implements WorkflowRuntimeService {
 
@@ -749,13 +746,13 @@ public class WorkflowRuntimeServiceImpl implements WorkflowRuntimeService {
 			//It is best practice to always check the hasErrors() method after an addition,
 			//you should not add more resources or get the KnowledgePackages if there are errors.
 			//getKnowledgePackages() will return an empty list if there are errors.
-			if (kbuilder.hasErrors())
-			{
-				logger.log(Level.INFO, "Printing kBuilder-errors:" + kbuilder.getErrors().toString());
-				throw new Exception(kbuilder.getErrors().toString());
-			}
-			else
-				((InternalKnowledgeBase)kbase).addPackages(((KnowledgeBuilderImpl)kbuilder).getPackages());
+      if (kbuilder.hasErrors()) {
+        logger.log(Level.INFO, "Printing kBuilder-errors:" + kbuilder.getErrors().toString());
+        throw new Exception(kbuilder.getErrors().toString());
+      } else {
+        ((InternalKnowledgeBase) kbase)
+          .addPackages(((KnowledgeBuilderImpl) kbuilder).getKnowledgePackages());
+      }
 		}
 		catch (Exception e)
 		{

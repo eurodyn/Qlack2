@@ -9,6 +9,8 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   <repository>mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/${project.version}/xml/features</repository>
   <repository>mvn:org.code-house.jackson/features/${jackson2.version}/xml/features</repository>
   <repository>mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/${project.version}/xml/features</repository>
+  <repository>mvn:org.kie/kie-karaf-features/${jbpm.version}/xml/features-core</repository>
+  <repository>mvn:org.kie/kie-karaf-features/${jbpm.version}/xml/features</repository>
 
   <!-- ***************************************************************************************** -->
   <!-- SEARCH                                                                                    -->
@@ -115,7 +117,10 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-util-repack-jpadb</feature>
     <feature>qlack2-common-util</feature>
-    <feature>qlack2-util-jbpm-runtime</feature>
+    <!--<feature>qlack2-util-jbpm-runtime</feature>-->
+    <feature version="${jbpm.version}">drools-module</feature>
+    <bundle>mvn:org.drools/drools-persistence-api/${jbpm.version}</bundle>
+    <bundle>mvn:org.drools/drools-persistence-jpa/${jbpm.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-rules-runtime-impl/${project.version}</bundle>
   </feature>
 
@@ -259,7 +264,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <configfile finalname="/etc/com.eurodyn.qlack2.fuse.workflowruntime.cfg">mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-workflow-runtime-impl/${project.version}/cfg/config-admin</configfile>
     <feature>qlack2-util-repack-jpadb</feature>
     <feature>qlack2-common-util</feature>
-    <feature>qlack2-util-jbpm-runtime</feature>
+    <!--<feature>qlack2-util-jbpm-runtime</feature>-->
     <feature version="${project.version}">qlack2-fuse-auditing</feature>
     <feature version="${project.version}">qlack2-fuse-eventpublisher</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-rules-runtime-api/${project.version}</bundle>

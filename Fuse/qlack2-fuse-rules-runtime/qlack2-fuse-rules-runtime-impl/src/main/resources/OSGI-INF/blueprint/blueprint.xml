@@ -18,9 +18,9 @@
 		<property name="utx" ref="userTransaction"/>
 		<property name="tm" ref="transactionManager"/>
 		<property name="tsr" ref="transactionSynchronizations"/>
-		<tx:transaction method="*" value="Required" />
-		<jpa:unit property="emf" unitname="org.drools.persistence.jpa" />
-		<jpa:context property="em" unitname="org.drools.persistence.jpa" />
+    <!--<tx:transaction method="*" value="Required" />-->
+    <!--<jpa:unit property="emf" unitname="org.drools.persistence.jpa" />-->
+    <!--<jpa:context property="em" unitname="org.drools.persistence.jpa" />-->
 	</bean>
 
 	<service id="RulesRuntimeService" ref="RulesRuntimeServiceImpl" auto-export="interfaces" />

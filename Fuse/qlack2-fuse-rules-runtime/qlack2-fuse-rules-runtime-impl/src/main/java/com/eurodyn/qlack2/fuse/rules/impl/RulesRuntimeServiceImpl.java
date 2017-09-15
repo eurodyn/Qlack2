@@ -1,7 +1,12 @@
 package com.eurodyn.qlack2.fuse.rules.impl;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import com.eurodyn.qlack2.fuse.rules.api.QRulesRuntimeException;
+import com.eurodyn.qlack2.fuse.rules.api.RulesRuntimeService;
+import com.eurodyn.qlack2.fuse.rules.api.StatelessExecutionResults;
+import com.eurodyn.qlack2.fuse.rules.impl.model.RuntimeBaseLibrary;
+import com.eurodyn.qlack2.fuse.rules.impl.model.RuntimeBaseState;
+import com.eurodyn.qlack2.fuse.rules.impl.model.RuntimeGlobal;
+import com.eurodyn.qlack2.fuse.rules.impl.model.RuntimeSession;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -13,22 +18,25 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.transaction.TransactionManager;
 import javax.transaction.TransactionSynchronizationRegistry;
+import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
-
 import org.drools.core.base.RuleNameEqualsAgendaFilter;
 import org.drools.core.command.runtime.rule.FireAllRulesCommand;
-import org.drools.core.common.DroolsObjectInputStream;
-import org.drools.core.common.DroolsObjectOutputStream;
 import org.drools.core.common.InternalFactHandle;
+import org.drools.core.impl.EnvironmentFactory;
+import org.drools.core.impl.KnowledgeBaseFactory;
 import org.drools.core.impl.KnowledgeBaseImpl;
+import org.drools.core.util.DroolsStreamUtils;
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
 import org.kie.api.command.Command;
+import org.kie.api.definition.KiePackage;
 import org.kie.api.io.Resource;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.Environment;
@@ -40,35 +48,28 @@ import org.kie.api.runtime.rule.FactHandle;
 import org.kie.api.runtime.rule.Match;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
-import org.kie.internal.KnowledgeBaseFactory;
 import org.kie.internal.builder.KnowledgeBuilder;
 import org.kie.internal.builder.KnowledgeBuilderConfiguration;
 import org.kie.internal.builder.KnowledgeBuilderError;
 import org.kie.internal.builder.KnowledgeBuilderErrors;
 import org.kie.internal.builder.KnowledgeBuilderFactory;
 import org.kie.internal.command.CommandFactory;
-import org.kie.internal.definition.KnowledgePackage;
 import org.kie.internal.io.ResourceFactory;
 import org.kie.internal.persistence.jpa.JPAKnowledgeService;
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 
-import com.eurodyn.qlack2.fuse.rules.api.QRulesRuntimeException;
-import com.eurodyn.qlack2.fuse.rules.api.RulesRuntimeService;
-import com.eurodyn.qlack2.fuse.rules.api.StatelessExecutionResults;
-import com.eurodyn.qlack2.fuse.rules.impl.model.RuntimeBaseLibrary;
-import com.eurodyn.qlack2.fuse.rules.impl.model.RuntimeBaseState;
-import com.eurodyn.qlack2.fuse.rules.impl.model.RuntimeGlobal;
-import com.eurodyn.qlack2.fuse.rules.impl.model.RuntimeSession;
-
+@Singleton
+@Transactional
+@OsgiServiceProvider(classes = {RulesRuntimeService.class})
 public class RulesRuntimeServiceImpl implements RulesRuntimeService {
 	private static final Logger logger = Logger.getLogger(RulesRuntimeService.class.getName());
 
 	private UserTransaction utx;
 	private TransactionManager tm;
 	private TransactionSynchronizationRegistry tsr;
-
 	private EntityManagerFactory emf;
-	private EntityManager em;
-
+  @PersistenceContext(unitName = "org.drools.persistence.jpa")
+  private EntityManager em;
 	private Environment env;
 
 	public void setUtx(UserTransaction utx) {
@@ -87,15 +88,11 @@ public class RulesRuntimeServiceImpl implements RulesRuntimeService {
 		this.emf = emf;
 	}
 
-	public void setEm(EntityManager em) {
-		this.em = em;
-	}
-
 	public void init() {
 		logger.log(Level.FINE, "Rules runtime init ...");
 
-		env = KnowledgeBaseFactory.newEnvironment();
-		env.set(EnvironmentName.TRANSACTION, utx);
+    env = EnvironmentFactory.newEnvironment();
+    env.set(EnvironmentName.TRANSACTION, utx);
 		env.set(EnvironmentName.TRANSACTION_MANAGER, tm);
 		env.set(EnvironmentName.TRANSACTION_SYNCHRONIZATION_REGISTRY, tsr);
 		env.set(EnvironmentName.ENTITY_MANAGER_FACTORY, emf);
@@ -115,7 +112,7 @@ public class RulesRuntimeServiceImpl implements RulesRuntimeService {
 			classLoaderBuilder.add(libraryBytes);
 		}
 
-		ClassLoader classLoader = classLoaderBuilder.buildClassLoader();
+    ClassLoader classLoader = classLoaderBuilder.buildClassLoader(null);
 
 		// add packages to knowledge base
 		KnowledgeBuilderConfiguration kBuilderConfiguration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(null, classLoader);
@@ -138,8 +135,8 @@ public class RulesRuntimeServiceImpl implements RulesRuntimeService {
 		KieBaseConfiguration kBaseConfiguration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
 		KieBase kbase = KnowledgeBaseFactory.newKnowledgeBase(kBaseConfiguration);
 
-		Collection<KnowledgePackage> kpackages = kbuilder.getKnowledgePackages();
-		((KnowledgeBaseImpl) kbase).addKnowledgePackages(kpackages);
+    Collection<KiePackage> kpackages = kbuilder.getKnowledgePackages();
+    ((KnowledgeBaseImpl) kbase).addPackages(kpackages);
 
 		// save classloader and knowledge base
 		String runtimeBaseId = createRuntimeBase(em, libraries, kbase);
@@ -209,7 +206,7 @@ public class RulesRuntimeServiceImpl implements RulesRuntimeService {
 			classLoaderBuilder.add(libraryBytes);
 		}
 
-		MapBackedClassLoader classLoader = classLoaderBuilder.buildClassLoader();
+    MapBackedClassLoader classLoader = classLoaderBuilder.buildClassLoader(runtimeBase.getId());
 
 		// restore compiled knowledge base
 		byte[] state = runtimeBase.getState();
@@ -219,35 +216,18 @@ public class RulesRuntimeServiceImpl implements RulesRuntimeService {
 	}
 
 	private byte[] serializeKBaseState(KieBase kbase) {
-		// XXX check stream close (inner/outer stream, success/fail path)
 		try {
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			DroolsObjectOutputStream dos = new DroolsObjectOutputStream(baos);
-
-			dos.writeObject(kbase);
-
-			byte[] state = baos.toByteArray();
-
-			dos.close();
-
-			return state;
-		}
+      return DroolsStreamUtils.streamOut(kbase);
+    }
 		catch (IOException e) {
 			throw new QRulesRuntimeException(e);
 		}
 	}
 
 	private KieBase deserializeKBaseState(byte[] state, ClassLoader classLoader) {
-		// XXX check stream close (inner/outer stream, success/fail path)
 		try {
-			ByteArrayInputStream bais = new ByteArrayInputStream(state);
-			DroolsObjectInputStream dis = new DroolsObjectInputStream(bais, classLoader);
-			KieBase kbase = (KieBase) dis.readObject();
-
-			dis.close();
-
-			return kbase;
-		}
+      return (KieBase) DroolsStreamUtils.streamIn(state, classLoader);
+    }
 		catch (IOException e) {
 			throw new QRulesRuntimeException(e);
 		}
@@ -529,10 +509,8 @@ public class RulesRuntimeServiceImpl implements RulesRuntimeService {
 			throw new QRulesRuntimeException("Unexpected handle type.");
 		}
 
-		String stringFactId = String.valueOf(factId);
-
-		return stringFactId;
-	}
+    return String.valueOf(factId);
+  }
 
 	private FactHandle getHandleFromId(KieSession ksession, String stringFactId) {
 		int factId;
@@ -627,7 +605,10 @@ public class RulesRuntimeServiceImpl implements RulesRuntimeService {
 			byte[] bytes = Utils.serializeObject(global);
 			runtimeGlobal.setState(bytes);
 		}
-	}
+
+    // in case of stateful sessions calling dispose method is REQUIRED to avoid memory leaks
+    ksession.dispose();
+  }
 
 	@Override
 	public List<Map<String, byte[]>> getQueryResults(String runtimeId, String query, List<byte[]> inputArguments) {

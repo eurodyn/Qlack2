@@ -18,7 +18,7 @@
     <module>qlack2-util-cxf-conf</module>
     <module>qlack2-util-datasource</module>
     <module>qlack2-util-hibernate-validator</module>
-    <module>qlack2-util-jbpm-runtime</module>
+    <!--<module>qlack2-util-jbpm-runtime</module>-->
     <module>qlack2-util-jbpm-util</module>
     <module>qlack2-util-jndi-alias</module>
     <module>qlack2-util-jrebel-pax-web-plugin</module>

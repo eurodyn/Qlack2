@@ -1,14 +1,13 @@
 package com.eurodyn.qlack2.fuse.workflow.runtime.aaa.bridge;
 
+import com.eurodyn.qlack2.fuse.aaa.api.UserGroupService;
+import com.eurodyn.qlack2.fuse.aaa.api.UserService;
+import com.eurodyn.qlack2.fuse.workflow.runtime.api.CustomUserGroupCallback;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.eurodyn.qlack2.fuse.aaa.api.UserService;
-import com.eurodyn.qlack2.fuse.aaa.api.UserGroupService;
-import com.eurodyn.qlack2.fuse.workflow.runtime.api.CustomUserGroupCallback;
 
 public class CustomUserGroupCallbackImpl implements CustomUserGroupCallback {
 	private static final Logger LOGGER = Logger.getLogger(CustomUserGroupCallbackImpl.class.getName());
@@ -33,8 +32,15 @@ public class CustomUserGroupCallbackImpl implements CustomUserGroupCallback {
         return groupService.getGroupByName(groupId, true)!=null;
     }
 
-    public List<String> getGroupsForUser(String userId, List<String> groupIds, List<String> allExistingGroupIds) {
-    	LOGGER.log(Level.INFO, "getGroupsForUser: UserId: " + userId);
+  @Override
+  public List<String> getGroupsForUser(String s) {
+    //TODO new in 7.3.0.Final, must be implemented
+    return null;
+  }
+
+  public List<String> getGroupsForUser(String userId, List<String> groupIds,
+    List<String> allExistingGroupIds) {
+    LOGGER.log(Level.INFO, "getGroupsForUser: UserId: " + userId);
     	List<String> list = null;
     	if (userService.getUserByName(userId)!=null)
     	{
