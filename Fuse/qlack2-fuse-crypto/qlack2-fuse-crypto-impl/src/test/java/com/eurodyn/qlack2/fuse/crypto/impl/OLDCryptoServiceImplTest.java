@@ -5,7 +5,7 @@ import org.junit.Assert;
 
 import java.nio.charset.Charset;
 
-public class CryptoServiceImplTest {
+public class OLDCryptoServiceImplTest {
 
 //  @org.junit.Test
   public void hmacSha256() throws Exception {
