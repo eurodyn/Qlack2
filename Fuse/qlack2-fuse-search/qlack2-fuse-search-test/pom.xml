@@ -52,7 +52,7 @@
     <dependency>
       <groupId>org.ops4j.pax.url</groupId>
       <artifactId>pax-url-aether</artifactId>
-      <version>${pax-url-aether.version}</version>
+      <version>${pax-url.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
