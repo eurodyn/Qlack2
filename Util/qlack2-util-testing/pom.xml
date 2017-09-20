@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>qlack2-util-parent</artifactId>
+    <groupId>com.eurodyn.qlack2.util</groupId>
+    <version>2.3.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>qlack2-util-testing</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.ops4j.pax.exam</groupId>
+      <artifactId>pax-exam</artifactId>
+      <version>${pax-exam.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.ops4j.pax.exam</groupId>
+      <artifactId>pax-exam-container-karaf</artifactId>
+      <version>${pax-exam.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.eurodyn.qlack2.util</groupId>
+      <artifactId>qlack2-util-docker</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.eurodyn.qlack2.util</groupId>
+      <artifactId>qlack2-util-networking</artifactId>
+      <version>2.3.0-SNAPSHOT</version>
+    </dependency>
+
+    <!--<dependency>-->
+      <!--<groupId>org.ops4j.pax.exam</groupId>-->
+      <!--<artifactId>pax-exam-junit4</artifactId>-->
+      <!--<version>${pax-exam.version}</version>-->
+      <!--<scope>test</scope>-->
+    <!--</dependency>-->
+
+    <!--<dependency>-->
+      <!--<groupId>junit</groupId>-->
+      <!--<artifactId>junit</artifactId>-->
+      <!--<version>${junit.version}</version>-->
+      <!--<scope>test</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.ops4j.pax.url</groupId>-->
+      <!--<artifactId>pax-url-aether</artifactId>-->
+      <!--<version>${pax-url.version}</version>-->
+      <!--<scope>test</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>org.slf4j</groupId>-->
+      <!--<artifactId>slf4j-simple</artifactId>-->
+      <!--<version>${slf4j.version}</version>-->
+      <!--<scope>test</scope>-->
+    <!--</dependency>-->
+    <!--<dependency>-->
+      <!--<groupId>com.eurodyn.qlack2.util</groupId>-->
+      <!--<artifactId>qlack2-util-avail-check-mysql</artifactId>-->
+      <!--<version>${project.version}</version>-->
+      <!--<scope>test</scope>-->
+    <!--</dependency>-->
+  </dependencies>
+
+</project>

@@ -34,6 +34,8 @@
     <module>qlack2-util-docker</module>
     <module>qlack2-util-sso</module>
     <module>qlack2-util-apache-santuario-fragment</module>
+    <module>qlack2-util-networking</module>
+    <module>qlack2-util-testing</module>
   </modules>
 
   <!-- QLACK2 versions ONLY -->
