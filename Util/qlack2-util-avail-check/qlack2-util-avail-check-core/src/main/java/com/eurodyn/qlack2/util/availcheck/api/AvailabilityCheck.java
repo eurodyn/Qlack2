@@ -17,6 +17,7 @@ public interface AvailabilityCheck {
    * available.
    * @param cycleWait The amount of time to wait between consecutive checks until the resource
    * becomes available.
+   * @param params A map with custom params to be used by the specific checker.
    *
    * @return Returns true, if the resource has become available or false otherwise.
    */

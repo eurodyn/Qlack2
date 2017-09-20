@@ -24,7 +24,7 @@
     <dependency>
       <groupId>com.github.docker-java</groupId>
       <artifactId>docker-java</artifactId>
-      <version>3.0.6</version>
+      <version>${docker-java.version}</version>
     </dependency>
   </dependencies>
 
