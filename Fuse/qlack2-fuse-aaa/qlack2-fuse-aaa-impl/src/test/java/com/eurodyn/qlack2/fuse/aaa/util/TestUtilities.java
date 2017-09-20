@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.aaa.it;
+package com.eurodyn.qlack2.fuse.aaa.util;
 
 import com.eurodyn.qlack2.fuse.aaa.api.dto.OperationDTO;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.ResourceDTO;

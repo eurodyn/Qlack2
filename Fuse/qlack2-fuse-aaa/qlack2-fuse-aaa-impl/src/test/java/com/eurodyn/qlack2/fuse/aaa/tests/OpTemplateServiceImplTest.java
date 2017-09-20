@@ -1,11 +1,13 @@
-package com.eurodyn.qlack2.fuse.aaa.it;
+package com.eurodyn.qlack2.fuse.aaa.tests;
 
+import com.eurodyn.qlack2.fuse.aaa.conf.ITTestConf;
 import com.eurodyn.qlack2.fuse.aaa.api.OpTemplateService;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.OpTemplateDTO;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.OperationDTO;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.ResourceDTO;
 import com.eurodyn.qlack2.fuse.aaa.api.OperationService;
 import com.eurodyn.qlack2.fuse.aaa.api.ResourceService;
+import com.eurodyn.qlack2.fuse.aaa.util.TestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

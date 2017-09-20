@@ -1,7 +1,15 @@
-package com.eurodyn.qlack2.fuse.aaa.it;
+package com.eurodyn.qlack2.fuse.aaa;
 
 import java.util.UUID;
 
+import com.eurodyn.qlack2.fuse.aaa.tests.AccountingServiceImplTest;
+import com.eurodyn.qlack2.fuse.aaa.tests.JSONConfigServiceImplTest;
+import com.eurodyn.qlack2.fuse.aaa.tests.OpTemplateServiceImplTest;
+import com.eurodyn.qlack2.fuse.aaa.tests.OperationServiceImplTest;
+import com.eurodyn.qlack2.fuse.aaa.tests.ResourceServiceImplTest;
+import com.eurodyn.qlack2.fuse.aaa.tests.UserGroupServiceImplTest;
+import com.eurodyn.qlack2.fuse.aaa.tests.UserServiceImplTest;
+import com.eurodyn.qlack2.fuse.aaa.tests.VerificationServiceImplTest;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;

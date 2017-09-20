@@ -1,6 +1,7 @@
-package com.eurodyn.qlack2.fuse.aaa.it;
+package com.eurodyn.qlack2.fuse.aaa;
 
 import com.eurodyn.qlack2.fuse.aaa.api.JSONConfigService;
+import com.eurodyn.qlack2.fuse.aaa.conf.ITTestConf;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;

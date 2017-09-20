@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.aaa.it;
+package com.eurodyn.qlack2.fuse.aaa;
 
 import java.util.Date;
 import java.util.*;

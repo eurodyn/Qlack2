@@ -1,5 +1,6 @@
-package com.eurodyn.qlack2.fuse.aaa.it;
+package com.eurodyn.qlack2.fuse.aaa.tests;
 
+import com.eurodyn.qlack2.fuse.aaa.conf.ITTestConf;
 import com.eurodyn.qlack2.fuse.aaa.api.OperationService;
 import com.eurodyn.qlack2.fuse.aaa.api.UserService;
 import com.eurodyn.qlack2.fuse.aaa.api.ResourceService;
@@ -10,6 +11,8 @@ import com.eurodyn.qlack2.fuse.aaa.api.dto.OpTemplateDTO;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.UserDTO;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.OperationDTO;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.GroupDTO;
+import com.eurodyn.qlack2.fuse.aaa.util.TestConst;
+import com.eurodyn.qlack2.fuse.aaa.util.TestUtilities;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;

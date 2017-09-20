@@ -1,6 +1,9 @@
-package com.eurodyn.qlack2.fuse.aaa.it;
+package com.eurodyn.qlack2.fuse.aaa;
 
 import com.eurodyn.qlack2.fuse.aaa.api.dto.*;
+import com.eurodyn.qlack2.fuse.aaa.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.aaa.util.TestConst;
+import com.eurodyn.qlack2.fuse.aaa.util.TestUtilities;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
@@ -38,14 +41,14 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void createUser(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
     }
 
     @Test
     public void updateUser(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -61,7 +64,7 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void deleteUser(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -71,7 +74,7 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void getUserById(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -80,7 +83,7 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void getUsersById(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -92,7 +95,7 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void getUsersByIdAsHash(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -104,7 +107,7 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void getUserByName(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -113,18 +116,18 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void updateUserStatus(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
-        userService.updateUserStatus(userID,TestConst.statusUpd);
+        userService.updateUserStatus(userID, com.eurodyn.qlack2.fuse.aaa.util.TestConst.statusUpd);
         UserDTO userUpdID = userService.getUserById(userID);
         Assert.assertTrue(userUpdID.getStatus() == 101 );
     }
 
     @Test
     public void getUserStatus(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -134,7 +137,7 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void isSuperadmin(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -144,7 +147,7 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void isExternal(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -154,7 +157,7 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void canAuthenticate(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -164,11 +167,11 @@ public class UserServiceImplTest extends ITTestConf {
     @Test
     public void login(){
         //creates User
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
-        SessionDTO sessionDTO = TestUtilities.createSessionDTO();
+        SessionDTO sessionDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createSessionDTO();
         sessionDTO.setUserId(userID);
         String sessionID = accountingService.createSession(sessionDTO);
         Assert.assertNotNull(sessionID);
@@ -178,12 +181,12 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void logout(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
         //create new session using accountingService
-        SessionDTO sessionDTO = TestUtilities.createSessionDTO();
+        SessionDTO sessionDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createSessionDTO();
         sessionDTO.setUserId(userID);
         String sessionID = accountingService.createSession(sessionDTO);
         Assert.assertNotNull(sessionID);
@@ -196,23 +199,23 @@ public class UserServiceImplTest extends ITTestConf {
     @Test
     public void logoutAll(){
         //user login
-        UserDTO userOneDTO = TestUtilities.createUserDTO();
+        UserDTO userOneDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userOneID = userService.createUser(userOneDTO);
         Assert.assertNotNull(userOneID);
 
         //create new session using accountingService
-        SessionDTO sessionOneDTO = TestUtilities.createSessionDTO();
+        SessionDTO sessionOneDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createSessionDTO();
         sessionOneDTO.setUserId(userOneID);
         String sessionOneID = accountingService.createSession(sessionOneDTO);
         Assert.assertNotNull(sessionOneID);
 
         //new user login
-        UserDTO userTwoDTO = TestUtilities.createUserDTO();
+        UserDTO userTwoDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userTwoID = userService.createUser(userTwoDTO);
         Assert.assertNotNull(userTwoID);
 
         //create new session using accountingService
-        SessionDTO sessionTwoDTO = TestUtilities.createSessionDTO();
+        SessionDTO sessionTwoDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createSessionDTO();
         sessionTwoDTO.setUserId(userTwoID);
         String sessionTwoID = accountingService.createSession(sessionTwoDTO);
         Assert.assertNotNull(sessionTwoID);
@@ -227,12 +230,12 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void isUserAlreadyLoggedIn(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
         //create new session using accountingService
-        SessionDTO sessionDTO = TestUtilities.createSessionDTO();
+        SessionDTO sessionDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createSessionDTO();
         sessionDTO.setUserId(userID);
         String sessionID = accountingService.createSession(sessionDTO);
         Assert.assertNotNull(sessionID);
@@ -244,7 +247,7 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void updatePassword(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -253,11 +256,11 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void belongsToGroupByName(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
-        GroupDTO groupDTO = TestUtilities.createGroupDTO();
+        GroupDTO groupDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createGroupDTO();
         String groupID = userGroupService.createGroup(groupDTO);
         Assert.assertNotNull(groupID);
 
@@ -270,10 +273,10 @@ public class UserServiceImplTest extends ITTestConf {
         String userID = UUID.randomUUID().toString();
         userDTO.setId(userID);
 
-        userDTO.setExternal(TestConst.USER_EXTERNAL);
-        userDTO.setPassword(TestConst.USER_PASSWORD);
-        userDTO.setSuperadmin(TestConst.USER_SUPERADMIN);
-        userDTO.setUsername(TestConst.generateRandomString());
+        userDTO.setExternal(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_EXTERNAL);
+        userDTO.setPassword(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_PASSWORD);
+        userDTO.setSuperadmin(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_SUPERADMIN);
+        userDTO.setUsername(com.eurodyn.qlack2.fuse.aaa.util.TestConst.generateRandomString());
         String userUpdAttrID = userService.createUser(userDTO);
         Assert.assertNotNull(userService.getUserById(userUpdAttrID));
 
@@ -282,7 +285,7 @@ public class UserServiceImplTest extends ITTestConf {
         //set AttributeDTO
         UserAttributeDTO userAttrDTO = new UserAttributeDTO();
         userAttrDTO.setId(UUID.randomUUID().toString());
-        userAttrDTO.setName(TestConst.generateRandomString());
+        userAttrDTO.setName(com.eurodyn.qlack2.fuse.aaa.util.TestConst.generateRandomString());
         userAttrDTO.setUserId(userID);
 
         userDTOtoUpd.setAttribute(userAttrDTO);
@@ -297,10 +300,10 @@ public class UserServiceImplTest extends ITTestConf {
         String userId = UUID.randomUUID().toString();
         userDTO.setId(userId);
 
-        userDTO.setExternal(TestConst.USER_EXTERNAL);
-        userDTO.setPassword(TestConst.USER_PASSWORD);
-        userDTO.setSuperadmin(TestConst.USER_SUPERADMIN);
-        userDTO.setUsername(TestConst.generateRandomString());
+        userDTO.setExternal(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_EXTERNAL);
+        userDTO.setPassword(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_PASSWORD);
+        userDTO.setSuperadmin(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_SUPERADMIN);
+        userDTO.setUsername(com.eurodyn.qlack2.fuse.aaa.util.TestConst.generateRandomString());
         String userUpdAttrsID = userService.createUser(userDTO);
         Assert.assertNotNull(userService.getUserById(userUpdAttrsID));
 
@@ -309,7 +312,7 @@ public class UserServiceImplTest extends ITTestConf {
         //set AttributeDTO
         UserAttributeDTO userAttrDTO = new UserAttributeDTO();
         userAttrDTO.setId(UUID.randomUUID().toString());
-        userAttrDTO.setName(TestConst.generateRandomString());
+        userAttrDTO.setName(com.eurodyn.qlack2.fuse.aaa.util.TestConst.generateRandomString());
         userAttrDTO.setUserId(userId);
 
         //list of attributes
@@ -325,7 +328,7 @@ public class UserServiceImplTest extends ITTestConf {
 
     @Test
     public void findUsers(){
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -360,10 +363,10 @@ public class UserServiceImplTest extends ITTestConf {
         userDTO.setId(userId);
 
         //userUpdAttrDTO.setAttribute(userAttrUpdAttrDTO);
-        userDTO.setExternal(TestConst.USER_EXTERNAL);
-        userDTO.setPassword(TestConst.USER_PASSWORD);
-        userDTO.setSuperadmin(TestConst.USER_SUPERADMIN);
-        userDTO.setUsername(TestConst.generateRandomString());
+        userDTO.setExternal(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_EXTERNAL);
+        userDTO.setPassword(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_PASSWORD);
+        userDTO.setSuperadmin(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_SUPERADMIN);
+        userDTO.setUsername(com.eurodyn.qlack2.fuse.aaa.util.TestConst.generateRandomString());
         String userUpdAttrID = userService.createUser(userDTO);
         Assert.assertNotNull(userService.getUserById(userUpdAttrID));
 

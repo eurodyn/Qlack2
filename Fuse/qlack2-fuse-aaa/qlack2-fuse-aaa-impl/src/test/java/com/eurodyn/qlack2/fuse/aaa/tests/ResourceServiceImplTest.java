@@ -1,6 +1,8 @@
-package com.eurodyn.qlack2.fuse.aaa.it;
+package com.eurodyn.qlack2.fuse.aaa.tests;
 
+import com.eurodyn.qlack2.fuse.aaa.conf.ITTestConf;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.ResourceDTO;
+import com.eurodyn.qlack2.fuse.aaa.util.TestUtilities;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
@@ -19,7 +21,7 @@ import java.util.ArrayList;
  */
 @RunWith(PaxExam.class)
 @ExamReactorStrategy(PerSuite.class)
-public class ResourceServiceImplTest extends ITTestConf  {
+public class ResourceServiceImplTest extends ITTestConf {
 
     @Inject
     @Filter(timeout = 1200000)

@@ -1,6 +1,8 @@
-package com.eurodyn.qlack2.fuse.aaa.it;
+package com.eurodyn.qlack2.fuse.aaa.tests;
 
+import com.eurodyn.qlack2.fuse.aaa.conf.ITTestConf;
 import com.eurodyn.qlack2.fuse.aaa.api.VerificationService;
+import com.eurodyn.qlack2.fuse.aaa.util.TestConst;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

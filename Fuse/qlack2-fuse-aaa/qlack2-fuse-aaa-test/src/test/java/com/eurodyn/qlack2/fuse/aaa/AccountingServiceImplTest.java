@@ -1,8 +1,11 @@
-package com.eurodyn.qlack2.fuse.aaa.it;
+package com.eurodyn.qlack2.fuse.aaa;
 
 import com.eurodyn.qlack2.fuse.aaa.api.AccountingService;
 import com.eurodyn.qlack2.fuse.aaa.api.UserService;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.*;
+import com.eurodyn.qlack2.fuse.aaa.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.aaa.util.TestConst;
+import com.eurodyn.qlack2.fuse.aaa.util.TestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +38,7 @@ public class AccountingServiceImplTest extends ITTestConf {
     @Test
     public void createSession(){
         //creates new user
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -43,9 +46,9 @@ public class AccountingServiceImplTest extends ITTestConf {
         SessionDTO sessionDTO = new SessionDTO();
         sessionDTO.setId(UUID.randomUUID().toString());
         sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
-        sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+        sessionDTO.setTerminatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_TERMINATED_ON);
         sessionDTO.setUserId(userID);
-        sessionDTO.setCreatedOn(TestConst.DATE_CREATED_ON);
+        sessionDTO.setCreatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_CREATED_ON);
 
         String crtSession = accountingService.createSession(sessionDTO);
         Assert.assertNotNull(crtSession);
@@ -54,14 +57,14 @@ public class AccountingServiceImplTest extends ITTestConf {
     @Test
     public void terminateSession() {
         //creates userDTO to assign in sessionDTO
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
         SessionDTO sessionDTO = new SessionDTO();
         sessionDTO.setId(UUID.randomUUID().toString());
         sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
-        sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+        sessionDTO.setTerminatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_TERMINATED_ON);
         sessionDTO.setUserId(userID);
         sessionDTO.setCreatedOn(0);
 
@@ -79,7 +82,7 @@ public class AccountingServiceImplTest extends ITTestConf {
     @Test
     public void getSession(){
         //creates new user
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -87,9 +90,9 @@ public class AccountingServiceImplTest extends ITTestConf {
         SessionDTO sessionDTO = new SessionDTO();
         sessionDTO.setId(UUID.randomUUID().toString());
         sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
-        sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+        sessionDTO.setTerminatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_TERMINATED_ON);
         sessionDTO.setUserId(userID);
-        sessionDTO.setCreatedOn(TestConst.DATE_CREATED_ON);
+        sessionDTO.setCreatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_CREATED_ON);
         String crtSessionID = accountingService.createSession(sessionDTO);
         Assert.assertNotNull(crtSessionID);
 
@@ -99,7 +102,7 @@ public class AccountingServiceImplTest extends ITTestConf {
     @Test
     public void getSessionDuration(){
         //creates user
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -107,9 +110,9 @@ public class AccountingServiceImplTest extends ITTestConf {
         SessionDTO sessionDTO = new SessionDTO();
         sessionDTO.setId(UUID.randomUUID().toString());
         sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
-        sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+        sessionDTO.setTerminatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_TERMINATED_ON);
         sessionDTO.setUserId(userID);
-        sessionDTO.setCreatedOn(TestConst.DATE_CREATED_ON);
+        sessionDTO.setCreatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_CREATED_ON);
         String crtSessionID = accountingService.createSession(sessionDTO);
         Assert.assertNotNull(crtSessionID);
 
@@ -124,7 +127,7 @@ public class AccountingServiceImplTest extends ITTestConf {
     @Test
     public void getUserLastLogIn(){
         //creates user
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -132,9 +135,9 @@ public class AccountingServiceImplTest extends ITTestConf {
         SessionDTO sessionDTO = new SessionDTO();
         sessionDTO.setId(UUID.randomUUID().toString());
         sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
-        sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+        sessionDTO.setTerminatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_TERMINATED_ON);
         sessionDTO.setUserId(userID);
-        sessionDTO.setCreatedOn(TestConst.DATE_CREATED_ON);
+        sessionDTO.setCreatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_CREATED_ON);
         String crtSessionID = accountingService.createSession(sessionDTO);
         Assert.assertNotNull(crtSessionID);
 
@@ -146,7 +149,7 @@ public class AccountingServiceImplTest extends ITTestConf {
     @Test
     public void getUserLastLogOut(){
         //creates user
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -154,9 +157,9 @@ public class AccountingServiceImplTest extends ITTestConf {
         SessionDTO sessionDTO = new SessionDTO();
         sessionDTO.setId(UUID.randomUUID().toString());
         sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
-        sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+        sessionDTO.setTerminatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_TERMINATED_ON);
         sessionDTO.setUserId(userID);
-        sessionDTO.setCreatedOn(TestConst.DATE_CREATED_ON);
+        sessionDTO.setCreatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_CREATED_ON);
         String sesUserGetLstLog = accountingService.createSession(sessionDTO);
         Assert.assertNotNull(sesUserGetLstLog);
 
@@ -168,7 +171,7 @@ public class AccountingServiceImplTest extends ITTestConf {
     @Test
     public void getUserLastLogInDuration(){
         //creates user
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -176,9 +179,9 @@ public class AccountingServiceImplTest extends ITTestConf {
         SessionDTO sessionDTO = new SessionDTO();
         sessionDTO.setId(UUID.randomUUID().toString());
         sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
-        sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+        sessionDTO.setTerminatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_TERMINATED_ON);
         sessionDTO.setUserId(userID);
-        sessionDTO.setCreatedOn(TestConst.DATE_CREATED_ON);
+        sessionDTO.setCreatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_CREATED_ON);
         String sesUserGetInDur = accountingService.createSession(sessionDTO);
         Assert.assertNotNull(sesUserGetInDur);
 
@@ -192,7 +195,7 @@ public class AccountingServiceImplTest extends ITTestConf {
     @Test
     public void getNoOfTimesUserLoggedIn(){
         //creates user
-        UserDTO userDTO = TestUtilities.createUserDTO();
+        UserDTO userDTO = com.eurodyn.qlack2.fuse.aaa.util.TestUtilities.createUserDTO();
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -200,9 +203,9 @@ public class AccountingServiceImplTest extends ITTestConf {
         SessionDTO sessionDTO = new SessionDTO();
         sessionDTO.setId(UUID.randomUUID().toString());
         sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
-        sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+        sessionDTO.setTerminatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_TERMINATED_ON);
         sessionDTO.setUserId(userID);
-        sessionDTO.setCreatedOn(TestConst.DATE_CREATED_ON);
+        sessionDTO.setCreatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_CREATED_ON);
         String crtSessionID = accountingService.createSession(sessionDTO);
         Assert.assertNotNull(crtSessionID);
 
@@ -221,9 +224,9 @@ public class AccountingServiceImplTest extends ITTestConf {
         SessionDTO sessionDTO = new SessionDTO();
         sessionDTO.setId(UUID.randomUUID().toString());
         sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
-        sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+        sessionDTO.setTerminatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_TERMINATED_ON);
         sessionDTO.setUserId(userID);
-        sessionDTO.setCreatedOn(TestConst.DATE_CREATED_ON);
+        sessionDTO.setCreatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_CREATED_ON);
         String crtSessionID = accountingService.createSession(sessionDTO);
         Assert.assertNotNull(crtSessionID);
 
@@ -239,10 +242,10 @@ public class AccountingServiceImplTest extends ITTestConf {
         //creates User
         UserDTO userDTO = new UserDTO();
         userDTO.setId(UUID.randomUUID().toString());
-        userDTO.setExternal(TestConst.USER_EXTERNAL);
-        userDTO.setPassword(TestConst.USER_PASSWORD);
-        userDTO.setSuperadmin(TestConst.USER_SUPERADMIN);
-        userDTO.setUsername(TestConst.generateRandomString());
+        userDTO.setExternal(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_EXTERNAL);
+        userDTO.setPassword(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_PASSWORD);
+        userDTO.setSuperadmin(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_SUPERADMIN);
+        userDTO.setUsername(com.eurodyn.qlack2.fuse.aaa.util.TestConst.generateRandomString());
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -251,7 +254,7 @@ public class AccountingServiceImplTest extends ITTestConf {
         sessionDTO.setId(UUID.randomUUID().toString());
         sessionDTO.setUserId(userID);
         sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
-        sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+        sessionDTO.setTerminatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_TERMINATED_ON);
         String sessionID = accountingService.createSession(sessionDTO);
 
         //creates SessionAttribute
@@ -260,7 +263,7 @@ public class AccountingServiceImplTest extends ITTestConf {
         sessionAttributeDTO.setSessionId(sessionID);
         sessionAttributeDTO.setName("attr");
         sessionAttributeDTO.setId(UUID.randomUUID().toString());
-        sessionAttributeDTO.setValue(TestConst.SESSION_ATTRIBUTE_VALUE);
+        sessionAttributeDTO.setValue(com.eurodyn.qlack2.fuse.aaa.util.TestConst.SESSION_ATTRIBUTE_VALUE);
 
         Set<SessionAttributeDTO> attrsDTO = new HashSet();
         attrsDTO.add(sessionAttributeDTO);
@@ -269,7 +272,7 @@ public class AccountingServiceImplTest extends ITTestConf {
         SessionDTO sessionUpdDTO = accountingService.getSession(sessionID);
         sessionUpdDTO.setAttributes(attrsDTO);
         sessionUpdDTO.setUserId(userID);
-        sessionUpdDTO.setCreatedOn(TestConst.DATE_CREATED_ON);
+        sessionUpdDTO.setCreatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_CREATED_ON);
         Assert.assertNotNull(sessionUpdDTO);
 
         //check if Attribute exist: expected:Null
@@ -287,10 +290,10 @@ public class AccountingServiceImplTest extends ITTestConf {
         //create User
         UserDTO userDTO = new UserDTO();
         userDTO.setId(UUID.randomUUID().toString());
-        userDTO.setExternal(TestConst.USER_EXTERNAL);
-        userDTO.setPassword(TestConst.USER_PASSWORD);
-        userDTO.setSuperadmin(TestConst.USER_SUPERADMIN);
-        userDTO.setUsername(TestConst.generateRandomString());
+        userDTO.setExternal(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_EXTERNAL);
+        userDTO.setPassword(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_PASSWORD);
+        userDTO.setSuperadmin(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_SUPERADMIN);
+        userDTO.setUsername(com.eurodyn.qlack2.fuse.aaa.util.TestConst.generateRandomString());
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -299,7 +302,7 @@ public class AccountingServiceImplTest extends ITTestConf {
         sessionDTO.setId(UUID.randomUUID().toString());
         sessionDTO.setUserId(userID);
         sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
-        sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+        sessionDTO.setTerminatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_TERMINATED_ON);
         String crtSessionID = accountingService.createSession(sessionDTO);
 
         //set SessionAttribute
@@ -308,7 +311,7 @@ public class AccountingServiceImplTest extends ITTestConf {
         sessionAttrDTO.setSessionId(crtSessionID);
         sessionAttrDTO.setName("attr");
         sessionAttrDTO.setId(UUID.randomUUID().toString());
-        sessionAttrDTO.setValue(TestConst.SESSION_ATTRIBUTE_VALUE);
+        sessionAttrDTO.setValue(com.eurodyn.qlack2.fuse.aaa.util.TestConst.SESSION_ATTRIBUTE_VALUE);
 
         Set<SessionAttributeDTO> sessionAttrs = new HashSet();
         sessionAttrs.add(sessionAttrDTO);
@@ -317,7 +320,7 @@ public class AccountingServiceImplTest extends ITTestConf {
         SessionDTO sessionUpdDTO = accountingService.getSession(crtSessionID);
         sessionUpdDTO.setAttributes(sessionAttrs);
         sessionUpdDTO.setUserId(userID);
-        sessionUpdDTO.setCreatedOn(TestConst.DATE_CREATED_ON);
+        sessionUpdDTO.setCreatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_CREATED_ON);
         Assert.assertNotNull(sessionUpdDTO);
 
         //check if Attribute exist: expected:Null
@@ -339,10 +342,10 @@ public class AccountingServiceImplTest extends ITTestConf {
         //creates user
         UserDTO userDTO = new UserDTO();
         userDTO.setId(UUID.randomUUID().toString());
-        userDTO.setExternal(TestConst.USER_EXTERNAL);
-        userDTO.setPassword(TestConst.USER_PASSWORD);
-        userDTO.setSuperadmin(TestConst.USER_SUPERADMIN);
-        userDTO.setUsername(TestConst.generateRandomString());
+        userDTO.setExternal(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_EXTERNAL);
+        userDTO.setPassword(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_PASSWORD);
+        userDTO.setSuperadmin(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_SUPERADMIN);
+        userDTO.setUsername(com.eurodyn.qlack2.fuse.aaa.util.TestConst.generateRandomString());
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -351,7 +354,7 @@ public class AccountingServiceImplTest extends ITTestConf {
         sessionDTO.setId(UUID.randomUUID().toString());
         sessionDTO.setUserId(userID);
         sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
-        sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+        sessionDTO.setTerminatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_TERMINATED_ON);
         String sessionID = accountingService.createSession(sessionDTO);
 
         //set SessionAttribute
@@ -360,7 +363,7 @@ public class AccountingServiceImplTest extends ITTestConf {
         sessionAttributeDTO.setSessionId(sessionID);
         sessionAttributeDTO.setName("attr");
         sessionAttributeDTO.setId(UUID.randomUUID().toString());
-        sessionAttributeDTO.setValue(TestConst.SESSION_ATTRIBUTE_VALUE);
+        sessionAttributeDTO.setValue(com.eurodyn.qlack2.fuse.aaa.util.TestConst.SESSION_ATTRIBUTE_VALUE);
 
         Set<SessionAttributeDTO> sessAttrs = new HashSet();
         sessAttrs.add(sessionAttributeDTO);
@@ -369,7 +372,7 @@ public class AccountingServiceImplTest extends ITTestConf {
         SessionDTO sessionUpdDTO = accountingService.getSession(sessionID);
         sessionUpdDTO.setAttributes(sessAttrs);
         sessionUpdDTO.setUserId(userID);
-        sessionUpdDTO.setCreatedOn(TestConst.DATE_CREATED_ON);
+        sessionUpdDTO.setCreatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_CREATED_ON);
         Assert.assertNotNull(sessionUpdDTO);
 
         //check if Attribute exist: expected:Null
@@ -390,10 +393,10 @@ public class AccountingServiceImplTest extends ITTestConf {
         //creates User
         UserDTO userDTO = new UserDTO();
         userDTO.setId(UUID.randomUUID().toString());
-        userDTO.setExternal(TestConst.USER_EXTERNAL);
-        userDTO.setPassword(TestConst.USER_PASSWORD);
-        userDTO.setSuperadmin(TestConst.USER_SUPERADMIN);
-        userDTO.setUsername(TestConst.generateRandomString());
+        userDTO.setExternal(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_EXTERNAL);
+        userDTO.setPassword(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_PASSWORD);
+        userDTO.setSuperadmin(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_SUPERADMIN);
+        userDTO.setUsername(com.eurodyn.qlack2.fuse.aaa.util.TestConst.generateRandomString());
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -402,7 +405,7 @@ public class AccountingServiceImplTest extends ITTestConf {
         sessionDTO.setId(UUID.randomUUID().toString());
         sessionDTO.setUserId(userID);
         sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
-        sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+        sessionDTO.setTerminatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_TERMINATED_ON);
         String sessionID = accountingService.createSession(sessionDTO);
 
         //sets SessionAttribute
@@ -411,7 +414,7 @@ public class AccountingServiceImplTest extends ITTestConf {
         sessionAttributeDTO.setSessionId(sessionID);
         sessionAttributeDTO.setName("attr");
         sessionAttributeDTO.setId(UUID.randomUUID().toString());
-        sessionAttributeDTO.setValue(TestConst.SESSION_ATTRIBUTE_VALUE);
+        sessionAttributeDTO.setValue(com.eurodyn.qlack2.fuse.aaa.util.TestConst.SESSION_ATTRIBUTE_VALUE);
 
         Set<SessionAttributeDTO> sessAtts = new HashSet();
         sessAtts.add(sessionAttributeDTO);
@@ -419,7 +422,7 @@ public class AccountingServiceImplTest extends ITTestConf {
         SessionDTO sessionUpdDTO = accountingService.getSession(sessionID);
         sessionUpdDTO.setAttributes(sessAtts);
         sessionUpdDTO.setUserId(userID);
-        sessionUpdDTO.setCreatedOn(TestConst.DATE_CREATED_ON);
+        sessionUpdDTO.setCreatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_CREATED_ON);
         Assert.assertNotNull(sessionUpdDTO);
 
         //check if Attribute exist: expected:Null
@@ -437,10 +440,10 @@ public class AccountingServiceImplTest extends ITTestConf {
         //creates User
         UserDTO userDTO = new UserDTO();
         userDTO.setId(UUID.randomUUID().toString());
-        userDTO.setExternal(TestConst.USER_EXTERNAL);
-        userDTO.setPassword(TestConst.USER_PASSWORD);
-        userDTO.setSuperadmin(TestConst.USER_SUPERADMIN);
-        userDTO.setUsername(TestConst.generateRandomString());
+        userDTO.setExternal(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_EXTERNAL);
+        userDTO.setPassword(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_PASSWORD);
+        userDTO.setSuperadmin(com.eurodyn.qlack2.fuse.aaa.util.TestConst.USER_SUPERADMIN);
+        userDTO.setUsername(com.eurodyn.qlack2.fuse.aaa.util.TestConst.generateRandomString());
         String userID = userService.createUser(userDTO);
         Assert.assertNotNull(userID);
 
@@ -449,7 +452,7 @@ public class AccountingServiceImplTest extends ITTestConf {
         sessionDTO.setId(UUID.randomUUID().toString());
         sessionDTO.setUserId(userID);
         sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
-        sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+        sessionDTO.setTerminatedOn(com.eurodyn.qlack2.fuse.aaa.util.TestConst.DATE_TERMINATED_ON);
         String sessionID = accountingService.createSession(sessionDTO);
 
         //creates SessionAttribute
@@ -458,7 +461,7 @@ public class AccountingServiceImplTest extends ITTestConf {
         sessionAttributeDTO.setSessionId(sessionID);
         sessionAttributeDTO.setName("attr");
         sessionAttributeDTO.setId(UUID.randomUUID().toString());
-        sessionAttributeDTO.setValue(TestConst.SESSION_ATTRIBUTE_VALUE);
+        sessionAttributeDTO.setValue(com.eurodyn.qlack2.fuse.aaa.util.TestConst.SESSION_ATTRIBUTE_VALUE);
 
         Set<SessionAttributeDTO> list = new HashSet();
         list.add(sessionAttributeDTO);

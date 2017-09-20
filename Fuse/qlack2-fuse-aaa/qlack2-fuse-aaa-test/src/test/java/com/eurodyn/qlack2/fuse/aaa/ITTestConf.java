@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.aaa.it;
+package com.eurodyn.qlack2.fuse.aaa;
 
 import com.eurodyn.qlack2.fuse.aaa.TestUtil;
 import org.ops4j.pax.exam.Configuration;
