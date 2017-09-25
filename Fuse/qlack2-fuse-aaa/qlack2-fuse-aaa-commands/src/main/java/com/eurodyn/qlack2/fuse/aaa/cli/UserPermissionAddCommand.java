@@ -12,7 +12,7 @@
 * See the Licence for the specific language governing permissions and
 * limitations under the Licence.
 */
-package com.eurodyn.qlack2.fuse.aaa.commands;
+package com.eurodyn.qlack2.fuse.aaa.cli;
 
 import org.apache.karaf.shell.api.action.Action;
 import org.apache.karaf.shell.api.action.Argument;

@@ -12,11 +12,9 @@
  * See the Licence for the specific language governing permissions and
  * limitations under the Licence.
  */
-package com.eurodyn.qlack2.fuse.aaa.commands;
+package com.eurodyn.qlack2.fuse.aaa.cli;
 
-import java.net.URL;
-import java.util.Enumeration;
-
+import com.eurodyn.qlack2.fuse.aaa.api.JSONConfigService;
 import org.apache.karaf.shell.api.action.Action;
 import org.apache.karaf.shell.api.action.Command;
 import org.apache.karaf.shell.api.action.lifecycle.Reference;
@@ -24,7 +22,8 @@ import org.apache.karaf.shell.api.action.lifecycle.Service;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
-import com.eurodyn.qlack2.fuse.aaa.api.JSONConfigService;
+import java.net.URL;
+import java.util.Enumeration;
 
 @Command(scope = "qlack", name = "aaa-update-permission-config", description = "Checks bundles for permissions configurations and parses them.")
 @Service
