@@ -1,6 +1,7 @@
 package com.eurodyn.qlack2.fuse.crypto.impl;
 
 import static org.ops4j.pax.exam.CoreOptions.maven;
+import static org.ops4j.pax.exam.CoreOptions.url;
 import static org.ops4j.pax.exam.CoreOptions.when;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.configureConsole;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.editConfigurationFilePut;
@@ -28,12 +29,12 @@ public abstract class ITTestConf {
   private static Option addCodeCoverageOption() {
     String coverageCommand = System.getenv(COVERAGE_COMMAND);
     if (coverageCommand != null) {
-      System.out.println("**************************************************************");
       LOGGER.log(Level.INFO, "Setting coverage command to: " + coverageCommand);
       return CoreOptions.vmOption(coverageCommand);
     }
     return null;
   }
+
   @Configuration
   public static Option[] config() {
 
@@ -81,8 +82,8 @@ public abstract class ITTestConf {
       addCodeCoverageOption(),
       features(karafStandardFeaturesUrl, "wrap"),
       features(projectFeaturesRepo, "qlack2-fuse-crypto-deps"),
-      CoreOptions.url("file:../../../../qlack2-fuse-crypto-api/target/qlack2-fuse-crypto-api-" + TestUtil.projectVersion() + ".jar"),
-      CoreOptions.url("file:../../qlack2-fuse-crypto-impl-" + TestUtil.projectVersion() + ".jar"),
+      url("file:../../../../qlack2-fuse-crypto-api/target/qlack2-fuse-crypto-api-" + TestUtil.projectVersion() + ".jar"),
+      url("file:../../qlack2-fuse-crypto-impl-" + TestUtil.projectVersion() + ".jar"),
     };
   }
 }

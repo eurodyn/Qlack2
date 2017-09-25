@@ -25,9 +25,10 @@
         </configuration>
       </plugin>
 
+      <!-- Testing -->
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.20.1</version>
+        <version>${maven-failsafe-plugin.version}</version>
         <executions>
           <execution>
             <goals>
@@ -35,11 +36,6 @@
               <goal>verify</goal>
             </goals>
             <configuration>
-              <additionalClasspathElements>
-                <additionalClasspathElement>${project.build.directory}/links</additionalClasspathElement>
-                <additionalClasspathElement>${project.build.directory}/links/com.eurodyn.qlack2.fuse.qlack2-fuse-crypto-api.link</additionalClasspathElement>
-                <additionalClasspathElement>${project.build.directory}/links/com.eurodyn.qlack2.fuse.qlack2-fuse-crypto-impl.link</additionalClasspathElement>
-              </additionalClasspathElements>
               <systemPropertyVariables>
                 <pax.exam.karaf.version>${karaf.version}</pax.exam.karaf.version>
                 <project.version>${project.version}</project.version>
@@ -59,7 +55,7 @@
 
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.20.1</version>
+        <version>${maven-surefire-plugin.version}</version>
         <configuration>
           <skip>true</skip>
         </configuration>
@@ -68,7 +64,7 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.7.9</version>
+        <version>${jacoco-maven-plugin.version}</version>
         <executions>
           <execution>
             <id>prepare-agent</id>
@@ -108,25 +104,25 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.12</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.ops4j.pax.exam</groupId>
       <artifactId>pax-exam-junit4</artifactId>
-      <version>4.11.0</version>
+      <version>${pax-exam.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.ops4j.pax.exam</groupId>
       <artifactId>pax-exam-container-karaf</artifactId>
-      <version>4.11.0</version>
+      <version>${pax-exam.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.ops4j.pax.url</groupId>
       <artifactId>pax-url-aether</artifactId>
-      <version>2.5.2</version>
+      <version>${pax-url.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
