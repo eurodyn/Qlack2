@@ -14,13 +14,6 @@
 */
 package com.eurodyn.qlack2.fuse.aaa.impl.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -31,236 +24,244 @@ import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
 
 /**
  * The persistent class for the aaa_user database table.
- *
  */
 @Entity
-@Table(name="aaa_user")
+@Table(name = "aaa_user")
 public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
 
-	@Id
-	private String id;
+  private static final long serialVersionUID = 1L;
 
-	@Version
-	private long dbversion;
+  @Id
+  private String id;
 
-	@Column(name="pswd")
-	private String password;
+  @Version
+  private long dbversion;
 
-	private String salt;
+  @Column(name = "pswd")
+  private String password;
 
-	private byte status;
+  private String salt;
 
-	private String username;
+  private byte status;
 
-	private boolean superadmin;
+  private String username;
 
-  /** An indicator that this user's password is not held in the database of AAA.
+  private boolean superadmin;
+
+  /**
+   * An indicator that this user's password is not held in the database of AAA.
    */
-	private Boolean external = false;
+  private Boolean external = false;
 
-	//bi-directional many-to-one association to UserHasOperation
-	@OneToMany(mappedBy="user")
-	private List<UserHasOperation> userHasOperations;
+  //bi-directional many-to-one association to UserHasOperation
+  @OneToMany(mappedBy = "user")
+  private List<UserHasOperation> userHasOperations;
 
-	//bi-directional many-to-one association to Session
-	@OneToMany(mappedBy="user")
-	private List<Session> sessions;
+  //bi-directional many-to-one association to Session
+  @OneToMany(mappedBy = "user")
+  private List<Session> sessions;
 
-	//bi-directional many-to-many association to Group
-	@ManyToMany(mappedBy = "users")
-	private List<Group> groups;
+  //bi-directional many-to-many association to Group
+  @ManyToMany(mappedBy = "users")
+  private List<Group> groups;
 
-	//bi-directional many-to-one association to UserAttribute
-	@OneToMany(mappedBy="user")
-	private List<UserAttribute> userAttributes;
+  //bi-directional many-to-one association to UserAttribute
+  @OneToMany(mappedBy = "user")
+  private List<UserAttribute> userAttributes;
 
-	public User() {
-		id = UUID.randomUUID().toString();
-	}
+  public User() {
+    id = UUID.randomUUID().toString();
+  }
 
-	public String getId() {
-		return this.id;
-	}
+  public String getId() {
+    return this.id;
+  }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public String getPassword() {
-		return this.password;
-	}
+  public String getPassword() {
+    return this.password;
+  }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-	public String getSalt() {
-		return salt;
-	}
+  public String getSalt() {
+    return salt;
+  }
 
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
+  public void setSalt(String salt) {
+    this.salt = salt;
+  }
 
-	public byte getStatus() {
-		return this.status;
-	}
+  public byte getStatus() {
+    return this.status;
+  }
 
-	public void setStatus(byte status) {
-		this.status = status;
-	}
+  public void setStatus(byte status) {
+    this.status = status;
+  }
 
-	public String getUsername() {
-		return this.username;
-	}
+  public String getUsername() {
+    return this.username;
+  }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-	public List<UserHasOperation> getUserHasOperations() {
-		return this.userHasOperations;
-	}
+  public List<UserHasOperation> getUserHasOperations() {
+    return this.userHasOperations;
+  }
 
-	public void setUserHasOperations(List<UserHasOperation> userHasOperations) {
-		this.userHasOperations = userHasOperations;
-	}
+  public void setUserHasOperations(List<UserHasOperation> userHasOperations) {
+    this.userHasOperations = userHasOperations;
+  }
 
-	public boolean isSuperadmin() {
-		return superadmin;
-	}
+  public boolean isSuperadmin() {
+    return superadmin;
+  }
 
-	public void setSuperadmin(boolean superadmin) {
-		this.superadmin = superadmin;
-	}
+  public void setSuperadmin(boolean superadmin) {
+    this.superadmin = superadmin;
+  }
 
-	public Boolean isExternal() {
-		return external;
-	}
+  public Boolean isExternal() {
+    return external;
+  }
 
-	public void setExternal(Boolean external) {
-		this.external = external;
-	}
+  public void setExternal(Boolean external) {
+    this.external = external;
+  }
 
-	public UserHasOperation addUserHasOperation(UserHasOperation userHasOperations) {
-		if (getUserHasOperations() == null) {
-			setUserHasOperations(new ArrayList<UserHasOperation>());
-		}
-		getUserHasOperations().add(userHasOperations);
-		userHasOperations.setUser(this);
+  public UserHasOperation addUserHasOperation(UserHasOperation userHasOperations) {
+    if (getUserHasOperations() == null) {
+      setUserHasOperations(new ArrayList<UserHasOperation>());
+    }
+    getUserHasOperations().add(userHasOperations);
+    userHasOperations.setUser(this);
 
-		return userHasOperations;
-	}
+    return userHasOperations;
+  }
 
-	public UserHasOperation removeUserHasOperation(UserHasOperation userHasOperations) {
-		getUserHasOperations().remove(userHasOperations);
-		userHasOperations.setUser(null);
+  public UserHasOperation removeUserHasOperation(UserHasOperation userHasOperations) {
+    getUserHasOperations().remove(userHasOperations);
+    userHasOperations.setUser(null);
 
-		return userHasOperations;
-	}
+    return userHasOperations;
+  }
 
-	public List<Session> getSessions() {
-		return this.sessions;
-	}
+  public List<Session> getSessions() {
+    return this.sessions;
+  }
 
-	public void setSessions(List<Session> sessions) {
-		this.sessions = sessions;
-	}
+  public void setSessions(List<Session> sessions) {
+    this.sessions = sessions;
+  }
 
-	public Session addSession(Session session) {
-		getSessions().add(session);
-		session.setUser(this);
+  public Session addSession(Session session) {
+    getSessions().add(session);
+    session.setUser(this);
 
-		return session;
-	}
+    return session;
+  }
 
-	public Session removeSession(Session session) {
-		getSessions().remove(session);
-		session.setUser(null);
+  public Session removeSession(Session session) {
+    getSessions().remove(session);
+    session.setUser(null);
 
-		return session;
-	}
+    return session;
+  }
 
-	public List<Group> getGroups() {
-		return this.groups;
-	}
+  public List<Group> getGroups() {
+    return this.groups;
+  }
 
-	public void setGroups(List<Group> groups) {
-		this.groups = groups;
-	}
+  public void setGroups(List<Group> groups) {
+    this.groups = groups;
+  }
 
-	public List<UserAttribute> getUserAttributes() {
-		return this.userAttributes;
-	}
+  public List<UserAttribute> getUserAttributes() {
+    return this.userAttributes;
+  }
 
-	public void setUserAttributes(List<UserAttribute> userAttributes) {
-		this.userAttributes = userAttributes;
-	}
+  public void setUserAttributes(List<UserAttribute> userAttributes) {
+    this.userAttributes = userAttributes;
+  }
 
-	public UserAttribute addUserAttribute(UserAttribute userAttribute) {
-		getUserAttributes().add(userAttribute);
-		userAttribute.setUser(this);
+  public UserAttribute addUserAttribute(UserAttribute userAttribute) {
+    getUserAttributes().add(userAttribute);
+    userAttribute.setUser(this);
 
-		return userAttribute;
-	}
+    return userAttribute;
+  }
 
-	public UserAttribute removeUserAttribute(UserAttribute userAttribute) {
-		getUserAttributes().remove(userAttribute);
-		userAttribute.setUser(null);
+  public UserAttribute removeUserAttribute(UserAttribute userAttribute) {
+    getUserAttributes().remove(userAttribute);
+    userAttribute.setUser(null);
 
-		return userAttribute;
-	}
+    return userAttribute;
+  }
 
-	public static User find(String userID, EntityManager em) {
-		return em.find(User.class, userID);
-	}
+  public static User find(String userID, EntityManager em) {
+    return em.find(User.class, userID);
+  }
 
-	public static User findByUsername(String username, EntityManager em) {
-        Query query = em.createQuery(
-                "SELECT u FROM User u WHERE u.username = :username");
-        query.setParameter("username", username);
-        List<User> resultList = query.getResultList();
+  public static User findByUsername(String username, EntityManager em) {
+    Query query = em.createQuery(
+      "SELECT u FROM User u WHERE u.username = :username");
+    query.setParameter("username", username);
+    List<User> resultList = query.getResultList();
 
-        return resultList.isEmpty() ? null : resultList.get(0);
+    return resultList.isEmpty() ? null : resultList.get(0);
+  }
+
+  public static UserAttribute findAttribute(String userId, String attributeName, EntityManager em) {
+    UserAttribute retVal = null;
+    Query query = em.createQuery("SELECT a FROM UserAttribute a "
+      + "WHERE a.user.id = :id AND a.name = :name");
+    query.setParameter("id", userId);
+    query.setParameter("name", attributeName);
+    List<UserAttribute> l = query.getResultList();
+    if (!l.isEmpty()) {
+      retVal = l.get(0);
     }
 
-	public static UserAttribute findAttribute(String userId, String attributeName, EntityManager em) {
-        UserAttribute retVal = null;
-        Query query = em.createQuery("SELECT a FROM UserAttribute a "
-                + "WHERE a.user.id = :id AND a.name = :name");
-        query.setParameter("id", userId);
-        query.setParameter("name", attributeName);
-        List<UserAttribute> l = query.getResultList();
-        if (!l.isEmpty()) {
-            retVal = l.get(0);
-        }
+    return retVal;
+  }
 
-        return retVal;
-	}
+  public static Set<String> getAllUserIds(EntityManager em) {
+    Set<String> retVal = new HashSet<>();
+    Query query = em.createQuery("SELECT u.id FROM User u");
+    retVal.addAll(query.getResultList());
+    return retVal;
+  }
 
-	public static Set<String> getAllUserIds(EntityManager em) {
-		Set<String> retVal = new HashSet<>();
-		Query query = em.createQuery("SELECT u.id FROM User u");
-		retVal.addAll(query.getResultList());
-		return retVal;
-	}
+  public static Set<String> getNormalUserIds(EntityManager em) {
+    Set<String> retVal = new HashSet<>();
+    Query query = em.createQuery("SELECT u.id FROM User u WHERE u.superadmin = false");
+    retVal.addAll(query.getResultList());
+    return retVal;
+  }
 
-	public static Set<String> getNormalUserIds(EntityManager em) {
-		Set<String> retVal = new HashSet<>();
-		Query query = em.createQuery("SELECT u.id FROM User u WHERE u.superadmin = false");
-		retVal.addAll(query.getResultList());
-		return retVal;
-	}
-
-	public static Set<String> getSuperadminUserIds(EntityManager em) {
-		Set<String> retVal = new HashSet<>();
-		Query query = em.createQuery("SELECT u.id FROM User u WHERE u.superadmin = true");
-		retVal.addAll(query.getResultList());
-		return retVal;
-	}
+  public static Set<String> getSuperadminUserIds(EntityManager em) {
+    Set<String> retVal = new HashSet<>();
+    Query query = em.createQuery("SELECT u.id FROM User u WHERE u.superadmin = true");
+    retVal.addAll(query.getResultList());
+    return retVal;
+  }
 
 }
