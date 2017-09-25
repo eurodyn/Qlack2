@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}"
+    xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
+	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}"
+	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}"
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs">
+
+	<!-- EXTERNAL SERVICES -->
+	<reference id="UserService" interface="com.eurodyn.qlack2.fuse.aaa.api.UserService" />
+	<reference id="OperationService" interface="com.eurodyn.qlack2.fuse.aaa.api.OperationService" />
+	<reference id="ResourceService" interface="com.eurodyn.qlack2.fuse.aaa.api.ResourceService" />
+
+</blueprint>
