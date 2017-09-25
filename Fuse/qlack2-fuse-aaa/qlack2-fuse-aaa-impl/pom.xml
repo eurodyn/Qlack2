@@ -86,29 +86,6 @@
           </dependency>
         </dependencies>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>${build-helper-maven-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>attach-config-admin-artifact</id>
-            <phase>package</phase>
-            <goals>
-              <goal>attach-artifact</goal>
-            </goals>
-            <configuration>
-              <artifacts>
-                <artifact>
-                  <file>${basedir}/src/main/resources/OSGI-INF/config-admin.cfg</file>
-                  <type>cfg</type>
-                  <classifier>config-admin</classifier>
-                </artifact>
-              </artifacts>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
 
       <!-- Testing -->
       <plugin>
