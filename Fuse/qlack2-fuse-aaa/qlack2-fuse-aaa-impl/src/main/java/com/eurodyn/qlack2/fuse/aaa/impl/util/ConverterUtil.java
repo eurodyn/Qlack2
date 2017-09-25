@@ -18,6 +18,8 @@ import com.eurodyn.qlack2.fuse.aaa.api.dto.*;
 import com.eurodyn.qlack2.fuse.aaa.impl.model.*;
 
 import javax.persistence.EntityManager;
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.*;
 
 /**
@@ -100,6 +102,9 @@ public class ConverterUtil {
         }
 
         User entity = new User();
+        if (StringUtils.isNotBlank(dto.getId())) {
+          entity.setId(dto.getId());
+        }
         entity.setUsername(dto.getUsername());
         entity.setStatus(dto.getStatus());
         entity.setSuperadmin(dto.isSuperadmin());
