@@ -3,11 +3,11 @@
     xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/${blueprint.cm}"
 	xmlns:jpa="http://aries.apache.org/xmlns/jpa/${blueprint.jpa}"
 	xmlns:tx="http://aries.apache.org/xmlns/transactions/${blueprint.tx}"
-	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs">
+	xmlns:jaxrs="http://cxf.apache.org/blueprint/jaxrs"
+  xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0">
 
 	<!-- EXTERNAL SERVICES -->
-	<reference id="UserService" interface="com.eurodyn.qlack2.fuse.aaa.api.UserService" />
-	<reference id="OperationService" interface="com.eurodyn.qlack2.fuse.aaa.api.OperationService" />
-	<reference id="ResourceService" interface="com.eurodyn.qlack2.fuse.aaa.api.ResourceService" />
+	<reference id="CachingService" interface="com.eurodyn.qlack2.fuse.caching.api.CacheService"
+    ext:proxy-method="classes"/>
 
 </blueprint>

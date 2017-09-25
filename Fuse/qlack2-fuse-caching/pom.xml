@@ -16,6 +16,7 @@
     <module>qlack2-fuse-caching-memcached</module>
     <module>qlack2-fuse-caching-redis</module>
     <module>qlack2-fuse-caching-local</module>
+    <module>qlack2-fuse-caching-cli</module>
   </modules>
 
 </project>

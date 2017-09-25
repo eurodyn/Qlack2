@@ -21,6 +21,9 @@ import org.apache.karaf.shell.api.action.Command;
 import org.apache.karaf.shell.api.action.lifecycle.Reference;
 import org.apache.karaf.shell.api.action.lifecycle.Service;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Command(scope = "qlack", name = "caching-list", description = "List entries currently in cache.")
 @Service
 public final class ListCacheCommand implements Action {
@@ -29,11 +32,33 @@ public final class ListCacheCommand implements Action {
     multiValued = false)
   private String filter;
 
+  @Argument(index = 1, name = "keyCutoff", description = "The maximum number of characters to display for each key.",
+    required = false, multiValued = false)
+  private int keyCutoff = 36;
+
+  @Argument(index = 2, name = "valueCutoff", description = "The maximum number of characters to display for each value.",
+    required = false, multiValued = false)
+  private int valueCutoff = 255;
+
   @Reference
   private CacheService cacheService;
 
   @Override
   public Object execute() {
+    /** Get all keys */
+    Set<String> keyNames = cacheService.getKeyNames();
+    System.out.println("Total keys: " + keyNames.size());
+
+    /** Filter keys if requested so */
+    if (filter != null && filter.length() > 0) {
+      keyNames = keyNames.parallelStream().filter(k -> k.matches(filter)).collect(Collectors.toSet());
+    }
+
+    for (String keyName : keyNames) {
+      System.out.format("\t%." + keyCutoff + "s %."+ valueCutoff + "s\n", keyName, cacheService.get(keyName));
+    }
+
+    System.out.println("Keys displayed: " + keyNames.size());
 
     return null;
   }
