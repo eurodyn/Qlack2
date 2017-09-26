@@ -1,11 +1,9 @@
-package com.eurodyn.qlack2.fuse.calendar.it;
+package com.eurodyn.qlack2.fuse.calendar.util;
 
 import com.eurodyn.qlack2.fuse.calendar.api.dto.CalendarItemDTO;
 import com.eurodyn.qlack2.fuse.calendar.api.dto.CalendarDTO;
 import java.util.Date;
 import java.util.UUID;
-import java.util.List;
-import java.util.ArrayList;
 
 public class TestUtilities {
 

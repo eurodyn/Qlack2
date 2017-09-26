@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.calendar.it;
+package com.eurodyn.qlack2.fuse.calendar.util;
 
 import java.util.*;
 

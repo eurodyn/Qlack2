@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.calendar.it;
+package com.eurodyn.qlack2.fuse.calendar.tests;
 
 import com.eurodyn.qlack2.fuse.calendar.api.CalendarItemService;
 import com.eurodyn.qlack2.fuse.calendar.api.CalendarService;
@@ -6,6 +6,12 @@ import com.eurodyn.qlack2.fuse.calendar.api.dto.CalendarDTO;
 import com.eurodyn.qlack2.fuse.calendar.api.dto.CalendarItemDTO;
 import com.eurodyn.qlack2.fuse.calendar.api.dto.ParticipantDTO;
 import com.eurodyn.qlack2.fuse.calendar.api.dto.SupportingObjectDTO;
+import com.eurodyn.qlack2.fuse.calendar.api.exception.QParticipantNotExists;
+import com.eurodyn.qlack2.fuse.calendar.api.exception.QSupportingObjectNotExists;
+import com.eurodyn.qlack2.fuse.calendar.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.calendar.util.TestConst;
+import com.eurodyn.qlack2.fuse.calendar.util.TestUtilities;
+import javax.inject.Inject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,13 +19,11 @@ import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
-import javax.inject.Inject;
-import com.eurodyn.qlack2.fuse.calendar.api.exception.QSupportingObjectNotExists;
-import com.eurodyn.qlack2.fuse.calendar.api.exception.QParticipantNotExists;
 
 /**
  * @author European Dynamics SA

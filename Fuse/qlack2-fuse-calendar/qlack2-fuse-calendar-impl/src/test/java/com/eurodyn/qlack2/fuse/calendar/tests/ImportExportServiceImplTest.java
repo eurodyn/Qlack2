@@ -1,10 +1,13 @@
-package com.eurodyn.qlack2.fuse.calendar.it;
+package com.eurodyn.qlack2.fuse.calendar.tests;
 
 import com.eurodyn.qlack2.fuse.calendar.api.ImportExportService;
 import com.eurodyn.qlack2.fuse.calendar.api.CalendarService;
 import com.eurodyn.qlack2.fuse.calendar.api.CalendarItemService;
 import com.eurodyn.qlack2.fuse.calendar.api.dto.CalendarDTO;
 import com.eurodyn.qlack2.fuse.calendar.api.dto.CalendarItemDTO;
+import com.eurodyn.qlack2.fuse.calendar.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.calendar.util.TestConst;
+import com.eurodyn.qlack2.fuse.calendar.util.TestUtilities;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;

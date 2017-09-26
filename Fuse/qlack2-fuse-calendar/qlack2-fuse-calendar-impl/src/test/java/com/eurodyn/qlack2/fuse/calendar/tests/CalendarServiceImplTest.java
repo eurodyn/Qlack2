@@ -1,7 +1,9 @@
-package com.eurodyn.qlack2.fuse.calendar.it;
+package com.eurodyn.qlack2.fuse.calendar.tests;
 
 import com.eurodyn.qlack2.fuse.calendar.api.CalendarService;
 import com.eurodyn.qlack2.fuse.calendar.api.dto.CalendarDTO;
+import com.eurodyn.qlack2.fuse.calendar.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.calendar.util.TestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -96,6 +96,34 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
   </feature>
 
+  <!-- ***************************************************************************************** -->
+  <!-- CALENDAR                                                                                  -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - Calendar" name="qlack2-fuse-calendar" version="${project.version}">
+    <feature>qlack2-fuse-calendar-deps</feature>
+    <feature>qlack2-fuse-calendar-api</feature>
+    <feature>qlack2-fuse-calendar-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - Calendar (api)" name="qlack2-fuse-calendar-api" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-calendar-api/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Calendar (impl)" name="qlack2-fuse-calendar-impl" version="${project.version}">
+    <feature>qlack2-fuse-calendar-deps</feature>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-calendar-impl/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Calendar (deps)" name="qlack2-fuse-calendar-deps" version="${project.version}">
+    <feature prerequisite="true">wrap</feature>
+    <feature>qlack2-util-repack-jpadb</feature>
+    <feature>qlack2-common-util</feature>
+    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+    <bundle>mvn:commons-lang/commons-lang/${commons.lang.version}</bundle>
+    <bundle>mvn:org.mnode.ical4j/ical4j/${ical4j.version}</bundle>
+    <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
+    <bundle>mvn:org.apache.geronimo.bundles/backport-util-concurrent/${backport.version}</bundle>
+  </feature>
+
+
+
 
 
   <!-- ***************************************************************************************** -->
@@ -142,8 +170,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:commons-io/commons-io/${commons.io.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-file-upload-impl/${project.version}</bundle>
   </feature>
-
-
 
   <!-- ***************************************************************************************** -->
   <!-- LEXICON                                                                                  -->
@@ -232,6 +258,8 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <feature>jndi</feature>
     <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
   </feature>
+
+
 
 
 
@@ -344,18 +372,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:org.apache.aries.blueprint/blueprint-maven-plugin-annotation/${blueprint-maven-plugin-annotation.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-scheduler-api/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-scheduler-impl/${project.version}</bundle>
-  </feature>
-
-  <feature description="QLACK2 Fuse - Calendar" name="qlack2-fuse-calendar" version="${project.version}">
-    <feature prerequisite="true">wrap</feature>
-    <feature>qlack2-util-repack-jpadb</feature>
-    <feature>qlack2-common-util</feature>
-    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
-    <bundle>mvn:commons-lang/commons-lang/${commons.lang.version}</bundle>
-    <bundle>mvn:org.mnode.ical4j/ical4j/${ical4j.version}</bundle>
-    <bundle>mvn:org.apache.geronimo.bundles/backport-util-concurrent/${backport.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-calendar-api/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-calendar-impl/${project.version}</bundle>
   </feature>
 
   <feature description="QLACK2 Fuse - ContentManager" name="qlack2-fuse-contentmanager" version="${project.version}">
