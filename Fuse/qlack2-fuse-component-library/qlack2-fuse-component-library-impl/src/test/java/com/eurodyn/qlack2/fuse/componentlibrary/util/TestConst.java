@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.componentlibrary.it;
+package com.eurodyn.qlack2.fuse.componentlibrary.util;
 
 import java.util.*;
 

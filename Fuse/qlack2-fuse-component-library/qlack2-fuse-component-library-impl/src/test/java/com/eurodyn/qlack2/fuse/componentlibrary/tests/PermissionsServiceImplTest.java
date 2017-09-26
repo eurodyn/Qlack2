@@ -1,10 +1,12 @@
-package com.eurodyn.qlack2.fuse.componentlibrary.it;
+package com.eurodyn.qlack2.fuse.componentlibrary.tests;
 
 import com.eurodyn.qlack2.fuse.componentlibrary.api.PermissionsService;
 import com.eurodyn.qlack2.fuse.componentlibrary.api.RegistrationService;
-import com.eurodyn.qlack2.fuse.componentlibrary.api.UserInteractionService;
 import com.eurodyn.qlack2.fuse.componentlibrary.api.dto.ComponentDTO;
 import com.eurodyn.qlack2.fuse.componentlibrary.api.dto.ComponentPermissionDTO;
+import com.eurodyn.qlack2.fuse.componentlibrary.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.componentlibrary.util.TestConst;
+import com.eurodyn.qlack2.fuse.componentlibrary.util.TestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

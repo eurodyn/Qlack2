@@ -1,9 +1,8 @@
-package com.eurodyn.qlack2.fuse.componentlibrary.it;
+package com.eurodyn.qlack2.fuse.componentlibrary.util;
 
 import com.eurodyn.qlack2.fuse.componentlibrary.api.dto.ComponentPermissionDTO;
 import com.eurodyn.qlack2.fuse.componentlibrary.api.dto.ComponentDTO;
 import java.util.UUID;
-import java.util.Date;
 
 
 public class TestUtilities {
