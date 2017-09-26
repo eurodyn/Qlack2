@@ -1,10 +1,12 @@
-package com.eurodyn.qlack2.fuse.clipboard.it;
+package com.eurodyn.qlack2.fuse.clipboard.tests;
 
 import com.eurodyn.qlack2.common.util.search.PagingParams;
 import com.eurodyn.qlack2.fuse.clipboard.api.ClipboardService;
 import com.eurodyn.qlack2.fuse.clipboard.api.dto.ClipboardEntryDTO;
 import com.eurodyn.qlack2.fuse.clipboard.api.dto.ClipboardMetaDTO;
 import com.eurodyn.qlack2.fuse.clipboard.api.exception.QClipboardException;
+import com.eurodyn.qlack2.fuse.clipboard.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.clipboard.util.TestUtilities;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;

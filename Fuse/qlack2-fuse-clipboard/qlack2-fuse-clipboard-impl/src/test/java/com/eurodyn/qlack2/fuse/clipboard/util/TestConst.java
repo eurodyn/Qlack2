@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.clipboard.it;
+package com.eurodyn.qlack2.fuse.clipboard.util;
 
 import java.util.*;
 
