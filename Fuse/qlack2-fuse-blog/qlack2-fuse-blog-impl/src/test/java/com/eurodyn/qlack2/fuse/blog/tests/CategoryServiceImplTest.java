@@ -1,8 +1,10 @@
-package com.eurodyn.qlack2.fuse.blog.it;
+package com.eurodyn.qlack2.fuse.blog.tests;
 
 import com.eurodyn.qlack2.fuse.blog.api.BlogService;
 import com.eurodyn.qlack2.fuse.blog.api.dto.BlogCategoryDTO;
 import com.eurodyn.qlack2.fuse.blog.api.dto.BlogDTO;
+import com.eurodyn.qlack2.fuse.blog.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.blog.util.TestUtilities;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
  */
 @RunWith(PaxExam.class)
 @ExamReactorStrategy(PerSuite.class)
-public class CategoryServiceImplTest extends ITTestConf{
+public class CategoryServiceImplTest extends ITTestConf {
 
     @Inject
     @Filter(timeout = 1200000)

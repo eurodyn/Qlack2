@@ -1,14 +1,17 @@
-package com.eurodyn.qlack2.fuse.blog.it;
+package com.eurodyn.qlack2.fuse.blog.tests;
 
 import com.eurodyn.qlack2.common.util.search.PagingParams;
-import com.eurodyn.qlack2.fuse.blog.api.PostService;
 import com.eurodyn.qlack2.fuse.blog.api.BlogService;
 import com.eurodyn.qlack2.fuse.blog.api.CategoryService;
+import com.eurodyn.qlack2.fuse.blog.api.PostService;
 import com.eurodyn.qlack2.fuse.blog.api.TagService;
 import com.eurodyn.qlack2.fuse.blog.api.dto.BlogCategoryDTO;
-import com.eurodyn.qlack2.fuse.blog.api.dto.BlogPostDTO;
 import com.eurodyn.qlack2.fuse.blog.api.dto.BlogDTO;
+import com.eurodyn.qlack2.fuse.blog.api.dto.BlogPostDTO;
 import com.eurodyn.qlack2.fuse.blog.api.dto.BlogTagDTO;
+import com.eurodyn.qlack2.fuse.blog.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.blog.util.TestUtilities;
+import javax.inject.Inject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,11 +19,10 @@ import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
-import java.util.Date;
-import javax.inject.Inject;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author European Dynamics SA

@@ -1,15 +1,17 @@
-package com.eurodyn.qlack2.fuse.blog.it;
+package com.eurodyn.qlack2.fuse.blog.tests;
 
 import com.eurodyn.qlack2.fuse.blog.api.TagService;
+import com.eurodyn.qlack2.fuse.blog.api.dto.BlogTagDTO;
+import com.eurodyn.qlack2.fuse.blog.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.blog.util.TestUtilities;
+import javax.inject.Inject;
 import org.junit.Assert;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
-import com.eurodyn.qlack2.fuse.blog.api.dto.*;
-import org.junit.Test;
-import javax.inject.Inject;
 
 /**
  * @author European Dynamics SA

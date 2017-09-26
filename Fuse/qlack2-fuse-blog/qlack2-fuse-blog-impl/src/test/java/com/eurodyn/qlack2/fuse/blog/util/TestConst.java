@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.blog.it;
+package com.eurodyn.qlack2.fuse.blog.util;
 
 import java.util.*;
 

@@ -72,6 +72,31 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
   </feature>
 
+  <!-- ***************************************************************************************** -->
+  <!-- BLOG                                                                                      -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - Blog" name="qlack2-fuse-blog" version="${project.version}">
+    <feature>qlack2-fuse-blog-deps</feature>
+    <feature>qlack2-fuse-blog-api</feature>
+    <feature>qlack2-fuse-blog-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - Blog (api)" name="qlack2-fuse-blog-api" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-blog-api/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Blog (impl)" name="qlack2-fuse-blog-impl" version="${project.version}">
+    <feature>qlack2-fuse-blog-deps</feature>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-blog-impl/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Blog (deps)" name="qlack2-fuse-blog-deps" version="${project.version}">
+    <feature prerequisite="true">wrap</feature>
+    <feature>qlack2-util-repack-jpadb</feature>
+    <feature>qlack2-util-repack-jackson</feature>
+    <feature>qlack2-util-repack-querydsl</feature>
+    <feature>qlack2-common-util</feature>
+    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+  </feature>
+
+
 
   <!-- ***************************************************************************************** -->
   <!-- SEARCH                                                                                    -->
@@ -331,17 +356,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:org.apache.geronimo.bundles/backport-util-concurrent/${backport.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-calendar-api/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-calendar-impl/${project.version}</bundle>
-  </feature>
-
-  <feature description="QLACK2 Fuse - Blog" name="qlack2-fuse-blog" version="${project.version}">
-    <feature prerequisite="true">wrap</feature>
-    <feature>qlack2-util-repack-jpadb</feature>
-    <feature>qlack2-util-repack-jackson</feature>
-    <feature>qlack2-util-repack-querydsl</feature>
-    <feature>qlack2-common-util</feature>
-    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-blog-api/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-blog-impl/${project.version}</bundle>
   </feature>
 
   <feature description="QLACK2 Fuse - ContentManager" name="qlack2-fuse-contentmanager" version="${project.version}">

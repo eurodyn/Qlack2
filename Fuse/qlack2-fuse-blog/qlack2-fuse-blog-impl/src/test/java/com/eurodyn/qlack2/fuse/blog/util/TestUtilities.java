@@ -1,6 +1,7 @@
-package com.eurodyn.qlack2.fuse.blog.it;
+package com.eurodyn.qlack2.fuse.blog.util;
 
 import com.eurodyn.qlack2.fuse.blog.api.dto.*;
+
 import java.util.Date;
 import java.util.UUID;
 

@@ -1,8 +1,10 @@
-package com.eurodyn.qlack2.fuse.blog.it;
+package com.eurodyn.qlack2.fuse.blog.tests;
 
 import com.eurodyn.qlack2.fuse.blog.api.dto.BlogCommentDTO;
 import com.eurodyn.qlack2.fuse.blog.api.dto.BlogPostDTO;
 import com.eurodyn.qlack2.fuse.blog.api.dto.BlogDTO;
+import com.eurodyn.qlack2.fuse.blog.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.blog.util.TestUtilities;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
