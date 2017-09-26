@@ -1,7 +1,9 @@
-package com.eurodyn.qlack2.fuse.forum.it;
+package com.eurodyn.qlack2.fuse.forum.tests;
 
 import com.eurodyn.qlack2.common.util.search.PagingParams;
 import com.eurodyn.qlack2.fuse.forum.api.ForumService;
+import com.eurodyn.qlack2.fuse.forum.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.forum.util.TestUtilities;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;

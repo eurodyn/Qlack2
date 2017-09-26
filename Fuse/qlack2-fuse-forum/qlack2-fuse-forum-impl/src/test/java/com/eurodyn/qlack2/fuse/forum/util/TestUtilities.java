@@ -1,12 +1,13 @@
-package com.eurodyn.qlack2.fuse.forum.it;
+package com.eurodyn.qlack2.fuse.forum.util;
 
-import java.util.UUID;
 import com.eurodyn.qlack2.fuse.forum.api.dto.ForumDTO;
 import com.eurodyn.qlack2.fuse.forum.api.dto.MessageDTO;
 import com.eurodyn.qlack2.fuse.forum.api.dto.TopicDTO;
-import java.util.List;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 public class TestUtilities {
 

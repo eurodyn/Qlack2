@@ -1,9 +1,11 @@
-package com.eurodyn.qlack2.fuse.forum.it;
+package com.eurodyn.qlack2.fuse.forum.tests;
 
 import com.eurodyn.qlack2.fuse.forum.api.TopicService;
 import com.eurodyn.qlack2.fuse.forum.api.ForumService;
-import com.eurodyn.qlack2.fuse.forum.api.MessageService;
 import com.eurodyn.qlack2.fuse.forum.api.dto.*;
+import com.eurodyn.qlack2.fuse.forum.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.forum.util.TestConst;
+import com.eurodyn.qlack2.fuse.forum.util.TestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +40,7 @@ public class TopicServiceImplTest extends ITTestConf {
         Assert.assertNotNull(forumID);
 
         TopicDTO topicDTO = TestUtilities.createTopicDTO(forumID);
-        TopicDTO topicID = topicService.createTopic(topicDTO,TestConst.messageText);
+        TopicDTO topicID = topicService.createTopic(topicDTO, TestConst.messageText);
         Assert.assertNotNull(topicID);
     }
 
