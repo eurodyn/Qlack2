@@ -1,10 +1,12 @@
-package com.eurodyn.qlack2.fuse.cm.it;
+package com.eurodyn.qlack2.fuse.cm.tests;
 
 import com.eurodyn.qlack2.fuse.cm.api.VersionService;
 import com.eurodyn.qlack2.fuse.cm.api.DocumentService;
-import com.eurodyn.qlack2.fuse.cm.api.dto.FolderDTO;
 import com.eurodyn.qlack2.fuse.cm.api.dto.FileDTO;
 import com.eurodyn.qlack2.fuse.cm.api.dto.VersionDTO;
+import com.eurodyn.qlack2.fuse.cm.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.cm.util.TestConst;
+import com.eurodyn.qlack2.fuse.cm.util.TestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +15,7 @@ import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
 import javax.inject.Inject;
-import java.util.HashMap;
+
 import java.util.Map;
 
 /**
@@ -34,7 +36,7 @@ public class VersionServiceImplTest extends ITTestConf {
     @Test
     public void createVersion(){
         FileDTO fileDTO = TestUtilities.createFileDTO();
-        String fileID = documentService.createFile(fileDTO,TestConst.userID,fileDTO.getId());
+        String fileID = documentService.createFile(fileDTO, TestConst.userID,fileDTO.getId());
         Assert.assertNotNull(fileID);
 
         VersionDTO versionDTO = TestUtilities.createVersionDTO();

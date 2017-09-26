@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.cm.it;
+package com.eurodyn.qlack2.fuse.cm.util;
 
 import com.eurodyn.qlack2.fuse.cm.api.dto.FolderDTO;
 import com.eurodyn.qlack2.fuse.cm.api.dto.FileDTO;

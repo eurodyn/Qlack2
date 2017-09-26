@@ -190,8 +190,34 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
   </feature>
 
-
-
+  <!-- ***************************************************************************************** -->
+  <!-- CONTENT MANAGER                                                                           -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - ContentManager" name="qlack2-fuse-content-manager" version="${project.version}">
+    <feature>qlack2-fuse-content-manager-deps</feature>
+    <feature>qlack2-fuse-content-manager-api</feature>
+    <feature>qlack2-fuse-content-manager-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - ContentManager (api)" name="qlack2-fuse-content-manager-api" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-content-manager-api/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - ContentManager (impl)" name="qlack2-fuse-content-manager-impl" version="${project.version}">
+    <feature>qlack2-fuse-content-manager-deps</feature>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-content-manager-impl/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - ContentManager (deps)" name="qlack2-fuse-content-manager-deps" version="${project.version}">
+    <feature prerequisite="true">wrap</feature>
+    <feature>pax-cdi</feature>
+    <feature>qlack2-util-repack-jpadb</feature>
+    <feature>qlack2-common-util</feature>
+    <feature>qlack2-util-repack-querydsl</feature>
+    <bundle>mvn:joda-time/joda-time/${joda.version}</bundle>
+    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+    <bundle>mvn:org.springframework/spring-beans/${spring.beans.version}</bundle>
+    <bundle>mvn:org.springframework/spring-core/${spring.core.version}</bundle>
+    <bundle>mvn:org.apache.tika/tika-core/${tika.version}</bundle>
+    <bundle>mvn:org.apache.tika/tika-bundle/${tika.version}</bundle>
+  </feature>
 
 
 
@@ -440,23 +466,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:org.apache.aries.blueprint/blueprint-maven-plugin-annotation/${blueprint-maven-plugin-annotation.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-scheduler-api/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-scheduler-impl/${project.version}</bundle>
-  </feature>
-
-  <feature description="QLACK2 Fuse - ContentManager" name="qlack2-fuse-contentmanager" version="${project.version}">
-    <configfile finalname="/etc/com.eurodyn.qlack2.fuse.contentmanager.cfg">mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-content-manager-impl/${project.version}/cfg/config-admin</configfile>
-    <feature prerequisite="true">wrap</feature>
-    <feature>pax-cdi</feature>
-    <feature>qlack2-util-repack-jpadb</feature>
-    <feature>qlack2-common-util</feature>
-    <feature>qlack2-util-repack-querydsl</feature>
-    <bundle>mvn:joda-time/joda-time/${joda.version}</bundle>
-    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
-    <bundle>mvn:org.springframework/spring-beans/${spring.beans.version}</bundle>
-    <bundle>mvn:org.springframework/spring-core/${spring.core.version}</bundle>
-    <bundle>mvn:org.apache.tika/tika-core/${tika.version}</bundle>
-    <bundle>mvn:org.apache.tika/tika-bundle/${tika.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-content-manager-api/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-content-manager-impl/${project.version}</bundle>
   </feature>
 
   <feature description="QLACK2 Fuse - Forum" name="qlack2-fuse-forum" version="${project.version}">

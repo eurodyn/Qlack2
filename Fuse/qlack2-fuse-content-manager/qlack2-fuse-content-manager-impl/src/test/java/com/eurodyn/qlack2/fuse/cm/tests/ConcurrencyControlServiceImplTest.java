@@ -1,8 +1,11 @@
-package com.eurodyn.qlack2.fuse.cm.it;
+package com.eurodyn.qlack2.fuse.cm.tests;
 
 import com.eurodyn.qlack2.fuse.cm.api.DocumentService;
 import com.eurodyn.qlack2.fuse.cm.api.ConcurrencyControlService;
 import com.eurodyn.qlack2.fuse.cm.api.dto.FolderDTO;
+import com.eurodyn.qlack2.fuse.cm.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.cm.util.TestConst;
+import com.eurodyn.qlack2.fuse.cm.util.TestUtilities;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
@@ -30,7 +33,7 @@ public class ConcurrencyControlServiceImplTest extends ITTestConf {
     @Test
     public void lock(){
         FolderDTO folderDTO = TestUtilities.createFolderDTO();
-        String folderID = documentService.createFolder(folderDTO,TestConst.userID,folderDTO.getId());
+        String folderID = documentService.createFolder(folderDTO, TestConst.userID,folderDTO.getId());
         Assert.assertNotNull(folderID);
 
         concurrencyControlService.lock(folderID,"locked01",false,TestConst.userID);

@@ -1,7 +1,10 @@
-package com.eurodyn.qlack2.fuse.cm.it;
+package com.eurodyn.qlack2.fuse.cm;
 
 import java.util.UUID;
 
+import com.eurodyn.qlack2.fuse.cm.tests.ConcurrencyControlServiceImplTest;
+import com.eurodyn.qlack2.fuse.cm.tests.DocumentServiceImplTest;
+import com.eurodyn.qlack2.fuse.cm.tests.VersionServiceImplTest;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -21,7 +24,7 @@ import com.eurodyn.qlack2.util.docker.DockerContainer;
         ConcurrencyControlServiceImplTest.class,
         VersionServiceImplTest.class
 })
-public class AllITTests{
+public class FuseContentManagerIntegrationTests {
     /** MySQL configuration */
     private static String containerId;
     private static String dockerEngine = "tcp://localhost:2375";
