@@ -12,10 +12,6 @@
 	<packaging>bundle</packaging>
 
 	<!-- TODO move to parent -->
-	<properties>
-		<pax.exam.version>4.9.1</pax.exam.version>
-	</properties>
-
 	<build>
 		<plugins>
 			<plugin>
