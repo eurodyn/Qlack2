@@ -219,6 +219,26 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:org.apache.tika/tika-bundle/${tika.version}</bundle>
   </feature>
 
+  <!-- ***************************************************************************************** -->
+  <!-- CRYPTO                                                                                    -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - Crypto" name="qlack2-fuse-crypto" version="${project.version}">
+    <feature>qlack2-fuse-crypto-deps</feature>
+    <feature>qlack2-fuse-crypto-api</feature>
+    <feature>qlack2-fuse-crypto-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - Crypto (api)" name="qlack2-fuse-crypto-api" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-crypto-api/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Crypto (impl)" name="qlack2-fuse-crypto-impl" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-crypto-impl/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Crypto (deps)" name="qlack2-fuse-crypto-deps" version="${project.version}">
+    <feature prerequisite="true">wrap</feature>
+    <feature>jndi</feature>
+    <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
+  </feature>
+
 
 
 
@@ -339,26 +359,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-mailing-impl/${project.version}</bundle>
   </feature>
-
-  <!-- ***************************************************************************************** -->
-  <!-- CRYPTO                                                                                    -->
-  <!-- ***************************************************************************************** -->
-  <feature description="QLACK2 Fuse - Crypto" name="qlack2-fuse-crypto" version="${project.version}">
-    <feature>qlack2-fuse-crypto-deps</feature>
-    <feature>qlack2-fuse-crypto-api</feature>
-    <feature>qlack2-fuse-crypto-impl</feature>
-  </feature>
-  <feature description="QLACK2 Fuse - Crypto (api)" name="qlack2-fuse-crypto-api" version="${project.version}">
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-crypto-api/${project.version}</bundle>
-  </feature>
-  <feature description="QLACK2 Fuse - Crypto (impl)" name="qlack2-fuse-crypto-impl" version="${project.version}">
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-crypto-impl/${project.version}</bundle>
-  </feature>
-  <feature description="QLACK2 Fuse - Crypto (deps)" name="qlack2-fuse-crypto-deps" version="${project.version}">
-    <feature>jndi</feature>
-    <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
-  </feature>
-
 
   <!-- Features which haven't been split to api/impl yet -->
   <feature description="QLACK2 Fuse - AAA shell" name="qlack2-fuse-AAA-shell" version="${project.version}">

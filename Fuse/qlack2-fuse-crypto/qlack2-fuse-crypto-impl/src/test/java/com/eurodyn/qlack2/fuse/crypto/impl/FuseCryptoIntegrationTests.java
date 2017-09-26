@@ -1,5 +1,6 @@
 package com.eurodyn.qlack2.fuse.crypto.impl;
 
+import com.eurodyn.qlack2.fuse.crypto.impl.tests.CryptoServiceImplTest;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -12,7 +13,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
   CryptoServiceImplTest.class
 })
-public class AllITTests {
+public class FuseCryptoIntegrationTests {
 
   @BeforeClass
   public static void beforeClass() throws ClassNotFoundException {

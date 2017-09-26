@@ -1,6 +1,8 @@
-package com.eurodyn.qlack2.fuse.crypto.impl;
+package com.eurodyn.qlack2.fuse.crypto.impl.tests;
 
 import com.eurodyn.qlack2.fuse.crypto.api.CryptoService;
+import com.eurodyn.qlack2.fuse.crypto.impl.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.crypto.impl.TestConst;
 import javax.inject.Inject;
 import org.junit.Assert;
 import org.junit.Test;
