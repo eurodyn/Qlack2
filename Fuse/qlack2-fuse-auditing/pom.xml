@@ -16,7 +16,6 @@
   <modules>
     <module>qlack2-fuse-auditing-api</module>
     <module>qlack2-fuse-auditing-impl</module>
-    <module>qlack2-fuse-auditing-test</module>
   </modules>
 
 </project>
