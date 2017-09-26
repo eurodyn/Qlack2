@@ -1,13 +1,12 @@
 package com.eurodyn.qlack2.webdesktop.apps.usermanagement.impl;
 
-import com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService;
+import com.eurodyn.qlack2.fuse.auditing.api.AuditClientService;
 import com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService;
 import com.eurodyn.qlack2.fuse.idm.api.IDMService;
 import com.eurodyn.qlack2.fuse.idm.api.annotations.ValidateTicket;
 import com.eurodyn.qlack2.fuse.idm.api.signing.SignedTicket;
 import com.eurodyn.qlack2.webdesktop.api.DesktopGroupService;
 import com.eurodyn.qlack2.webdesktop.api.dto.UserGroupDTO;
-import com.eurodyn.qlack2.webdesktop.apps.usermanagement.api.ConfigService;
 import com.eurodyn.qlack2.webdesktop.apps.usermanagement.api.GroupService;
 import com.eurodyn.qlack2.webdesktop.apps.usermanagement.api.request.EmptySignedRequest;
 import com.eurodyn.qlack2.webdesktop.apps.usermanagement.api.request.group.*;

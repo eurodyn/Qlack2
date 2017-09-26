@@ -14,7 +14,7 @@
 	</cm:property-placeholder>
 
 	<!-- EXTERNAL SERVICES -->
-	<reference id="AuditClientService" interface="com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService" />
+	<reference id="AuditClientService" interface="com.eurodyn.qlack2.fuse.auditing.api.AuditClientService" />
 	<reference id="IdmService" interface="com.eurodyn.qlack2.fuse.idm.api.IDMService" />
 	<reference id="SecurityService" interface="com.eurodyn.qlack2.webdesktop.api.SecurityService" />
 	<reference id="DesktopUserService" interface="com.eurodyn.qlack2.webdesktop.api.DesktopUserService" />

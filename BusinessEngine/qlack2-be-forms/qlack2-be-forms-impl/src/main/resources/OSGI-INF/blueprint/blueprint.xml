@@ -40,7 +40,7 @@
 		availability="optional" />
 
 	<reference id="AuditClientService"
-		interface="com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService" />
+		interface="com.eurodyn.qlack2.fuse.auditing.api.AuditClientService" />
 
 	<reference id="TransactionManager" interface="javax.transaction.TransactionManager" />
 

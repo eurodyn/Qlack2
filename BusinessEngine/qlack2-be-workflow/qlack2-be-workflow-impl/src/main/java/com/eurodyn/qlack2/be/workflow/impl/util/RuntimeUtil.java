@@ -8,7 +8,7 @@ import com.eurodyn.qlack2.be.workflow.impl.model.WorkflowVersion;
 import com.eurodyn.qlack2.be.workflow.impl.util.AuditConstants.EVENT;
 import com.eurodyn.qlack2.be.workflow.impl.util.AuditConstants.GROUP;
 import com.eurodyn.qlack2.be.workflow.impl.util.AuditConstants.LEVEL;
-import com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService;
+import com.eurodyn.qlack2.fuse.auditing.api.AuditClientService;
 import com.eurodyn.qlack2.fuse.workflow.runtime.api.WorkflowRuntimeService;
 import com.eurodyn.qlack2.fuse.workflow.runtime.api.dto.ProcessInstanceDesc;
 

@@ -12,7 +12,7 @@ import com.eurodyn.qlack2.be.explorer.impl.util.AuditConstants.LEVEL;
 import com.eurodyn.qlack2.be.explorer.impl.util.ConverterBean;
 import com.eurodyn.qlack2.be.explorer.impl.util.SecureOperation;
 import com.eurodyn.qlack2.common.util.search.PagingParams;
-import com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService;
+import com.eurodyn.qlack2.fuse.auditing.api.AuditClientService;
 import com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService;
 import com.eurodyn.qlack2.fuse.idm.api.IDMService;
 import com.eurodyn.qlack2.fuse.idm.api.annotations.ValidateTicket;

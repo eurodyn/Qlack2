@@ -52,7 +52,7 @@ import com.eurodyn.qlack2.be.workflow.impl.util.AuditConstants.LEVEL;
 import com.eurodyn.qlack2.be.workflow.impl.util.ConverterUtil;
 import com.eurodyn.qlack2.be.workflow.impl.util.SecureOperation;
 import com.eurodyn.qlack2.be.workflow.impl.util.WorkflowConstants;
-import com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService;
+import com.eurodyn.qlack2.fuse.auditing.api.AuditClientService;
 import com.eurodyn.qlack2.fuse.idm.api.IDMService;
 import com.eurodyn.qlack2.fuse.idm.api.annotations.ValidateTicket;
 import com.eurodyn.qlack2.fuse.idm.api.signing.SignedTicket;

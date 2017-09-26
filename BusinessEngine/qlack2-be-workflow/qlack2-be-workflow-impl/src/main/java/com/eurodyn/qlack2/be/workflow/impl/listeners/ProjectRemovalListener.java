@@ -20,7 +20,7 @@ import com.eurodyn.qlack2.be.workflow.impl.util.AuditConstants.GROUP;
 import com.eurodyn.qlack2.be.workflow.impl.util.AuditConstants.LEVEL;
 import com.eurodyn.qlack2.be.workflow.impl.util.ConverterUtil;
 import com.eurodyn.qlack2.be.workflow.impl.util.RuntimeUtil;
-import com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService;
+import com.eurodyn.qlack2.fuse.auditing.api.AuditClientService;
 import com.eurodyn.qlack2.webdesktop.api.SecurityService;
 import com.eurodyn.qlack2.webdesktop.api.request.security.DeleteSecureResourceRequest;
 

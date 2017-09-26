@@ -22,7 +22,7 @@ import com.eurodyn.qlack2.be.forms.impl.util.*;
 import com.eurodyn.qlack2.be.rules.api.RulesRuntimeManagementService;
 import com.eurodyn.qlack2.be.rules.api.request.runtime.StatelessMultiExecuteRequest;
 import com.eurodyn.qlack2.be.rules.api.request.runtime.WorkingSetRuleVersionPair;
-import com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService;
+import com.eurodyn.qlack2.fuse.auditing.api.AuditClientService;
 import com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService;
 import com.eurodyn.qlack2.fuse.idm.api.IDMService;
 import com.eurodyn.qlack2.fuse.idm.api.annotations.ValidateTicket;

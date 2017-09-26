@@ -41,7 +41,7 @@ import com.eurodyn.qlack2.be.workflow.impl.util.ConverterUtil;
 import com.eurodyn.qlack2.be.workflow.impl.util.RuntimeUtil;
 import com.eurodyn.qlack2.be.workflow.impl.util.SecurityUtil;
 import com.eurodyn.qlack2.be.workflow.impl.util.WorkflowConstants;
-import com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService;
+import com.eurodyn.qlack2.fuse.auditing.api.AuditClientService;
 import com.eurodyn.qlack2.fuse.auditing.api.AuditLoggingService;
 import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLogDTO;
 import com.eurodyn.qlack2.fuse.auditing.api.dto.SearchDTO;

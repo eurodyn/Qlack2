@@ -74,7 +74,7 @@ import com.eurodyn.qlack2.be.rules.api.WorkingSetsService;
 import com.eurodyn.qlack2.be.rules.api.dto.VersionState;
 import com.eurodyn.qlack2.be.rules.api.dto.WorkingSetVersionDTO;
 import com.eurodyn.qlack2.be.rules.api.request.workingset.version.GetWorkingSetVersionRequest;
-import com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService;
+import com.eurodyn.qlack2.fuse.auditing.api.AuditClientService;
 import com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService;
 import com.eurodyn.qlack2.fuse.idm.api.IDMService;
 import com.eurodyn.qlack2.fuse.idm.api.annotations.ValidateTicket;

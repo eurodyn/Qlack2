@@ -23,7 +23,7 @@ import com.eurodyn.qlack2.be.rules.impl.model.WorkingSetVersionKnowledgeBase;
 import com.eurodyn.qlack2.be.rules.impl.util.AuditConstants.EVENT;
 import com.eurodyn.qlack2.be.rules.impl.util.AuditConstants.GROUP;
 import com.eurodyn.qlack2.be.rules.impl.util.AuditConstants.LEVEL;
-import com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService;
+import com.eurodyn.qlack2.fuse.auditing.api.AuditClientService;
 import com.eurodyn.qlack2.fuse.rules.api.RulesRuntimeService;
 import com.eurodyn.qlack2.webdesktop.api.SecurityService;
 import com.eurodyn.qlack2.webdesktop.api.request.security.DeleteSecureResourceRequest;

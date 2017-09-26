@@ -20,7 +20,7 @@ import com.eurodyn.qlack2.be.forms.impl.util.AuditConstants.EVENT;
 import com.eurodyn.qlack2.be.forms.impl.util.AuditConstants.GROUP;
 import com.eurodyn.qlack2.be.forms.impl.util.AuditConstants.LEVEL;
 import com.eurodyn.qlack2.be.forms.impl.util.ConverterUtil;
-import com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService;
+import com.eurodyn.qlack2.fuse.auditing.api.AuditClientService;
 import com.eurodyn.qlack2.fuse.lexicon.api.GroupService;
 import com.eurodyn.qlack2.fuse.lexicon.api.dto.GroupDTO;
 import com.eurodyn.qlack2.webdesktop.api.SecurityService;

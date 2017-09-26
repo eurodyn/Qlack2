@@ -73,7 +73,7 @@ import com.eurodyn.qlack2.be.rules.impl.util.RuleUtils;
 import com.eurodyn.qlack2.be.rules.impl.util.SecurityUtils;
 import com.eurodyn.qlack2.be.rules.impl.util.VersionStateUtils;
 import com.eurodyn.qlack2.be.rules.impl.util.XmlConverterUtil;
-import com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService;
+import com.eurodyn.qlack2.fuse.auditing.api.AuditClientService;
 import com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService;
 import com.eurodyn.qlack2.fuse.idm.api.IDMService;
 import com.eurodyn.qlack2.fuse.idm.api.annotations.ValidateTicket;

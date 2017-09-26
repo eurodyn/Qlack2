@@ -53,7 +53,7 @@ import com.eurodyn.qlack2.be.rules.api.dto.RuleVersionIdentifierDTO;
 import com.eurodyn.qlack2.be.rules.api.dto.WorkingSetVersionIdentifierDTO;
 import com.eurodyn.qlack2.be.rules.api.request.rule.version.GetProjectRuleVersionsRequest;
 import com.eurodyn.qlack2.be.rules.api.request.workingset.version.GetProjectWorkingSetVersionsRequest;
-import com.eurodyn.qlack2.fuse.auditclient.api.AuditClientService;
+import com.eurodyn.qlack2.fuse.auditing.api.AuditClientService;
 import com.eurodyn.qlack2.fuse.idm.api.IDMService;
 import com.eurodyn.qlack2.fuse.idm.api.annotations.ValidateTicket;
 import com.eurodyn.qlack2.fuse.idm.api.signing.SignedTicket;
