@@ -12,7 +12,7 @@
 * See the Licence for the specific language governing permissions and
 * limitations under the Licence.
 */
-package com.eurodyn.qlack2.fuse.auditclient.api;
+package com.eurodyn.qlack2.fuse.auditing.api;
 import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLogDTO;
 
 public interface AuditClientService {

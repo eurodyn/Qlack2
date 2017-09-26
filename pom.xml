@@ -166,6 +166,7 @@
     <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
     <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
     <asciitable.version>0.3.2</asciitable.version>
+    <depends-maven-plugin.version>1.4.0</depends-maven-plugin.version>
   </properties>
 
   <repositories>

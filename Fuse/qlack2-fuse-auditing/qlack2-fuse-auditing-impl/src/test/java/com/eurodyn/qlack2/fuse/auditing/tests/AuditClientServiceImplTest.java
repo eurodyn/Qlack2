@@ -1,10 +1,13 @@
-package com.eurodyn.qlack2.fuse.auditing.it;
+package com.eurodyn.qlack2.fuse.auditing.tests;
 
 import com.eurodyn.qlack2.fuse.auditing.api.AuditClientService;
 import com.eurodyn.qlack2.fuse.auditing.api.AuditLevelService;
 import com.eurodyn.qlack2.fuse.auditing.api.AuditLoggingService;
 import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLevelDTO;
 import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLogDTO;
+import com.eurodyn.qlack2.fuse.auditing.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.auditing.util.TestUtilities;
+import javax.inject.Inject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,8 +15,12 @@ import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
-import javax.inject.Inject;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * @author European Dynamics SA
