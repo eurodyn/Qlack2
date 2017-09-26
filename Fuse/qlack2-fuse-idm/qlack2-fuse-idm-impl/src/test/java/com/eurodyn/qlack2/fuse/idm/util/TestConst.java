@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.idm.it;
+package com.eurodyn.qlack2.fuse.idm.util;
 
 import java.util.*;
 

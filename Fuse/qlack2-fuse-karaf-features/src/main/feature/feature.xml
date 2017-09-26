@@ -261,6 +261,41 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <feature>qlack2-common-util</feature>
   </feature>
 
+  <!-- ***************************************************************************************** -->
+  <!-- IDM                                                                                       -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - Identity Manager" name="qlack2-fuse-idm" version="${project.version}">
+    <feature>qlack2-fuse-idm-deps</feature>
+    <feature>qlack2-fuse-idm-api</feature>
+    <feature>qlack2-fuse-idm-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - Identity Manager (api)" name="qlack2-fuse-idm-api" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-idm-api/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Identity Manager (impl)" name="qlack2-fuse-idm-impl" version="${project.version}">
+    <feature>qlack2-fuse-idm-deps</feature>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-idm-impl/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Identity Manager (deps)" name="qlack2-fuse-idm-deps" version="${project.version}">
+    <feature>qlack2-fuse-AAA</feature>
+    <feature>qlack2-fuse-crypto</feature>
+    <feature>qlack2-fuse-ticketserver</feature>
+    <feature>qlack2-common-util</feature>
+    <feature>cxf-jaxrs</feature>
+    <feature>qlack2-util-repack-jackson-rs</feature>
+    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+    <bundle>mvn:joda-time/joda-time/${joda.version}</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aspectj/${aspectj.servicemix.version}</bundle>
+  </feature>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -429,23 +464,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-ticket-server-api/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-ticket-server-impl/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-ticket-server-commands/${project.version}</bundle>
-  </feature>
-
-  <feature description="QLACK2 Fuse - Identity Manager" name="qlack2-fuse-idm" version="${project.version}">
-    <configfile finalname="/etc/com.eurodyn.qlack2.fuse.idm.cfg">mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-idm-impl/${project.version}/cfg/config-admin</configfile>
-    <feature version="${project.version}">qlack2-fuse-AAA</feature>
-    <feature version="${project.version}">qlack2-fuse-crypto</feature>
-    <feature version="${project.version}">qlack2-fuse-ticketserver</feature>
-    <feature>qlack2-common-util</feature>
-    <feature>cxf-jaxrs</feature>
-    <feature>qlack2-util-repack-jackson-rs</feature>
-    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
-    <bundle>mvn:joda-time/joda-time/${joda.version}</bundle>
-    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aspectj/${aspectj.servicemix.version}</bundle>
-    <!-- bundle>mvn:org.aspectj/com.springsource.org.aspectj.weaver/${aspectj.springsource.version}</bundle>
-    <bundle>mvn:org.aspectj/com.springsource.org.aspectj.runtime/${aspectj.springsource.version}</bundle -->
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-idm-api/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-idm-impl/${project.version}</bundle>
   </feature>
 
   <feature description="QLACK2 Fuse - Imaging" name="qlack2-fuse-imaging" version="${project.version}">

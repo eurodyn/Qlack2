@@ -1,10 +1,12 @@
-package com.eurodyn.qlack2.fuse.idm.it;
+package com.eurodyn.qlack2.fuse.idm.tests;
 
 import com.eurodyn.qlack2.fuse.idm.api.IDMService;
 import com.eurodyn.qlack2.fuse.idm.api.request.AuthenticateRequest;
 import com.eurodyn.qlack2.fuse.idm.api.request.AuthenticateSSORequest;
 import com.eurodyn.qlack2.fuse.idm.api.request.ValidateTicketRequest;
 import com.eurodyn.qlack2.fuse.idm.api.signing.SignedTicket;
+import com.eurodyn.qlack2.fuse.idm.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.idm.util.TestConst;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
