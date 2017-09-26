@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.chatim.it;
+package com.eurodyn.qlack2.fuse.chatim.util;
 
 import java.util.*;
 

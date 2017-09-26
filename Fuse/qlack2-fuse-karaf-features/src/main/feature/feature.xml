@@ -122,8 +122,27 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:org.apache.geronimo.bundles/backport-util-concurrent/${backport.version}</bundle>
   </feature>
 
-
-
+  <!-- ***************************************************************************************** -->
+  <!-- CHAT / IM                                                                                 -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - ChatIM" name="qlack2-fuse-chat-im" version="${project.version}">
+    <feature>qlack2-fuse-chat-im-deps</feature>
+    <feature>qlack2-fuse-chat-im-api</feature>
+    <feature>qlack2-fuse-chat-im-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - ChatIM (api)" name="qlack2-fuse-chat-im-api" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-chat-im-api/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - ChatIM (impl)" name="qlack2-fuse-chat-im-impl" version="${project.version}">
+    <feature>qlack2-fuse-chat-im-deps</feature>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-chat-im-impl/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - ChatIM (deps)" name="qlack2-fuse-chat-im-deps" version="${project.version}">
+    <feature prerequisite="true">wrap</feature>
+    <feature>qlack2-common-util</feature>
+    <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
+    <feature>qlack2-util-repack-jpadb</feature>
+  </feature>
 
 
   <!-- ***************************************************************************************** -->
@@ -389,13 +408,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:org.apache.tika/tika-bundle/${tika.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-content-manager-api/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-content-manager-impl/${project.version}</bundle>
-  </feature>
-
-  <feature description="QLACK2 Fuse - ChatIM" name="qlack2-fuse-chat-im" version="${project.version}">
-    <feature prerequisite="true">wrap</feature>
-    <feature>qlack2-util-repack-jpadb</feature>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-chat-im-api/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-chat-im-impl/${project.version}</bundle>
   </feature>
 
   <feature description="QLACK2 Fuse - Clipboard" name="qlack2-fuse-clipboard" version="${project.version}">

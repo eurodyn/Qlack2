@@ -1,9 +1,13 @@
-package com.eurodyn.qlack2.fuse.chatim.it;
+package com.eurodyn.qlack2.fuse.chatim.tests;
 
 import com.eurodyn.qlack2.fuse.chatim.api.RoomService;
 import com.eurodyn.qlack2.fuse.chatim.api.dto.RoomDTO;
 import com.eurodyn.qlack2.fuse.chatim.api.dto.RoomPropertyDTO;
 import com.eurodyn.qlack2.fuse.chatim.api.dto.RoomWordFilterDTO;
+import com.eurodyn.qlack2.fuse.chatim.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.chatim.util.TestUtilities;
+import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +15,8 @@ import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
-import javax.inject.Inject;
+
 import java.util.UUID;
-import javax.persistence.NoResultException;
 
 /**
  * @author European Dynamics SA

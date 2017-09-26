@@ -1,9 +1,11 @@
-package com.eurodyn.qlack2.fuse.chatim.it;
+package com.eurodyn.qlack2.fuse.chatim.tests;
 
-import com.eurodyn.qlack2.fuse.chatim.api.MessageService;
+import com.eurodyn.qlack2.fuse.chatim.api.IMMessageService;
 import com.eurodyn.qlack2.fuse.chatim.api.RoomService;
 import com.eurodyn.qlack2.fuse.chatim.api.dto.MessageDTO;
 import com.eurodyn.qlack2.fuse.chatim.api.dto.RoomDTO;
+import com.eurodyn.qlack2.fuse.chatim.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.chatim.util.TestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +14,6 @@ import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
 import javax.inject.Inject;
-import java.util.UUID;
 import java.util.*;
 
 /**
@@ -20,11 +21,11 @@ import java.util.*;
  */
 @RunWith(PaxExam.class)
 @ExamReactorStrategy(PerSuite.class)
-public class MessageServiceImplTest extends ITTestConf {
+public class IMMessageServiceImplTest extends ITTestConf {
 
     @Inject
     @Filter(timeout = 1200000)
-    MessageService messageService;
+    IMMessageService imMessageService;
 
     @Inject
     @Filter(timeout = 1200000)
@@ -46,7 +47,7 @@ public class MessageServiceImplTest extends ITTestConf {
         messageDTO.setToID(UUID.randomUUID().toString());
         messageDTO.setAttribute("1","test");
 
-        Assert.assertNotNull(messageService.sendMessage(messageDTO));
+        Assert.assertNotNull(imMessageService.sendMessage(messageDTO));
     }
 
 }

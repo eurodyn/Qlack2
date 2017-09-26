@@ -1,8 +1,12 @@
-package com.eurodyn.qlack2.fuse.chatim.it;
+package com.eurodyn.qlack2.fuse.chatim.util;
+
+import com.eurodyn.qlack2.fuse.chatim.api.dto.ActionOnUserDTO;
+import com.eurodyn.qlack2.fuse.chatim.api.dto.RoomDTO;
+import com.eurodyn.qlack2.fuse.chatim.api.dto.RoomPropertyDTO;
+import com.eurodyn.qlack2.fuse.chatim.api.dto.RoomWordFilterDTO;
 
 import java.util.Date;
 import java.util.UUID;
-import com.eurodyn.qlack2.fuse.chatim.api.dto.*;
 
 public class TestUtilities {
 
