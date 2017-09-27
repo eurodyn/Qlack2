@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.scheduler.it;
+package com.eurodyn.qlack2.fuse.scheduler.it.util;
 
 import java.util.*;
 

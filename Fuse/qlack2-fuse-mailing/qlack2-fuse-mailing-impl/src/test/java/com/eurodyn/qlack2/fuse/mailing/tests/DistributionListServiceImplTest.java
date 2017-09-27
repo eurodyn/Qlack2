@@ -1,8 +1,10 @@
-package com.eurodyn.qlack2.fuse.mailing.it;
+package com.eurodyn.qlack2.fuse.mailing.tests;
 
 import com.eurodyn.qlack2.fuse.mailing.api.DistributionListService;
 import com.eurodyn.qlack2.fuse.mailing.api.dto.ContactDTO;
 import com.eurodyn.qlack2.fuse.mailing.api.dto.DistributionListDTO;
+import com.eurodyn.qlack2.fuse.mailing.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.mailing.util.TestUtilities;
 import javax.inject.Inject;
 import org.junit.Assert;
 import org.junit.Test;

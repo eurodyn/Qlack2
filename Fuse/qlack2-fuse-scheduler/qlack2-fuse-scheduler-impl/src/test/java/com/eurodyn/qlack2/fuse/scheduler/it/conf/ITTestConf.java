@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.mailing.conf;
+package com.eurodyn.qlack2.fuse.scheduler.it.conf;
 
 import static org.ops4j.pax.exam.CoreOptions.maven;
 import static org.ops4j.pax.exam.CoreOptions.url;
@@ -85,6 +85,9 @@ public abstract class ITTestConf {
       TestingUtil.copyITConf("etc/org.ops4j.datasource-qlack2.cfg",
         ImmutableMap.of("hostPort", testingEnv.getDbPortHost(), "dockerEngineHost",
           testingEnv.getDockerEngineHost())),
+      TestingUtil.copyITConf("etc/org.ops4j.datasource-qlack2nm.cfg",
+        ImmutableMap.of("hostPort", testingEnv.getDbPortHost(), "dockerEngineHost",
+          testingEnv.getDockerEngineHost())),
       when(localRepository != null)
         .useOptions(editConfigurationFilePut("etc/org.ops4j.pax.url.mvn.cfg",
         "org.ops4j.pax.url.mvn.localRepository", localRepository)),
@@ -96,13 +99,13 @@ public abstract class ITTestConf {
       addCodeCoverageOption(),
       features(projectFeaturesRepo, "pax-jdbc-mysql"),
       features(projectFeaturesRepoUtil, "qlack2-util-liquibase"),
-      features(projectFeaturesRepo, "qlack2-fuse-mailing-deps"),
+      features(projectFeaturesRepo, "qlack2-fuse-scheduler-deps"),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-testing")),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-networking")),
-      url("file:../../../../qlack2-fuse-mailing-api/target/qlack2-fuse-mailing-api-" +
-        MavenUtils.getArtifactVersion("com.eurodyn.qlack2.fuse", "qlack2-fuse-mailing-api") + ".jar"),
-      url("file:../../qlack2-fuse-mailing-impl-" +
-        MavenUtils.getArtifactVersion("com.eurodyn.qlack2.fuse", "qlack2-fuse-mailing-impl") + ".jar"),
+      url("file:../../../../qlack2-fuse-scheduler-api/target/qlack2-fuse-scheduler-api-" +
+        MavenUtils.getArtifactVersion("com.eurodyn.qlack2.fuse", "qlack2-fuse-scheduler-api") + ".jar"),
+      url("file:../../qlack2-fuse-scheduler-impl-" +
+        MavenUtils.getArtifactVersion("com.eurodyn.qlack2.fuse", "qlack2-fuse-scheduler-impl") + ".jar"),
     };
   }
 }

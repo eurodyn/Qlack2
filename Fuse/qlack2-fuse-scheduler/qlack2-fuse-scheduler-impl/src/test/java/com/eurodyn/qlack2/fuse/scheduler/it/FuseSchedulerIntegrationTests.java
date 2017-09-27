@@ -1,9 +1,7 @@
-package com.eurodyn.qlack2.fuse.mailing;
+package com.eurodyn.qlack2.fuse.scheduler.it;
 
-import com.eurodyn.qlack2.fuse.mailing.conf.ITTestConf;
-import com.eurodyn.qlack2.fuse.mailing.tests.DistributionListServiceImplTest;
-import com.eurodyn.qlack2.fuse.mailing.tests.InternalMessageServiceImplTest;
-import com.eurodyn.qlack2.fuse.mailing.tests.MailServiceImplTest;
+import com.eurodyn.qlack2.fuse.scheduler.it.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.scheduler.it.tests.SchedulerServiceImplTest;
 import com.eurodyn.qlack2.util.availcheck.api.AvailabilityCheck;
 import com.eurodyn.qlack2.util.docker.DockerContainer;
 import com.eurodyn.qlack2.util.testing.TestingUtil;
@@ -22,16 +20,14 @@ import java.util.logging.Logger;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-  InternalMessageServiceImplTest.class,
-  DistributionListServiceImplTest.class,
-  MailServiceImplTest.class,
+        SchedulerServiceImplTest.class,
 })
-public class FuseLexiconIntegrationTests {
+public class FuseSchedulerIntegrationTests {
 
   /**
    * JUL reference
    */
-  private final static Logger LOGGER = Logger.getLogger(FuseLexiconIntegrationTests.class.getName());
+  private final static Logger LOGGER = Logger.getLogger(FuseSchedulerIntegrationTests.class.getName());
 
   /**
    * The ID of the container created with the database

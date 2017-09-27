@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.scheduler.it;
+package com.eurodyn.qlack2.fuse.scheduler.it.util;
 
 import com.eurodyn.qlack2.fuse.scheduler.api.jobs.SchedulerWrappedJob;
 import com.eurodyn.qlack2.fuse.scheduler.api.jobs.triggers.SchedulerWrappedTrigger;

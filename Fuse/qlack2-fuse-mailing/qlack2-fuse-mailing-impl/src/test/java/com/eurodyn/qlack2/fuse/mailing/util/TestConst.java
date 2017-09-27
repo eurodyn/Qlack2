@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.mailing.it;
+package com.eurodyn.qlack2.fuse.mailing.util;
 
 import java.util.Random;
 
