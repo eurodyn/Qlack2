@@ -1,9 +1,12 @@
-package com.eurodyn.qlack2.fuse.simm.it;
+package com.eurodyn.qlack2.fuse.simm.tests;
 
 import com.eurodyn.qlack2.common.util.search.PagingParams;
 import com.eurodyn.qlack2.fuse.simm.api.SocialGroupService;
 import com.eurodyn.qlack2.fuse.simm.api.dto.SIMMConstants;
 import com.eurodyn.qlack2.fuse.simm.api.dto.SocialGroupDTO;
+import com.eurodyn.qlack2.fuse.simm.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.simm.util.TestConst;
+import com.eurodyn.qlack2.fuse.simm.util.TestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -76,7 +79,7 @@ public class SocialGroupServiceImplTest extends ITTestConf {
         SocialGroupDTO socialGroupID = socialGroupService.createGroup(socialGroupDTO);
         Assert.assertNotNull(socialGroupID.getId());
 
-        Assert.assertNotNull(socialGroupService.searchGroups("test",paging,TestConst.privacy));
+        Assert.assertNotNull(socialGroupService.searchGroups("test",paging, TestConst.privacy));
     }
 
     @Test

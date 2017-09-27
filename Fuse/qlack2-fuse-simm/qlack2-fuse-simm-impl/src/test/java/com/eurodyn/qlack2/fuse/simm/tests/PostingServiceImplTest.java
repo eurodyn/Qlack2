@@ -1,9 +1,11 @@
-package com.eurodyn.qlack2.fuse.simm.it;
+package com.eurodyn.qlack2.fuse.simm.tests;
 
 import com.eurodyn.qlack2.common.util.search.PagingParams;
 import com.eurodyn.qlack2.fuse.simm.api.PostingService;
 import com.eurodyn.qlack2.fuse.simm.api.dto.PostItemDTO;
 import com.eurodyn.qlack2.fuse.simm.api.dto.SIMMConstants;
+import com.eurodyn.qlack2.fuse.simm.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.simm.util.TestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

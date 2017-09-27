@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.simm.it;
+package com.eurodyn.qlack2.fuse.simm.tests;
 
 import com.eurodyn.qlack2.common.util.search.PagingParams;
 import com.eurodyn.qlack2.fuse.simm.api.GroupUserService;
@@ -6,6 +6,9 @@ import com.eurodyn.qlack2.fuse.simm.api.SocialGroupService;
 import com.eurodyn.qlack2.fuse.simm.api.dto.SIMMConstants;
 import com.eurodyn.qlack2.fuse.simm.api.dto.SocialGroupDTO;
 import com.eurodyn.qlack2.fuse.simm.api.dto.SocialGroupUserDTO;
+import com.eurodyn.qlack2.fuse.simm.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.simm.util.TestConst;
+import com.eurodyn.qlack2.fuse.simm.util.TestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,7 +54,8 @@ public class GroupUserServiceImplTest extends ITTestConf {
         SocialGroupDTO socialGroupID = socialGroupService.createGroup(socialGroupDTO);
         Assert.assertNotNull(socialGroupID.getId());
 
-        SocialGroupDTO[] GrouplistID = groupUserService.listGroupsForUser(socialGroupDTO.getSrcUserId(),null,TestConst.privacy,paging);
+        SocialGroupDTO[] GrouplistID = groupUserService.listGroupsForUser(socialGroupDTO.getSrcUserId(),null,
+          TestConst.privacy,paging);
         Assert.assertNotNull(GrouplistID);
     }
 

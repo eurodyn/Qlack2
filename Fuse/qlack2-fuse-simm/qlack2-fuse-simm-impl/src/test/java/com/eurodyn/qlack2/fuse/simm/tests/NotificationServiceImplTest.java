@@ -1,8 +1,10 @@
-package com.eurodyn.qlack2.fuse.simm.it;
+package com.eurodyn.qlack2.fuse.simm.tests;
 
 import com.eurodyn.qlack2.common.util.search.PagingParams;
 import com.eurodyn.qlack2.fuse.simm.api.NotificationService;
 import com.eurodyn.qlack2.fuse.simm.api.dto.NotificationDTO;
+import com.eurodyn.qlack2.fuse.simm.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.simm.util.TestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

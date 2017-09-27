@@ -477,6 +477,29 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <feature>qlack2-util-repack-querydsl</feature>
   </feature>
 
+  <!-- ***************************************************************************************** -->
+  <!-- SIMM                                                                                  -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - SIMM" name="qlack2-fuse-simm" version="${project.version}">
+    <feature>qlack2-fuse-simm-deps</feature>
+    <feature>qlack2-fuse-simm-api</feature>
+    <feature>qlack2-fuse-simm-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - SIMM (api)" name="qlack2-fuse-simm-api" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-simm-api/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - SIMM" name="qlack2-fuse-simm-impl" version="${project.version}">
+    <feature>qlack2-fuse-simm-deps</feature>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-simm-impl/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - SIMM (deps)" name="qlack2-fuse-simm-deps" version="${project.version}">
+    <feature>qlack2-util-repack-jpadb</feature>
+    <feature prerequisite="true">wrap</feature>
+    <feature>qlack2-util-repack-querydsl</feature>
+    <feature>qlack2-common-util</feature>
+    <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
+    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+  </feature>
 
 
 
@@ -584,18 +607,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-rules-runtime-api/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-workflow-runtime-api/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-workflow-runtime-impl/${project.version}</bundle>
-  </feature>
-
-
-  <feature description="QLACK2 Fuse - SIMM" name="qlack2-fuse-simm" version="${project.version}">
-    <feature>qlack2-util-repack-jpadb</feature>
-	<feature prerequisite="true">wrap</feature>
-	<feature>qlack2-util-repack-querydsl</feature>
-    <feature>qlack2-common-util</feature>
-	<bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
-    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-simm-api/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-simm-impl/${project.version}</bundle>
   </feature>
 
   <feature description="QLACK2 Fuse - Wiki" name="qlack2-fuse-wiki" version="${project.version}">

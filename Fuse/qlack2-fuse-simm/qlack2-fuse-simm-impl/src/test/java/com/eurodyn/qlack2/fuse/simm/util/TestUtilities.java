@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.simm.it;
+package com.eurodyn.qlack2.fuse.simm.util;
 
 import com.eurodyn.qlack2.fuse.simm.api.dto.NotificationDTO;
 import com.eurodyn.qlack2.fuse.simm.api.dto.PostItemDTO;
