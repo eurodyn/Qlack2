@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.wiki.it;
+package com.eurodyn.qlack2.fuse.wiki.tests;
 
 import com.eurodyn.qlack2.common.util.search.PagingParams;
 import com.eurodyn.qlack2.fuse.wiki.api.WikiEntryService;
@@ -8,6 +8,8 @@ import com.eurodyn.qlack2.fuse.wiki.api.dto.WikiDTO;
 import com.eurodyn.qlack2.fuse.wiki.api.dto.WikiEntryDTO;
 import com.eurodyn.qlack2.fuse.wiki.api.dto.WikiEntryVersionDTO;
 import com.eurodyn.qlack2.fuse.wiki.api.dto.WikiTagDTO;
+import com.eurodyn.qlack2.fuse.wiki.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.wiki.util.TestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

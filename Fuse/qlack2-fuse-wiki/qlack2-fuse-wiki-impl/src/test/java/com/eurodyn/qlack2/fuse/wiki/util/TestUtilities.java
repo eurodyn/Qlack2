@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.wiki.it;
+package com.eurodyn.qlack2.fuse.wiki.util;
 
 import com.eurodyn.qlack2.fuse.wiki.api.dto.WikiDTO;
 import com.eurodyn.qlack2.fuse.wiki.api.dto.WikiEntryDTO;
