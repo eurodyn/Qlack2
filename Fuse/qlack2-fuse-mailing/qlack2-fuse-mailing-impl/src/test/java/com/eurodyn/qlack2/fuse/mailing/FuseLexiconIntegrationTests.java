@@ -1,5 +1,8 @@
-package com.eurodyn.qlack2.fuse.mailing.it;
+package com.eurodyn.qlack2.fuse.mailing;
 
+import com.eurodyn.qlack2.fuse.mailing.tests.DistributionListServiceImplTest;
+import com.eurodyn.qlack2.fuse.mailing.tests.InternalMessageServiceImplTest;
+import com.eurodyn.qlack2.fuse.mailing.tests.MailServiceImplTest;
 import com.eurodyn.qlack2.util.availcheck.api.AvailabilityCheck;
 import com.eurodyn.qlack2.util.availcheck.mysql.AvailabilityCheckMySQL;
 import com.eurodyn.qlack2.util.docker.DockerContainer;
