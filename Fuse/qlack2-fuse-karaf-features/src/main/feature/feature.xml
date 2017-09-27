@@ -307,6 +307,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <feature>jndi</feature>
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-common-util</feature>
+    <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
     <bundle>mvn:javax.media.jai/com.springsource.javax.media.jai.codec/${jai.version}</bundle>
     <bundle>mvn:javax.media.jai/com.springsource.javax.media.jai.core/${jai.version}</bundle>

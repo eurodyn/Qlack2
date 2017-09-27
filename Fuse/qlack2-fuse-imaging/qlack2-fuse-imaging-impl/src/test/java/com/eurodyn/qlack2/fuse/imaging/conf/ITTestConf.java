@@ -79,10 +79,6 @@ public abstract class ITTestConf {
         .unpackDirectory(new File("target", "exam"))
         .useDeployFolder(false),
       keepRuntimeFolder(),
-//      copyITConf("etc/com.eurodyn.qlack2.util.liquibase.cfg"),
-//      copyITConf("etc/org.ops4j.datasource-qlack2.cfg",
-//        ImmutableMap.of("hostPort", testingEnv.getDbPortHost(), "dockerEngineHost",
-//          testingEnv.getDockerEngineHost())),
       when(localRepository != null)
         .useOptions(editConfigurationFilePut("etc/org.ops4j.pax.url.mvn.cfg",
         "org.ops4j.pax.url.mvn.localRepository", localRepository)),
@@ -90,10 +86,8 @@ public abstract class ITTestConf {
       configureConsole().ignoreLocalConsole(),
       configureConsole().ignoreRemoteShell(),
       features(karafStandardFeaturesUrl, "wrap"),
-      features(karafStandardFeaturesUrl, "jndi"),
       addCodeCoverageOption(),
-      features(projectFeaturesRepo, "pax-jdbc-mysql"),
-      features(projectFeaturesRepoUtil, "qlack2-util-liquibase"),
+      CoreOptions.mavenBundle("commons-io", "commons-io").versionAsInProject(),
       features(projectFeaturesRepo, "qlack2-fuse-imaging-deps"),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-testing")),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-networking")),
