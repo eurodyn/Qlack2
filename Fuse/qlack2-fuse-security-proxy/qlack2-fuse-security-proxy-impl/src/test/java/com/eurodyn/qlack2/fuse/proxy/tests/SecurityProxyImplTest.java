@@ -1,13 +1,20 @@
-package com.eurodyn.qlack2.fuse.proxy.it;
+package com.eurodyn.qlack2.fuse.proxy.tests;
+
+import static org.mockito.Mockito.*;
 
 import com.eurodyn.qlack2.fuse.aaa.api.dto.UserDTO;
 import com.eurodyn.qlack2.fuse.idm.api.request.AuthenticateRequest;
 import com.eurodyn.qlack2.fuse.idm.api.request.ValidateTicketRequest;
 import com.eurodyn.qlack2.fuse.idm.api.signing.SignedTicket;
+import com.eurodyn.qlack2.fuse.proxy.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.proxy.util.TestUtilities;
 import com.eurodyn.qlack2.fuse.security.proxy.api.SecurityProxy;
 import com.eurodyn.qlack2.fuse.security.proxy.api.dto.CheckPermissionRDTO;
 import com.eurodyn.qlack2.fuse.ticketserver.api.TicketDTO;
 import com.eurodyn.qlack2.fuse.ticketserver.api.TicketServerService;
+import javax.inject.Inject;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,11 +22,11 @@ import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
-import javax.inject.Inject;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import java.util.*;
-import static org.mockito.Mockito.*;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * @author European Dynamics SA.

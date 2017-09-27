@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.proxy.it;
+package com.eurodyn.qlack2.fuse.proxy.util;
 
 import java.util.*;
 
