@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.tickerserver.it;
+package com.eurodyn.qlack2.fuse.tickerserver.util;
 
 import java.util.*;
 

@@ -1,5 +1,7 @@
-package com.eurodyn.qlack2.fuse.tickerserver.it;
+package com.eurodyn.qlack2.fuse.tickerserver.tests;
 
+import com.eurodyn.qlack2.fuse.tickerserver.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.tickerserver.util.TestUtilities;
 import com.eurodyn.qlack2.fuse.ticketserver.api.criteria.TicketSearchCriteria;
 import com.eurodyn.qlack2.fuse.ticketserver.api.TicketDTO;
 import com.eurodyn.qlack2.fuse.ticketserver.api.TicketServerService;
