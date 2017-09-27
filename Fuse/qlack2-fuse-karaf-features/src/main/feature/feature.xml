@@ -288,12 +288,59 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aspectj/${aspectj.servicemix.version}</bundle>
   </feature>
 
+  <!-- ***************************************************************************************** -->
+  <!-- IMAGING                                                                                   -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - Imaging" name="qlack2-fuse-imaging" version="${project.version}">
+    <feature>qlack2-fuse-imaging-deps</feature>
+    <feature>qlack2-fuse-imaging-api</feature>
+    <feature>qlack2-fuse-imaging-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - Imaging (api)" name="qlack2-fuse-imaging-api" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-imaging-api/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Imaging (impl)" name="qlack2-fuse-imaging-impl" version="${project.version}">
+    <feature>qlack2-fuse-imaging-deps</feature>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-imaging-impl/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Imaging (deps)" name="qlack2-fuse-imaging-deps" version="${project.version}">
+    <feature>jndi</feature>
+    <feature prerequisite="true">wrap</feature>
+    <feature>qlack2-common-util</feature>
+    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+    <bundle>mvn:javax.media.jai/com.springsource.javax.media.jai.codec/${jai.version}</bundle>
+    <bundle>mvn:javax.media.jai/com.springsource.javax.media.jai.core/${jai.version}</bundle>
+    <bundle>mvn:eu.medsea.mimeutil/mime-util/${mimeutil.version}</bundle>
+  </feature>
 
-
-
-
-
-
+  <!-- ***************************************************************************************** -->
+  <!-- LEXICON                                                                                   -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - Lexicon" name="qlack2-fuse-lexicon" version="${project.version}">
+    <feature>qlack2-fuse-lexicon-deps</feature>
+    <feature>qlack2-fuse-lexicon-api</feature>
+    <feature>qlack2-fuse-lexicon-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - Lexicon (api)" name="qlack2-fuse-lexicon-api" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-lexicon-api/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Lexicon (impl)" name="qlack2-fuse-lexicon-impl" version="${project.version}">
+    <feature>qlack2-fuse-lexicon-deps</feature>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-lexicon-impl/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Lexicon (deps)" name="qlack2-fuse-lexicon-deps" version="${project.version}">
+    <feature prerequisite="true">wrap</feature>
+    <feature>eventadmin</feature>
+    <feature>qlack2-util-repack-querydsl</feature>
+    <feature>qlack2-util-repack-jpadb</feature>
+    <feature>qlack2-common-util</feature>
+    <bundle>mvn:org.freemarker/freemarker/${freemarker.version}</bundle>
+    <bundle>mvn:org.yaml/snakeyaml/${snakeyaml.version}</bundle>
+    <bundle>mvn:joda-time/joda-time/${joda.version}</bundle>
+    <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
+    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.poi/${apache.poi.servicemix.version}</bundle>
+  </feature>
 
 
 
@@ -342,31 +389,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>wrap:mvn:io.sensesecure/clamav4j/${clamav4j.version}</bundle>
     <bundle>mvn:commons-io/commons-io/${commons.io.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-file-upload-impl/${project.version}</bundle>
-  </feature>
-
-  <!-- ***************************************************************************************** -->
-  <!-- LEXICON                                                                                  -->
-  <!-- ***************************************************************************************** -->
-  <feature description="QLACK2 Fuse - Lexicon" name="qlack2-fuse-lexicon" version="${project.version}">
-    <feature>qlack2-fuse-lexicon-api</feature>
-    <feature>qlack2-fuse-lexicon-impl</feature>
-  </feature>
-  <feature description="QLACK2 Fuse - Lexicon API" name="qlack2-fuse-lexicon-api" version="${project.version}">
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-lexicon-api/${project.version}</bundle>
-  </feature>
-  <feature description="QLACK2 Fuse - Lexicon IMPL" name="qlack2-fuse-lexicon-impl" version="${project.version}">
-    <feature prerequisite="true">wrap</feature>
-    <feature>eventadmin</feature>
-    <feature>qlack2-util-repack-querydsl</feature>
-    <feature>qlack2-util-repack-jpadb</feature>
-    <feature>qlack2-common-util</feature>
-    <bundle>mvn:org.freemarker/freemarker/${freemarker.version}</bundle>
-    <bundle>mvn:org.yaml/snakeyaml/${snakeyaml.version}</bundle>
-    <bundle>mvn:joda-time/joda-time/${joda.version}</bundle>
-    <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
-    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
-    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.poi/${apache.poi.servicemix.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-lexicon-impl/${project.version}</bundle>
   </feature>
 
   <!-- ***************************************************************************************** -->
@@ -464,17 +486,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-ticket-server-api/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-ticket-server-impl/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-ticket-server-commands/${project.version}</bundle>
-  </feature>
-
-  <feature description="QLACK2 Fuse - Imaging" name="qlack2-fuse-imaging" version="${project.version}">
-    <feature>jndi</feature>
-    <feature prerequisite="true">wrap</feature>
-    <feature>qlack2-common-util</feature>
-    <bundle>mvn:javax.media.jai/com.springsource.javax.media.jai.codec/${jai.version}</bundle>
-    <bundle>mvn:javax.media.jai/com.springsource.javax.media.jai.core/${jai.version}</bundle>
-    <bundle>mvn:eu.medsea.mimeutil/mime-util/${mimeutil.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-imaging-api/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-imaging-impl/${project.version}</bundle>
   </feature>
 
   <feature description="QLACK2 Fuse - Workflow Runtime" name="qlack2-fuse-workflow-runtime" version="${project.version}">

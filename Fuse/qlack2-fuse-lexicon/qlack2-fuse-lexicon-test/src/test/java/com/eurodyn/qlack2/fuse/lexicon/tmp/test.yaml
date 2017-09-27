@@ -1,5 +1,0 @@
-databaseChangeLog:
-  - changeSet:
-      id: test
-      author: European Dynamics SA
-
