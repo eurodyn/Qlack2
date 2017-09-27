@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.fuse.settings.it;
+package com.eurodyn.qlack2.fuse.settings.util;
 
 import com.eurodyn.qlack2.fuse.settings.api.dto.SettingDTO;
 

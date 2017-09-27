@@ -1,7 +1,9 @@
-package com.eurodyn.qlack2.fuse.settings.it;
+package com.eurodyn.qlack2.fuse.settings.tests;
 
 import com.eurodyn.qlack2.fuse.settings.api.SettingsService;
 import com.eurodyn.qlack2.fuse.settings.api.dto.SettingDTO;
+import com.eurodyn.qlack2.fuse.settings.conf.ITTestConf;
+import com.eurodyn.qlack2.fuse.settings.util.TestUtilities;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

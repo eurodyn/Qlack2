@@ -455,8 +455,27 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-ticket-server-api/${project.version}</bundle>
   </feature>
 
-
-
+  <!-- ***************************************************************************************** -->
+  <!-- SETTINGS                                                                                  -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - Settings" name="qlack2-fuse-settings" version="${project.version}">
+    <feature>qlack2-fuse-settings-deps</feature>
+    <feature>qlack2-fuse-settings-api</feature>
+    <feature>qlack2-fuse-settings-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - Settings (api)" name="qlack2-fuse-settings-api" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-settings-api/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Settings (impl)" name="qlack2-fuse-settings-impl" version="${project.version}">
+    <feature>qlack2-fuse-settings-deps</feature>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-settings-impl/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Settings (deps)" name="qlack2-fuse-settings-deps" version="${project.version}">
+    <feature>qlack2-common-util</feature>
+    <feature>qlack2-util-repack-jpadb</feature>
+    <feature prerequisite="true">wrap</feature>
+    <feature>qlack2-util-repack-querydsl</feature>
+  </feature>
 
 
 
@@ -587,14 +606,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-wiki-api/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-wiki-impl/${project.version}</bundle>
-  </feature>
-
-  <feature description="QLACK2 Fuse - Settings" name="qlack2-fuse-settings" version="${project.version}">
-    <feature>qlack2-common-util</feature>
-    <feature prerequisite="true">wrap</feature>
-    <feature>qlack2-util-repack-querydsl</feature>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-settings-api/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-settings-impl/${project.version}</bundle>
   </feature>
 
   <feature description="QLACK2 Fuse - Security proxy" name="qlack2-fuse-security-proxy" version="${project.version}">
