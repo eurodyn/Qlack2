@@ -2,8 +2,8 @@ package com.eurodyn.qlack2.util.testing;
 
 import com.eurodyn.qlack2.util.networking.NetworkingUtils;
 import com.google.common.collect.ImmutableMap;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.text.StrSubstitutor;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.StrSubstitutor;
 
 import java.util.Properties;
 
