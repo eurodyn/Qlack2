@@ -7,11 +7,8 @@ import com.eurodyn.qlack2.fuse.lexicon.api.dto.GroupDTO;
 import com.eurodyn.qlack2.fuse.lexicon.api.dto.KeyDTO;
 import com.eurodyn.qlack2.fuse.lexicon.api.dto.LanguageDTO;
 import com.eurodyn.qlack2.fuse.lexicon.conf.ITTestConf;
-import com.eurodyn.qlack2.fuse.lexicon.util.TestConst;
 import com.eurodyn.qlack2.fuse.lexicon.util.TestUtilities;
 import javax.inject.Inject;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,9 +17,6 @@ import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -176,14 +170,8 @@ public class LanguageServiceImplTest extends ITTestConf {
   public void uploadLanguage() throws IOException {
     LanguageDTO languageDTO = TestUtilities.createLanguageDTO();
     String languageID = languageService.createLanguage(languageDTO);
-    Assert.assertNotNull(languageID);
-
-    FileInputStream excelFile = new FileInputStream(new File(TestConst.createPath()));
-    Workbook workbook = new XSSFWorkbook(excelFile);
-    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-    workbook.write(bos);
-    byte[] bytes = bos.toByteArray();
-    languageService.uploadLanguage(languageID, bytes);
+    byte[] lgFile = languageService.downloadLanguage(languageID);
+    languageService.uploadLanguage(languageID, lgFile);
     Assert.assertNotNull(languageService.downloadLanguage(languageID));
   }
 

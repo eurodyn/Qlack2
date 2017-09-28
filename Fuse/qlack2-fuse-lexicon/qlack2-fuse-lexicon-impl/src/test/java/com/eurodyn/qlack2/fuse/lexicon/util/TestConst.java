@@ -29,17 +29,5 @@ public class TestConst {
             return randomInt - 1;
         }
     }
-
-    public static String createPath(){
-        String tempRem = "";
-        String tempPath = System.getProperty("user.dir");
-        tempRem = tempPath.replace("\\", "\\\\");
-        String[] parts = tempRem.split("qlack2-fuse-lexicon-test");
-        String path = parts[0].toString();
-
-        String replStdrPath = standarPath.replace("\\", "\\\\");
-
-        return path.concat(replStdrPath);
-    }
 }
 
