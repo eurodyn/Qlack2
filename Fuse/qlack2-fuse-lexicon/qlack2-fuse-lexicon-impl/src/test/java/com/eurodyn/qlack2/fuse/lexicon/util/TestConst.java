@@ -6,7 +6,6 @@ public class TestConst {
     //Constants for methods - generateRandomString/getRandomNumber
     private static final String CHAR_LIST = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     private static final int RANDOM_STRING_LENGTH = 10;
-    private static final String standarPath = "qlack2-fuse-imaging-test\\src\\test\\java\\com\\eurodyn\\qlack2\\fuse\\lexicon\\tmp\\excelTest.xls";
     public static String generateRandomString(){
         StringBuffer randStr = new StringBuffer();
         for(int i=0; i<RANDOM_STRING_LENGTH; i++){
@@ -15,7 +14,7 @@ public class TestConst {
             randStr.append(ch);
         }
         String randStr_new = randStr.toString();
-        randStr_new = randStr_new.replaceAll("[0-9]","");
+        randStr_new = randStr_new.replaceAll("[0-9]","X");
         return randStr_new.toString();
     }
 

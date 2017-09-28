@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.eurodyn.qlack2.be</groupId>
 		<artifactId>qlack2-be-forms</artifactId>
-		<version>2.3.0-SNAPSHOT</version>
+		<version>2.3.1-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
@@ -15,16 +15,17 @@
 		<dependency>
 			<groupId>com.eurodyn.qlack2.be</groupId>
 			<artifactId>qlack2-be-forms-api</artifactId>
-			<version>2.3.0-SNAPSHOT</version>
+      <version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eurodyn.qlack2.be</groupId>
 			<artifactId>qlack2-be-forms-client-api</artifactId>
-			<version>2.3.0-SNAPSHOT</version>
+      <version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eurodyn.qlack2.fuse</groupId>
-			<artifactId>qlack2-fuse-auditing-client-api</artifactId>
+			<artifactId>qlack2-fuse-auditing-api</artifactId>
+      <version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.eurodyn.qlack2.fuse</groupId>
