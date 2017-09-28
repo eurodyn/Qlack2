@@ -1,5 +1,16 @@
 package com.eurodyn.qlack2.fuse.search.tests;
 
+import java.util.UUID;
+
+import javax.inject.Inject;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.ops4j.pax.exam.junit.PaxExam;
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerClass;
+
 import com.eurodyn.qlack2.fuse.search.api.AdminService;
 import com.eurodyn.qlack2.fuse.search.api.IndexingService;
 import com.eurodyn.qlack2.fuse.search.api.SearchService;
@@ -12,21 +23,11 @@ import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMultiMatch;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySpec;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryString;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTerm;
-import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTerms;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryWildcard;
 import com.eurodyn.qlack2.fuse.search.api.request.CreateIndexRequest;
 import com.eurodyn.qlack2.fuse.search.api.request.UpdateMappingRequest;
 import com.eurodyn.qlack2.fuse.search.conf.ITTestConf;
 import com.eurodyn.qlack2.fuse.search.util.TestDocument;
-import javax.inject.Inject;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.ops4j.pax.exam.junit.PaxExam;
-import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
-import org.ops4j.pax.exam.spi.reactors.PerClass;
-
-import java.util.UUID;
 
 @RunWith(PaxExam.class)
 @ExamReactorStrategy(PerClass.class)
@@ -240,13 +241,11 @@ public class ServiceImplTest extends ITTestConf {
 		// QueryBoolean
 		query = new QueryBoolean()
 			.setTerm(new QueryTerm()
-				.setTerm("name", "name1"), BooleanType.MUST)
+			.setTerm("name", "name1"), BooleanType.MUST)
 			.setTerm(new QueryTerm()
-					.setTerm("surname", "surname1"), BooleanType.MUST)
+			.setTerm("surname", "surname1"), BooleanType.MUST)
 			.setTerm(new QueryTerm()
-				.setTerm("name", "name2"), BooleanType.SHOULD)
-      .setTerm(new QueryTerms()
-        .setTerm("name", "name2"), BooleanType.SHOULD)
+			.setTerm("name", "name2"), BooleanType.SHOULD)
 			.setIndex(indexName);
 
 		result = searchService.search(query);
