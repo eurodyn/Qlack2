@@ -89,6 +89,17 @@
               </includes>
             </configuration>
           </execution>
+          <execution>
+            <id>post-unit-test</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <dataFile>${project.build.directory}/jacoco.exec</dataFile>
+              <outputDirectory>${project.reporting.outputDirectory}/jacoco</outputDirectory>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
     </plugins>
