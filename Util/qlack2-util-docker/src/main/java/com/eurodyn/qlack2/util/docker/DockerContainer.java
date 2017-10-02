@@ -21,9 +21,7 @@ import java.util.stream.Collectors;
 
 public class DockerContainer {
 
-  /**
-   * JUL reference
-   */
+  // JUL reference
   private final static Logger LOGGER = Logger.getLogger(DockerContainer.class.getName());
 
   private String imageName;
@@ -95,7 +93,7 @@ public class DockerContainer {
   }
 
   private DockerClient createDockerClient() {
-    /** Configure the client */
+    // Configure the client
     debug("Creating Docker client for {0}...", dockerEngine);
     DockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder()
       .withDockerHost(dockerEngine)
@@ -131,7 +129,7 @@ public class DockerContainer {
       debug("Image {0} pulled.", imageName);
     }
 
-    /** Create port bindings and container */
+    // Create port bindings and container.
     debug("Creating container for image {0}...", imageName);
     CreateContainerResponse createContainerResponse = dockerClient.createContainerCmd(imageName)
       .withExposedPorts(ports.entrySet().stream().map(p -> ExposedPort.parse(p.getKey()))
