@@ -90,7 +90,7 @@
             </configuration>
           </execution>
           <execution>
-            <id>post-unit-test</id>
+            <id>post-it-test</id>
             <phase>verify</phase>
             <goals>
               <goal>report</goal>
