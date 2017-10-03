@@ -4,12 +4,12 @@
 
   <!-- MANAGED PROPERTIES -->
   <cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.caching" update-strategy="reload">
-    <!--<cm:default-properties>-->
-    <!--<cm:property name="active" value="false"/>-->
-    <!--<cm:property name="maxEntries" value="0"/>-->
-    <!--<cm:property name="expiryTime" value="0"/>-->
-    <!--<cm:property name="cacheURL" value=""/>-->
-    <!--</cm:default-properties>-->
+    <cm:default-properties>
+      <cm:property name="active" value="false"/>
+      <cm:property name="maxEntries" value="0"/>
+      <cm:property name="expiryTime" value="0"/>
+      <cm:property name="cacheURL" value=""/>
+    </cm:default-properties>
   </cm:property-placeholder>
 
   <!-- LOCAL BEANS & SERVICES -->
