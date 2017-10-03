@@ -14,6 +14,7 @@
     <module>qlack2-util-avail-check-core</module>
     <module>qlack2-util-avail-check-oracle</module>
     <module>qlack2-util-avail-check-mysql</module>
+    <module>qlack2-util-avail-check-mariadb</module>
     <module>qlack2-util-avail-check-elasticsearch</module>
   </modules>
 
