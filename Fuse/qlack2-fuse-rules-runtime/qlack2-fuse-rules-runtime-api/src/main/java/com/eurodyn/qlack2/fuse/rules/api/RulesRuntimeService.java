@@ -13,6 +13,15 @@ public interface RulesRuntimeService {
 
 	StatelessExecutionResults statelessExecute(String kbaseId, String rule, Map<String, byte[]> globals, List<byte[]> facts);
 
+  /**
+   * Stateless rules execution.
+   *
+   * @param rules the business rules
+   * @param facts the objects against which to execute the rules
+   * @param globals named objects, visible to the rule engine
+   */
+  void statelessExecute(List<String> rules, List<Object> facts, Map<String, Object> globals);
+
 	String createKnowledgeSession(String kbaseId);
 
 	void destroyKnowledgeSession(String ksessionId);
