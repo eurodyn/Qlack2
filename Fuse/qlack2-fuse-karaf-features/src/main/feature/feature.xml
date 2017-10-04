@@ -97,6 +97,34 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
 
   <!-- ***************************************************************************************** -->
+  <!-- CACHING                                                                                   -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - Caching (api)" name="qlack2-fuse-caching-api" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-caching-api/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Caching (memcached)" name="qlack2-fuse-caching-memcached" version="${project.version}">
+    <feature dependency="true">wrap</feature>
+    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+    <bundle>wrap:mvn:net.spy/spymemcached/${memcached.version}</bundle>
+    <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
+    <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-caching-memcached/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Caching (redis)" name="qlack2-fuse-caching-redis" version="${project.version}">
+    <feature>jackson-databind</feature>
+    <bundle>mvn:org.apache.commons/commons-pool2/${commons.pool2.version}</bundle>
+    <bundle>mvn:redis.clients/jedis/${jedis.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-caching-redis/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Caching (local)" name="qlack2-fuse-caching-local" version="${project.version}">
+    <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-caching-local/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Caching (CLI)" name="qlack2-fuse-caching-cli" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-caching-cli/${project.version}</bundle>
+  </feature>
+
+  <!-- ***************************************************************************************** -->
   <!-- CALENDAR                                                                                  -->
   <!-- ***************************************************************************************** -->
   <feature description="QLACK2 Fuse - Calendar" name="qlack2-fuse-calendar" version="${project.version}">
@@ -593,34 +621,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   <!-- Features which haven't been split to api/impl yet -->
   <feature description="QLACK2 Fuse - AAA shell" name="qlack2-fuse-AAA-shell" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-aaa-commands/${project.version}</bundle>
-  </feature>
-
-  <feature description="QLACK2 Fuse - Caching - memcached" name="qlack2-fuse-caching-memcached" version="${project.version}">
-    <feature dependency="true">wrap</feature>
-    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
-    <bundle>wrap:mvn:net.spy/spymemcached/${memcached.version}</bundle>
-    <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
-    <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-caching-api/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-caching-memcached/${project.version}</bundle>
-  </feature>
-
-  <feature description="QLACK2 Fuse - Caching - redis" name="qlack2-fuse-caching-redis" version="${project.version}">
-    <feature>jackson-databind</feature>
-    <bundle>mvn:org.apache.commons/commons-pool2/${commons.pool2.version}</bundle>
-    <bundle>mvn:redis.clients/jedis/${jedis.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-caching-api/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-caching-redis/${project.version}</bundle>
-  </feature>
-
-  <feature description="QLACK2 Fuse - Caching - local" name="qlack2-fuse-caching-local" version="${project.version}">
-    <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-caching-api/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-caching-local/${project.version}</bundle>
-  </feature>
-
-  <feature description="QLACK2 Fuse - Caching - CLI" name="qlack2-fuse-caching-cli" version="${project.version}">
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-caching-cli/${project.version}</bundle>
   </feature>
 
   <feature description="QLACK2 Fuse - Event publisher" name="qlack2-fuse-eventpublisher" version="${project.version}">
