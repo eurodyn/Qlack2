@@ -14,17 +14,17 @@
 */
 package com.eurodyn.qlack2.fuse.auditing.impl.util;
 
-import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLevelDTO;
-import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLogDTO;
-import com.eurodyn.qlack2.fuse.auditing.impl.model.Audit;
-import com.eurodyn.qlack2.fuse.auditing.impl.model.AuditLevel;
-import com.eurodyn.qlack2.fuse.auditing.impl.model.AuditTrace;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLevelDTO;
+import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLogDTO;
+import com.eurodyn.qlack2.fuse.auditing.impl.model.Audit;
+import com.eurodyn.qlack2.fuse.auditing.impl.model.AuditLevel;
+import com.eurodyn.qlack2.fuse.auditing.impl.model.AuditTrace;
 
 /**
  * This is utility class used to convert Audit related models/list data to DTO
@@ -104,6 +104,9 @@ public final class ConverterUtil {
 					.getLevel() ? null : new AuditLevelDTO(log.getLevel())));
 			alLog.setReferenceId(log.getReferenceId());
 			alLog.setGroupName(log.getGroupName());
+			alLog.setOpt1(log.getOpt1());
+			alLog.setOpt2(log.getOpt2());
+			alLog.setOpt3(log.getOpt3());
 		}
 		return alLog;
 	}
@@ -133,6 +136,9 @@ public final class ConverterUtil {
 			alLog.setLevel(log.getLevelId().getName());
 			alLog.setReferenceId(log.getReferenceId());
 			alLog.setGroupName(log.getGroupName());
+			alLog.setOpt1(log.getOpt1());
+			alLog.setOpt2(log.getOpt2());
+			alLog.setOpt3(log.getOpt3());
 		}
 		return alLog;
 	}

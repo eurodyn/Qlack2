@@ -46,11 +46,17 @@ public class Audit {
 	private String referenceId;
 	@Column(name = "group_name")
 	private String groupName;
+	@Column(name = "opt1")
+	private String opt1;
+	@Column(name = "opt2")
+	private String opt2;
+	@Column(name = "opt3")
+	private String opt3;
 
 	public Audit() {
 		id = java.util.UUID.randomUUID().toString();
 	}
-	
+
 	public String getId() {
 		return this.id;
 	}
@@ -123,4 +129,27 @@ public class Audit {
 		this.groupName = groupName;
 	}
 
+	public String getOpt1() {
+		return opt1;
+	}
+
+	public void setOpt1(String opt1) {
+		this.opt1 = opt1;
+	}
+
+	public String getOpt2() {
+		return opt2;
+	}
+
+	public void setOpt2(String opt2) {
+		this.opt2 = opt2;
+	}
+
+	public String getOpt3() {
+		return opt3;
+	}
+
+	public void setOpt3(String opt3) {
+		this.opt3 = opt3;
+	}
 }

@@ -1,0 +1,23 @@
+databaseChangeLog:
+- changeSet:
+    id: auditing_2
+    author: European Dynamics SA
+    changes:
+    - addColumn:
+        tableName: al_audit
+        columns:
+          - column:
+              name: opt1
+              type: varchar(255)
+    - addColumn:
+        tableName: al_audit
+        columns:
+          - column:
+              name: opt2
+              type: varchar(255)
+    - addColumn:
+        tableName: al_audit
+        columns:
+          - column:
+              name: opt3
+              type: varchar(255)
