@@ -39,6 +39,7 @@ import com.eurodyn.qlack2.fuse.auditing.api.AuditLoggingService;
 import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLogDTO;
 import com.eurodyn.qlack2.fuse.auditing.api.dto.SearchDTO;
 import com.eurodyn.qlack2.fuse.auditing.api.dto.SortDTO;
+import com.eurodyn.qlack2.fuse.auditing.api.enums.AuditLogColumns;
 import com.eurodyn.qlack2.fuse.auditing.api.enums.SearchOperator;
 import com.eurodyn.qlack2.fuse.auditing.api.enums.SortOperator;
 import com.eurodyn.qlack2.fuse.auditing.impl.model.Audit;
@@ -233,12 +234,12 @@ public class AuditLoggingServiceImpl implements
 		TypedQuery<Long> query = em.createQuery(cq);
 		return query.getSingleResult().intValue();
 	}
-	
+
 	@Override
 	@Transactional(TxType.REQUIRED)
 	public AuditLogDTO getAuditById(String auditId){
 		Audit log = em.find(Audit.class, auditId);
-		
+
 		return ConverterUtil.convertToAuditLogDTO(log);
 	}
 
@@ -424,9 +425,22 @@ public class AuditLoggingServiceImpl implements
 		if (sortList != null) {
 			for (SortDTO sortDTO : sortList) {
 				if (SortOperator.ASC == sortDTO.getOperator()) {
-					orders.add(cb.asc(root.get(sortDTO.getColumn().name())));
+					if (AuditLogColumns.traceData.equals(sortDTO.getColumn())) {
+						Expression<?> exp = root.get("traceId").get(sortDTO.getColumn().name());
+						exp = cb.function("TO_CHAR", String.class, exp);
+						orders.add(cb.asc(exp));
+					} else {
+						orders.add(cb.asc(root.get(sortDTO.getColumn().name())));
+					}
+
 				} else {
-					orders.add(cb.desc(root.get(sortDTO.getColumn().name())));
+					if (AuditLogColumns.traceData.equals(sortDTO.getColumn())) {
+						Expression<?> exp = root.get("traceId").get(sortDTO.getColumn().name());
+						exp = cb.function("TO_CHAR", String.class, exp);
+						orders.add(cb.desc(exp));
+					} else {
+						orders.add(cb.desc(root.get(sortDTO.getColumn().name())));
+					}
 				}
 			}
 			cq = cq.orderBy(orders);
