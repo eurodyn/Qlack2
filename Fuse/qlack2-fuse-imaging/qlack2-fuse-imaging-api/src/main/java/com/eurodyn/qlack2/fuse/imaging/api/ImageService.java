@@ -351,4 +351,16 @@ public interface ImageService {
 	 */
 	public byte[] overlayImage(byte[] image, byte[] overlay, int xCoordinate,
 			int yCoordinate) throws QImageCannotBeRetrievedException;
+
+  /**
+   * Returns the DPI of a given image
+   *
+   * @param image
+   *            The image whose information to retrieve
+   * @return The image's DPI
+   * @throws QImageCannotBeRetrievedException
+   *             If the image passed to this method cannot be read
+   */
+  public int[] getImageDPI(byte[] image)
+    throws QImageCannotBeRetrievedException;
 }

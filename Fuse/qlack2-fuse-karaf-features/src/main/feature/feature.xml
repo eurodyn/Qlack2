@@ -340,6 +340,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:javax.media.jai/com.springsource.javax.media.jai.codec/${jai.version}</bundle>
     <bundle>mvn:javax.media.jai/com.springsource.javax.media.jai.core/${jai.version}</bundle>
     <bundle>mvn:eu.medsea.mimeutil/mime-util/${mimeutil.version}</bundle>
+    <bundle>mvn:org.apache.sanselan/sanselan/${sanselan.version}</bundle>
   </feature>
 
   <!-- ***************************************************************************************** -->

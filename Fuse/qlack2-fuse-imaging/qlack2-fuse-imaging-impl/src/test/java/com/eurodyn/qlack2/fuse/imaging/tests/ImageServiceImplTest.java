@@ -4,7 +4,9 @@ import com.eurodyn.qlack2.fuse.imaging.api.ImageService;
 import com.eurodyn.qlack2.fuse.imaging.api.dto.OverlayTextDTO;
 import com.eurodyn.qlack2.fuse.imaging.conf.ITTestConf;
 import com.eurodyn.qlack2.fuse.imaging.util.TestConst;
+
 import javax.inject.Inject;
+
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -161,8 +163,15 @@ public class ImageServiceImplTest extends ITTestConf {
   public void overlayImageArgs() throws IOException {
     byte[] testImage = getTestImage();
     Assert.assertNotNull(imageService
-        .overlayImage(testImage, testImage, TestConst.scaleFactorIntX,
-          TestConst.scaleFactorIntY));
+      .overlayImage(testImage, testImage, TestConst.scaleFactorIntX,
+        TestConst.scaleFactorIntY));
+  }
+
+  @Test
+  public void getImageDPI() throws IOException {
+    byte[] testImage = getTestImage();
+    int[] DPI = imageService.getImageDPI(testImage);
+    Assert.assertArrayEquals(new int[]{96, 96}, DPI);
   }
 
 }

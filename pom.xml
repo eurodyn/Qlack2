@@ -172,6 +172,7 @@
     <httpasyncclient-osgi.version>4.1.3</httpasyncclient-osgi.version>
     <elasticsearch.client-rest.version>5.4.0</elasticsearch.client-rest.version>
     <mockito-all.version>1.10.19</mockito-all.version>
+    <sanselan.version>0.97-incubator</sanselan.version>
   </properties>
 
   <repositories>

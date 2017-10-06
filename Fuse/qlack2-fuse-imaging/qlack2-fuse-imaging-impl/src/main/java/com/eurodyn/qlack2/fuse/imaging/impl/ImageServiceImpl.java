@@ -42,6 +42,9 @@ import com.eurodyn.qlack2.fuse.imaging.api.dto.OverlayTextDTO;
 import com.eurodyn.qlack2.fuse.imaging.api.exception.QImageCannotBeRetrievedException;
 import com.eurodyn.qlack2.fuse.imaging.impl.util.ImageIOUtil;
 
+import org.apache.sanselan.Sanselan;
+import org.apache.sanselan.ImageReadException;
+
 /**
  *
  * @author European Dynamics SA
@@ -449,4 +452,24 @@ public class ImageServiceImpl implements ImageService {
 		return ImageIOUtil.encodeImage(pi, format);
 	}
 
+  @Override
+  public int[] getImageDPI(byte[] image)
+    throws QImageCannotBeRetrievedException {
+    LOGGER.log(Level.FINEST, "Getting image DPI");
+
+    int DPI[] = new int[2];
+    DPI[0] = 0;
+    DPI[1] = 0;
+
+    try {
+      org.apache.sanselan.ImageInfo imageInfo = Sanselan.getImageInfo(image);
+
+      DPI[0] = imageInfo.getPhysicalWidthDpi();
+      DPI[1] = imageInfo.getPhysicalHeightDpi();
+    } catch (IOException | ImageReadException e) {
+      LOGGER.log(Level.SEVERE, e.getLocalizedMessage(), e);
+      throw new QImageCannotBeRetrievedException(e.getLocalizedMessage());
+    }
+    return DPI;
+  }
 }
