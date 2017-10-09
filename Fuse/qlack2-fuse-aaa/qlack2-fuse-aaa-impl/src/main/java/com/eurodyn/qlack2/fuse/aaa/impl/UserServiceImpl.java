@@ -531,13 +531,13 @@ public class UserServiceImpl implements UserService {
     }
     // Include/exclude user group IDs
     if (criteria.getIncludeGroupIds() != null) {
-      Predicate pr = root.get("groups.id").in(
-        criteria.getIncludeGroupIds());
+      Predicate pr = cb.equal(root.join("groups").get("id"), 
+          criteria.getIncludeGroupIds());
       cq = addPredicate(cq, cb, pr);
     }
     if (criteria.getExcludeGroupIds() != null) {
-      Predicate pr = cb.not(root.get("groups.id").in(
-        criteria.getExcludeGroupIds()));
+      Predicate pr = cb.notEqual(root.join("groups").get("id"),
+          criteria.getIncludeGroupIds());;
       cq = addPredicate(cq, cb, pr);
     }
     // Filter by status
