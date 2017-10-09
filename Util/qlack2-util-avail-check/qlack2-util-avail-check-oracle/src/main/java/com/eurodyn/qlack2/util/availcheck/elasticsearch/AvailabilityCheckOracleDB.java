@@ -27,6 +27,9 @@ public class AvailabilityCheckOracleDB implements AvailabilityCheck {
     Map<String, Object> params) {
     boolean retVal = false;
 
+    LOGGER.log(Level.INFO, "Checking availability of Oracle DB: url={0}, user={1}, password={2}, "
+      + "maxWait={3}, cycleWait={4}", new Object[]{url, user, password,  maxWait,  cycleWait});
+
     try {
       Class.forName(DRIVER_NAME);
       long startTime = Instant.now().toEpochMilli();
@@ -38,7 +41,8 @@ public class AvailabilityCheckOracleDB implements AvailabilityCheck {
             }
           }
           retVal = true;
-        } catch (SQLException ignore) {
+        } catch (SQLException e) {
+          LOGGER.log(Level.INFO, e.getMessage(), e);
         }
         Thread.sleep(cycleWait);
       }
