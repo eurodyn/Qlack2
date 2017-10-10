@@ -99,9 +99,9 @@ public abstract class ITTestConf {
       features(projectFeaturesRepo, "qlack2-fuse-AAA-deps"),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-testing")),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-networking")),
-      url("file:../../../../qlack2-fuse-AAA-api/target/qlack2-fuse-AAA-api-" +
+      url("file:../../../../qlack2-fuse-aaa-api/target/qlack2-fuse-aaa-api-" +
         MavenUtils.getArtifactVersion("com.eurodyn.qlack2.fuse", "qlack2-fuse-aaa-api") + ".jar"),
-      url("file:../../qlack2-fuse-AAA-impl-" +
+      url("file:../../qlack2-fuse-aaa-impl-" +
         MavenUtils.getArtifactVersion("com.eurodyn.qlack2.fuse", "qlack2-fuse-aaa-impl") + ".jar"),
     };
   }
