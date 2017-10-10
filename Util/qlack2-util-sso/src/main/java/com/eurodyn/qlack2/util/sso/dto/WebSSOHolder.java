@@ -1,5 +1,7 @@
 package com.eurodyn.qlack2.util.sso.dto;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +17,10 @@ public class WebSSOHolder {
   }
 
   public static Optional<SAMLAttributeDTO> getAttribute(String attributeName) {
-    return attributes.get().stream().filter(attr -> attr.getName().equals(attributeName))
-      .findFirst();
+
+    return CollectionUtils.isNotEmpty(attributes.get()) ? attributes.get().stream()
+      .filter(attr -> attr.getName().equals(attributeName))
+      .findFirst() : null;
   }
 
   public static void setAttributes(List<SAMLAttributeDTO> newAttributes) {

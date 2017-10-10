@@ -12,10 +12,6 @@ import java.util.Scanner;
 
 public class WebSSOCookieInterceptorTest {
 
-  /**
-   * Note: Testing private methods is not recommended, however as we need to test specific XMLs
-   * here without actually trying to parse a whole message from CXF we make an exception.
-   */
   @Test
   public void testGetAttributes()
     throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
