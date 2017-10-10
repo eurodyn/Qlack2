@@ -35,25 +35,24 @@ import java.util.logging.Logger;
 })
 public class FuseAAAIntegrationTests {
 
-  /**
-   * JUL reference
-   */
+  // JUL reference.
   private final static Logger LOGGER = Logger.getLogger(FuseAAAIntegrationTests.class.getName());
 
-  /**
-   * The ID of the container created with the database
-   */
+  // The prefix name of the test container to start.
+  public static final String TEST_CONTAINER_PREFIX = "TEST-qlack-";
+
+  // The ID of the container created with the database.
   private static String dbContainerId;
 
   @BeforeClass
   public static void beforeClass()
     throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 
-    /** Start the DB container */
-    dbContainerId = TestingUtil.startContainer(ITTestConf.testingEnv);
+    // Start the DB container.
+    dbContainerId = TestingUtil.startContainer(ITTestConf.testingEnv, TEST_CONTAINER_PREFIX);
     Assert.assertNotNull(dbContainerId);
 
-    /** Wait for the DB container to become accessible */
+    // Wait for the DB container to become accessible.
     LOGGER.log(Level.INFO, "Waiting for DB to become accessible...");
     AvailabilityCheck dbAvailabilityCheck = (AvailabilityCheck) Class
       .forName(ITTestConf.testingEnv.getDbAvailabilityCheckClass()).newInstance();

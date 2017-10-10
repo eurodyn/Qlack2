@@ -30,6 +30,9 @@ public class FuseTicketServerIntegrationTests {
   private final static Logger LOGGER = Logger
     .getLogger(FuseTicketServerIntegrationTests.class.getName());
 
+  // The prefix name of the test container to start.
+  public static final String TEST_CONTAINER_PREFIX = "TEST-qlack-";
+
   /**
    * The ID of the container created with the database
    */
@@ -40,7 +43,7 @@ public class FuseTicketServerIntegrationTests {
     throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 
     /** Start the DB container */
-    dbContainerId = TestingUtil.startContainer(ITTestConf.testingEnv);
+    dbContainerId = TestingUtil.startContainer(ITTestConf.testingEnv, TEST_CONTAINER_PREFIX);
     Assert.assertNotNull(dbContainerId);
 
     /** Wait for the DB container to become accessible */

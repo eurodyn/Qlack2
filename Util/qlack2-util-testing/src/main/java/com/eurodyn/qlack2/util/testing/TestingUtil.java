@@ -52,7 +52,13 @@ public class TestingUtil {
     return copyITConf(path, null);
   }
 
-  public static String startContainer(TestingEnv testingParams) {
+  /**
+   * Starts a Docker container using parameters from {@link TestingEnv}.
+   * @param testingParams The parameters to use to start the container.
+   * @param containerName The name of the container to start.
+   * @return Returns the ID of the container that started.
+   */
+  public static String startContainer(TestingEnv testingParams, String containerName) {
     /** Prepare the Docker container */
     final DockerContainer dockerContainer = DockerContainer.builder()
       .withDockerEngine(
@@ -60,7 +66,7 @@ public class TestingUtil {
       .withImage(testingParams.getDbImage())
       .withPort(String.valueOf(testingParams.getDbPortHost()),
         String.valueOf(testingParams.getDbPortContainer()))
-      .withName("TEST-" + UUID.randomUUID());
+      .withName(containerName + UUID.randomUUID());
 
     /** Fill-in environmental options to the container */
     testingParams.getContainerEnvParams().keySet().parallelStream().forEach(key -> {

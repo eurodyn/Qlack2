@@ -26,6 +26,9 @@ public class FuseSearchIntegrationTests {
    */
   private final static Logger LOGGER = Logger.getLogger(FuseSearchIntegrationTests.class.getName());
 
+  // The prefix name of the test container to start.
+  public static final String TEST_CONTAINER_PREFIX = "TEST-qlack-";
+
   /**
    * The ID of the container created with ES
    */
@@ -44,7 +47,7 @@ public class FuseSearchIntegrationTests {
       .withPort("50124/tcp", "9200/tcp")
       .withEnv("http.host", "0.0.0.0")
       .withEnv("transport.host", "127.0.0.1")
-      .withName("TEST-" + UUID.randomUUID())
+      .withName(TEST_CONTAINER_PREFIX + UUID.randomUUID())
       .run();
     Assert.assertNotNull(esContainerId);
 
