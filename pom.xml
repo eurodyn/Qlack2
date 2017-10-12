@@ -52,6 +52,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+    <sonar.projectName>Qlack2-GitHub</sonar.projectName>
+
     <blueprint.ns>v1.0.0</blueprint.ns>
     <blueprint.cm>v1.1.0</blueprint.cm>
     <blueprint.jpa>v2.0.0</blueprint.jpa>
