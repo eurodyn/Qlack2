@@ -1,9 +1,8 @@
 package com.eurodyn.qlack2.util.sso.dto;
 
-import org.apache.commons.collections.CollectionUtils;
-
 import java.util.List;
 import java.util.Optional;
+import org.apache.commons.collections.CollectionUtils;
 
 /**
  * A ThreadLocal holder for SAML attributed decoded from the incoming SAML Response.
@@ -20,7 +19,7 @@ public class WebSSOHolder {
 
     return CollectionUtils.isNotEmpty(attributes.get()) ? attributes.get().stream()
       .filter(attr -> attr.getName().equals(attributeName))
-      .findFirst() : null;
+      .findFirst() : Optional.empty();
   }
 
   public static void setAttributes(List<SAMLAttributeDTO> newAttributes) {
