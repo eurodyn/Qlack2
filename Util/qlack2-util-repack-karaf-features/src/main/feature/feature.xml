@@ -102,4 +102,11 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/L
     <feature>qlack2-util-repack-jpadb</feature>
     <feature>pax-jdbc-mariadb</feature>
   </feature>
+
+  <feature name="qlack2-util-repack-javers" version="${project.version}">
+    <bundle>wrap:mvn:org.javers/javers-core/${javers-core.version}</bundle>
+    <bundle>wrap:mvn:org.picocontainer/picocontainer/${picocontainer.version}</bundle>
+    <bundle>wrap:mvn:com.google.code.gson/gson/${gson.version}</bundle>
+  </feature>
+
 </features>
