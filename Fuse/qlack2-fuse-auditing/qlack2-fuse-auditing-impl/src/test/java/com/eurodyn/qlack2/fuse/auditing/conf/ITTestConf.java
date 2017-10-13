@@ -98,6 +98,7 @@ public abstract class ITTestConf {
       features(projectFeaturesRepo, "pax-jdbc-mysql"),
       features(projectFeaturesRepoUtil, "qlack2-util-liquibase"),
       features(projectFeaturesRepo, "qlack2-fuse-auditing-deps"),
+        features(projectFeaturesRepoUtil, "qlack2-common-util"),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-testing")),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-networking")),
       url("file:../../../../qlack2-fuse-auditing-api/target/qlack2-fuse-auditing-api-" +

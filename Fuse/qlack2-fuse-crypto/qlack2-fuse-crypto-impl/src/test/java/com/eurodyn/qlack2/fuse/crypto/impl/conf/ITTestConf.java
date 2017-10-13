@@ -84,6 +84,7 @@ public abstract class ITTestConf {
       features(karafStandardFeaturesUrl, "jndi"),
       addCodeCoverageOption(),
       features(projectFeaturesRepo, "qlack2-fuse-crypto-deps"),
+        features(projectFeaturesRepoUtil, "qlack2-common-util"),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-testing")),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-networking")),
       url("file:../../../../qlack2-fuse-crypto-api/target/qlack2-fuse-crypto-api-" +

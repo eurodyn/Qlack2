@@ -65,6 +65,13 @@ public abstract class ITTestConf {
       .classifier("features")
       .type("xml");
 
+    MavenUrlReference projectFeaturesRepoUtil = maven()
+        .groupId("com.eurodyn.qlack2.util")
+        .artifactId("qlack2-util-karaf-features")
+        .versionAsInProject()
+        .classifier("features")
+        .type("xml");
+
     String localRepository = System.getProperty("org.ops4j.pax.url.mvn.localRepository");
 
     return new Option[]{
@@ -83,6 +90,7 @@ public abstract class ITTestConf {
       addCodeCoverageOption(),
       features(karafStandardFeaturesUrl, "wrap"),
       features(projectFeaturesRepo, "qlack2-fuse-search-deps"),
+        features(projectFeaturesRepoUtil, "qlack2-common-util"),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-testing")),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-networking")),
       url("file:../../../../qlack2-fuse-search-api/target/qlack2-fuse-search-api-" +

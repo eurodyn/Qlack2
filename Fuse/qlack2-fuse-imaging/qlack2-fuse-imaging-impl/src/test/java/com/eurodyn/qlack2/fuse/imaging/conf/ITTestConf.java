@@ -89,6 +89,7 @@ public abstract class ITTestConf {
       addCodeCoverageOption(),
       CoreOptions.mavenBundle("commons-io", "commons-io").versionAsInProject(),
       features(projectFeaturesRepo, "qlack2-fuse-imaging-deps"),
+        features(projectFeaturesRepoUtil, "qlack2-common-util"),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-testing")),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-networking")),
       url("file:../../../../qlack2-fuse-imaging-api/target/qlack2-fuse-imaging-api-" +
