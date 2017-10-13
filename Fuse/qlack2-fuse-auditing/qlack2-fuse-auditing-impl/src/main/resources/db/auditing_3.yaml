@@ -1,0 +1,12 @@
+databaseChangeLog:
+- changeSet:
+    id: auditing_3
+    author: European Dynamics SA
+    changes:
+    - createIndex:
+        indexName: fk_audit_createdOn
+        tableName: al_audit
+        columns:
+        - column:
+            name: created_on
+            type: bigint

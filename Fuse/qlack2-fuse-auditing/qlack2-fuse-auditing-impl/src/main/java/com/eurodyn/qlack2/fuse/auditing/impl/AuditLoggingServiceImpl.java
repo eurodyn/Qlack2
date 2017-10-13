@@ -400,6 +400,13 @@ public class AuditLoggingServiceImpl implements
 		}
 
 		if (startDate != null) {
+
+		  Calendar cal = Calendar.getInstance();
+		  cal.setTime(startDate);
+		  cal.set(Calendar.HOUR_OF_DAY, 0);
+		  cal.set(Calendar.MINUTE,0);
+		  cal.set(Calendar.SECOND, 59);
+		  startDate = cal.getTime();
 			Expression expression = root.get("createdOn");
 			Predicate pr = cb.greaterThanOrEqualTo(expression,
 					startDate.getTime());
@@ -408,6 +415,12 @@ public class AuditLoggingServiceImpl implements
 
 		}
 		if (endDate != null) {
+      Calendar cal = Calendar.getInstance();
+      cal.setTime(endDate);
+      cal.set(Calendar.HOUR_OF_DAY, 23);
+      cal.set(Calendar.MINUTE,59);
+      cal.set(Calendar.SECOND, 59);
+      endDate = cal.getTime();
 			Expression expression = root.get("createdOn");
 			Predicate pr = cb.lessThanOrEqualTo(expression, endDate.getTime());
 
