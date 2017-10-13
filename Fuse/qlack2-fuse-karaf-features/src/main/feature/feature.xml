@@ -23,6 +23,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - AAA (api)" name="qlack2-fuse-AAA-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-aaa-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - AAA (impl)" name="qlack2-fuse-AAA-impl" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-aaa-impl/${project.version}</bundle>
@@ -33,7 +34,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   <feature description="QLACK2 Fuse - AAA (deps)" name="qlack2-fuse-AAA-deps" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <feature>eventadmin</feature>
-    <feature>qlack2-common-util</feature>
     <feature>qlack2-util-repack-jpadb</feature>
     <feature>qlack2-util-repack-jackson</feature>
     <feature>qlack2-util-repack-querydsl</feature>
@@ -60,13 +60,13 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Auditing (api)" name="qlack2-fuse-auditing-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-auditing-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Auditing (deps)" name="qlack2-fuse-auditing-deps" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-util-repack-jackson</feature>
     <feature>qlack2-util-repack-jpadb</feature>
     <feature>eventadmin</feature>
-    <feature>qlack2-common-util</feature>
     <feature>qlack2-fuse-eventpublisher</feature>
     <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
     <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
@@ -82,9 +82,9 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Blog (api)" name="qlack2-fuse-blog-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-blog-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Blog (impl)" name="qlack2-fuse-blog-impl" version="${project.version}">
-    <feature>qlack2-fuse-blog-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-blog-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Blog (deps)" name="qlack2-fuse-blog-deps" version="${project.version}">
@@ -92,7 +92,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <feature>qlack2-util-repack-jpadb</feature>
     <feature>qlack2-util-repack-jackson</feature>
     <feature>qlack2-util-repack-querydsl</feature>
-    <feature>qlack2-common-util</feature>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
   </feature>
 
@@ -134,15 +133,14 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Calendar (api)" name="qlack2-fuse-calendar-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-calendar-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Calendar (impl)" name="qlack2-fuse-calendar-impl" version="${project.version}">
-    <feature>qlack2-fuse-calendar-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-calendar-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Calendar (deps)" name="qlack2-fuse-calendar-deps" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-util-repack-jpadb</feature>
-    <feature>qlack2-common-util</feature>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
     <bundle>mvn:commons-lang/commons-lang/${commons.lang.version}</bundle>
     <bundle>mvn:org.mnode.ical4j/ical4j/${ical4j.version}</bundle>
@@ -160,14 +158,13 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - ChatIM (api)" name="qlack2-fuse-chat-im-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-chat-im-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - ChatIM (impl)" name="qlack2-fuse-chat-im-impl" version="${project.version}">
-    <feature>qlack2-fuse-chat-im-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-chat-im-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - ChatIM (deps)" name="qlack2-fuse-chat-im-deps" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
-    <feature>qlack2-common-util</feature>
     <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
     <feature>qlack2-util-repack-jpadb</feature>
   </feature>
@@ -182,15 +179,14 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Clipboard (api)" name="qlack2-fuse-clipboard-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-clipboard-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Clipboard (impl)" name="qlack2-fuse-clipboard-impl" version="${project.version}">
-    <feature>qlack2-fuse-clipboard-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-clipboard-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Clipboard (deps)" name="qlack2-fuse-clipboard-deps" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-util-repack-jpadb</feature>
-    <feature>qlack2-common-util</feature>
     <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
   </feature>
 
@@ -204,15 +200,14 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Component Library (api)" name="qlack2-fuse-component-library-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-component-library-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Component Library (impl)" name="qlack2-fuse-component-library-impl" version="${project.version}">
-    <feature>qlack2-fuse-component-library-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-component-library-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Component Library (deps)" name="qlack2-fuse-component-library-deps" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-util-repack-jpadb</feature>
-    <feature>qlack2-common-util</feature>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
     <bundle>mvn:commons-lang/commons-lang/${commons.lang.version}</bundle>
     <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
@@ -228,16 +223,15 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - ContentManager (api)" name="qlack2-fuse-content-manager-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-content-manager-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - ContentManager (impl)" name="qlack2-fuse-content-manager-impl" version="${project.version}">
-    <feature>qlack2-fuse-content-manager-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-content-manager-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - ContentManager (deps)" name="qlack2-fuse-content-manager-deps" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <feature>pax-cdi</feature>
     <feature>qlack2-util-repack-jpadb</feature>
-    <feature>qlack2-common-util</feature>
     <feature>qlack2-util-repack-querydsl</feature>
     <bundle>mvn:joda-time/joda-time/${joda.version}</bundle>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
@@ -257,6 +251,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Crypto (api)" name="qlack2-fuse-crypto-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-crypto-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Crypto (impl)" name="qlack2-fuse-crypto-impl" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-crypto-impl/${project.version}</bundle>
@@ -277,16 +272,15 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Forum (api)" name="qlack2-fuse-forum-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-forum-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Forum (impl)" name="qlack2-fuse-forum-impl" version="${project.version}">
-    <feature>qlack2-fuse-forum-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-forum-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Forum (deps)" name="qlack2-fuse-forum-deps" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-util-repack-jpadb</feature>
     <feature>qlack2-util-repack-querydsl</feature>
-    <feature>qlack2-common-util</feature>
   </feature>
 
   <!-- ***************************************************************************************** -->
@@ -299,16 +293,15 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Identity Manager (api)" name="qlack2-fuse-idm-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-idm-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Identity Manager (impl)" name="qlack2-fuse-idm-impl" version="${project.version}">
-    <feature>qlack2-fuse-idm-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-idm-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Identity Manager (deps)" name="qlack2-fuse-idm-deps" version="${project.version}">
     <feature>qlack2-fuse-AAA</feature>
     <feature>qlack2-fuse-crypto</feature>
     <feature>qlack2-fuse-ticketserver</feature>
-    <feature>qlack2-common-util</feature>
     <feature>cxf-jaxrs</feature>
     <feature>qlack2-util-repack-jackson-rs</feature>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
@@ -326,15 +319,14 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Imaging (api)" name="qlack2-fuse-imaging-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-imaging-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Imaging (impl)" name="qlack2-fuse-imaging-impl" version="${project.version}">
-    <feature>qlack2-fuse-imaging-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-imaging-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Imaging (deps)" name="qlack2-fuse-imaging-deps" version="${project.version}">
     <feature>jndi</feature>
     <feature prerequisite="true">wrap</feature>
-    <feature>qlack2-common-util</feature>
     <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
     <bundle>mvn:javax.media.jai/com.springsource.javax.media.jai.codec/${jai.version}</bundle>
@@ -353,9 +345,9 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Lexicon (api)" name="qlack2-fuse-lexicon-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-lexicon-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Lexicon (impl)" name="qlack2-fuse-lexicon-impl" version="${project.version}">
-    <feature>qlack2-fuse-lexicon-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-lexicon-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Lexicon (deps)" name="qlack2-fuse-lexicon-deps" version="${project.version}">
@@ -363,7 +355,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <feature>eventadmin</feature>
     <feature>qlack2-util-repack-querydsl</feature>
     <feature>qlack2-util-repack-jpadb</feature>
-    <feature>qlack2-common-util</feature>
     <bundle>mvn:org.freemarker/freemarker/${freemarker.version}</bundle>
     <bundle>mvn:org.yaml/snakeyaml/${snakeyaml.version}</bundle>
     <bundle>mvn:joda-time/joda-time/${joda.version}</bundle>
@@ -382,22 +373,48 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Mailing (api)" name="qlack2-fuse-mailing-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-mailing-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Mailing (impl)" name="qlack2-fuse-mailing-impl" version="${project.version}">
-    <feature>qlack2-fuse-mailing-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-mailing-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Mailing (deps)" name="qlack2-fuse-mailing-deps" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-util-repack-jpadb</feature>
     <feature>qlack2-util-liquibase</feature>
-    <feature>qlack2-common-util</feature>
     <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
     <bundle>mvn:org.apache.aries.blueprint/blueprint-maven-plugin-annotation/${blueprint-maven-plugin-annotation.version}</bundle>
     <bundle>mvn:org.apache.commons/commons-email/${commons-email.version}</bundle>
     <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
     <bundle>mvn:com.sun.mail/javax.mail/${javax.mail.version}</bundle>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
+  </feature>
+
+  <!-- ***************************************************************************************** -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - Rules Runtime" name="qlack2-fuse-rules-runtime"
+    version="${project.version}">
+    <feature>qlack2-fuse-rules-runtime-deps</feature>
+    <feature>qlack2-fuse-rules-runtime-api</feature>
+    <feature>qlack2-fuse-rules-runtime-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - Rules Runtime (api)" name="qlack2-fuse-rules-runtime-api"
+    version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-rules-runtime-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - Rules Runtime (impl)" name="qlack2-fuse-rules-runtime-impl"
+    version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-rules-runtime-impl/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - Rules Runtime (deps)" name="qlack2-fuse-rules-runtime-deps"
+    version="${project.version}">
+    <feature prerequisite="true">wrap</feature>
+    <feature>qlack2-util-repack-jpadb</feature>
+    <!--<feature>qlack2-util-jbpm-runtime</feature>-->
+    <feature version="${jbpm.version}">drools-module</feature>
+    <bundle>mvn:org.drools/drools-persistence-api/${jbpm.version}</bundle>
+    <bundle>mvn:org.drools/drools-persistence-jpa/${jbpm.version}</bundle>
   </feature>
 
   <!-- ***************************************************************************************** -->
@@ -410,15 +427,14 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Scheduler (api)" name="qlack2-fuse-scheduler-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-scheduler-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Scheduler (impl)" name="qlack2-fuse-scheduler-impl" version="${project.version}">
-    <feature>qlack2-fuse-scheduler-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-scheduler-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Scheduler (deps)" name="qlack2-fuse-scheduler-deps" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-util-repack-jpadb</feature>
-    <feature>qlack2-common-util</feature>
     <bundle>mvn:commons-lang/commons-lang/${commons.lang.version}</bundle>
     <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
     <bundle>mvn:commons-io/commons-io/${commons.io.version}</bundle>
@@ -439,15 +455,14 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Search (api)" name="qlack2-fuse-search-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-search-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Search (impl)" name="qlack2-fuse-search-impl" version="${project.version}">
-    <feature>qlack2-fuse-search-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-search-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Search (deps)" name="qlack2-fuse-search-deps" version="${project.version}">
     <feature>pax-cdi</feature>
     <feature>jackson-databind</feature>
-    <feature>qlack2-common-util</feature>
     <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.javax-inject/${org.apache.servicemix.bundles.javax-inject.version}</bundle>
@@ -469,14 +484,13 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Security proxy (api)" name="qlack2-fuse-security-proxy-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-security-proxy-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Security proxy (impl)" name="qlack2-fuse-security-proxy-impl" version="${project.version}">
-    <feature>qlack2-fuse-security-proxy-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-security-proxy-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Security proxy (deps)" name="qlack2-fuse-security-proxy-deps" version="${project.version}">
     <feature version="${karaf.cxf.version}">cxf-jaxrs</feature>
-    <feature>qlack2-common-util</feature>
     <feature>qlack2-util-validator-util</feature>
     <feature>qlack2-fuse-idm</feature>
     <feature>cxf-jaxrs</feature>
@@ -496,20 +510,19 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Settings (api)" name="qlack2-fuse-settings-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-settings-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Settings (impl)" name="qlack2-fuse-settings-impl" version="${project.version}">
-    <feature>qlack2-fuse-settings-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-settings-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Settings (deps)" name="qlack2-fuse-settings-deps" version="${project.version}">
-    <feature>qlack2-common-util</feature>
     <feature>qlack2-util-repack-jpadb</feature>
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-util-repack-querydsl</feature>
   </feature>
 
   <!-- ***************************************************************************************** -->
-  <!-- SIMM                                                                                  -->
+  <!-- SIMM                                                                                      -->
   <!-- ***************************************************************************************** -->
   <feature description="QLACK2 Fuse - SIMM" name="qlack2-fuse-simm" version="${project.version}">
     <feature>qlack2-fuse-simm-deps</feature>
@@ -518,16 +531,15 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - SIMM (api)" name="qlack2-fuse-simm-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-simm-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - SIMM" name="qlack2-fuse-simm-impl" version="${project.version}">
-    <feature>qlack2-fuse-simm-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-simm-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - SIMM (deps)" name="qlack2-fuse-simm-deps" version="${project.version}">
     <feature>qlack2-util-repack-jpadb</feature>
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-util-repack-querydsl</feature>
-    <feature>qlack2-common-util</feature>
     <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
   </feature>
@@ -542,15 +554,14 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Ticket Server (api)" name="qlack2-fuse-ticket-server-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-ticket-server-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Ticket Server (impl)" name="qlack2-fuse-ticket-server-impl" version="${project.version}">
-    <feature>qlack2-fuse-ticket-server-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-ticket-server-impl/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-ticket-server-commands/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Ticket Server (deps)" name="qlack2-fuse-ticket-server-deps" version="${project.version}">
     <feature>qlack2-util-repack-jpadb</feature>
-    <feature>qlack2-common-util</feature>
     <feature>jndi</feature>
     <feature prerequisite="true">wrap</feature>
     <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
@@ -568,21 +579,17 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Wiki (api)" name="qlack2-fuse-wiki-api" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-wiki-api/${project.version}</bundle>
+    <feature>qlack2-common-util</feature>
   </feature>
   <feature description="QLACK2 Fuse - Wiki (impl)" name="qlack2-fuse-wiki-impl" version="${project.version}">
-    <feature>qlack2-fuse-wiki-deps</feature>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-wiki-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Wiki (deps)" name="qlack2-fuse-wiki-deps" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-util-repack-jpadb</feature>
     <feature>qlack2-util-repack-querydsl</feature>
-    <feature>qlack2-common-util</feature>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
   </feature>
-
-
-
 
   <feature description="QLACK2 Fuse - File Upload" name="qlack2-fuse-fileupload" version="${project.version}">
     <configfile finalname="/etc/com.eurodyn.qlack2.fuse.fileupload.cfg">mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-file-upload-impl/${project.version}/cfg/config-admin</configfile>
@@ -599,24 +606,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>wrap:mvn:io.sensesecure/clamav4j/${clamav4j.version}</bundle>
     <bundle>mvn:commons-io/commons-io/${commons.io.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-file-upload-impl/${project.version}</bundle>
-  </feature>
-
-  <feature description="QLACK2 Fuse - Rules Runtime" name="qlack2-fuse-rules-runtime" version="${project.version}">
-    <feature>qlack2-fuse-rules-runtime-api</feature>
-    <feature>qlack2-fuse-rules-runtime-impl</feature>
-  </feature>
-  <feature description="QLACK2 Fuse - Rules Runtime API" name="qlack2-fuse-rules-runtime-api" version="${project.version}">
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-rules-runtime-api/${project.version}</bundle>
-  </feature>
-  <feature description="QLACK2 Fuse - Rules Runtime IMPL" name="qlack2-fuse-rules-runtime-impl" version="${project.version}">
-    <feature prerequisite="true">wrap</feature>
-    <feature>qlack2-util-repack-jpadb</feature>
-    <feature>qlack2-common-util</feature>
-    <!--<feature>qlack2-util-jbpm-runtime</feature>-->
-    <feature version="${jbpm.version}">drools-module</feature>
-    <bundle>mvn:org.drools/drools-persistence-api/${jbpm.version}</bundle>
-    <bundle>mvn:org.drools/drools-persistence-jpa/${jbpm.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-rules-runtime-impl/${project.version}</bundle>
   </feature>
 
   <!-- Features which haven't been split to api/impl yet -->
