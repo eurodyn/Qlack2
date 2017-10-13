@@ -6,7 +6,7 @@
   <version>2.3.2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>${project.groupId}:${project.artifactId}</name>
+  <name>QLACK2</name>
   <description>QLACK project</description>
   <url>https://github.com/eurodyn/Qlack2</url>
   <licenses>
