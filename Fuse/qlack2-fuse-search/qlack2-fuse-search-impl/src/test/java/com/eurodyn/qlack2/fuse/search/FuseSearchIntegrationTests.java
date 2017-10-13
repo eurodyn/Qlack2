@@ -2,7 +2,7 @@ package com.eurodyn.qlack2.fuse.search;
 
 import com.eurodyn.qlack2.fuse.search.tests.ServiceImplTest;
 import com.eurodyn.qlack2.util.availcheck.api.AvailabilityCheck;
-import com.eurodyn.qlack2.util.availcheck.elasticsearch.AvailabilityCheckElasticsearch;
+import com.eurodyn.qlack2.util.availcheck.oracle.AvailabilityCheckElasticsearch;
 import com.eurodyn.qlack2.util.docker.DockerContainer;
 import org.junit.AfterClass;
 import org.junit.Assert;

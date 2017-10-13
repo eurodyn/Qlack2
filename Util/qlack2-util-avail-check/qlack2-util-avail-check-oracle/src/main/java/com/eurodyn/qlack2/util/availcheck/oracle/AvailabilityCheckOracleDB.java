@@ -1,4 +1,4 @@
-package com.eurodyn.qlack2.util.availcheck.elasticsearch;
+package com.eurodyn.qlack2.util.availcheck.oracle;
 
 import com.eurodyn.qlack2.util.availcheck.api.AvailabilityCheck;
 
