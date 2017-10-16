@@ -263,6 +263,28 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
 
   <!-- ***************************************************************************************** -->
+  <!-- FILE UPLOAD                                                                               -->
+  <!-- ***************************************************************************************** -->
+  <feature description="QLACK2 Fuse - File Upload" name="qlack2-fuse-fileupload" version="${project.version}">
+    <configfile finalname="/etc/com.eurodyn.qlack2.fuse.fileupload.cfg">mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-file-upload-impl/${project.version}/cfg/config-admin</configfile>
+    <feature dependency="true">wrap</feature>
+    <feature>qlack2-fuse-fileupload-deps</feature>
+    <feature>qlack2-fuse-fileupload-api</feature>
+    <feature>qlack2-fuse-fileupload-impl</feature>
+  </feature>
+  <feature description="QLACK2 Fuse - File Upload (api)" name="qlack2-fuse-fileupload-api" version="${project.version}">
+    <feature>qlack2-common-util</feature>
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-file-upload-api/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - File Upload (impl)" name="qlack2-fuse-fileupload-impl" version="${project.version}">
+    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-file-upload-impl/${project.version}</bundle>
+  </feature>
+  <feature description="QLACK2 Fuse - File Upload (deps)" name="qlack2-fuse-fileupload-deps" version="${project.version}">
+    <bundle>wrap:mvn:io.sensesecure/clamav4j/${clamav4j.version}</bundle>
+    <bundle>mvn:commons-io/commons-io/${commons.io.version}</bundle>
+  </feature>
+
+  <!-- ***************************************************************************************** -->
   <!-- FORUM                                                                                     -->
   <!-- ***************************************************************************************** -->
   <feature description="QLACK2 Fuse - Forum" name="qlack2-fuse-forum" version="${project.version}">
@@ -591,22 +613,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
   </feature>
 
-  <feature description="QLACK2 Fuse - File Upload" name="qlack2-fuse-fileupload" version="${project.version}">
-    <configfile finalname="/etc/com.eurodyn.qlack2.fuse.fileupload.cfg">mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-file-upload-impl/${project.version}/cfg/config-admin</configfile>
-    <feature dependency="true">wrap</feature>
-    <feature>qlack2-fuse-fileupload-api</feature>
-    <feature>qlack2-fuse-fileupload-impl</feature>
-  </feature>
-  <feature description="QLACK2 Fuse - File Upload API" name="qlack2-fuse-fileupload-api" version="${project.version}">
-    <feature>qlack2-common-util</feature>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-file-upload-api/${project.version}</bundle>
-  </feature>
-  <feature description="QLACK2 Fuse - File Upload IMPL" name="qlack2-fuse-fileupload-impl" version="${project.version}">
-    <feature>qlack2-common-util</feature>
-    <bundle>wrap:mvn:io.sensesecure/clamav4j/${clamav4j.version}</bundle>
-    <bundle>mvn:commons-io/commons-io/${commons.io.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-file-upload-impl/${project.version}</bundle>
-  </feature>
 
   <!-- Features which haven't been split to api/impl yet -->
   <feature description="QLACK2 Fuse - AAA shell" name="qlack2-fuse-AAA-shell" version="${project.version}">
