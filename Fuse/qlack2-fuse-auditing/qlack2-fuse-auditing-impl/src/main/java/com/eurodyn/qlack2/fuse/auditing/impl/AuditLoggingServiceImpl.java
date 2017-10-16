@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -80,6 +81,38 @@ public class AuditLoggingServiceImpl implements
 		}
 		em.persist(alAudit);
 		return alAudit.getId();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * @param auditList {@inheritDoc}
+	 * @param correlationId {@inheritDoc}
+	 * @return {@inheritDoc}
+	 */
+	@Override
+	@Transactional(TxType.REQUIRED)
+	public List<String> logAudits(List<AuditLogDTO> auditList, String correlationId) {
+		LOGGER.log(Level.FINER, "Adding audits ''{0}''.", auditList);
+
+		List<String> uuids = new ArrayList<>();
+
+		for(AuditLogDTO audit: auditList) {
+			if (audit.getCreatedOn() == null) {
+				audit.setCreatedOn(new Date());
+			}
+			Audit alAudit = ConverterUtil.convertToAuditLogModel(audit);
+			alAudit.setLevelId(AuditLevel.findByName(em, audit.getLevel()));
+			alAudit.setCorrelationId(correlationId);
+			if (null != alAudit.getTraceId()) {
+				em.persist(alAudit.getTraceId());
+			}
+			em.persist(alAudit);
+			uuids.add(alAudit.getId());
+		}
+
+		return uuids;
+
 	}
 
 	private <T> CriteriaQuery<T> addPredicate(CriteriaQuery<T> query,

@@ -8,5 +8,6 @@
 	<include file="db/auditing_1.yaml" />
 	<include file="db/auditing_2.yaml" />
   <include file="db/auditing_3.yaml" />
+	<include file="db/auditing_4.yaml" />
 
 </databaseChangeLog>

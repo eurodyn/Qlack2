@@ -38,6 +38,15 @@ public interface AuditLoggingService {
 	public String logAudit(AuditLogDTO audit);
 
 	/**
+	 * Logs a list of audits and correlate them if an correlationId is passed.
+	 *
+	 * @param auditList the audits
+	 * @param correlationId the correlation id
+	 * @return the uuid's of the created audit entries
+	 */
+	public List<String> logAudits(List<AuditLogDTO> auditList, String correlationId);
+
+	/**
 	 * To delete specific audit log.
 	 *
 	 * @param auditLogId

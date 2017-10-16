@@ -46,6 +46,8 @@ public class Audit {
 	private String referenceId;
 	@Column(name = "group_name")
 	private String groupName;
+	@Column(name = "correlation_id")
+	private String correlationId;
 	@Column(name = "opt1")
 	private String opt1;
 	@Column(name = "opt2")
@@ -127,6 +129,14 @@ public class Audit {
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+
+	public String getCorrelationId() {
+		return correlationId;
+	}
+
+	public void setCorrelationId(String correlationId) {
+		this.correlationId = correlationId;
 	}
 
 	public String getOpt1() {

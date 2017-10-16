@@ -30,6 +30,7 @@ public class AuditLogDTO implements Serializable {
 	private String traceData;
 	private String referenceId;
 	private String groupName;
+	private String correlationId;
 	private String opt1;
 	private String opt2;
 	private String opt3;
@@ -111,6 +112,14 @@ public class AuditLogDTO implements Serializable {
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
+	}
+
+	public String getCorrelationId() {
+		return correlationId;
+	}
+
+	public void setCorrelationId(String correlationId) {
+		this.correlationId = correlationId;
 	}
 
 	public String getOpt1() {
