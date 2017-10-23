@@ -7,6 +7,8 @@ import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLevelDTO;
 import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLogDTO;
 import com.eurodyn.qlack2.fuse.auditing.conf.ITTestConf;
 import com.eurodyn.qlack2.fuse.auditing.util.TestUtilities;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import javax.inject.Inject;
 import org.junit.Assert;
 import org.junit.Test;
@@ -58,11 +60,12 @@ public class AuditClientServiceImplTest extends ITTestConf {
     @Test
     public void auditTrace(){
         //set Dates
-        Calendar startCale = new GregorianCalendar(2017,1,21);
-        Date startDate = startCale.getTime();
+        LocalDate nowDate = LocalDate.now();
+        LocalDate nowMinusOneMonth = nowDate.minusMonths(1);
+        LocalDate nowPlusOneMonth = nowDate.plusMonths(1);
 
-        Calendar endCale = new GregorianCalendar(2017,9,21);
-        Date endDate = endCale.getTime();
+        Date startDate = Date.from(nowMinusOneMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date endDate = Date.from(nowPlusOneMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         AuditLevelDTO auditLevelDTO = TestUtilities.createAuditLevelDTO();
         String auditLevelID = auditLevelService.addLevel(auditLevelDTO);
@@ -83,9 +86,9 @@ public class AuditClientServiceImplTest extends ITTestConf {
         List<String> groupNames = new ArrayList();
         groupNames.add(auditLogDTO.getGroupName());
 
-        int auditsBefore = auditLoggingService.countAudits(listLevel,referenceIds,groupNames,startDate,endDate);
+        int auditsBefore = auditLoggingService.countAudits(listLevel, referenceIds, groupNames, startDate, endDate);
         auditClientService.audit(auditLogDTO.getLevel(),auditLogDTO.getEvent(),auditLogDTO.getGroupName(),auditLevelDTO.getDescription(),auditLogDTO.getPrinSessionId(),auditLogDTO.getTraceData());
-        int auditsAfter = auditLoggingService.countAudits(listLevel,referenceIds,groupNames,startDate,endDate);
+        int auditsAfter = auditLoggingService.countAudits(listLevel, referenceIds, groupNames, startDate, endDate);
         Assert.assertTrue(auditsAfter > auditsBefore );
     }
 
@@ -106,11 +109,12 @@ public class AuditClientServiceImplTest extends ITTestConf {
     @Test
     public void auditTraceObj(){
         //set Dates
-        Calendar startCale = new GregorianCalendar(2017,1,21);
-        Date startDate = startCale.getTime();
+        LocalDate nowDate = LocalDate.now();
+        LocalDate nowMinusOneMonth = nowDate.minusMonths(1);
+        LocalDate nowPlusOneMonth = nowDate.plusMonths(1);
 
-        Calendar endCale = new GregorianCalendar(2017,9,21);
-        Date endDate = endCale.getTime();
+        Date startDate = Date.from(nowMinusOneMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date endDate = Date.from(nowPlusOneMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
         AuditLevelDTO auditLevelDTO = TestUtilities.createAuditLevelDTO();
         String auditLevelID = auditLevelService.addLevel(auditLevelDTO);
