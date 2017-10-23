@@ -119,19 +119,7 @@ public class RulesRuntimeServiceImpl implements RulesRuntimeService {
     KnowledgeBuilderConfiguration kBuilderConfiguration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(null, classLoader);
     KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(kBuilderConfiguration);
 
-    for (String rulesText : rules) {
-      byte[] rulesBytes = rulesText.getBytes(Charset.forName("UTF-8"));
-      Resource rulesResource = ResourceFactory.newByteArrayResource(rulesBytes);
-      kbuilder.add(rulesResource, ResourceType.DRL);
-
-      if (kbuilder.hasErrors()) {
-        KnowledgeBuilderErrors kerrors = kbuilder.getErrors();
-        for (KnowledgeBuilderError kerror : kerrors) {
-          logger.log(Level.WARNING, kerror.toString());
-        }
-        throw new QRulesRuntimeException(kerrors.toString());
-      }
-    }
+    compileRules(rules, kbuilder);
 
     KieBaseConfiguration kBaseConfiguration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
     KieBase kbase = KnowledgeBaseFactory.newKnowledgeBase(kBaseConfiguration);
@@ -147,6 +135,22 @@ public class RulesRuntimeServiceImpl implements RulesRuntimeService {
     em.flush();
 
     return runtimeBaseId;
+  }
+
+  private void compileRules(List<String> rules, KnowledgeBuilder kbuilder) {
+    for (String rulesText : rules) {
+      byte[] rulesBytes = rulesText.getBytes(Charset.forName("UTF-8"));
+      Resource rulesResource = ResourceFactory.newByteArrayResource(rulesBytes);
+      kbuilder.add(rulesResource, ResourceType.DRL);
+
+      if (kbuilder.hasErrors()) {
+        KnowledgeBuilderErrors kerrors = kbuilder.getErrors();
+        for (KnowledgeBuilderError kerror : kerrors) {
+          logger.log(Level.WARNING, kerror.toString());
+        }
+        throw new QRulesRuntimeException(kerrors.toString());
+      }
+    }
   }
 
   @Override
@@ -660,20 +664,7 @@ public class RulesRuntimeServiceImpl implements RulesRuntimeService {
     Map<String, Object> globals) {
 
     KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-    // compile rules
-    for (String rulesText : rules) {
-      byte[] rulesBytes = rulesText.getBytes(Charset.forName("UTF-8"));
-      Resource rulesResource = ResourceFactory.newByteArrayResource(rulesBytes);
-      kbuilder.add(rulesResource, ResourceType.DRL);
-
-      if (kbuilder.hasErrors()) {
-        KnowledgeBuilderErrors kerrors = kbuilder.getErrors();
-        for (KnowledgeBuilderError kerror : kerrors) {
-          logger.log(Level.WARNING, kerror.toString());
-        }
-        throw new QRulesRuntimeException(kerrors.toString());
-      }
-    }
+    compileRules(rules, kbuilder);
 
     KieBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
 
