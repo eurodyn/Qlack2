@@ -245,7 +245,7 @@ public class NotificationServiceImpl implements NotificationService {
 	@Transactional(TxType.REQUIRED)
 	public NotificationDTO[] getNotificationsForAType(String userID,
 			String type, long notificationCreatedAfterTime) {
-		Query q = em.createQuery("select n from SimNotification n where "
+		Query q = em.createQuery("select n from SimNotification n where " //NOSONAR
 				+ "n.toUserId = :toUserId "
 				+ (notificationCreatedAfterTime == 0 ? ""
 						: "and n.createdOn >= :createdOn ")

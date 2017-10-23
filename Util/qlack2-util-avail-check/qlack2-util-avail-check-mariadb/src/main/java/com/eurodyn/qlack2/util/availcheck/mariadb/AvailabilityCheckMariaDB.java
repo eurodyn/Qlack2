@@ -28,7 +28,7 @@ public class AvailabilityCheckMariaDB implements AvailabilityCheck {
     Map<String, Object> params) {
     boolean retVal = false;
 
-    LOGGER.log(Level.INFO, "Checking availability of MariaDB: url={0}, user={1}, password={2}, "
+    LOGGER.log(Level.INFO, "Checking availability of MariaDB: url={0}, user={1}, password={2}, " //NOSONAR
       + "maxWait={3}, cycleWait={4}", new Object[]{url, user, password,  maxWait,  cycleWait});
 
     try {

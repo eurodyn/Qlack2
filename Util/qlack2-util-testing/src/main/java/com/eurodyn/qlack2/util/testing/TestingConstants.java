@@ -22,7 +22,7 @@ public class TestingConstants {
   public static final String DEFAULT_DB_USER = "root";
 
   /** The password of the default user to connect with to the DB container */
-  public static final String DEFAULT_DB_PASSWORD = "root";
+  public static final String DEFAULT_DB_PASSWORD = "root"; //NOSONAR
 
   /** The default JDBC URL */
   public static final String DEFAULT_DB_URL = "jdbc:mysql://${dockerEngineHost}:${hostPort}/sys?useSSL=false";
@@ -60,7 +60,7 @@ public class TestingConstants {
   public static final String SYSENV_DB_USER = "TEST_DB_USER";
 
   /** The password of the user to connect with to the DB container */
-  public static final String SYSENV_DB_PASSWORD = "TEST_DB_PASSWORD";
+  public static final String SYSENV_DB_PASSWORD = "TEST_DB_PASSWORD"; //NOSONAR
 
   /** The URL to be passed to the JDBC driver to connect to the DB container. Use a '${hostPort}'
    * for the port to have it automatically being replaced by the ephemeral port automatically

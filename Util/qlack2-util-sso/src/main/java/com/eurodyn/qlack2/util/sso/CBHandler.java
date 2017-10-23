@@ -26,7 +26,7 @@ public class CBHandler implements CallbackHandler {
    * The name of the variable holding the keystore password in the properties file specifying the
    * details of the signature.
    */
-  private final String KEYSTORE_PASSWORD_KEYNAME = "org.apache.ws.security.crypto.merlin.keystore.password";
+  private final String KEYSTORE_PASSWORD_KEYNAME = "org.apache.ws.security.crypto.merlin.keystore.password"; //NOSONAR
 
   /**
    * The location of the signature properties file to be set by blueprint.
