@@ -42,7 +42,7 @@ public class AvailabilityCheckOracleDB implements AvailabilityCheck {
           }
           retVal = true;
         } catch (SQLException e) {
-          LOGGER.log(Level.INFO, e.getMessage(), e);
+          LOGGER.log(Level.FINEST, e.getMessage(), e);
         }
         Thread.sleep(cycleWait);
       }

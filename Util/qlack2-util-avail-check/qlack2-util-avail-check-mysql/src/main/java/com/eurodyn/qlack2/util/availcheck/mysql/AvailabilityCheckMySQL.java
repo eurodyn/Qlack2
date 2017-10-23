@@ -48,7 +48,8 @@ public class AvailabilityCheckMySQL implements AvailabilityCheck {
             }
           }
           retVal = true;
-        } catch (SQLException ignore) {
+        } catch (SQLException e) {
+          LOGGER.log(Level.FINEST, e.getMessage(), e);
         }
         Thread.sleep(cycleWait);
       }
