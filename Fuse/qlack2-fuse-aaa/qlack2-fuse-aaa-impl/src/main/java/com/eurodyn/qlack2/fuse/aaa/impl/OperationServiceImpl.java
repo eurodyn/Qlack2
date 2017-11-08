@@ -642,15 +642,30 @@ public class OperationServiceImpl implements OperationService {
 	
 	@Override
 	public Set<ResourceDTO> getResourceForOperation(String userID, String operationName, boolean getAllowed) {
-		Set<ResourceDTO> resourceDTOList = new HashSet<>();
-		User user = User.find(userID, em);
-		for (UserHasOperation uho : user.getUserHasOperations()) {
-			if(uho.isDeny()!= getAllowed && uho.getOperation().getName().equals(operationName)){
-				resourceDTOList.add(ConverterUtil.resourceToResourceDTO(Resource.find(uho.getResource().getId(), em)));
-			}
-		}
-		return resourceDTOList;
+		return getResourceForOperation(userID, operationName, getAllowed, false);
 	}
+	
+    @Override
+    public Set<ResourceDTO> getResourceForOperation(String userID, String operationName, boolean getAllowed, boolean checkUserGroups) {
+      Set<ResourceDTO> resourceDTOList = new HashSet<>();
+      User user = User.find(userID, em);
+      for (UserHasOperation uho : user.getUserHasOperations()) {
+          if(uho.isDeny()!= getAllowed && uho.getOperation().getName().equals(operationName)){
+              resourceDTOList.add(ConverterUtil.resourceToResourceDTO(Resource.find(uho.getResource().getId(), em)));
+          }
+      }
+      /* also the resources of the groups the user belongs to should be retrieved */
+      if (checkUserGroups) {
+        for (Group group : user.getGroups()) {
+          for (GroupHasOperation gho : group.getGroupHasOperations()) {
+            if (gho.isDeny() != getAllowed && gho.getOperation().getName().equals(operationName)) {
+              resourceDTOList.add(ConverterUtil.resourceToResourceDTO(Resource.find(gho.getResource().getId(), em)));
+            }
+          }
+        }
+      }
+      return resourceDTOList;
+    }
 
 	@Override
 	public OperationDTO getOperationByID(String operationID) {

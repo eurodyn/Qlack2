@@ -422,6 +422,17 @@ public interface OperationService {
 	 */
 	Set<ResourceDTO> getResourceForOperation(String userID, String operationName, boolean getAllowed);
 
+    /**
+     * Retrieves the resource DTOs for the given operation of a specific user and, if requested, the groups he belongs to.
+     *
+     * @param userID          The ID of the user for whom to retrieve the resources
+     * @param operationName   The name of the operation for whom to retrieve the resources
+     * @param getAllowed      True if the operation is permitted
+     * @param checkUserGroups True if also the resources of the groups the user belongs to should be retrieved
+     * @return The resources for the given operation of a specific user and, if requested, his groups
+     */
+    Set<ResourceDTO> getResourceForOperation(String userID, String operationName, boolean getAllowed, boolean checkUserGroups);
+
 	/**
 	 * Find an operation by ID.
 	 *
