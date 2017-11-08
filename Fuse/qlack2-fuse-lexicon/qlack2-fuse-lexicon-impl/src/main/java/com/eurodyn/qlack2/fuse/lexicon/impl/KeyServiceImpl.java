@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.logging.Logger;
 
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
@@ -58,7 +57,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 @Transactional
 @OsgiServiceProvider(classes = {KeyService.class})
 public class KeyServiceImpl implements KeyService {
-	private static final Logger LOGGER = Logger.getLogger(KeyServiceImpl.class.getName()); 
 	
 	@PersistenceContext(unitName = "fuse-lexicon")
 	private EntityManager em;
@@ -215,10 +213,6 @@ public class KeyServiceImpl implements KeyService {
 			cq = cq.where(pr);
 		}
 		return cq;
-	}
-
-	private String getCacheKeyForLocaleAndGroup(String locale, String groupId) {
-		return locale + ":" + groupId;
 	}
 
 	private void update(Data data) {
@@ -414,7 +408,7 @@ public class KeyServiceImpl implements KeyService {
 	private SortedSet<TranslationKV> getSortedDataForGroupNameAndLocale(String groupName, String locale, SortType sortType) {
 		Map<String, String> translations = getTranslationsForGroupNameAndLocale(groupName, locale);
 		// sort in java side as we cannot order by in SQL side because translation data value is CLOB and not string
-		SortedSet<TranslationKV> sortedSet = new TreeSet<TranslationKV>(new TranslationKV(sortType));
+		SortedSet<TranslationKV> sortedSet = new TreeSet<>(new TranslationKV(sortType));
 		for (Map.Entry<String, String> entry : translations.entrySet()) {
 			sortedSet.add(new TranslationKV(entry.getKey(), entry.getValue()));
 		}
@@ -424,7 +418,7 @@ public class KeyServiceImpl implements KeyService {
 	@Override
 	public Map<String, String> getTranslationsForGroupNameAndLocaleSorted(String groupName, String locale, SortType sortType) { 
 		SortedSet<TranslationKV> sortedSet = getSortedDataForGroupNameAndLocale(groupName, locale, sortType);
-		HashMap<String, String> sortedMap = new LinkedHashMap<String, String>();
+		HashMap<String, String> sortedMap = new LinkedHashMap<>();
 		for (TranslationKV x : sortedSet) {
 			sortedMap.put(x.key, x.value);
 		}
@@ -434,7 +428,7 @@ public class KeyServiceImpl implements KeyService {
 	@Override
 	public List<String> getKeysSortedByTranslation(String groupName, String locale, SortType sortType) { 
 		SortedSet<TranslationKV> sortedSet = getSortedDataForGroupNameAndLocale(groupName, locale, sortType);
-		List<String> sortedList = new ArrayList<String>(sortedSet.size());
+		List<String> sortedList = new ArrayList<>(sortedSet.size());
 		for (TranslationKV tkv : sortedSet) {
 			sortedList.add(tkv.key);
 		} 
@@ -464,6 +458,23 @@ public class KeyServiceImpl implements KeyService {
 		@Override
 		public int compareTo(TranslationKV arg0) {
 			return sortType.equals(SortType.ASCENDING) ? value.compareTo(arg0.value) : arg0.value.compareTo(value);
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+		  if (obj == null)
+		    return false;
+		  if (!(obj instanceof TranslationKV))
+		    return false;
+		  TranslationKV x = (TranslationKV)obj;
+		  if (value == null)
+		    return (x.value == null);
+		  return value.equals(x.value);
+		}
+		
+		@Override
+		public int hashCode() {
+		  return super.hashCode();
 		}
 	} 
 
