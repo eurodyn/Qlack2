@@ -17,15 +17,32 @@ public class ESDocumentIdentifierDTO implements Serializable {
 	// The unique ID of this document.
 	protected String id;
 
+	/**
+     * If set to true then wait for the changes made by the request to be made
+     * visible by a refresh before replying. This doesn’t force an immediate
+     * refresh, rather, it waits for a refresh to happen. Elasticsearch
+     * automatically refreshes shards that have changed every
+     * index.refresh_interval which defaults to one second. That setting is
+     * dynamic. Calling the Refresh API or setting refresh to true on any of the
+     * APIs that support it will also cause a refresh, in turn causing already
+     * running requests with refresh=wait_for to return.
+     */
+    protected boolean refresh;
+
 	public ESDocumentIdentifierDTO() {
 		super();
 	}
 
 	public ESDocumentIdentifierDTO(String index, String type, String id) {
-		super();
-		this.index = index;
-		this.type = type;
-		this.id = id;
+	    this(index, type, id, false);
+	}
+
+	public ESDocumentIdentifierDTO(String index, String type, String id, boolean refresh) {
+	    super();
+	    this.index = index;
+        this.type = type;
+        this.id = id;
+        this.refresh = refresh;
 	}
 
 	/**
@@ -73,4 +90,11 @@ public class ESDocumentIdentifierDTO implements Serializable {
 		this.id = id;
 	}
 
+	public boolean isRefresh() {
+	    return refresh;
+	}
+
+	public void setRefresh(boolean refresh) {
+        this.refresh = refresh;
+	}
 }

@@ -8,23 +8,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
-
 import com.eurodyn.qlack2.fuse.search.api.IndexingService;
 import com.eurodyn.qlack2.fuse.search.api.dto.ESDocumentIdentifierDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.IndexingDTO;
 import com.eurodyn.qlack2.fuse.search.api.exception.QSearchException;
 import com.eurodyn.qlack2.fuse.search.impl.util.ESClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @Singleton
 @OsgiServiceProvider(classes = {IndexingService.class})
 public class IndexingServiceImpl implements IndexingService {
@@ -42,7 +39,7 @@ public class IndexingServiceImpl implements IndexingService {
 	  mapper.registerModule(new JavaTimeModule());
 	  mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
   }
-  
+
   @Override
   public void indexDocument(IndexingDTO dto) {
 		try {
@@ -63,9 +60,10 @@ public class IndexingServiceImpl implements IndexingService {
   public void unindexDocument(ESDocumentIdentifierDTO dto) {
 	  try {
 		  	String endpoint = dto.getIndex() + "/" + dto.getType() + "/" + dto.getId();
+		  	Map<String, String> params = dto.isRefresh() ? Collections.singletonMap("refresh", "wait_for") : new HashMap<>();
 
 			// Execute indexing request.
-			esClient.getClient().performRequest("DELETE", endpoint);
+			esClient.getClient().performRequest("DELETE", endpoint, params);
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, MessageFormat.format("Could not delete document with id: {0}", dto.getId()), e);
 			throw new QSearchException(MessageFormat.format("Could not delete document with id: {0}", dto.getId()));
