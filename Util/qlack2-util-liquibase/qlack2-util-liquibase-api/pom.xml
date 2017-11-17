@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.eurodyn.qlack2.util</groupId>
         <artifactId>qlack2-util-liquibase</artifactId>
-        <version>2.3.2</version>
+        <version>2.3.3-SNAPSHOT</version>
 		<relativePath>..</relativePath>
     </parent>
 
