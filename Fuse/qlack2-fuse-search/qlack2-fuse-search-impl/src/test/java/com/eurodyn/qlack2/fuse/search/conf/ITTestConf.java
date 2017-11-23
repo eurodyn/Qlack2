@@ -11,7 +11,9 @@ import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.karafDist
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.keepRuntimeFolder;
 import static org.ops4j.pax.exam.karaf.options.KarafDistributionOption.logLevel;
 
+import com.eurodyn.qlack2.fuse.search.FuseSearchIntegrationTests;
 import com.eurodyn.qlack2.util.testing.TestingEnv;
+import com.google.common.collect.ImmutableMap;
 import org.ops4j.pax.exam.Configuration;
 import org.ops4j.pax.exam.CoreOptions;
 import org.ops4j.pax.exam.MavenUtils;
@@ -80,7 +82,8 @@ public abstract class ITTestConf {
         .unpackDirectory(new File("target", "exam"))
         .useDeployFolder(false),
       keepRuntimeFolder(),
-      copyITConf("etc/com.eurodyn.qlack2.fuse.search.cfg"),
+      copyITConf("etc/com.eurodyn.qlack2.fuse.search.cfg", ImmutableMap
+        .of("esUrl", FuseSearchIntegrationTests.esUrl)),
       when(localRepository != null)
         .useOptions(editConfigurationFilePut("etc/org.ops4j.pax.url.mvn.cfg",
         "org.ops4j.pax.url.mvn.localRepository", localRepository)),

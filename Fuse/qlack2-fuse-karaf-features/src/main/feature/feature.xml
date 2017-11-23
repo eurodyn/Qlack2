@@ -580,7 +580,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Ticket Server (impl)" name="qlack2-fuse-ticket-server-impl" version="${project.version}">
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-ticket-server-impl/${project.version}</bundle>
-    <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-ticket-server-commands/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Ticket Server (deps)" name="qlack2-fuse-ticket-server-deps" version="${project.version}">
     <feature>qlack2-util-repack-jpadb</feature>

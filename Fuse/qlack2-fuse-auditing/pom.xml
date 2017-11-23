@@ -16,4 +16,15 @@
     <module>qlack2-fuse-auditing-impl</module>
   </modules>
 
+  <!-- Artifacts which may be required during running tests (in particular when your local repo is
+  empty) but do not get referenced directly in dependencies, need to be included here manually
+  to ensure that they are available when tests are about to run. -->
+  <dependencies>
+    <dependency>
+      <groupId>com.eurodyn.qlack2.fuse</groupId>
+      <artifactId>qlack2-fuse-event-publisher-impl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
 </project>

@@ -34,7 +34,7 @@ public class FuseSearchIntegrationTests {
   private static String esContainerId;
 
   private final static String ES_IMAGE = "docker.elastic.co/elasticsearch/elasticsearch:5.4.1";
-  private static String esUrl;
+  public static String esUrl;
   private final static String ES_USERNAME = "elastic";
   private final static String ES_PASSWORD = "changeme";
   private static int esPort;

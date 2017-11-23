@@ -18,5 +18,4 @@
     <module>qlack2-common-karaf-features</module>
     <module>qlack2-common-util</module>
   </modules>
-
 </project>

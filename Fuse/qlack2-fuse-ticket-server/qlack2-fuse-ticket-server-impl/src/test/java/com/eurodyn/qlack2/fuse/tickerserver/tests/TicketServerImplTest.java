@@ -58,7 +58,7 @@ public class TicketServerImplTest extends ITTestConf {
 
     @Test
     public void isValid(){
-        Calendar endCale = new GregorianCalendar(2017, 9, 21);
+        Calendar endCale = new GregorianCalendar(3000, 1, 1);
         Date endDate = endCale.getTime();
 
         TicketDTO ticketDTO = TestUtilities.createTicketDTO();

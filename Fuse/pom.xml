@@ -63,6 +63,38 @@
     </dependencies>
   </dependencyManagement>
 
+  <!-- Artifacts which may be required during running tests (in particular when your local repo is
+  empty) but do not get referenced directly in dependencies, need to be included here manually
+  to ensure that they are available when tests are about to run. -->
+  <dependencies>
+    <dependency>
+      <groupId>com.eurodyn.qlack2.common</groupId>
+      <artifactId>qlack2-common-karaf-features</artifactId>
+      <version>${project.version}</version>
+      <type>xml</type>
+      <classifier>features</classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.eurodyn.qlack2.util</groupId>
+      <artifactId>qlack2-util-karaf-features</artifactId>
+      <version>${project.version}</version>
+      <type>xml</type>
+      <classifier>features</classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.eurodyn.qlack2.util</groupId>
+      <artifactId>qlack2-util-repack-karaf-features</artifactId>
+      <version>${project.version}</version>
+      <type>xml</type>
+      <classifier>features</classifier>
+    </dependency>
+    <dependency>
+      <groupId>com.eurodyn.qlack2.util</groupId>
+      <artifactId>qlack2-util-liquibase-impl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
   <build>
     <resources>
       <resource>
