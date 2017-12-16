@@ -260,6 +260,28 @@ public class SearchServiceImpl implements SearchService {
          .append(query.getToValue())
         .append("\" } }");
     }
+    else if (dto instanceof QueryStringSpecField) {
+      QueryStringSpecField query = (QueryStringSpecField) dto;
+
+      builder.append("\"query_string\" : { \"fields\" : [\"")
+        .append(query.getField())
+        .append("\"] , \"query\" : \"")
+        .append(query.getValue())
+        .append("\" , \"default_operator\" : \"")
+        .append(query.getOperator())
+        .append("\" }");
+    }
+    else if (dto instanceof SimpleQueryString) {
+      SimpleQueryString query = (SimpleQueryString) dto;
+
+      builder.append("\"simple_query_string\" : { \"fields\" : [\"")
+        .append(query.getField())
+        .append("\"] , \"query\" : \"")
+        .append(query.getValue())
+        .append("\" , \"default_operator\" : \"")
+        .append(query.getOperator())
+        .append("\" }");
+    }
     return builder.append("}")
       .toString().replace("\"null\"","null");
 
