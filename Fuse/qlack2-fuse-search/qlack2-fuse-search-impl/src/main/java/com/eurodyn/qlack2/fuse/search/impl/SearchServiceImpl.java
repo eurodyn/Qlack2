@@ -1,6 +1,7 @@
 package com.eurodyn.qlack2.fuse.search.impl;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.*;
+import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.elasticsearch.client.Response;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
@@ -93,8 +95,9 @@ public class SearchServiceImpl implements SearchService {
 
 		Response response;
 		try {
-			response = esClient.getClient().performRequest("GET", endpointBuilder.toString(), new HashMap<>(),
-					new NStringEntity(mapper.writeValueAsString(internalRequest)));
+      ContentType contentType = ContentType.APPLICATION_JSON.withCharset(Charset.forName("UTF-8"));
+      response = esClient.getClient().performRequest("GET", endpointBuilder.toString(), new HashMap<>(),
+					new NStringEntity(mapper.writeValueAsString(internalRequest), contentType));
 		} catch (IOException e) {
 			LOGGER.log(Level.SEVERE, "Could not execute query.", e);
 			throw new QSearchException("Could not execute query.", e);
