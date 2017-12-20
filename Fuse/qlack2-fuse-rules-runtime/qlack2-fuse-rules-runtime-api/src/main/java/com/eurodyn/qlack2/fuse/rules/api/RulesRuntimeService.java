@@ -19,8 +19,9 @@ public interface RulesRuntimeService {
    * @param rules the business rules
    * @param facts the objects against which to execute the rules
    * @param globals named objects, visible to the rule engine
+	 * @param classLoader the classloader to be used by the rules to load fact classes
    */
-  void statelessExecute(List<String> rules, List<Object> facts, Map<String, Object> globals);
+  void statelessExecute(List<String> rules, List<Object> facts, Map<String, Object> globals, ClassLoader classLoader);
 
 	String createKnowledgeSession(String kbaseId);
 

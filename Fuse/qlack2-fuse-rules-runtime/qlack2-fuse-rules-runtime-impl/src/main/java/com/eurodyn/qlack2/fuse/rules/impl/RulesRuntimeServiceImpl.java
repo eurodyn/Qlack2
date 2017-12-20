@@ -661,12 +661,14 @@ public class RulesRuntimeServiceImpl implements RulesRuntimeService {
 
   @Override
   public void statelessExecute(List<String> rules, List<Object> facts,
-    Map<String, Object> globals) {
+    Map<String, Object> globals, ClassLoader classLoader) {
 
-    KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
+    KnowledgeBuilderConfiguration kBuilderConfiguration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(null, classLoader);
+    KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(kBuilderConfiguration);
     compileRules(rules, kbuilder);
 
-    KieBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
+    KieBaseConfiguration kBaseConfiguration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
+    KieBase kbase = KnowledgeBaseFactory.newKnowledgeBase(kBaseConfiguration);
 
     // add packages to knowledge base
     ((KnowledgeBaseImpl) kbase).addPackages(kbuilder.getKnowledgePackages());
