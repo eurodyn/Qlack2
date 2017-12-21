@@ -118,7 +118,7 @@
     <javax.transaction-api.version>1.2</javax.transaction-api.version>
     <javax.validation.validation-api>1.1.0.Final</javax.validation.validation-api>
     <javax.ws.rs-api.version>2.0</javax.ws.rs-api.version>
-    <jbpm.version>7.3.0.Final</jbpm.version>
+    <jbpm.version>7.5.0.Final</jbpm.version>
     <jedis.version>2.7.3</jedis.version>
     <joda.version>2.2</joda.version>
     <junit.version>4.12</junit.version>
