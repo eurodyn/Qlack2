@@ -433,10 +433,11 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <feature>qlack2-util-repack-jpadb</feature>
-    <!--<feature>qlack2-util-jbpm-runtime</feature>-->
     <feature version="${jbpm.version}">drools-module</feature>
     <bundle>mvn:org.drools/drools-persistence-api/${jbpm.version}</bundle>
     <bundle>mvn:org.drools/drools-persistence-jpa/${jbpm.version}</bundle>
+    <!-- TEST dependencies -->
+    <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
   </feature>
 
   <!-- ***************************************************************************************** -->
