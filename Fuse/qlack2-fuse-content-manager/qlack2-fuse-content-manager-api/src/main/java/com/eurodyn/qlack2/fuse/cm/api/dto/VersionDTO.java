@@ -1,122 +1,245 @@
 /*
-* Copyright 2014 EUROPEAN DYNAMICS SA <info@eurodyn.com>
-*
-* Licensed under the EUPL, Version 1.1 only (the "License").
-* You may not use this work except in compliance with the Licence.
-* You may obtain a copy of the Licence at:
-* https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the Licence is distributed on an "AS IS" basis,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the Licence for the specific language governing permissions and
-* limitations under the Licence.
-*/
+ * Copyright 2014 EUROPEAN DYNAMICS SA <info@eurodyn.com>
+ *
+ * Licensed under the EUPL, Version 1.1 only (the "License"). You may not use this work except in
+ * compliance with the Licence. You may obtain a copy of the Licence at:
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence
+ * is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the Licence for the specific language governing permissions and limitations under
+ * the Licence.
+ */
 package com.eurodyn.qlack2.fuse.cm.api.dto;
 
 import java.util.Map;
 
+/**
+ * The Class VersionDTO.
+ */
 public class VersionDTO {
-	private String id;
-	private String name;
-	private boolean active;
-	private long createdOn;
-	private String createdBy;
-	private long lastModifiedOn;
-	private String lastModifiedBy;
-	private Map<String, String> attributes;
-	private String mimetype;
-	private Long size;
 
-	public String getId() {
-		return id;
-	}
+  /** The id. */
+  private String id;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  /** The name. */
+  private String name;
 
-	public String getName() {
-		return name;
-	}
+  /** The active. */
+  private boolean active;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  /** The created on. */
+  private long createdOn;
 
-	public boolean isActive() {
-		return active;
-	}
+  /** The created by. */
+  private String createdBy;
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+  /** The last modified on. */
+  private long lastModifiedOn;
 
-	public long getCreatedOn() {
-		return createdOn;
-	}
+  /** The last modified by. */
+  private String lastModifiedBy;
 
-	public void setCreatedOn(long createdOn) {
-		this.createdOn = createdOn;
-	}
+  /** The attributes. */
+  private Map<String, String> attributes;
 
-	public String getCreatedBy() {
-		return createdBy;
-	}
+  /** The mimetype. */
+  private String mimetype;
 
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
+  /** The size. */
+  private Long size;
 
-	public long getLastModifiedOn() {
-		return lastModifiedOn;
-	}
+  /** The filename. */
+  private String filename;
 
-	public void setLastModifiedOn(long lastModifiedOn) {
-		this.lastModifiedOn = lastModifiedOn;
-	}
 
-	public String getLastModifiedBy() {
-		return lastModifiedBy;
-	}
 
-	public void setLastModifiedBy(String lastModifiedBy) {
-		this.lastModifiedBy = lastModifiedBy;
-	}
+  /**
+   * Gets the id.
+   *
+   * @return the id
+   */
+  public String getId() {
+    return id;
+  }
 
-	public Map<String, String> getAttributes() {
-		return attributes;
-	}
+  /**
+   * Sets the id.
+   *
+   * @param id the new id
+   */
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public void setAttributes(Map<String, String> attributes) {
-		this.attributes = attributes;
-	}
-	/**
-	 * @return the mimetype
-	 */
-	public String getMimetype() {
-		return mimetype;
-	}
+  /**
+   * Gets the name.
+   *
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
 
-	/**
-	 * @param mimetype the mimetype to set
-	 */
-	public void setMimetype(String mimetype) {
-		this.mimetype = mimetype;
-	}
+  /**
+   * Sets the name.
+   *
+   * @param name the new name
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
 
-	/**
-	 * @return the size
-	 */
-	public Long getSize() {
-		return size;
-	}
+  /**
+   * Checks if is active.
+   *
+   * @return true, if is active
+   */
+  public boolean isActive() {
+    return active;
+  }
 
-	/**
-	 * @param size the size to set
-	 */
-	public void setSize(Long size) {
-		this.size = size;
-	}
-	
+  /**
+   * Sets the active.
+   *
+   * @param active the new active
+   */
+  public void setActive(boolean active) {
+    this.active = active;
+  }
+
+  /**
+   * Gets the created on.
+   *
+   * @return the created on
+   */
+  public long getCreatedOn() {
+    return createdOn;
+  }
+
+  /**
+   * Sets the created on.
+   *
+   * @param createdOn the new created on
+   */
+  public void setCreatedOn(long createdOn) {
+    this.createdOn = createdOn;
+  }
+
+  /**
+   * Gets the created by.
+   *
+   * @return the created by
+   */
+  public String getCreatedBy() {
+    return createdBy;
+  }
+
+  /**
+   * Sets the created by.
+   *
+   * @param createdBy the new created by
+   */
+  public void setCreatedBy(String createdBy) {
+    this.createdBy = createdBy;
+  }
+
+  /**
+   * Gets the last modified on.
+   *
+   * @return the last modified on
+   */
+  public long getLastModifiedOn() {
+    return lastModifiedOn;
+  }
+
+  /**
+   * Sets the last modified on.
+   *
+   * @param lastModifiedOn the new last modified on
+   */
+  public void setLastModifiedOn(long lastModifiedOn) {
+    this.lastModifiedOn = lastModifiedOn;
+  }
+
+  /**
+   * Gets the last modified by.
+   *
+   * @return the last modified by
+   */
+  public String getLastModifiedBy() {
+    return lastModifiedBy;
+  }
+
+  /**
+   * Sets the last modified by.
+   *
+   * @param lastModifiedBy the new last modified by
+   */
+  public void setLastModifiedBy(String lastModifiedBy) {
+    this.lastModifiedBy = lastModifiedBy;
+  }
+
+  /**
+   * Gets the attributes.
+   *
+   * @return the attributes
+   */
+  public Map<String, String> getAttributes() {
+    return attributes;
+  }
+
+  /**
+   * Sets the attributes.
+   *
+   * @param attributes the attributes
+   */
+  public void setAttributes(Map<String, String> attributes) {
+    this.attributes = attributes;
+  }
+
+  /**
+   * Gets the mimetype.
+   *
+   * @return the mimetype
+   */
+  public String getMimetype() {
+    return mimetype;
+  }
+
+  /**
+   * Sets the mimetype.
+   *
+   * @param mimetype the mimetype to set
+   */
+  public void setMimetype(String mimetype) {
+    this.mimetype = mimetype;
+  }
+
+  /**
+   * Gets the size.
+   *
+   * @return the size
+   */
+  public Long getSize() {
+    return size;
+  }
+
+  /**
+   * Sets the size.
+   *
+   * @param size the size to set
+   */
+  public void setSize(Long size) {
+    this.size = size;
+  }
+
+  public String getFilename() {
+    return filename;
+  }
+
+  public void setFilename(String filename) {
+    this.filename = filename;
+  }
+
 }

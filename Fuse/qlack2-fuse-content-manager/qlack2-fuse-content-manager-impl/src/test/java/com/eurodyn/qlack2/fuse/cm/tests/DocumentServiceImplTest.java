@@ -126,6 +126,14 @@ public class DocumentServiceImplTest extends ITTestConf {
 
         Assert.assertNotNull(documentService.getNodeByID(fileID));
     }
+    
+    @Test
+    public  void getNodeByAttributes() {
+      FolderDTO folderDTO = TestUtilities.createFolderDTO();
+      String folderID = documentService.createFolder(folderDTO,TestConst.userID,folderDTO.getId());
+      Assert.assertNotNull(folderID);
+      Assert.assertNotNull(documentService.getNodeByAttributes(folderID,null));
+    }
 
     @Test
     public void getParent(){
