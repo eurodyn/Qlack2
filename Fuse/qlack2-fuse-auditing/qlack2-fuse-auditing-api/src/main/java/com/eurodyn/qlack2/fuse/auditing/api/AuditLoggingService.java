@@ -132,6 +132,13 @@ public interface AuditLoggingService {
 	 */
 	public List<AuditLogDTO> listAuditLogs(List<SearchDTO> searchList,
 			Date startDate, Date endDate, List<SortDTO> sortList,
+			PagingParams pagingParams, boolean fetchTraceData);
+
+	/**
+	 * Convenience method for the {@link #listAuditLogs(List, Date, Date, List, PagingParams, boolean)}, with {@code fetchTraceData} set to true.
+	 */
+	public List<AuditLogDTO> listAuditLogs(List<SearchDTO> searchList,
+			Date startDate, Date endDate, List<SortDTO> sortList,
 			PagingParams pagingParams);
 
 	/**
