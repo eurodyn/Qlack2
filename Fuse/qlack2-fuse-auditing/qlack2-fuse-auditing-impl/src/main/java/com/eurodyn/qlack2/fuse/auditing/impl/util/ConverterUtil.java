@@ -117,13 +117,13 @@ public final class ConverterUtil {
 	 * @param log
 	 * @return AuditLogDTO
 	 */
-	public static AuditLogDTO convertToAuditLogDTO(Audit log) {
+	public static AuditLogDTO convertToAuditLogDTO(Audit log, boolean setTraceData) {
 		LOGGER.log(Level.FINEST,
 				"Converting audit level model to audit ''{0}''.", log);
 		AuditLogDTO alLog = null;
 		if (null != log) {
 			alLog = new AuditLogDTO();
-			if (null != log.getTraceId()) {
+			if (setTraceData && null != log.getTraceId()) {
 				alLog.setTraceData(log.getTraceId().getTraceData());
 			}
 			if (null != log.getCreatedOn()) {
@@ -142,14 +142,19 @@ public final class ConverterUtil {
 		}
 		return alLog;
 	}
+	
+	public static AuditLogDTO convertToAuditLogDTO(Audit log) {
+		return ConverterUtil.convertToAuditLogDTO(log, true);
+	}
 
 	/**
 	 * Get AuditLogDTO List from AlAudit List
 	 *
 	 * @param list
+	 * @param setTraceData Set to false if trace data should be ignored
 	 * @return List
 	 */
-	public static List<AuditLogDTO> convertToAuditLogList(List<Audit> list) {
+	public static List<AuditLogDTO> convertToAuditLogList(List<Audit> list, boolean setTraceData) {
 		LOGGER.log(Level.FINEST,
 				"Converting audit log model list to audit log DTO list.");
 		if (list == null) {
@@ -158,9 +163,13 @@ public final class ConverterUtil {
 		List<AuditLogDTO> aList = new ArrayList<>(list.size());
 		for (int i = 0; i < list.size(); i++) {
 			Audit auditLog = list.get(i);
-			aList.add(ConverterUtil.convertToAuditLogDTO(auditLog));
+			aList.add(ConverterUtil.convertToAuditLogDTO(auditLog, setTraceData));
 		}
 		return aList;
+	}
+	
+	public static List<AuditLogDTO> convertToAuditLogList(List<Audit> list) {
+		return ConverterUtil.convertToAuditLogList(list, true);
 	}
 
 	/**

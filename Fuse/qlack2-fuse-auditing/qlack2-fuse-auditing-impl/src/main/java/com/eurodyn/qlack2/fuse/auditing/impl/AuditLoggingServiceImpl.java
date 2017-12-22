@@ -29,6 +29,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -341,7 +342,7 @@ public class AuditLoggingServiceImpl implements
 	@Transactional(TxType.REQUIRED)
 	public List<AuditLogDTO> listAuditLogs(List<SearchDTO> searchList,
 			Date startDate, Date endDate, List<SortDTO> sortList,
-			PagingParams pagingParams) {
+			PagingParams pagingParams, boolean fetchTraceData) {
 		LOGGER.log(
 				Level.FINER,
 				"listAuditLogs, searchList count = {0}, sortList count = {1}, startDate = {2} and endDate = {3}",
@@ -360,6 +361,9 @@ public class AuditLoggingServiceImpl implements
 		cq = applySearchCriteria(cb, cq, root, searchList, startDate, endDate);
 
 		cq = applySortCriteria(cb, cq, root, sortList);
+		if (fetchTraceData) {
+			root.fetch("traceId", JoinType.LEFT);
+		}
 
 		TypedQuery<Audit> query = em.createQuery(cq);
 		if (pagingParams != null && pagingParams.getCurrentPage() > -1) {
@@ -368,7 +372,13 @@ public class AuditLoggingServiceImpl implements
 			query.setMaxResults(pagingParams.getPageSize());
 		}
 
-		return ConverterUtil.convertToAuditLogList(query.getResultList());
+		return ConverterUtil.convertToAuditLogList(query.getResultList(), fetchTraceData);
+	}
+	
+	@Override
+	@Transactional(TxType.REQUIRED)
+	public List<AuditLogDTO> listAuditLogs(List<SearchDTO> searchList, Date startDate, Date endDate, List<SortDTO> sortList, PagingParams pagingParams) {
+		return listAuditLogs(searchList, startDate, endDate, sortList, pagingParams, true);
 	}
 
 	@Override
