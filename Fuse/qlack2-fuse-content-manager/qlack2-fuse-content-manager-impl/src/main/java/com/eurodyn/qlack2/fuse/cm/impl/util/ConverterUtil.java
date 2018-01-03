@@ -237,6 +237,7 @@ public class ConverterUtil {
     dto.setMimetype(entity.getMimetype());
     dto.setSize(entity.getSize());
     dto.setFilename(entity.getFilename());
+    dto.setNodeId(entity.getNode().getId());
 
     for (VersionAttribute attrEntity : entity.getAttributes()) {
       switch (attrEntity.getName()) {

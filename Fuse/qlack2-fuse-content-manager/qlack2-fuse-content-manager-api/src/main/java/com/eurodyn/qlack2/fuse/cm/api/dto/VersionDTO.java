@@ -52,6 +52,9 @@ public class VersionDTO {
   /** The filename. */
   private String filename;
 
+  /** The node id. */
+  private String nodeId;
+
 
 
   /**
@@ -234,12 +237,40 @@ public class VersionDTO {
     this.size = size;
   }
 
+  /**
+   * Gets the filename.
+   *
+   * @return the filename
+   */
   public String getFilename() {
     return filename;
   }
 
+  /**
+   * Sets the filename.
+   *
+   * @param filename the new filename
+   */
   public void setFilename(String filename) {
     this.filename = filename;
   }
 
+
+  /**
+   * Gets the node id.
+   *
+   * @return the node id
+   */
+  public String getNodeId() {
+    return nodeId;
+  }
+
+  /**
+   * Sets the node id.
+   *
+   * @param nodeId the new node id
+   */
+  public void setNodeId(String nodeId) {
+    this.nodeId = nodeId;
+  }
 }
