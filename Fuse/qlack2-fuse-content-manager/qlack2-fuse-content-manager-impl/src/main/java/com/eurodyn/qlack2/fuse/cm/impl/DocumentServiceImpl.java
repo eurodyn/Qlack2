@@ -386,18 +386,22 @@ public class DocumentServiceImpl implements DocumentService {
     StringBuilder sbQuery = new StringBuilder("SELECT n FROM Node n ");
 
     if (attributes != null && !attributes.isEmpty()) {
-      sbQuery.append("INNER JOIN  n.attributes attr WHERE n.parent.id = :parentId  ");
+      sbQuery.append("LEFT JOIN  n.attributes attr WITH ( ");
       int i = 0;
 
-      for (
-      @SuppressWarnings("unused") Map.Entry<String, String> entry : attributes.entrySet()) {
-        sbQuery.append(" AND attr.name = :attr_" + i++ + " AND attr.value = :value_" + i++);
+      for (@SuppressWarnings("unused")
+      Map.Entry<String, String> entry : attributes.entrySet()) {
+        if (i != 0) {
+          sbQuery.append(" AND ");
+        }
+        i++;
+        sbQuery.append("attr.name = :attr_" + i + " AND attr.value = :value_" + i);
       }
-    } else {
-      sbQuery.append("WHERE n.parent.id = :parentId  ");
-    }
 
-    sbQuery.append(" ORDER BY n.createdOn ASC");
+      sbQuery.append(")");
+    }
+ 
+    sbQuery.append(" WHERE n.parent.id = :parentId ORDER BY n.createdOn ASC");
 
     Query query = em.createQuery(sbQuery.toString());
     query.setParameter("parentId", parentId);
@@ -406,8 +410,9 @@ public class DocumentServiceImpl implements DocumentService {
       int i = 0;
 
       for (Map.Entry<String, String> entry : attributes.entrySet()) {
-        query.setParameter("attr_" + i++, entry.getKey());
-        query.setParameter("value_" + i++, entry.getValue());
+        i++;
+        query.setParameter("attr_" + i, entry.getKey());
+        query.setParameter("value_" + i, entry.getValue());
       }
     }
 
