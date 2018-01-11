@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/${blueprint.ns}">
+    <bean id="TemplateServiceImpl"
+          class="com.eurodyn.qlack2.fuse.ts.impl.TemplateServiceImpl">
+    </bean>
+    <service id="TemplateService" ref="TemplateServiceImpl"
+             interface="com.eurodyn.qlack2.fuse.ts.api.TemplateService"/>
+</blueprint>

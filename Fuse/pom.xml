@@ -40,6 +40,7 @@
     <module>qlack2-fuse-ticket-server</module>
     <module>qlack2-fuse-wiki</module>
     <module>qlack2-fuse-workflow-runtime</module>
+	<module>qlack2-fuse-template-service</module>
   </modules>
 
   <!-- QLACK2 dependencies ONLY -->
@@ -60,7 +61,12 @@
         <artifactId>qlack2-util-validator-util</artifactId>
         <version>${project.version}</version>
       </dependency>
-    </dependencies>
+	<dependency>
+      <groupId>com.eurodyn.qlack2.util</groupId>
+      <artifactId>qlack2-util-repack-karaf-features</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+	</dependencies>
   </dependencyManagement>
 
   <!-- Artifacts which may be required during running tests (in particular when your local repo is

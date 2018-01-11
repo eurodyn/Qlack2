@@ -108,5 +108,44 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/L
     <bundle>wrap:mvn:org.picocontainer/picocontainer/${picocontainer.version}</bundle>
     <bundle>wrap:mvn:com.google.code.gson/gson/${gson.version}</bundle>
   </feature>
+  
+  <feature name="qlack2-util-repack-docx4j" version="${project.version}">
+    <bundle>wrap:mvn:org.docx4j/docx4j/3.3.6</bundle>
+    <bundle>wrap:mvn:commons-io/commons-io/1.3.1</bundle>
+    <bundle>wrap:mvn:org.apache.xmlgraphics/xmlgraphics-commons/2.1</bundle>
+    <!--  Dependencies of xmlgraphics-commons -->
+    <bundle>wrap:mvn:commons-logging/commons-logging/1.0.4</bundle>
+    <bundle>wrap:mvn:org.plutext/jaxb-svg11/1.0.2</bundle>
+    <bundle>wrap:mvn:xalan/xalan/2.7.2</bundle>
+    <!--  Dependencies of xalan -->
+    <bundle>wrap:mvn:xerces/xercesImpl/2.9.1</bundle>
+    <bundle>wrap:mvn:xalan/serializer/2.7.2</bundle>
+    <bundle>wrap:mvn:xml-apis/xml-apis/1.3.04</bundle>
+    <bundle>mvn:com.fasterxml.jackson.core/jackson-core/2.7.3</bundle>
+    <bundle>mvn:com.fasterxml.jackson.core/jackson-databind/2.7.3</bundle> 
+    <bundle>wrap:mvn:com.thedeanda/lorem/2.0</bundle>
+    <bundle>mvn:com.google.guava/guava/19.0</bundle>
+    <bundle>wrap:mvn:commons-codec/commons-codec/1.10</bundle> 
+    <bundle>mvn:log4j/log4j/1.2.17</bundle>
+    <bundle>wrap:mvn:net.arnx/wmf2svg/0.9.8</bundle>
+    <bundle>mvn:net.engio/mbassador/1.2.4.2</bundle>
+    <bundle>wrap:mvn:org.antlr/antlr-runtime/3.5.2</bundle>
+    <!--  Dependency of  antlr-runtime -->
+    <bundle>wrap:mvn:org.antlr/stringtemplate/3.2.1</bundle>
+    <!--  Dependency of  stringtemplate -->
+    <bundle>wrap:mvn:antlr/antlr/2.7.7</bundle>
+    <bundle>wrap:mvn:org.apache.avalon.framework/avalon-framework-api/4.3.1</bundle>
+    <bundle>wrap:mvn:org.apache.avalon.framework/avalon-framework-impl/4.3.1</bundle>
+    <bundle>wrap:mvn:org.apache.commons/commons-lang3/3.4</bundle>
+    <bundle>wrap:mvn:org.apache.httpcomponents/httpclient/4.5.2</bundle>
+    <!--  Dependencies of  httpclient -->
+    <bundle>wrap:mvn:commons-codec/commons-codec/1.9</bundle>
+    <bundle>wrap:mvn:commons-logging/commons-logging/1.2</bundle>
+    <!--  Dependencies of  commons-logging -->
+    <bundle>wrap:mvn:avalon-framework/avalon-framework/4.1.5</bundle>
+    <bundle>wrap:mvn:logkit/logkit/1.0.1</bundle>
+    <bundle>wrap:mvn:com.googlecode.jaxb-namespaceprefixmapper-interfaces/JAXBNamespacePrefixMapper/2.2.4</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.ant-1.7.0/1.0-m2</bundle>
+  </feature>
 
 </features>
