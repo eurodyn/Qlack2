@@ -386,21 +386,18 @@ public class DocumentServiceImpl implements DocumentService {
     StringBuilder sbQuery = new StringBuilder("SELECT n FROM Node n ");
 
     if (attributes != null && !attributes.isEmpty()) {
-      sbQuery.append("LEFT JOIN  n.attributes attr WITH ( ");
+
       int i = 0;
 
       for (@SuppressWarnings("unused")
       Map.Entry<String, String> entry : attributes.entrySet()) {
-        if (i != 0) {
-          sbQuery.append(" AND ");
-        }
         i++;
-        sbQuery.append("attr.name = :attr_" + i + " AND attr.value = :value_" + i);
+        sbQuery.append("INNER JOIN  n.attributes attr").append(i).append(" WITH ( ");
+        sbQuery.append("attr").append(i).append(".name = :attr_").append(i).append(" AND attr")
+            .append(i).append(".value = :value_").append(i).append(")");
       }
-
-      sbQuery.append(")");
     }
- 
+
     sbQuery.append(" WHERE n.parent.id = :parentId ORDER BY n.createdOn ASC");
 
     Query query = em.createQuery(sbQuery.toString());
