@@ -227,4 +227,12 @@ public interface VersionService {
    * @return The mime type of the content.
    */
   public String getMimeType(byte[] fileContent);
+
+  /**
+   * Gets the version by id.
+   *
+   * @param versionId the version id
+   * @return the version by id
+   */
+  VersionDTO getVersionById(String versionId);
 }

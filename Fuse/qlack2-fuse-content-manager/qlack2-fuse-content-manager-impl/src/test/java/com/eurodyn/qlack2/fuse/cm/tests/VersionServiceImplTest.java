@@ -220,22 +220,23 @@ public class VersionServiceImplTest extends ITTestConf {
 
   @Test
   public void updateVersion() {
-  
-      FileDTO fileDTO = TestUtilities.createFileDTO();
-      String fileID = documentService.createFile(fileDTO, TestConst.userID, fileDTO.getId());
-      Assert.assertNotNull(fileID);
 
-      VersionDTO versionDTO = TestUtilities.createVersionDTO();
-      String versionID = versionService.createVersion(fileID, versionDTO, "filename15",
-          TestConst.content, TestConst.userID, fileDTO.getId());
-      Assert.assertNotNull(versionID);
+    FileDTO fileDTO = TestUtilities.createFileDTO();
+    String fileID = documentService.createFile(fileDTO, TestConst.userID, fileDTO.getId());
+    Assert.assertNotNull(fileID);
 
-      versionDTO.setFilename("filename15");
-      versionService.updateVersion(fileID, versionDTO, TestConst.content, TestConst.userID, false, null);
+    VersionDTO versionDTO = TestUtilities.createVersionDTO();
+    String versionID = versionService.createVersion(fileID, versionDTO, "filename15",
+        TestConst.content, TestConst.userID, fileDTO.getId());
+    Assert.assertNotNull(versionID);
 
-      VersionDTO persistedVersion = versionService.getFileLatestVersion(fileID);
-      Assert.assertNotEquals(versionDTO.getLastModifiedOn(), persistedVersion.getLastModifiedOn());
-    
+    versionDTO.setFilename("filename15");
+    versionService.updateVersion(fileID, versionDTO, TestConst.content, TestConst.userID, false,
+        null);
+
+    VersionDTO persistedVersion = versionService.getFileLatestVersion(fileID);
+    Assert.assertNotEquals(versionDTO.getLastModifiedOn(), persistedVersion.getLastModifiedOn());
+
   }
 
   @Test
@@ -251,7 +252,8 @@ public class VersionServiceImplTest extends ITTestConf {
 
 
     versionService.deleteAttribute(fileID, versionDTO.getName(), "LAST MODIFIED ON", null, null);
-    Assert.assertNull(versionService.getFileLatestVersion(fileID).getAttributes().get("LAST MODIFIED ON"));
+    Assert.assertNull(
+        versionService.getFileLatestVersion(fileID).getAttributes().get("LAST MODIFIED ON"));
   }
 
   @Test
@@ -266,8 +268,22 @@ public class VersionServiceImplTest extends ITTestConf {
     Assert.assertNotNull(versionID);
 
     versionService.deleteAttribute(fileID, "LAST MODIFIED ON", null, null);
-    
-    Assert.assertNull(versionService.getFileLatestVersion(fileID).getAttributes().get("LAST MODIFIED ON"));
+
+    Assert.assertNull(
+        versionService.getFileLatestVersion(fileID).getAttributes().get("LAST MODIFIED ON"));
+  }
+
+  @Test
+  public void getVersionById() {
+    FileDTO fileDTO = TestUtilities.createFileDTO();
+    String fileID = documentService.createFile(fileDTO, TestConst.userID, fileDTO.getId());
+    Assert.assertNotNull(fileID);
+
+    VersionDTO versionDTO = TestUtilities.createVersionDTO();
+    String versionID = versionService.createVersion(fileID, versionDTO, "filename01",
+        TestConst.content, TestConst.userID, fileDTO.getId());
+    VersionDTO persistedVersionDTO = versionService.getVersionById(versionID);
+    Assert.assertNotNull(persistedVersionDTO);
   }
 
 }

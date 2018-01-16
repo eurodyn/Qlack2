@@ -517,4 +517,11 @@ public class VersionServiceImpl implements VersionService {
 
   }
 
+
+  @Override
+  @Transactional(TxType.REQUIRED)
+  public VersionDTO getVersionById(String versionId) {
+    return ConverterUtil.versionToVersionDTO(Version.find(versionId, em));
+  }
+
 }
