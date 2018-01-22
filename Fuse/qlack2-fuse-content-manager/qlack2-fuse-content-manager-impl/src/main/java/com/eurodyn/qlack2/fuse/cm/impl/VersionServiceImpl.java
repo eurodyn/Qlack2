@@ -524,4 +524,9 @@ public class VersionServiceImpl implements VersionService {
     return ConverterUtil.versionToVersionDTO(Version.find(versionId, em));
   }
 
+  @Override
+  @Transactional(TxType.REQUIRED)
+  public void setVersionContent(String versionID, byte[] content) {
+    storageEngine.setVersionContent(versionID, content);
+  }
 }
