@@ -8,170 +8,185 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * 23/01/2018 : Json Property Inner_hits for nested ES Objects
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QueryResponse {
 
-	private int took;
-	@JsonProperty("timed_out")
-	private boolean timeOut;
-	@JsonProperty("_shards")
-	private Shards shards;
-	private Hits hits;
+  private int took;
+  @JsonProperty("timed_out")
+  private boolean timeOut;
+  @JsonProperty("_shards")
+  private Shards shards;
+  private Hits hits;
 
-	public int getTook() {
-		return took;
-	}
+  public int getTook() {
+    return took;
+  }
 
-	public void setTook(int took) {
-		this.took = took;
-	}
+  public void setTook(int took) {
+    this.took = took;
+  }
 
-	public boolean isTimeOut() {
-		return timeOut;
-	}
+  public boolean isTimeOut() {
+    return timeOut;
+  }
 
-	public void setTimeOut(boolean timeOut) {
-		this.timeOut = timeOut;
-	}
+  public void setTimeOut(boolean timeOut) {
+    this.timeOut = timeOut;
+  }
 
-	public Shards getShards() {
-		return shards;
-	}
+  public Shards getShards() {
+    return shards;
+  }
 
-	public void setShards(Shards shards) {
-		this.shards = shards;
-	}
+  public void setShards(Shards shards) {
+    this.shards = shards;
+  }
 
-	public Hits getHits() {
-		return hits;
-	}
+  public Hits getHits() {
+    return hits;
+  }
 
-	public void setHits(Hits hits) {
-		this.hits = hits;
-	}
+  public void setHits(Hits hits) {
+    this.hits = hits;
+  }
 
-	@JsonIgnoreProperties(ignoreUnknown = true)
-	public static class Shards {
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  public static class Shards {
 
-		private int total;
-		private int successful;
-		private int failed;
+    private int total;
+    private int successful;
+    private int failed;
 
-		public int getTotal() {
-			return total;
-		}
+    public int getTotal() {
+      return total;
+    }
 
-		public void setTotal(int total) {
-			this.total = total;
-		}
+    public void setTotal(int total) {
+      this.total = total;
+    }
 
-		public int getSuccessful() {
-			return successful;
-		}
+    public int getSuccessful() {
+      return successful;
+    }
 
-		public void setSuccessful(int successful) {
-			this.successful = successful;
-		}
+    public void setSuccessful(int successful) {
+      this.successful = successful;
+    }
 
-		public int getFailed() {
-			return failed;
-		}
+    public int getFailed() {
+      return failed;
+    }
 
-		public void setFailed(int failed) {
-			this.failed = failed;
-		}
-	}
+    public void setFailed(int failed) {
+      this.failed = failed;
+    }
+  }
 
-	@JsonIgnoreProperties(ignoreUnknown = true)
-	public static class Hits {
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  public static class Hits {
 
-		private int total;
-		@JsonProperty("max_score")
-		private float maxScore;
-		private List<Hit> hits;
+    private int total;
+    @JsonProperty("max_score")
+    private float maxScore;
+    private List<Hit> hits;
 
-		public int getTotal() {
-			return total;
-		}
+    public int getTotal() {
+      return total;
+    }
 
-		public void setTotal(int total) {
-			this.total = total;
-		}
+    public void setTotal(int total) {
+      this.total = total;
+    }
 
-		public float getMaxScore() {
-			return maxScore;
-		}
+    public float getMaxScore() {
+      return maxScore;
+    }
 
-		public void setMaxScore(float maxScore) {
-			this.maxScore = maxScore;
-		}
+    public void setMaxScore(float maxScore) {
+      this.maxScore = maxScore;
+    }
 
-		public List<Hit> getHits() {
-			if (hits == null) {
-				hits = new ArrayList<>();
-			}
+    public List<Hit> getHits() {
+      if (hits == null) {
+        hits = new ArrayList<>();
+      }
 
-			return hits;
-		}
+      return hits;
+    }
 
-		public void setHits(List<Hit> hits) {
-			this.hits = hits;
-		}
+    public void setHits(List<Hit> hits) {
+      this.hits = hits;
+    }
 
-		@JsonIgnoreProperties(ignoreUnknown = true)
-		public static class Hit {
-			@JsonProperty("_index")
-			private String index;
-			@JsonProperty("_type")
-			private String type;
-			@JsonProperty("_id")
-			private String id;
-			@JsonProperty("_score")
-			private float score;
-			@JsonProperty("_source")
-			private Object source;
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Hit {
 
-			public String getIndex() {
-				return index;
-			}
+      @JsonProperty("_index")
+      private String index;
+      @JsonProperty("_type")
+      private String type;
+      @JsonProperty("_id")
+      private String id;
+      @JsonProperty("_score")
+      private float score;
+      @JsonProperty("_source")
+      private Object source;
+      @JsonProperty("inner_hits")
+      private Object inner_hits;
 
-			public void setIndex(String index) {
-				this.index = index;
-			}
+      public String getIndex() {
+        return index;
+      }
 
-			public String getType() {
-				return type;
-			}
+      public void setIndex(String index) {
+        this.index = index;
+      }
 
-			public void setType(String type) {
-				this.type = type;
-			}
+      public String getType() {
+        return type;
+      }
 
-			public String getId() {
-				return id;
-			}
+      public void setType(String type) {
+        this.type = type;
+      }
 
-			public void setId(String id) {
-				this.id = id;
-			}
+      public String getId() {
+        return id;
+      }
 
-			public float getScore() {
-				return score;
-			}
+      public void setId(String id) {
+        this.id = id;
+      }
 
-			public void setScore(float score) {
-				this.score = score;
-			}
+      public float getScore() {
+        return score;
+      }
 
-			@JsonRawValue
-			public String getSource() {
-				return source != null ? source.toString() : null;
-			}
+      public void setScore(float score) {
+        this.score = score;
+      }
 
-			public void setSource(JsonNode source) {
-				this.source = source;
-			}
+      @JsonRawValue
+      public String getSource() {
+        return source != null ? source.toString() : null;
+      }
 
-		}
-	}
+      public void setSource(JsonNode source) {
+        this.source = source;
+      }
+
+      @JsonRawValue
+      public String getInner_hits() {
+        return inner_hits != null ? inner_hits.toString() : null;
+      }
+
+      public void setInner_hits(JsonNode inner_hits) {
+        this.inner_hits = inner_hits;
+      }
+
+    }
+  }
 }

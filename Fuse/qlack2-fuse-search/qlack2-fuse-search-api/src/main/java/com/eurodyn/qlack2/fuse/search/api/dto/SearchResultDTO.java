@@ -4,203 +4,216 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The search results obtained after having executed a search.
+ * The search results obtained after having executed a search. 23/01/2018 The Adding the inner_hits
+ * for the nested Objects in the Search Result DTO
  */
 public class SearchResultDTO {
-	// The JSON representation of the search result as it comes from ES.
-	private String source;
 
-	// The amount of time the query took to be executed (in msec).
-	private long executionTime;
+  // The JSON representation of the search result as it comes from ES.
+  private String source;
 
-	// Indicates whether ES timed out while executing the search.
-	private boolean timedOut;
+  // The amount of time the query took to be executed (in msec).
+  private long executionTime;
 
-	// Total number of shards that needed to be searched.
-	private int shardsTotal;
+  // Indicates whether ES timed out while executing the search.
+  private boolean timedOut;
 
-	// The number of shards successfully searched.
-	private int shardsSuccessful;
+  // Total number of shards that needed to be searched.
+  private int shardsTotal;
 
-	// The number of shards failed to be searched.
-	private int shardsFailed;
+  // The number of shards successfully searched.
+  private int shardsSuccessful;
 
-	// The total number of hits for this search.
-	private long totalHits;
+  // The number of shards failed to be searched.
+  private int shardsFailed;
 
-	// The best score received for this search.
-	private float bestScore;
+  // The total number of hits for this search.
+  private long totalHits;
 
-	// An indicator of whether there are more results available (useful in
-	// paging).
-	private boolean hasMore;
+  // The best score received for this search.
+  private float bestScore;
 
-	// The list of hits generated for this search.
-	private List<SearchHitDTO> hits = new ArrayList<SearchHitDTO>();
+  // An indicator of whether there are more results available (useful in
+  // paging).
+  private boolean hasMore;
 
-	/**
-	 * @param executionTime
-	 *            the executionTime to set
-	 */
-	public void setExecutionTime(long executionTime) {
-		this.executionTime = executionTime;
-	}
+  // The list of hits generated for this search.
+  private List<SearchHitDTO> hits = new ArrayList<SearchHitDTO>();
 
-	/**
-	 * @param timedOut
-	 *            the timedOut to set
-	 */
-	public void setTimedOut(boolean timedOut) {
-		this.timedOut = timedOut;
-	}
+  // The inner_hits object of the search result as it comes from ES for the nested Objects.
+  private String inner_hits;
 
-	/**
-	 * @param shardsTotal
-	 *            the shardsTotal to set
-	 */
-	public void setShardsTotal(int shardsTotal) {
-		this.shardsTotal = shardsTotal;
-	}
+  /**
+   * @param executionTime the executionTime to set
+   */
+  public void setExecutionTime(long executionTime) {
+    this.executionTime = executionTime;
+  }
 
-	/**
-	 * @param shardsSuccessful
-	 *            the shardsSuccessful to set
-	 */
-	public void setShardsSuccessful(int shardsSuccessful) {
-		this.shardsSuccessful = shardsSuccessful;
-	}
+  /**
+   * @param timedOut the timedOut to set
+   */
+  public void setTimedOut(boolean timedOut) {
+    this.timedOut = timedOut;
+  }
 
-	/**
-	 * @param shardsFailed
-	 *            the shardsFailed to set
-	 */
-	public void setShardsFailed(int shardsFailed) {
-		this.shardsFailed = shardsFailed;
-	}
+  /**
+   * @param shardsTotal the shardsTotal to set
+   */
+  public void setShardsTotal(int shardsTotal) {
+    this.shardsTotal = shardsTotal;
+  }
 
-	/**
-	 * @param totalHits
-	 *            the totalHits to set
-	 */
-	public void setTotalHits(long totalHits) {
-		this.totalHits = totalHits;
-	}
+  /**
+   * @param shardsSuccessful the shardsSuccessful to set
+   */
+  public void setShardsSuccessful(int shardsSuccessful) {
+    this.shardsSuccessful = shardsSuccessful;
+  }
 
-	/**
-	 * @param bestScore
-	 *            the bestScore to set
-	 */
-	public void setBestScore(float bestScore) {
-		this.bestScore = bestScore;
-	}
+  /**
+   * @param shardsFailed the shardsFailed to set
+   */
+  public void setShardsFailed(int shardsFailed) {
+    this.shardsFailed = shardsFailed;
+  }
 
-	/**
-	 * @return the executionTime
-	 */
-	public long getExecutionTime() {
-		return executionTime;
-	}
+  /**
+   * @param totalHits the totalHits to set
+   */
+  public void setTotalHits(long totalHits) {
+    this.totalHits = totalHits;
+  }
 
-	/**
-	 * @return the timedOut
-	 */
-	public boolean isTimedOut() {
-		return timedOut;
-	}
+  /**
+   * @param bestScore the bestScore to set
+   */
+  public void setBestScore(float bestScore) {
+    this.bestScore = bestScore;
+  }
 
-	/**
-	 * @return the shardsTotal
-	 */
-	public int getShardsTotal() {
-		return shardsTotal;
-	}
+  /**
+   * @return the executionTime
+   */
+  public long getExecutionTime() {
+    return executionTime;
+  }
 
-	/**
-	 * @return the shardsSuccessful
-	 */
-	public int getShardsSuccessful() {
-		return shardsSuccessful;
-	}
+  /**
+   * @return the timedOut
+   */
+  public boolean isTimedOut() {
+    return timedOut;
+  }
 
-	/**
-	 * @return the shardsFailed
-	 */
-	public int getShardsFailed() {
-		return shardsFailed;
-	}
+  /**
+   * @return the shardsTotal
+   */
+  public int getShardsTotal() {
+    return shardsTotal;
+  }
 
-	/**
-	 * @return the totalHits
-	 */
-	public long getTotalHits() {
-		return totalHits;
-	}
+  /**
+   * @return the shardsSuccessful
+   */
+  public int getShardsSuccessful() {
+    return shardsSuccessful;
+  }
 
-	/**
-	 * @return the bestScore
-	 */
-	public float getBestScore() {
-		return bestScore;
-	}
+  /**
+   * @return the shardsFailed
+   */
+  public int getShardsFailed() {
+    return shardsFailed;
+  }
 
-	/**
-	 * @return the source
-	 */
-	public String getSource() {
-		return source;
-	}
+  /**
+   * @return the totalHits
+   */
+  public long getTotalHits() {
+    return totalHits;
+  }
 
-	/**
-	 * @param source
-	 *            the source to set
-	 */
-	public void setSource(String source) {
-		this.source = source;
-	}
+  /**
+   * @return the bestScore
+   */
+  public float getBestScore() {
+    return bestScore;
+  }
 
-	public void addHit(SearchHitDTO dto) {
-		hits.add(dto);
-	}
+  /**
+   * @return the source
+   */
+  public String getSource() {
+    return source;
+  }
 
-	/**
-	 * @return the hits
-	 */
-	public List<SearchHitDTO> getHits() {
-		return hits;
-	}
+  /**
+   * @param source the source to set
+   */
+  public void setSource(String source) {
+    this.source = source;
+  }
 
-	/**
-	 * @param hits
-	 *            the hits to set
-	 */
-	public void setHits(List<SearchHitDTO> hits) {
-		this.hits = hits;
-	}
-	
-	/**
-	 * @return the hasMore
-	 */
-	public boolean isHasMore() {
-		return hasMore;
-	}
+  public void addHit(SearchHitDTO dto) {
+    hits.add(dto);
+  }
 
-	/**
-	 * @param hasMore the hasMore to set
-	 */
-	public void setHasMore(boolean hasMore) {
-		this.hasMore = hasMore;
-	}
+  /**
+   * @return the hits
+   */
+  public List<SearchHitDTO> getHits() {
+    return hits;
+  }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "SearchResultDTO [source=" + source + ", executionTime=" + executionTime + ", timedOut=" + timedOut
-				+ ", shardsTotal=" + shardsTotal + ", shardsSuccessful=" + shardsSuccessful + ", shardsFailed="
-				+ shardsFailed + ", totalHits=" + totalHits + ", bestScore=" + bestScore + ", hasMore=" + hasMore
-				+ ", hits=" + hits + "]";
-	}
-	
+  /**
+   * @param hits the hits to set
+   */
+  public void setHits(List<SearchHitDTO> hits) {
+    this.hits = hits;
+  }
+
+  /**
+   * @return the hasMore
+   */
+  public boolean isHasMore() {
+    return hasMore;
+  }
+
+  /**
+   * @param hasMore the hasMore to set
+   */
+  public void setHasMore(boolean hasMore) {
+    this.hasMore = hasMore;
+  }
+
+  /**
+   * @return the inner_hits
+   */
+  public String getInner_hits() {
+    return inner_hits;
+  }
+
+  /**
+   * @param inner_hits the inner_hits to set
+   */
+  public void setInner_hits(String inner_hits) {
+    this.inner_hits = inner_hits;
+  }
+
+  /* (non-Javadoc)
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    return "SearchResultDTO [source=" + source + ", executionTime=" + executionTime + ", timedOut="
+      + timedOut
+      + ", shardsTotal=" + shardsTotal + ", shardsSuccessful=" + shardsSuccessful
+      + ", shardsFailed="
+      + shardsFailed + ", totalHits=" + totalHits + ", bestScore=" + bestScore + ", hasMore="
+      + hasMore
+      + ", hits=" + hits + ", inner_hits=" + inner_hits + "]";
+  }
+
 
 }
