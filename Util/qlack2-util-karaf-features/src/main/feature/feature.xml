@@ -110,4 +110,9 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/xml/feat
     <bundle start-level="79">mvn:com.eurodyn.qlack2.util/qlack2-util-liquibase-impl/${project.version}</bundle>
   </feature>
 
+  <feature name="qlack2-util-jwt" version="${project.version}">
+    <bundle>mvn:io.jsonwebtoken/jjwt/${jjwt.version}</bundle>
+    <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
+    <bundle>mvn:com.eurodyn.qlack2.util/qlack2-util-jwt/${project.version}</bundle>
+  </feature>
 </features>
