@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
- * 23/01/2018 : Json Property Inner_hits for nested ES Objects
+ * 23/01/2018 : Json Property InnerHits for nested ES Objects
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class QueryResponse {
@@ -135,7 +135,7 @@ public class QueryResponse {
       @JsonProperty("_source")
       private Object source;
       @JsonProperty("inner_hits")
-      private Object inner_hits;
+      private Object innerHits;
 
       public String getIndex() {
         return index;
@@ -179,12 +179,12 @@ public class QueryResponse {
       }
 
       @JsonRawValue
-      public String getInner_hits() {
-        return inner_hits != null ? inner_hits.toString() : null;
+      public String getInnerHits() {
+        return innerHits != null ? innerHits.toString() : null;
       }
 
-      public void setInner_hits(JsonNode inner_hits) {
-        this.inner_hits = inner_hits;
+      public void setInnerHits(JsonNode innerHits) {
+        this.innerHits = innerHits;
       }
 
     }

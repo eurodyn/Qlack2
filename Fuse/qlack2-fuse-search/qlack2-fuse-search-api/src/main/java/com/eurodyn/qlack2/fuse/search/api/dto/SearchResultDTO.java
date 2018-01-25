@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The search results obtained after having executed a search. 23/01/2018 The Adding the inner_hits
- * for the nested Objects in the Search Result DTO
+ * The search results obtained after having executed a search
  */
 public class SearchResultDTO {
 
@@ -39,9 +38,6 @@ public class SearchResultDTO {
 
   // The list of hits generated for this search.
   private List<SearchHitDTO> hits = new ArrayList<SearchHitDTO>();
-
-  // The inner_hits object of the search result as it comes from ES for the nested Objects.
-  private String inner_hits;
 
   /**
    * @param executionTime the executionTime to set
@@ -187,20 +183,6 @@ public class SearchResultDTO {
     this.hasMore = hasMore;
   }
 
-  /**
-   * @return the inner_hits
-   */
-  public String getInner_hits() {
-    return inner_hits;
-  }
-
-  /**
-   * @param inner_hits the inner_hits to set
-   */
-  public void setInner_hits(String inner_hits) {
-    this.inner_hits = inner_hits;
-  }
-
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -212,7 +194,7 @@ public class SearchResultDTO {
       + ", shardsFailed="
       + shardsFailed + ", totalHits=" + totalHits + ", bestScore=" + bestScore + ", hasMore="
       + hasMore
-      + ", hits=" + hits + ", inner_hits=" + inner_hits + "]";
+      + ", hits=" + hits + "]";
   }
 
 

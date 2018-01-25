@@ -128,7 +128,6 @@ public class SearchServiceImpl implements SearchService {
     if (dto.isIncludeAllSource()) {
       try {
         result.setSource(mapper.writeValueAsString(queryResponse));
-        result.setInner_hits(mapper.writeValueAsString(queryResponse));
       } catch (JsonProcessingException e) {
         LOGGER.log(Level.SEVERE, "Could not serialize response.", e);
         throw new QSearchException("Could not serialize response.", e);
@@ -142,7 +141,7 @@ public class SearchServiceImpl implements SearchService {
         sh.setType(hit.getType());
         sh.setSource(hit.getSource());
         sh.setId(hit.getId());
-        sh.setInnerHits(hit.getInner_hits());
+        sh.setInnerHits(hit.getInnerHits());
         result.getHits().add(sh);
       }
     }
