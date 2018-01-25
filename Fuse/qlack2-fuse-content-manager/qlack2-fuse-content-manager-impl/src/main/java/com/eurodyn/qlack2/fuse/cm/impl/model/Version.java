@@ -67,7 +67,7 @@ public class Version {
 
 	@OneToMany(mappedBy = "version", cascade = CascadeType.ALL)
 	private List<VersionAttribute> attributes;
-	@OneToMany(mappedBy = "version", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "version", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<VersionBin> versionBins;
 
 	public Version() {
