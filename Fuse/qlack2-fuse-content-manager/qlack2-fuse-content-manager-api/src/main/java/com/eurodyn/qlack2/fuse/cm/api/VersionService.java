@@ -235,13 +235,13 @@ public interface VersionService {
    * @return the version by id
    */
   VersionDTO getVersionById(String versionId);
-  
-  
+
+
   /**
    * Sets the version content.
    *
    * @param versionID the version ID
    * @param content the content
    */
-  void setVersionContent(String versionID, byte[] content) ;
+  void replaceVersionContent(String versionID, byte[] content);
 }

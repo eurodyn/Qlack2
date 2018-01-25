@@ -59,6 +59,7 @@ import com.eurodyn.qlack2.fuse.cm.impl.model.NodeAttribute;
 import com.eurodyn.qlack2.fuse.cm.impl.model.QVersionDeleted;
 import com.eurodyn.qlack2.fuse.cm.impl.model.Version;
 import com.eurodyn.qlack2.fuse.cm.impl.model.VersionAttribute;
+import com.eurodyn.qlack2.fuse.cm.impl.model.VersionBin;
 import com.eurodyn.qlack2.fuse.cm.impl.model.VersionDeleted;
 import com.eurodyn.qlack2.fuse.cm.impl.storage.StorageEngineFactory;
 import com.eurodyn.qlack2.fuse.cm.impl.util.Constants;
@@ -526,7 +527,15 @@ public class VersionServiceImpl implements VersionService {
 
   @Override
   @Transactional(TxType.REQUIRED)
-  public void setVersionContent(String versionID, byte[] content) {
-    storageEngine.setVersionContent(versionID, content);
+  public void replaceVersionContent(String versionID, byte[] content) {
+    try {
+      boolean deleted = storageEngine.deleteVersion(versionID);
+    
+      if (deleted) {
+        storageEngine.setVersionContent(versionID, content);
+      }
+    } catch (Exception e) {
+      LOGGER.log(Level.SEVERE, "Could not delete versionBin for version:" + versionID, e);
+    }
   }
 }
