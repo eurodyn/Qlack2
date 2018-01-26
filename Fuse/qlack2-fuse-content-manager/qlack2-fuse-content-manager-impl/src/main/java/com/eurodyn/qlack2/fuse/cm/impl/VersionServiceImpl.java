@@ -430,9 +430,7 @@ public class VersionServiceImpl implements VersionService {
         if (!entry.getKey().equals(Constants.ATTR_LAST_MODIFIED_ON)
             && !entry.getKey().equals(Constants.ATTR_LAST_MODIFIED_BY)
             && !entry.getKey().equals(Constants.ATTR_CREATED_BY)) {
-          if (version.getAttribute(entry.getKey()) == null) {
-            version.setAttribute(entry.getKey(), entry.getValue(), em);
-          }
+          version.setAttribute(entry.getKey(), entry.getValue(), em);
         }
       }
     }
@@ -530,7 +528,7 @@ public class VersionServiceImpl implements VersionService {
   public void replaceVersionContent(String versionID, byte[] content) {
     try {
       boolean deleted = storageEngine.deleteVersion(versionID);
-    
+
       if (deleted) {
         storageEngine.setVersionContent(versionID, content);
       }
