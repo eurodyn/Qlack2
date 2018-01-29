@@ -85,7 +85,7 @@
     <commons.beanutils.version>1.9.2</commons.beanutils.version>
     <!--TODO rename to commons-codec.version-->
     <commons.codec.version>1.8</commons.codec.version>
-    <commons.collections.version>3.2.1</commons.collections.version>
+    <commons.collections.version>3.2.2</commons.collections.version>
     <commons.dbcp.servicemix.version>1.4_3</commons.dbcp.servicemix.version>
     <commons.dbcp.version>1.4</commons.dbcp.version>
     <commons.io.version>2.4</commons.io.version>
@@ -125,7 +125,7 @@
     <jjwt.version>0.9.0</jjwt.version>
     <joda.version>2.2</joda.version>
     <junit.version>4.12</junit.version>
-    <karaf.cxf.version>3.1.8</karaf.cxf.version>
+    <karaf.cxf.version>3.1.14</karaf.cxf.version>
     <karaf.hibernate.validator.version>5.0.3.Final</karaf.hibernate.validator.version>
     <karaf.hibernate.version>4.3.6.Final</karaf.hibernate.version>
     <karaf.version>4.0.9</karaf.version> <!-- https://github.com/eurodyn/Qlack2-Website/wiki/Against-which-Karaf-version-is-QLACK-built -->
