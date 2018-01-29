@@ -2,28 +2,26 @@ package com.eurodyn.qlack2.fuse.search.impl;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.List;
-import java.util.Map;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
-import com.eurodyn.qlack2.fuse.search.api.dto.queries.*;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.elasticsearch.client.Response;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
-
 import com.eurodyn.qlack2.fuse.search.api.SearchService;
 import com.eurodyn.qlack2.fuse.search.api.dto.SearchHitDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.SearchResultDTO;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.*;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryBoolean.BooleanType;
 import com.eurodyn.qlack2.fuse.search.api.exception.QSearchException;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.request.InternalSearchRequest;
@@ -346,7 +344,7 @@ public class SearchServiceImpl implements SearchService {
     StringBuilder builder = new StringBuilder("[");
 
     if (dto instanceof QuerySort) {
-      QuerySort sort = (QuerySort) dto;
+      QuerySort sort = dto;
 
       builder.append("{");
 
@@ -366,4 +364,15 @@ public class SearchServiceImpl implements SearchService {
 
   }
 
+  @Override
+  public boolean exists(String indexName, String typeName, String id) {
+    String endpoint = indexName + "/" + typeName + "/" + id;
+    try {
+      Response response = esClient.getClient().performRequest("HEAD", endpoint);
+      return response.getStatusLine().getStatusCode() == 200;
+    } catch (IOException e) {
+      LOGGER.log(Level.SEVERE, MessageFormat.format("Could not check if document with id: {0} exists", id), e);
+      throw new QSearchException(MessageFormat.format("Could not check if document with id: {0} exists", id));
+    }
+  }
 }
