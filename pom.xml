@@ -82,7 +82,7 @@
     <clamav4j.version>0.5</clamav4j.version>
     <cometd.version>3.0.5</cometd.version>
     <commons-email.version>1.5</commons-email.version>
-    <commons.beanutils.version>1.9.2</commons.beanutils.version>
+    <commons.beanutils.version>1.9.3</commons.beanutils.version>
     <!--TODO rename to commons-codec.version-->
     <commons.codec.version>1.8</commons.codec.version>
     <commons.collections.version>3.2.2</commons.collections.version>
