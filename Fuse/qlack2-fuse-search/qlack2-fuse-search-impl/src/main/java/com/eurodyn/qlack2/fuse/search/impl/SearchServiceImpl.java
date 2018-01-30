@@ -375,4 +375,21 @@ public class SearchServiceImpl implements SearchService {
       throw new QSearchException(MessageFormat.format("Could not check if document with id: {0} exists", id));
     }
   }
+
+  @Override
+  public <T> T findById(String indexName, String typeName, String id, Class<T> clazz) {
+    String endpoint = indexName + "/" + typeName + "/" + id;
+    try {
+      Response response = esClient.getClient().performRequest("GET", endpoint);
+      if (response.getStatusLine().getStatusCode() == 200) {
+        Hit hit = mapper.readValue(response.getEntity().getContent(), Hit.class);
+        return hit != null && hit.getSource() != null ?
+            mapper.readValue(hit.getSource(), clazz) : null;
+      } else {
+        return null;
+      }
+    } catch (IOException e) {
+      return null;
+    }
+  }
 }

@@ -26,4 +26,15 @@ public interface SearchService {
    * @return true if the document with the given id exists. false otherwise.
    */
   boolean exists(String indexName, String typeName, String id);
+
+  /**
+   * Finds a document by its id.
+   *
+   * @param indexName The name of the index to search
+   * @param typeName The type of the document
+   * @param id The id of the document
+   * @param clazz The return type.
+   * @return The document or null if not found
+   */
+  <T> T findById(String indexName, String typeName, String id, Class<T> clazz);
 }
