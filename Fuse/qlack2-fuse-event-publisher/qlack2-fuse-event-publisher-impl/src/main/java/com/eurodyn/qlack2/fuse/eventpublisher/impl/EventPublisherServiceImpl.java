@@ -14,34 +14,34 @@
  */
 package com.eurodyn.qlack2.fuse.eventpublisher.impl;
 
+import com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventAdmin;
+
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.osgi.service.event.Event;
-import org.osgi.service.event.EventAdmin;
-
-import com.eurodyn.qlack2.fuse.eventpublisher.api.EventPublisherService;
-
 public class EventPublisherServiceImpl implements EventPublisherService {
-	private EventAdmin eventAdmin;
-	private static final Logger logger = Logger
-			.getLogger(EventPublisherServiceImpl.class.getName());
 
-	public void setEventAdmin(EventAdmin eventAdmin) {
-		this.eventAdmin = eventAdmin;
-	}
+  private EventAdmin eventAdmin;
+  private static final Logger logger = Logger
+    .getLogger(EventPublisherServiceImpl.class.getName());
 
-	@Override
-	public void publishAsync(Map<String, Object> data, String topic) {
-		logger.log(Level.FINEST, "Publish async: ", new Object[]{topic, data});
-		eventAdmin.postEvent(new Event(topic, data));
-	}
+  public void setEventAdmin(EventAdmin eventAdmin) {
+    this.eventAdmin = eventAdmin;
+  }
 
-	@Override
-	public void publishSync(Map<String, Object> data, String topic) {
-		logger.log(Level.FINEST, "Publish sync: ", new Object[]{topic, data});
-		eventAdmin.sendEvent(new Event(topic, data));
-	}
+  @Override
+  public void publishAsync(Map<String, Object> data, String topic) {
+    logger.log(Level.FINEST, "Publish async: ", new Object[]{topic, data});
+    eventAdmin.postEvent(new Event(topic, data));
+  }
+
+  @Override
+  public void publishSync(Map<String, Object> data, String topic) {
+    logger.log(Level.FINEST, "Publish sync: ", new Object[]{topic, data});
+    eventAdmin.sendEvent(new Event(topic, data));
+  }
 
 }
