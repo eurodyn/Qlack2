@@ -42,9 +42,9 @@
   <modules>
     <module>Fuse</module>
     <module>Util</module>
-    <!--module>WebDesktop</module>
+    <module>WebDesktop</module>
     <module>WebDesktopApps</module>
-    <module>BusinessEngine</module-->
+    <module>BusinessEngine</module>
     <module>Common</module>
     <module>Patches</module>
   </modules>
