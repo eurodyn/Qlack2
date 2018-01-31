@@ -14,6 +14,8 @@
  */
 package com.eurodyn.qlack2.fuse.settings.impl;
 
+import com.eurodyn.qlack2.common.util.exception.QAlreadyExistsException;
+import com.eurodyn.qlack2.common.util.exception.QDoesNotExistException;
 import com.eurodyn.qlack2.fuse.settings.api.SettingsService;
 import com.eurodyn.qlack2.fuse.settings.api.dto.GroupDTO;
 import com.eurodyn.qlack2.fuse.settings.api.dto.SettingDTO;
@@ -26,8 +28,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import java.text.MessageFormat;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Transactional
@@ -72,6 +74,8 @@ public class SettingsServiceImpl implements SettingsService {
 
   @Override
   public SettingDTO getSetting(String owner, String key, String group) {
+    SettingDTO retVal;
+
     QSetting qsetting = QSetting.setting;
     Setting setting = new JPAQueryFactory(em).selectFrom(qsetting)
       .where(qsetting.owner.eq(owner)
@@ -79,7 +83,14 @@ public class SettingsServiceImpl implements SettingsService {
         .and(qsetting.group.eq(group)))
       .fetchOne();
 
-    return mapper.map(setting);
+    if (setting == null) {
+      throw new QDoesNotExistException(MessageFormat.format(
+        "Did not find a setting with key: {0}.", key));
+    } else {
+      retVal = mapper.map(setting);
+    }
+
+    return retVal;
   }
 
   @Override
@@ -96,16 +107,21 @@ public class SettingsServiceImpl implements SettingsService {
   @Override
   public void createSetting(String owner, String group, String key, String val, boolean sensitive,
     boolean password) {
-    Setting setting = new Setting();
-    setting.setGroup(group);
-    setting.setKey(key);
-    setting.setOwner(owner);
-    setting.setVal(val);
-    setting.setSensitive(sensitive);
-    setting.setPassword(password);
+    try {
+      getSetting(owner, key, group);
+      throw new QAlreadyExistsException(MessageFormat.format(
+        "A setting already exists with key: {0}.", key));
+    } catch (QDoesNotExistException e) {
+      Setting setting = new Setting();
+      setting.setGroup(group);
+      setting.setKey(key);
+      setting.setOwner(owner);
+      setting.setVal(val);
+      setting.setSensitive(sensitive);
+      setting.setPassword(password);
 
-    em.persist(setting);
-
+      em.persist(setting);
+    }
   }
 
   @Override
@@ -119,7 +135,8 @@ public class SettingsServiceImpl implements SettingsService {
     if (setting != null) {
       setting.setVal(val);
     } else {
-      LOGGER.log(Level.WARNING, "Requested setting {0} does not exist.", key);
+      throw new QDoesNotExistException(MessageFormat.format(
+        "Did not find a setting with key: {0}.", key));
     }
   }
 }

@@ -14,13 +14,15 @@
  */
 package com.eurodyn.qlack2.fuse.settings.api;
 
+import com.eurodyn.qlack2.common.util.exception.QAlreadyExistsException;
+import com.eurodyn.qlack2.common.util.exception.QDoesNotExistException;
 import com.eurodyn.qlack2.fuse.settings.api.dto.GroupDTO;
 import com.eurodyn.qlack2.fuse.settings.api.dto.SettingDTO;
 
 import java.util.List;
 
 /**
- * Provides functionality to set and retrieve settings.
+ * Provides functionality to set and retrieve settings held in the database.
  *
  * @author European Dynamics SA.
  */
@@ -48,7 +50,7 @@ public interface SettingsService {
    * @param key The key/name of the setting.
    * @param group The group on which this key/name belongs to.
    */
-  SettingDTO getSetting(String owner, String key, String group);
+  SettingDTO getSetting(String owner, String key, String group) throws QDoesNotExistException;
 
   /**
    * Retrieves all settings of a specific group.
@@ -69,7 +71,7 @@ public interface SettingsService {
    * @param password Indicating this setting contains a password value.
    */
   void createSetting(String owner, String group, String key, String val, boolean sensitive,
-    boolean password);
+    boolean password) throws QAlreadyExistsException;
 
   /**
    * Updates an existing setting.
@@ -79,5 +81,5 @@ public interface SettingsService {
    * @param val The value to update the setting with.
    * @param group The group to which this setting belongs to.
    */
-  void setVal(String owner, String key, String val, String group);
+  void setVal(String owner, String key, String val, String group) throws QDoesNotExistException;
 }
