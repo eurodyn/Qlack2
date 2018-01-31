@@ -111,4 +111,40 @@ public class AdminServiceImpl implements AdminService {
 
 		return true;
 	}
+
+	@Override
+	public boolean closeIndex(String indexName)  {
+		// If the index does not exist return without doing anything.
+		if (!indexExists(indexName)) {
+			LOGGER.log(Level.WARNING, "Index does not exist: {0}.", indexName);
+			return false;
+		}
+
+		String endpoint = indexName + "/_close";
+		try {
+			esClient.getClient().performRequest("POST", endpoint);
+		} catch (IOException e) {
+			LOGGER.log(Level.SEVERE, "Could not close index.", e);
+			throw new QSearchException("Could not close index.");
+		}
+		return true;
+	}
+
+	@Override
+	public boolean openIndex(String indexName) {
+		// If the index does not exist return without doing anything.
+		if (!indexExists(indexName)) {
+			LOGGER.log(Level.WARNING, "Index does not exist: {0}.", indexName);
+			return false;
+		}
+
+		String endpoint = indexName + "/_open";
+		try {
+			esClient.getClient().performRequest("POST", endpoint);
+		} catch (IOException e) {
+			LOGGER.log(Level.SEVERE, "Could not open index.", e);
+			throw new QSearchException("Could not open index.", e);
+		}
+		return true;
+	}
 }
