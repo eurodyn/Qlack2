@@ -32,4 +32,7 @@ public class QSettingsException extends QException {
     super(message);
   }
 
+  public QSettingsException(String message, Throwable cause) {
+    super(message, cause);
+  }
 }

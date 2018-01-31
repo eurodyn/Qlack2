@@ -101,4 +101,11 @@ public class SettingDTO implements Serializable {
     this.password = password;
   }
 
+  public SettingDTO() {
+  }
+
+  public SettingDTO(String key, String val) {
+    this.key = key;
+    this.val = val;
+  }
 }
