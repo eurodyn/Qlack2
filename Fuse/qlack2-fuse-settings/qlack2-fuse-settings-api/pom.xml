@@ -1,35 +1,37 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.eurodyn.qlack2.fuse</groupId>
-		<artifactId>qlack2-fuse-settings</artifactId>
-		<version>2.3.3-SNAPSHOT</version>
-		<relativePath>..</relativePath>
-	</parent>
+  <parent>
+    <groupId>com.eurodyn.qlack2.fuse</groupId>
+    <artifactId>qlack2-fuse-settings</artifactId>
+    <version>2.3.3-SNAPSHOT</version>
+    <relativePath>..</relativePath>
+  </parent>
 
-	<artifactId>qlack2-fuse-settings-api</artifactId>
-	<packaging>bundle</packaging>
+  <artifactId>qlack2-fuse-settings-api</artifactId>
+  <packaging>bundle</packaging>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<configuration>
-					<instructions>
-						<Bundle-Description>QLACK2 :: Fuse :: Settings :: api</Bundle-Description>
-					</instructions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <configuration>
+          <instructions>
+            <Bundle-Description>QLACK2 :: Fuse :: Settings :: api</Bundle-Description>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.eurodyn.qlack2.common</groupId>
-			<artifactId>qlack2-common-util</artifactId>
-		</dependency>
-	</dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>com.eurodyn.qlack2.common</groupId>
+      <artifactId>qlack2-common-util</artifactId>
+    </dependency>
+  </dependencies>
 
 </project>

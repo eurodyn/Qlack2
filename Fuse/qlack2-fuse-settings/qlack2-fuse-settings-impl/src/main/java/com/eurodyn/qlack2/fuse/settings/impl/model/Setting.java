@@ -1,21 +1,18 @@
 /*
-* Copyright 2014 EUROPEAN DYNAMICS SA <info@eurodyn.com>
-*
-* Licensed under the EUPL, Version 1.1 only (the "License").
-* You may not use this work except in compliance with the Licence.
-* You may obtain a copy of the Licence at:
-* https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the Licence is distributed on an "AS IS" basis,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the Licence for the specific language governing permissions and
-* limitations under the Licence.
-*/
+ * Copyright 2014 EUROPEAN DYNAMICS SA <info@eurodyn.com>
+ *
+ * Licensed under the EUPL, Version 1.1 only (the "License").
+ * You may not use this work except in compliance with the Licence.
+ * You may obtain a copy of the Licence at:
+ * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the Licence is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the Licence for the specific language governing permissions and
+ * limitations under the Licence.
+ */
 package com.eurodyn.qlack2.fuse.settings.impl.model;
-
-import java.time.Instant;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,119 +20,127 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import java.time.Instant;
+import java.util.UUID;
+
 @Entity
 @Table(name = "set_setting")
 public class Setting implements java.io.Serializable {
-	private static final long serialVersionUID = -4139799910690548024L;
 
-	public Setting() {
-		this.id = UUID.randomUUID().toString();
-		this.createdOn = Instant.now().toEpochMilli();
-	}
+  private static final long serialVersionUID = -4139799910690548024L;
+  @Id
+  private String id;
 
-	@Override
-	public String toString() {
-		return "Setting [id=" + id + ", dbversion=" + dbversion + ", owner=" + owner + ", group=" + group + ", key="
-				+ key + ", val=" + val + ", createdOn=" + createdOn + "]";
-	}
+  @Version
+  private long dbversion;
 
-	@Id
-	private String id;
+  private String owner;
 
-	@Version
-	private long dbversion;
+  @Column(name = "group_name")
+  private String group;
 
-	private String owner;
-	@Column(name = "group_name")
-	private String group;
-	@Column(name = "key_name")
-	private String key;
-	private String val;
-	@Column(name = "sensitivity")
-	private boolean sensitive;
-	@Column(name = "psswrd")
-	private Boolean password;
+  @Column(name = "key_name")
+  private String key;
 
-	public boolean isSensitive() {
-		return sensitive;
-	}
+  private String val;
 
-	public void setSensitive(boolean sensitive) {
-		this.sensitive = sensitive;
-	}
+  @Column(name = "sensitivity")
+  private boolean sensitive;
 
-	@Column(name = "created_on")
-	private long createdOn;
+  @Column(name = "psswrd")
+  private Boolean password;
 
-	public String getId() {
-		return id;
-	}
+  @Column(name = "created_on")
+  private long createdOn;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+  public Setting() {
+    this.id = UUID.randomUUID().toString();
+    this.createdOn = Instant.now().toEpochMilli();
+  }
 
-	public long getDbversion() {
-		return dbversion;
-	}
+  @Override
+  public String toString() {
+    return "Setting [id=" + id + ", dbversion=" + dbversion + ", owner=" + owner + ", group="
+      + group + ", key="
+      + key + ", val=" + val + ", createdOn=" + createdOn + "]";
+  }
 
-	public void setDbversion(long dbversion) {
-		this.dbversion = dbversion;
-	}
+  public boolean isSensitive() {
+    return sensitive;
+  }
 
-	public String getOwner() {
-		return owner;
-	}
+  public void setSensitive(boolean sensitive) {
+    this.sensitive = sensitive;
+  }
 
-	public void setOwner(String owner) {
-		this.owner = owner;
-	}
+  public String getId() {
+    return id;
+  }
 
-	public String getKey() {
-		return key;
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public void setKey(String key) {
-		this.key = key;
-	}
+  public long getDbversion() {
+    return dbversion;
+  }
 
-	public String getVal() {
-		return val;
-	}
+  public void setDbversion(long dbversion) {
+    this.dbversion = dbversion;
+  }
 
-	public void setVal(String val) {
-		this.val = val;
-	}
+  public String getOwner() {
+    return owner;
+  }
 
-	public long getCreatedOn() {
-		return createdOn;
-	}
+  public void setOwner(String owner) {
+    this.owner = owner;
+  }
 
-	public void setCreatedOn(long createdOn) {
-		this.createdOn = createdOn;
-	}
+  public String getKey() {
+    return key;
+  }
 
-	public String getGroup() {
-		return group;
-	}
+  public void setKey(String key) {
+    this.key = key;
+  }
 
-	public void setGroup(String group) {
-		this.group = group;
-	}
+  public String getVal() {
+    return val;
+  }
 
-	/**
-	 * @return the password
-	 */
-	public Boolean isPassword() {
-		return password;
-	}
+  public void setVal(String val) {
+    this.val = val;
+  }
 
-	/**
-	 * @param password
-	 *            the password to set
-	 */
-	public void setPassword(Boolean password) {
-		this.password = password;
-	}
+  public long getCreatedOn() {
+    return createdOn;
+  }
+
+  public void setCreatedOn(long createdOn) {
+    this.createdOn = createdOn;
+  }
+
+  public String getGroup() {
+    return group;
+  }
+
+  public void setGroup(String group) {
+    this.group = group;
+  }
+
+  /**
+   * @return the password
+   */
+  public Boolean isPassword() {
+    return password;
+  }
+
+  /**
+   * @param password the password to set
+   */
+  public void setPassword(Boolean password) {
+    this.password = password;
+  }
 
 }
