@@ -24,28 +24,27 @@ import com.eurodyn.qlack2.fuse.settings.impl.model.QSetting;
 import com.eurodyn.qlack2.fuse.settings.impl.model.Setting;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.logging.Logger;
 
 @Transactional
+@Singleton
+@OsgiServiceProvider(classes = { SettingsService.class })
 public class SettingsServiceImpl implements SettingsService {
-
+  // Logger ref.
   public static final Logger LOGGER = Logger.getLogger(SettingsServiceImpl.class.getName());
   public static final SettingMapperImpl mapper = new SettingMapperImpl();
 
   // An injected Entity Manager.
   @PersistenceContext(unitName = "fuse-settings")
   EntityManager em;
-
-  // A manual setter for the Entity Manager (for unit-tests).
-  public void setEm(EntityManager em) {
-    this.em = em;
-  }
 
   @Override
   public List<SettingDTO> getSettings(String owner, boolean includeSensitive) {

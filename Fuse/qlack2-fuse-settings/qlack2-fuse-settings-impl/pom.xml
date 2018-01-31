@@ -68,6 +68,7 @@
         <configuration>
           <scanPaths>
             <scanPath>com.eurodyn.qlack2.fuse.settings.impl.bootstrap</scanPath>
+            <scanPath>com.eurodyn.qlack2.fuse.settings.impl</scanPath>
           </scanPaths>
         </configuration>
         <executions>
