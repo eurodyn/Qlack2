@@ -2,7 +2,7 @@ package com.eurodyn.qlack2.fuse.search.api;
 
 import com.eurodyn.qlack2.fuse.search.api.request.CreateIndexRequest;
 import com.eurodyn.qlack2.fuse.search.api.request.UpdateMappingRequest;
-import java.io.IOException;
+import java.util.Map;
 
 /**
  * Provides functionality to manipulate the indices of ES.
@@ -86,11 +86,23 @@ public interface AdminService {
    *
    * @return Whether the operation was successful or not
    */
-  boolean closeIndex(String indexName) ;
+  boolean closeIndex(String indexName);
 
   /**
+   * Open an index - after an index has been closed previously
+   *
    * @param indexName - open a previously closed index - perhaps after maintainance is done
    * @return Whether the operation was successful or not
    */
   boolean openIndex(String indexName);
+
+  /**
+   * Performs updates on a given index by using key-value pairs of settings
+   *
+   * @param indexName - the index to change settings for
+   * @param settings - the settings as key-value pairs
+   * @param preserveExisting - whether or not to preserve existing settings on the index
+   * @return Whether the operation was successful or not
+   */
+  boolean updateIndexSettings(String indexName, Map<String, String> settings, boolean preserveExisting);
 }

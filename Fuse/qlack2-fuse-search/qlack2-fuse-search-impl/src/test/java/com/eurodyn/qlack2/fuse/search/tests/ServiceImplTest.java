@@ -17,6 +17,8 @@ import com.eurodyn.qlack2.fuse.search.api.request.CreateIndexRequest;
 import com.eurodyn.qlack2.fuse.search.api.request.UpdateMappingRequest;
 import com.eurodyn.qlack2.fuse.search.conf.ITTestConf;
 import com.eurodyn.qlack2.fuse.search.util.TestDocument;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import javax.inject.Inject;
 import org.junit.Assert;
@@ -284,5 +286,21 @@ public class ServiceImplTest extends ITTestConf {
     boolean resultOpenIndex = adminService.openIndex(indexName);
 
     Assert.assertTrue(resultOpenIndex);
+  }
+
+  @Test
+  public void testUpdateIndexSettings() {
+    CreateIndexRequest createIndexRequest = new CreateIndexRequest();
+    createIndexRequest.setName(UUID.randomUUID().toString().replace("-", ""));
+    adminService.createIndex(createIndexRequest);
+
+    String indexName = createIndexRequest.getName();
+
+    Map<String, String> settings = new HashMap<>();
+    settings.put("index.max_result_window", "50000");
+
+    boolean result = adminService.updateIndexSettings(indexName, settings, false);
+
+    Assert.assertTrue(result);
   }
 }
