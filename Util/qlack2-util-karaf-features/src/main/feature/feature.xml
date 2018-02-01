@@ -77,7 +77,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/xml/feat
     <feature>qlack2-util-repack-jackson</feature>
     <bundle>mvn:com.eurodyn.qlack2.util/qlack2-util-validator-util/${project.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.aspectj/${aspectj.servicemix.version}</bundle>
-    <bundle>mvn:javax.ws.rs/javax.ws.rs-api/${javax.ws.rs-api.version}</bundle>
   </feature>
 
   <feature name="qlack2-util-jsr-validator-util" version="${project.version}">
@@ -113,6 +112,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/xml/feat
   <feature name="qlack2-util-jwt" version="${project.version}">
     <bundle>mvn:io.jsonwebtoken/jjwt/${jjwt.version}</bundle>
     <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
+    <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.util/qlack2-util-jwt/${project.version}</bundle>
   </feature>
 </features>

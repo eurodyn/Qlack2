@@ -136,11 +136,6 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.eurodyn.qlack2.util</groupId>
-      <artifactId>qlack2-util-validator-util</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>${commons.lang3.version}</version>

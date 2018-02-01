@@ -515,7 +515,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Security proxy (deps)" name="qlack2-fuse-security-proxy-deps" version="${project.version}">
     <feature version="${karaf.cxf.version}">cxf-jaxrs</feature>
-    <feature>qlack2-util-validator-util</feature>
     <feature>qlack2-fuse-idm</feature>
     <feature>cxf-jaxrs</feature>
     <feature>cxf-rs-security-cors</feature>
