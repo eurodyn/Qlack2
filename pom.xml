@@ -70,13 +70,14 @@
     <asm.version>4.1</asm.version>
     <aspectj.servicemix.version>1.8.5_1</aspectj.servicemix.version>
     <aspectj.springsource.version>1.8.5.RELEASE</aspectj.springsource.version> <!-- old - should be removed -->
+    <aspectj-maven-plugin.version>1.9</aspectj-maven-plugin.version>
     <aspectj.version>1.8.5</aspectj.version>
     <atmosphere.version>2.4.0</atmosphere.version>
     <awaitility.version>3.0.0</awaitility.version>
     <backport.version>2.2_1</backport.version>
     <beanshell.version>2.0b5</beanshell.version>
     <blueprint-maven-plugin-annotation.version>1.1.0</blueprint-maven-plugin-annotation.version>
-    <blueprint-maven-plugin.version>1.5.0</blueprint-maven-plugin.version> <!-- TODO add ".version" -->
+    <blueprint-maven-plugin.version>1.7.0</blueprint-maven-plugin.version> <!-- TODO add ".version" -->
     <build-helper-maven-plugin.version>1.12</build-helper-maven-plugin.version>
     <c3p0.version>0.9.1.1</c3p0.version>
     <clamav4j.version>0.5</clamav4j.version>
@@ -286,7 +287,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>aspectj-maven-plugin</artifactId>
-          <version>1.7</version>
+          <version>${aspectj-maven-plugin.version}</version>
           <executions>
             <execution>
               <goals>
