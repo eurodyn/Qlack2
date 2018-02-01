@@ -80,6 +80,7 @@ public class CASettingsServiceImpl implements CASettingsService {
     // Fetch settings from Config Admin.
     final Dictionary<String, Object> configAdminProps = getConfigAdminProps(pid);
     final Enumeration<String> keys = configAdminProps.keys();
+
     // Convert values to DTOs.
     while (keys.hasMoreElements()) {
       String key = keys.nextElement();

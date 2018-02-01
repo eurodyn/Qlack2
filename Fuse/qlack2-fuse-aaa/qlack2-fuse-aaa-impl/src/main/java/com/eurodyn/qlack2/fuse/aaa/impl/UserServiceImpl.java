@@ -61,19 +61,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-/**
- * A Stateless Session EJB providing users related services. For details of the
- * functionality offered, see the respective interfaces.
- *
- * @author European Dynamics SA
- */
 @Transactional
 @Singleton
 @OsgiServiceProvider(classes = {UserService.class})
 public class UserServiceImpl implements UserService {
 
-  private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class
-    .getName());
+  private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
   @PersistenceContext(unitName = "fuse-aaa")
   private EntityManager em;
 
@@ -85,14 +78,6 @@ public class UserServiceImpl implements UserService {
   private LdapUserUtil ldapUserUtil;
 
   private static final int saltLength = 16;
-
-  public void setAccountingService(AccountingService accountingService) {
-    this.accountingService = accountingService;
-  }
-
-  public void setLdapUserUtil(LdapUserUtil ldapUserUtil) {
-    this.ldapUserUtil = ldapUserUtil;
-  }
 
   @Override
   @Transactional(TxType.REQUIRED)
@@ -531,13 +516,14 @@ public class UserServiceImpl implements UserService {
     }
     // Include/exclude user group IDs
     if (criteria.getIncludeGroupIds() != null) {
-      Predicate pr = cb.equal(root.join("groups").get("id"), 
-          criteria.getIncludeGroupIds());
+      Predicate pr = cb.equal(root.join("groups").get("id"),
+        criteria.getIncludeGroupIds());
       cq = addPredicate(cq, cb, pr);
     }
     if (criteria.getExcludeGroupIds() != null) {
       Predicate pr = cb.notEqual(root.join("groups").get("id"),
-          criteria.getIncludeGroupIds());;
+        criteria.getIncludeGroupIds());
+      ;
       cq = addPredicate(cq, cb, pr);
     }
     // Filter by status
