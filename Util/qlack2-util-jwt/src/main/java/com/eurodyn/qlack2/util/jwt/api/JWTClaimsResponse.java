@@ -1,7 +1,6 @@
 package com.eurodyn.qlack2.util.jwt.api;
 
 import io.jsonwebtoken.Claims;
-
 import java.util.Date;
 import java.util.Map;
 
@@ -10,10 +9,10 @@ import java.util.Map;
  * was found to be valid, together with an error description in case the token was invalid.
  */
 public class JWTClaimsResponse {
-  // Indicates whether this JWT successfully passed verifiction or not.
+  // Indicates whether this JWT successfully passed verification or not.
   private boolean valid;
 
-  // The error message resulted during an unsuccessfull verification.
+  // The error message resulted during an unsuccessful verification.
   private String errorMessage;
 
   // The claims found on the JWT. This map contains all standard claims as well as custom claims
@@ -65,4 +64,5 @@ public class JWTClaimsResponse {
   public String getSubject() {
     return (String)claims.get(Claims.SUBJECT);
   }
+
 }
