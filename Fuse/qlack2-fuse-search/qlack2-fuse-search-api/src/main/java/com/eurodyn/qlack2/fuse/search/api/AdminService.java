@@ -1,8 +1,8 @@
 package com.eurodyn.qlack2.fuse.search.api;
 
+import java.util.Map;
 import com.eurodyn.qlack2.fuse.search.api.request.CreateIndexRequest;
 import com.eurodyn.qlack2.fuse.search.api.request.UpdateMappingRequest;
-import java.util.Map;
 
 /**
  * Provides functionality to manipulate the indices of ES.
@@ -105,4 +105,12 @@ public interface AdminService {
    * @return Whether the operation was successful or not
    */
   boolean updateIndexSettings(String indexName, Map<String, String> settings, boolean preserveExisting);
+
+  /**
+   * Checks if the module can connect to one of the congigured nodes.
+   *
+   * @return true if a connection can successfullt be opned to one of the configured elasticsearch
+   *         nodes.
+   */
+  boolean checkIsUp();
 }

@@ -1,12 +1,5 @@
 package com.eurodyn.qlack2.fuse.search.impl;
 
-import com.eurodyn.qlack2.fuse.search.api.AdminService;
-import com.eurodyn.qlack2.fuse.search.api.exception.QSearchException;
-import com.eurodyn.qlack2.fuse.search.api.request.CreateIndexRequest;
-import com.eurodyn.qlack2.fuse.search.api.request.UpdateMappingRequest;
-import com.eurodyn.qlack2.fuse.search.impl.mappers.CreateIndexRequestMapper;
-import com.eurodyn.qlack2.fuse.search.impl.util.ESClient;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -19,6 +12,13 @@ import javax.inject.Singleton;
 import org.apache.http.nio.entity.NStringEntity;
 import org.elasticsearch.client.Response;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+import com.eurodyn.qlack2.fuse.search.api.AdminService;
+import com.eurodyn.qlack2.fuse.search.api.exception.QSearchException;
+import com.eurodyn.qlack2.fuse.search.api.request.CreateIndexRequest;
+import com.eurodyn.qlack2.fuse.search.api.request.UpdateMappingRequest;
+import com.eurodyn.qlack2.fuse.search.impl.mappers.CreateIndexRequestMapper;
+import com.eurodyn.qlack2.fuse.search.impl.util.ESClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Singleton
 @OsgiServiceProvider(classes = {AdminService.class})
@@ -175,5 +175,16 @@ public class AdminServiceImpl implements AdminService {
       throw new QSearchException("Could not change index settings.", e);
     }
     return true;
+  }
+
+  @Override
+  public boolean checkIsUp() {
+    try {
+      Response response = esClient.getClient().performRequest("GET", "\"_cluster/health");
+      return response.getStatusLine().getStatusCode() == 200;
+    } catch (IOException e) {
+      LOGGER.log(Level.SEVERE, "Could not check cluster health", e);
+      return false;
+    }
   }
 }
