@@ -180,7 +180,7 @@ public class AdminServiceImpl implements AdminService {
   @Override
   public boolean checkIsUp() {
     try {
-      Response response = esClient.getClient().performRequest("GET", "\"_cluster/health");
+      Response response = esClient.getClient().performRequest("GET", "_cluster/health");
       return response.getStatusLine().getStatusCode() == 200;
     } catch (IOException e) {
       LOGGER.log(Level.SEVERE, "Could not check cluster health", e);
