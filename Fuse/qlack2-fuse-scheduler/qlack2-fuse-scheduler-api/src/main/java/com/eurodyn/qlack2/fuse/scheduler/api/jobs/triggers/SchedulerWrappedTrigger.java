@@ -16,6 +16,7 @@ package com.eurodyn.qlack2.fuse.scheduler.api.jobs.triggers;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import com.eurodyn.qlack2.fuse.scheduler.api.utils.Constants;
 
@@ -40,6 +41,9 @@ public class SchedulerWrappedTrigger implements Serializable {
 
 	/** The trigger fire type (daily, monthly, weekly, etc) */
 	private Constants.TRIGGERS triggerType;
+
+	/** The interval in seconds, for triggers of type INTERVAL */
+	private long interval;
 
 	/** The trigger cron expression */
 	private String cronExpression;
@@ -126,6 +130,14 @@ public class SchedulerWrappedTrigger implements Serializable {
 	 */
 	public void setTriggerGroup(String triggerGroup) {
 		this.triggerGroup = triggerGroup;
+	}
+
+	public long getInterval(TimeUnit timeUnit) {
+		return timeUnit.convert(interval, TimeUnit.SECONDS);
+	}
+
+	public void setInterval(long quantity, TimeUnit timeUnit) {
+		this.interval = timeUnit.toSeconds(quantity);
 	}
 
 	/**

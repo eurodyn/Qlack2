@@ -17,6 +17,7 @@ package com.eurodyn.qlack2.fuse.scheduler.api.builders;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -47,6 +48,9 @@ public class SchedulerTriggerBuilder {
 
 	/** The trigger's cron expression */
 	private String cronExpression;
+
+	/** The trigger's interval in seconds */
+	private int intervalInSeconds;
 
 	/** The time of the day that the trigger will run (if daily) */
 	private String dailyTime;
@@ -133,6 +137,17 @@ public class SchedulerTriggerBuilder {
 	}
 
 	/**
+	 * Set the interval.
+	 *
+	 * @param seconds - the interval in seconds
+	 * @return
+	 */
+	public SchedulerTriggerBuilder withIntervalInSeconds(int seconds) {
+		this.intervalInSeconds = seconds;
+		return this;
+	}
+
+	/**
 	 * Set the trigger daily time (if the trigger runs on a daily, weekly or
 	 * monthly basis only).
 	 *
@@ -214,6 +229,7 @@ public class SchedulerTriggerBuilder {
 		if (!StringUtils.isEmpty(cronExpression)) {
 			swt.setCronExpression(cronExpression);
 		}
+		swt.setInterval(intervalInSeconds, TimeUnit.SECONDS);
 		swt.setTriggerType(triggerType);
 		swt.setDailyTime(dailyTime);
 		swt.setWeeklyDay(weeklyDay);
@@ -234,6 +250,12 @@ public class SchedulerTriggerBuilder {
 		}
 		switch (triggerType) {
 		case ASAP:
+			break;
+		case Interval:
+			if (!(intervalInSeconds > 0)) {
+				throw new IllegalArgumentException(
+						"Trigger type 'Interval' requires the 'interval' attribute set to a positive integer.");
+			}
 			break;
 		case Daily:
 			if (StringUtils.isEmpty(dailyTime)) {

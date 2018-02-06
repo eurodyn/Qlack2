@@ -36,7 +36,7 @@ public class Constants {
 	 * Enumeration of the trigger fire types.
 	 */
 	public static enum TRIGGERS {
-		ASAP, Daily, Weekly, Monthly, Cron
+		ASAP, Daily, Weekly, Monthly, Cron, Interval
 	}
 
 	/**
