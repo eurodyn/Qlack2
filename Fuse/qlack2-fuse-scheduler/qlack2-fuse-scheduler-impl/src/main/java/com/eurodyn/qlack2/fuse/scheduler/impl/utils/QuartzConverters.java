@@ -76,7 +76,12 @@ public class QuartzConverters {
     CronExpression ce = null;
     switch (trigger.getTriggerType()) {
       case ASAP:
+        break;
       case Interval:
+        tb.withSchedule(SimpleScheduleBuilder.simpleSchedule()
+            .withIntervalInSeconds((int)trigger.getInterval(TimeUnit.SECONDS)) // Casting to int is safe for intervals less than 68 years
+            .repeatForever()
+        );
         break;
       case Daily:
         ce = new CronExpression("0 " + trigger.getDailyTime().substring(3) + " "
@@ -109,11 +114,6 @@ public class QuartzConverters {
       cti.setCronExpression(ce);
       cti.setMisfireInstruction(getMisfireInstruction(trigger));
       tb.withSchedule(cti.getScheduleBuilder());
-    } else {
-      tb.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-          .withIntervalInSeconds((int)trigger.getInterval(TimeUnit.SECONDS)) // Casting to int is safe for intervals less than 68 years
-          .repeatForever()
-      );
     }
 
     return tb.build();
