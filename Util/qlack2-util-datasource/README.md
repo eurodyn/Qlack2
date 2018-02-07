@@ -1,0 +1,1 @@
+This project is deprecated, do not create datasources with it.
