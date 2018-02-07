@@ -148,4 +148,22 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/L
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.ant-1.7.0/1.0-m2</bundle>
   </feature>
 
+  <feature name="qlack2-util-repack-twelvemonkeys" version="${project.version}">
+    <feature prerequisite="true">wrap</feature>
+    <bundle start-level="30">mvn:org.apache.aries.spifly/org.apache.aries.spifly.dynamic.bundle/${org.apache.aries.spifly.dynamic.bundle.version}</bundle>
+    <bundle start-level="30">mvn:org.apache.aries/org.apache.aries.util/${org.apache.aries.util.version}</bundle>
+    <bundle start-level="30">mvn:org.ow2.asm/asm-all/${asm.version}</bundle>
+    <bundle start-level="79">wrap:mvn:xml-apis/xml-apis-ext/${xml-apis-ext.version}</bundle>
+    <bundle start-level="79">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xmlgraphics-commons/${org.apache.servicemix.bundles.xmlgraphics-commons.version}</bundle>
+    <bundle start-level="79">mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.batik/${org.apache.servicemix.bundles.batik.version}</bundle>
+    <bundle start-level="79">mvn:com.eurodyn.qlack2.util/qlack2-util-twelvemonkeys/${project.version}</bundle>
+  </feature>
+
+  <feature name="qlack2-util-repack-awaitility" version="${project.version}">
+    <feature prerequisite="true">wrap</feature>
+    <bundle>mvn:de.twentyeleven.skysail/org.hamcrest.hamcrest-all-osgi/1.3.0.1</bundle>
+    <bundle>mvn:org.objenesis/objenesis/${objenesis.version}</bundle>
+    <bundle>mvn:org.awaitility/awaitility/${awaitility.version}</bundle>
+  </feature>
+
 </features>

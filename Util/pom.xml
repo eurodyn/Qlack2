@@ -36,6 +36,7 @@
     <module>qlack2-util-networking</module>
     <module>qlack2-util-testing</module>
     <module>qlack2-util-jwt</module>
+    <module>qlack2-util-twelvemonkeys</module>
   </modules>
 
   <!-- QLACK2 versions ONLY -->
