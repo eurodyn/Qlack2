@@ -13,4 +13,13 @@ public class JWTToken {
   public void setJwt(String jwt) {
     this.jwt = jwt;
   }
+
+  public JWTToken() {
+
+  }
+
+  public JWTToken(String jwt) {
+    this.jwt = jwt;
+  }
+
 }

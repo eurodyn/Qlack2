@@ -1,5 +1,6 @@
 package com.eurodyn.qlack2.util.jwt.api;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,7 +20,7 @@ public class JWTGenerateRequest {
   private String id;
 
   // Claims to be included in the JWT.
-  private Map<String, Object> claims;
+  private Map<String, Object> claims = new HashMap<>();
 
   // The Time-To-Live (TTL) for the token in milliseconds. This is effectively setting the
   // expiration date for the JWT.
@@ -71,5 +72,9 @@ public class JWTGenerateRequest {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public void addClaim(String name, String value) {
+    claims.put(name, value);
   }
 }
