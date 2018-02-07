@@ -348,14 +348,13 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-imaging-impl/${project.version}</bundle>
   </feature>
   <feature description="QLACK2 Fuse - Imaging (deps)" name="qlack2-fuse-imaging-deps" version="${project.version}">
-    <feature>jndi</feature>
     <feature prerequisite="true">wrap</feature>
-    <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
+    <feature>pax-cdi</feature>
+    <feature dependency="true">qlack2-util-repack-twelvemonkeys</feature>
+    <bundle>mvn:org.apache.tika/tika-core/${tika.version}</bundle>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
-    <bundle>mvn:javax.media.jai/com.springsource.javax.media.jai.codec/${jai.version}</bundle>
-    <bundle>mvn:javax.media.jai/com.springsource.javax.media.jai.core/${jai.version}</bundle>
-    <bundle>mvn:eu.medsea.mimeutil/mime-util/${mimeutil.version}</bundle>
-    <bundle>mvn:org.apache.sanselan/sanselan/${sanselan.version}</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.javax-inject/${org.apache.servicemix.bundles.javax-inject.version}</bundle>
+    <bundle>mvn:commons-io/commons-io/${commons.io.version}</bundle>
   </feature>
 
   <!-- ***************************************************************************************** -->

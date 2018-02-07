@@ -19,8 +19,28 @@
         <configuration>
           <instructions>
             <Bundle-Description>QLACK2 :: Fuse :: Imaging :: impl</Bundle-Description>
+            <SPI-Consumer>javax.imageio.spi.ServiceRegistry#lookupProviders</SPI-Consumer>
           </instructions>
         </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.aries.blueprint</groupId>
+        <artifactId>blueprint-maven-plugin</artifactId>
+        <version>${blueprint-maven-plugin.version}</version>
+        <configuration>
+          <scanPaths>
+            <scanPath>com.eurodyn.qlack2.fuse.imaging.impl</scanPath>
+          </scanPaths>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>blueprint-generate</goal>
+            </goals>
+            <phase>process-classes</phase>
+          </execution>
+        </executions>
       </plugin>
 
       <!-- Testing -->
@@ -95,6 +115,16 @@
       <resource>
         <directory>src/main/resources</directory>
         <filtering>true</filtering>
+        <excludes>
+          <exclude>**/*.icc</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <includes>
+          <include>**/*.icc</include>
+        </includes>
       </resource>
     </resources>
   </build>
@@ -106,42 +136,23 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>javax.media.jai</groupId>
-      <artifactId>com.springsource.javax.media.jai.core</artifactId>
-      <version>${jai.version}</version>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commons.io.version}</version>
     </dependency>
     <dependency>
-      <groupId>eu.medsea.mimeutil</groupId>
-      <artifactId>mime-util</artifactId>
-      <version>${mimeutil.version}</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>slf4j-api</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>slf4j-log4j12</artifactId>
-          <groupId>org.slf4j</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>log4j</artifactId>
-          <groupId>log4j</groupId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-core</artifactId>
+      <version>${tika.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.sanselan</groupId>
-      <artifactId>sanselan</artifactId>
-      <version>${sanselan.version}</version>
+      <groupId>com.twelvemonkeys.common</groupId>
+      <artifactId>common-image</artifactId>
+      <version>${twelvemonkeys.version}</version>
     </dependency>
 
+
     <!-- Test dependencies -->
-    <dependency>
-      <groupId>com.eurodyn.qlack2.util</groupId>
-      <artifactId>qlack2-util-avail-check-mysql</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>com.eurodyn.qlack2.util</groupId>
       <artifactId>qlack2-util-testing</artifactId>
@@ -155,21 +166,21 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.eurodyn.qlack2.util</groupId>
-      <artifactId>qlack2-util-docker</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <version>${slf4j.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>${mysql-connector-java.version}</version>
+      <groupId>org.awaitility</groupId>
+      <artifactId>awaitility</artifactId>
+      <version>${awaitility.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>de.twentyeleven.skysail</groupId>
+      <artifactId>org.hamcrest.hamcrest-all-osgi</artifactId>
+      <version>${org.hamcrest.hamcrest-all-osgi.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
