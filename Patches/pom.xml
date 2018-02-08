@@ -12,6 +12,7 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>qlack2-patches-cxf-rt-rs-security-sso-saml</module>
+	<!-- Deactivated since the new Apache CXF version 3.1.14 includes the fix already -->
+	<!-- <module>qlack2-patches-cxf-rt-rs-security-sso-saml</module> -->
   </modules>
 </project>

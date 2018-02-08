@@ -1,4 +1,6 @@
-# Patch for SAML Web SSO signature validation
+# Patch for SAML Web SSO signature validation (DEPRECATED)
+
+DEPRECATED: Apache CXF 3.1.14 has already incorporated the present patch. The patch module will be removed from Qlack sources by the end of February 2018.
 
 This is to patch `cxf-rt-rs-security-sso-saml` to support signature
 validation on SAML Responses.
