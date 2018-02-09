@@ -176,6 +176,7 @@
     <org.apache.servicemix.bundles.bcel.version>5.2_4</org.apache.servicemix.bundles.bcel.version>
     <org.apache.servicemix.bundles.xalan.version>2.7.2_3</org.apache.servicemix.bundles.xalan.version>
     <org.apache.servicemix.bundles.xerces.version>2.11.0_1</org.apache.servicemix.bundles.xerces.version>
+    <org.apache.servicemix.bundles.xmlresolver.version>1.2_5</org.apache.servicemix.bundles.xmlresolver.version>
     <org.apache.aries.spifly.dynamic.bundle.version>1.0.10</org.apache.aries.spifly.dynamic.bundle.version>
     <org.apache.aries.util.version>1.1.3</org.apache.aries.util.version>
     <org.hamcrest.hamcrest-all-osgi.version>1.3.0.1</org.hamcrest.hamcrest-all-osgi.version>
