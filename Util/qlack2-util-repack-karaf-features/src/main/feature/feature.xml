@@ -159,6 +159,13 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/L
     <bundle start-level="79">mvn:com.eurodyn.qlack2.util/qlack2-util-twelvemonkeys/${project.version}</bundle>
   </feature>
 
+  <feature name="qlack2-util-repack-batik" version="${project.version}">
+    <bundle>org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/${org.apache.servicemix.bundles.xerces.version}</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/${org.apache.servicemix.bundles.xalan.version}</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.bcel/${org.apache.servicemix.bundles.bcel.version}</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.javax-inject/${org.apache.servicemix.bundles.javax-inject.version}</bundle>
+  </feature>
+
   <feature name="qlack2-util-repack-awaitility" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <bundle>mvn:de.twentyeleven.skysail/org.hamcrest.hamcrest-all-osgi/1.3.0.1</bundle>
