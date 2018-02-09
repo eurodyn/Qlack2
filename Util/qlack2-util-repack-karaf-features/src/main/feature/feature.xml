@@ -160,7 +160,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/L
   </feature>
 
   <feature name="qlack2-util-repack-batik" version="${project.version}">
-    <bundle>org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/${org.apache.servicemix.bundles.xerces.version}</bundle>
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xerces/${org.apache.servicemix.bundles.xerces.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.xalan/${org.apache.servicemix.bundles.xalan.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.bcel/${org.apache.servicemix.bundles.bcel.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.javax-inject/${org.apache.servicemix.bundles.javax-inject.version}</bundle>
