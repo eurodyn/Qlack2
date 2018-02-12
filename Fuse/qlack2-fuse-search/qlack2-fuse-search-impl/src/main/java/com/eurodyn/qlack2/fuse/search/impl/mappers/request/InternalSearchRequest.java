@@ -6,37 +6,40 @@ import com.fasterxml.jackson.annotation.JsonRawValue;
 
 public class InternalSearchRequest {
 
-	private int from;
-	private int size;
-	private boolean explain;
+    @JsonInclude(Include.NON_NULL)
+	private Integer from;
+    @JsonInclude(Include.NON_NULL)
+	private Integer size;
+    @JsonInclude(Include.NON_NULL)
+	private Boolean explain;
 	@JsonInclude(Include.NON_NULL)
 	@JsonRawValue
 	private String query;
-
 	@JsonRawValue
-  private String sort;
+	@JsonInclude(Include.NON_NULL)
+    private String sort;
 
-	public int getFrom() {
+	public Integer getFrom() {
 		return from;
 	}
 
-	public void setFrom(int from) {
+	public void setFrom(Integer from) {
 		this.from = from;
 	}
 
-	public int getSize() {
+	public Integer getSize() {
 		return size;
 	}
 
-	public void setSize(int size) {
+	public void setSize(Integer size) {
 		this.size = size;
 	}
 
-	public boolean isExplain() {
+	public Boolean isExplain() {
 		return explain;
 	}
 
-	public void setExplain(boolean explain) {
+	public void setExplain(Boolean explain) {
 		this.explain = explain;
 	}
 

@@ -1,6 +1,5 @@
 package com.eurodyn.qlack2.fuse.search.api.dto.queries;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,15 +12,15 @@ import java.util.List;
 public abstract class QuerySpec {
 	// The list of indices a query is executed against.
 	private List<String> indices = new ArrayList<>();
-	
+
 	// The list of document types a query is executed against.
 	private List<String> types = new ArrayList<>();
-	
+
 	// Whether to include the complete query output (JSON string) as it comes
 	// from ES - useful for debugging purposes or to extract information not
 	// encapsulated in this module's logic.
 	private boolean includeAllSource = false;
-	
+
 	// Whether to include the actual search results - useful in case you need to
 	// execute queries such as "Are there any results matching?" without being
 	// interested for the results themselves.
@@ -29,19 +28,25 @@ public abstract class QuerySpec {
 
 	// The first record to return from the list of results - useful for paging.
 	private int startRecord = 0;
-	
+
 	// The size of each page of search results - useful for paging.
 	private int pageSize = 100;
-	
+
 	// Whether to include ES's explain info.
 	// See: https://www.elastic.co/guide/en/elasticsearch/reference/1.7/search-explain.html
 	private boolean explain = false;
+
+    // If set to true then a _count request is sent instead of a _search which only returns the count
+    // of the query results. In this case includeResults, includeAllSource, explain, startRecord,
+    // pageSize and querySort are
+    // ignored.
+	private boolean countOnly = false;
 
 	protected QuerySort querySort;
 
 	/**
 	 * Sets the indices against which the query is executed.
-	 * @param indexName The names of the indices to add. 
+	 * @param indexName The names of the indices to add.
 	 * @return
 	 */
 	public QuerySpec setIndex(String... indexName) {
@@ -163,6 +168,15 @@ public abstract class QuerySpec {
 
   public QuerySort getQuerySort() {
 	  return querySort;
+  }
+
+  public boolean isCountOnly() {
+    return countOnly;
+  }
+
+  public QuerySpec setCountOnly(boolean countOnly) {
+    this.countOnly = countOnly;
+    return this;
   }
 
 }

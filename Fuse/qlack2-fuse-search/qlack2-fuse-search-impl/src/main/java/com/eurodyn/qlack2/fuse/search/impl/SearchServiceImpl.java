@@ -84,15 +84,22 @@ public class SearchServiceImpl implements SearchService {
       endpointBuilder.append(type);
     }
 
-    endpointBuilder.append("/_search");
+    if (dto.isCountOnly()) {
+      endpointBuilder.append("/_count");
+    }
+    else {
+      endpointBuilder.append("/_search");
+    }
 
     QuerySort dtoSort = dto.getQuerySort();
     InternalSearchRequest internalRequest = new InternalSearchRequest();
-    internalRequest.setFrom(dto.getStartRecord());
-    internalRequest.setSize(dto.getPageSize());
-    internalRequest.setExplain(dto.isExplain());
+    if (!dto.isCountOnly()) {
+      internalRequest.setFrom(dto.getStartRecord());
+      internalRequest.setSize(dto.getPageSize());
+      internalRequest.setExplain(dto.isExplain());
+      internalRequest.setSort(buildSort(dtoSort));
+    }
     internalRequest.setQuery(buildQuery(dto));
-    internalRequest.setSort(buildSort(dtoSort));
 
     Response response;
     try {
@@ -114,16 +121,21 @@ public class SearchServiceImpl implements SearchService {
     }
 
     SearchResultDTO result = new SearchResultDTO();
-    result.setBestScore(queryResponse.getHits().getMaxScore());
-    result.setExecutionTime(queryResponse.getTook());
-    result.setHasMore(queryResponse.getHits().getTotal() > dto.getPageSize());
+    if (!dto.isCountOnly()) {
+      result.setHasMore(queryResponse.getHits().getTotal() > dto.getPageSize());
+      result.setBestScore(queryResponse.getHits().getMaxScore());
+      result.setExecutionTime(queryResponse.getTook());
+      result.setTimedOut(queryResponse.isTimeOut());
+      result.setTotalHits(queryResponse.getHits().getTotal());
+    }
+    else {
+      result.setTotalHits(queryResponse.getCount());
+    }
     result.setShardsFailed(queryResponse.getShards().getFailed());
     result.setShardsSuccessful(queryResponse.getShards().getSuccessful());
     result.setShardsTotal(queryResponse.getShards().getTotal());
-    result.setTimedOut(queryResponse.isTimeOut());
-    result.setTotalHits(queryResponse.getHits().getTotal());
 
-    if (dto.isIncludeAllSource()) {
+    if (!dto.isCountOnly() && dto.isIncludeAllSource()) {
       try {
         result.setSource(mapper.writeValueAsString(queryResponse));
       } catch (JsonProcessingException e) {
@@ -132,7 +144,7 @@ public class SearchServiceImpl implements SearchService {
       }
     }
 
-    if (dto.isIncludeResults()) {
+    if (!dto.isCountOnly() && dto.isIncludeResults()) {
       for (Hit hit : queryResponse.getHits().getHits()) {
         SearchHitDTO sh = new SearchHitDTO();
         sh.setScore(hit.getScore());

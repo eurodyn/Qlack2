@@ -2,7 +2,6 @@ package com.eurodyn.qlack2.fuse.search.impl.mappers.response;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
@@ -20,6 +19,7 @@ public class QueryResponse {
   @JsonProperty("_shards")
   private Shards shards;
   private Hits hits;
+  private long count;
 
   public int getTook() {
     return took;
@@ -51,6 +51,14 @@ public class QueryResponse {
 
   public void setHits(Hits hits) {
     this.hits = hits;
+  }
+
+  public long getCount() {
+    return count;
+  }
+
+  public void setCount(long count) {
+    this.count = count;
   }
 
   @JsonIgnoreProperties(ignoreUnknown = true)
