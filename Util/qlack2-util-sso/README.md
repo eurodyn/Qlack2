@@ -343,3 +343,10 @@ public class LoginResource {
   }
 }
 ```
+
+# Dynamic filter configuration
+FakeSSO Filter provides the possibility to dynamically set SAML attributes from the SP. 
+To facilitate this functionality you simply need to append the SAML attributes you need to use as parameters in your requests.
+Since the attributes will be stored in a map with the ID of the Cookie as the key, you only need to initiate such a request once 
+and initiate another request with the appropriate parameters in case you want to use other SAML attributes, for instance if you need 
+to perform tests for authorization in your application with different roles.
