@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.annotation.Priority;
+import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
@@ -24,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
  * actually take into account SSO/SAMLv2 but instead injects user-defined SAML claims into the
  * calling sequence.
  */
+@Priority(Priorities.AUTHENTICATION)
 public class FakeSSOFilter implements ContainerRequestFilter, ContainerResponseFilter {
 
   /**
