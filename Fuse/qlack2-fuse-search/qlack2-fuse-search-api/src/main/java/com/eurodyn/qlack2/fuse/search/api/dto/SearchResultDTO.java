@@ -36,6 +36,9 @@ public class SearchResultDTO {
   // paging).
   private boolean hasMore;
 
+  // If a scroll request was generated then the scroll id is set here
+  private String scrollId;
+
   // The list of hits generated for this search.
   private List<SearchHitDTO> hits = new ArrayList<SearchHitDTO>();
 
@@ -183,6 +186,14 @@ public class SearchResultDTO {
     this.hasMore = hasMore;
   }
 
+  public String getScrollId() {
+    return scrollId;
+  }
+
+  public void setScrollId(String scrollId) {
+    this.scrollId = scrollId;
+  }
+
   /* (non-Javadoc)
    * @see java.lang.Object#toString()
    */
@@ -196,6 +207,4 @@ public class SearchResultDTO {
       + hasMore
       + ", hits=" + hits + "]";
   }
-
-
 }

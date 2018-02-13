@@ -20,6 +20,8 @@ public class QueryResponse {
   private Shards shards;
   private Hits hits;
   private long count;
+  @JsonProperty("_scroll_id")
+  private String scrollId;
 
   public int getTook() {
     return took;
@@ -59,6 +61,14 @@ public class QueryResponse {
 
   public void setCount(long count) {
     this.count = count;
+  }
+
+  public String getScrollId() {
+    return scrollId;
+  }
+
+  public void setScrollId(String scrollId) {
+    this.scrollId = scrollId;
   }
 
   @JsonIgnoreProperties(ignoreUnknown = true)

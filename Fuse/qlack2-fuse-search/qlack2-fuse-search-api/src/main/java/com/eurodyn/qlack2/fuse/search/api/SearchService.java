@@ -2,6 +2,7 @@ package com.eurodyn.qlack2.fuse.search.api;
 
 import com.eurodyn.qlack2.fuse.search.api.dto.SearchResultDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySpec;
+import com.eurodyn.qlack2.fuse.search.api.request.ScrollRequest;
 
 /**
  * Provides search functionality to ES.
@@ -37,4 +38,12 @@ public interface SearchService {
    * @return The document or null if not found
    */
   <T> T findById(String indexName, String typeName, String id, Class<T> clazz);
+
+  /**
+   * Sends a scroll request to ES requesting the next set of results
+   *
+   * @param request The request object
+   * @return
+   */
+  SearchResultDTO scroll(ScrollRequest request);
 }

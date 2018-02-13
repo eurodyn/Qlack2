@@ -24,6 +24,8 @@ import com.eurodyn.qlack2.fuse.search.api.dto.SearchResultDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.*;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryBoolean.BooleanType;
 import com.eurodyn.qlack2.fuse.search.api.exception.QSearchException;
+import com.eurodyn.qlack2.fuse.search.api.request.ScrollRequest;
+import com.eurodyn.qlack2.fuse.search.impl.mappers.request.InternalScollRequest;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.request.InternalSearchRequest;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.response.QueryResponse;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.response.QueryResponse.Hits.Hit;
@@ -91,6 +93,8 @@ public class SearchServiceImpl implements SearchService {
       endpointBuilder.append("/_search");
     }
 
+    Map<String, String> params = new HashMap<>();
+
     QuerySort dtoSort = dto.getQuerySort();
     InternalSearchRequest internalRequest = new InternalSearchRequest();
     if (!dto.isCountOnly()) {
@@ -98,6 +102,10 @@ public class SearchServiceImpl implements SearchService {
       internalRequest.setSize(dto.getPageSize());
       internalRequest.setExplain(dto.isExplain());
       internalRequest.setSort(buildSort(dtoSort));
+
+      if (dto.getScroll() != null) {
+        params.put("scroll", dto.getScroll().toString() + "m");
+      }
     }
     internalRequest.setQuery(buildQuery(dto));
 
@@ -105,7 +113,7 @@ public class SearchServiceImpl implements SearchService {
     try {
       ContentType contentType = ContentType.APPLICATION_JSON.withCharset(Charset.forName("UTF-8"));
       response = esClient.getClient()
-        .performRequest("GET", endpointBuilder.toString(), new HashMap<>(),
+        .performRequest("GET", endpointBuilder.toString(), params,
           new NStringEntity(mapper.writeValueAsString(internalRequest), contentType));
     } catch (IOException e) {
       LOGGER.log(Level.SEVERE, "Could not execute query.", e);
@@ -120,40 +128,11 @@ public class SearchServiceImpl implements SearchService {
       throw new QSearchException("Could not deserialize response.", e);
     }
 
-    SearchResultDTO result = new SearchResultDTO();
+    SearchResultDTO result = buildResultFrom(queryResponse, dto.isCountOnly(), dto.isIncludeAllSource(),
+        dto.isIncludeResults());
+
     if (!dto.isCountOnly()) {
       result.setHasMore(queryResponse.getHits().getTotal() > dto.getPageSize());
-      result.setBestScore(queryResponse.getHits().getMaxScore());
-      result.setExecutionTime(queryResponse.getTook());
-      result.setTimedOut(queryResponse.isTimeOut());
-      result.setTotalHits(queryResponse.getHits().getTotal());
-    }
-    else {
-      result.setTotalHits(queryResponse.getCount());
-    }
-    result.setShardsFailed(queryResponse.getShards().getFailed());
-    result.setShardsSuccessful(queryResponse.getShards().getSuccessful());
-    result.setShardsTotal(queryResponse.getShards().getTotal());
-
-    if (!dto.isCountOnly() && dto.isIncludeAllSource()) {
-      try {
-        result.setSource(mapper.writeValueAsString(queryResponse));
-      } catch (JsonProcessingException e) {
-        LOGGER.log(Level.SEVERE, "Could not serialize response.", e);
-        throw new QSearchException("Could not serialize response.", e);
-      }
-    }
-
-    if (!dto.isCountOnly() && dto.isIncludeResults()) {
-      for (Hit hit : queryResponse.getHits().getHits()) {
-        SearchHitDTO sh = new SearchHitDTO();
-        sh.setScore(hit.getScore());
-        sh.setType(hit.getType());
-        sh.setSource(hit.getSource());
-        sh.setId(hit.getId());
-        sh.setInnerHits(hit.getInnerHits());
-        result.getHits().add(sh);
-      }
     }
 
     return result;
@@ -403,5 +382,77 @@ public class SearchServiceImpl implements SearchService {
     } catch (IOException e) {
       return null;
     }
+  }
+
+  @Override
+  public SearchResultDTO scroll(ScrollRequest request) {
+    InternalScollRequest internalRequest = new InternalScollRequest();
+    internalRequest.setScroll(request.getScroll().toString() + "m");
+    internalRequest.setScrollId(request.getScrollId());
+
+    Response response;
+    try {
+      ContentType contentType = ContentType.APPLICATION_JSON.withCharset(Charset.forName("UTF-8"));
+      response = esClient.getClient().performRequest("GET", "_search/scroll", new HashMap<>(),
+          new NStringEntity(mapper.writeValueAsString(internalRequest), contentType));
+    } catch (IOException e) {
+      LOGGER.log(Level.SEVERE, "Could not execute scroll query.", e);
+      throw new QSearchException("Could not execute scroll query.", e);
+    }
+
+    QueryResponse queryResponse;
+    try {
+      queryResponse = mapper.readValue(response.getEntity().getContent(), QueryResponse.class);
+    } catch (UnsupportedOperationException | IOException e) {
+      LOGGER.log(Level.SEVERE, "Could not deserialize response.", e);
+      throw new QSearchException("Could not deserialize response.", e);
+    }
+
+    SearchResultDTO result = buildResultFrom(queryResponse, false, true, true);
+    result.setHasMore(!result.getHits().isEmpty());
+
+    return result;
+  }
+
+  private SearchResultDTO buildResultFrom(QueryResponse queryResponse,
+      boolean countOnly, boolean includeAllSource, boolean includeResults) {
+
+    SearchResultDTO result = new SearchResultDTO();
+    if (!countOnly) {
+      result.setBestScore(queryResponse.getHits().getMaxScore());
+      result.setExecutionTime(queryResponse.getTook());
+      result.setTimedOut(queryResponse.isTimeOut());
+      result.setTotalHits(queryResponse.getHits().getTotal());
+      result.setScrollId(queryResponse.getScrollId());
+    }
+    else {
+      result.setTotalHits(queryResponse.getCount());
+    }
+    result.setShardsFailed(queryResponse.getShards().getFailed());
+    result.setShardsSuccessful(queryResponse.getShards().getSuccessful());
+    result.setShardsTotal(queryResponse.getShards().getTotal());
+
+    if (!countOnly && includeAllSource) {
+      try {
+        result.setSource(mapper.writeValueAsString(queryResponse));
+      } catch (JsonProcessingException e) {
+        LOGGER.log(Level.SEVERE, "Could not serialize response.", e);
+        throw new QSearchException("Could not serialize response.", e);
+      }
+    }
+
+    if (!countOnly && includeResults) {
+      for (Hit hit : queryResponse.getHits().getHits()) {
+        SearchHitDTO sh = new SearchHitDTO();
+        sh.setScore(hit.getScore());
+        sh.setType(hit.getType());
+        sh.setSource(hit.getSource());
+        sh.setId(hit.getId());
+        sh.setInnerHits(hit.getInnerHits());
+        result.getHits().add(sh);
+      }
+    }
+
+    return result;
   }
 }

@@ -38,9 +38,12 @@ public abstract class QuerySpec {
 
     // If set to true then a _count request is sent instead of a _search which only returns the count
     // of the query results. In this case includeResults, includeAllSource, explain, startRecord,
-    // pageSize and querySort are
-    // ignored.
+    // pageSize, scroll, and querySort are ignored.
 	private boolean countOnly = false;
+
+    // If not null then a scroll request is generated. In this case startRecord is ignored. This
+    // number indicates the number of minutes for which the scroll context remains active.
+	private Integer scroll;
 
 	protected QuerySort querySort;
 
@@ -176,6 +179,15 @@ public abstract class QuerySpec {
 
   public QuerySpec setCountOnly(boolean countOnly) {
     this.countOnly = countOnly;
+    return this;
+  }
+
+  public Integer getScroll() {
+    return scroll;
+  }
+
+  public QuerySpec setScroll(Integer scroll) {
+    this.scroll = scroll;
     return this;
   }
 
