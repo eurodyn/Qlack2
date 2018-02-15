@@ -286,19 +286,6 @@ public class VersionServiceImplTest extends ITTestConf {
     Assert.assertNotNull(persistedVersionDTO);
   }
 
-  @Test
-  public void deleteVersionById() {
-    FileDTO fileDTO = TestUtilities.createFileDTO();
-    String fileID = documentService.createFile(fileDTO, TestConst.userID, fileDTO.getId());
-    Assert.assertNotNull(fileID);
 
-    VersionDTO versionDTO = TestUtilities.createVersionDTO();
-    String versionID = versionService.createVersion(fileID, versionDTO, "filename01",
-        TestConst.content, TestConst.userID, fileDTO.getId());
-    versionService.deleteVersion(versionID, null);
-
-    VersionDTO persistedVersionDTO = versionService.getVersionById(versionID);
-    Assert.assertNull(persistedVersionDTO);
-  }
 
 }
