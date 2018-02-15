@@ -14,6 +14,7 @@
 */
 package com.eurodyn.qlack2.fuse.aaa.impl;
 
+import com.eurodyn.qlack2.fuse.aaa.api.dto.GroupHasOperationDTO;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -682,4 +683,15 @@ public class OperationServiceImpl implements OperationService {
 		return null;
 	}
 
+	@Override
+	public List<GroupHasOperationDTO> getGroupOperations(String groupName) {
+		List<GroupHasOperation> entities = GroupHasOperation.findByGroupName(groupName, em);
+		return ConverterUtil.groupHasOperationToGroupHasOperationDTO(entities);
+	}
+
+	@Override
+	public List<GroupHasOperationDTO> getGroupOperations(List<String> groupNames) {
+		List<GroupHasOperation> entities = GroupHasOperation.findByGroupName(groupNames, em);
+		return ConverterUtil.groupHasOperationToGroupHasOperationDTO(entities);
+	}
 }

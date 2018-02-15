@@ -14,6 +14,7 @@
 */
 package com.eurodyn.qlack2.fuse.aaa.api;
 
+import com.eurodyn.qlack2.fuse.aaa.api.dto.GroupHasOperationDTO;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.OperationDTO;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.ResourceDTO;
 import com.eurodyn.qlack2.fuse.aaa.api.exception.QDynamicOperationException;
@@ -450,4 +451,20 @@ public interface OperationService {
 	 * @return A list of the group ids found.
 	 */
 	List<String> getGroupIDsByOperationAndUser(String operationName, String userId);
+
+	/**
+	 * Gets Operations for a given Group
+	 *
+	 * @param groupName
+	 * @return A List with the permitted operations for the given Group
+   */
+	List<GroupHasOperationDTO> getGroupOperations(String groupName);
+
+	/**
+	 * Gets Operations for a list of Groups
+	 *
+	 * @param groupNames
+	 * @return A List with the permitted operation for the given list of Groups
+   */
+	List<GroupHasOperationDTO> getGroupOperations(List<String> groupNames);
 }

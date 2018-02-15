@@ -14,13 +14,35 @@
 */
 package com.eurodyn.qlack2.fuse.aaa.impl.util;
 
-import com.eurodyn.qlack2.fuse.aaa.api.dto.*;
-import com.eurodyn.qlack2.fuse.aaa.impl.model.*;
-
+import com.eurodyn.qlack2.fuse.aaa.api.dto.GroupDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.dto.GroupHasOperationDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.dto.OpTemplateDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.dto.OperationAccessDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.dto.OperationDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.dto.ResourceDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.dto.SessionAttributeDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.dto.SessionDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.dto.UserAttributeDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.dto.UserDTO;
+import com.eurodyn.qlack2.fuse.aaa.impl.model.Group;
+import com.eurodyn.qlack2.fuse.aaa.impl.model.GroupHasOperation;
+import com.eurodyn.qlack2.fuse.aaa.impl.model.OpTemplate;
+import com.eurodyn.qlack2.fuse.aaa.impl.model.OpTemplateHasOperation;
+import com.eurodyn.qlack2.fuse.aaa.impl.model.Operation;
+import com.eurodyn.qlack2.fuse.aaa.impl.model.Resource;
+import com.eurodyn.qlack2.fuse.aaa.impl.model.Session;
+import com.eurodyn.qlack2.fuse.aaa.impl.model.SessionAttribute;
+import com.eurodyn.qlack2.fuse.aaa.impl.model.User;
+import com.eurodyn.qlack2.fuse.aaa.impl.model.UserAttribute;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.*;
 
 /**
  *
@@ -378,4 +400,30 @@ public class ConverterUtil {
         dto.setObjectID(entity.getObjectId());
         return dto;
     }
+
+	public static List<GroupHasOperationDTO> groupHasOperationToGroupHasOperationDTO(
+			List<GroupHasOperation> entities) {
+		if (entities == null) {
+			return null;
+		}
+
+		List<GroupHasOperationDTO> dtos = new ArrayList<>();
+		for (GroupHasOperation entity : entities) {
+			dtos.add(groupHasOperationToGroupHasOperationDTO(entity));
+		}
+		return dtos;
+	}
+
+	public static GroupHasOperationDTO groupHasOperationToGroupHasOperationDTO(
+			GroupHasOperation entity) {
+		if (entity == null) {
+			return null;
+		}
+		GroupHasOperationDTO dto = new GroupHasOperationDTO();
+		dto.setId(entity.getId());
+		dto.setGroupDTO(groupToGroupDTO(entity.getGroup(), false));
+		dto.setResourceDTO(resourceToResourceDTO(entity.getResource()));
+		dto.setOperationDTO(operationToOperationDTO(entity.getOperation()));
+		return dto;
+	}
 }

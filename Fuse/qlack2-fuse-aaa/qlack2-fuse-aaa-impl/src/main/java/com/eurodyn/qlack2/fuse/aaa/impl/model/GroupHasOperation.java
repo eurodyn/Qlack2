@@ -17,7 +17,6 @@ package com.eurodyn.qlack2.fuse.aaa.impl.model;
 import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
-
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.Id;
@@ -148,4 +147,15 @@ public class GroupHasOperation implements Serializable {
         return q.getResultList();
 	}
 
+	public static List<GroupHasOperation> findByGroupName(String groupName, EntityManager em) {
+		Query q = em.createQuery("SELET o FROM GroupHasOperation o WHERE group.name = :groupName");
+		q.setParameter("groupName", groupName);
+		return q.getResultList();
+	}
+
+	public static List<GroupHasOperation> findByGroupName(List<String> groupNames, EntityManager em) {
+		Query q = em.createQuery("SELECT o FROM GroupHasOperation o WHERE group.name in :groupNames");
+		q.setParameter("groupNames", groupNames);
+		return q.getResultList();
+	}
 }
