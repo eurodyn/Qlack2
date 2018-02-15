@@ -244,4 +244,12 @@ public interface VersionService {
    * @param content the content
    */
   void replaceVersionContent(String versionID, byte[] content);
+
+  /**
+   * Delete version.
+   *
+   * @param versionId the version id
+   * @param lockToken the lock token
+   */
+  void deleteVersion(String versionId, String lockToken);
 }

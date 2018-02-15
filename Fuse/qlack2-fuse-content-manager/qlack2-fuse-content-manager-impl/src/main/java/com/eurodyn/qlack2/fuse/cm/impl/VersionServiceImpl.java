@@ -536,4 +536,21 @@ public class VersionServiceImpl implements VersionService {
       LOGGER.log(Level.SEVERE, "Could not delete versionBin for version:" + versionID, e);
     }
   }
+  
+  
+  @Override
+  @Transactional(TxType.REQUIRED)
+  public void deleteVersion(String versionId, String lockToken) throws QNodeLockException {
+    
+    Version version = em.find(Version.class, versionId);
+    Node file = version.getNode();
+
+    if ((file.getLockToken() != null) && (!file.getLockToken().equals(lockToken))) {
+      throw new QNodeLockException("File with ID " + file + " is locked and an "
+          + "invalid lock token was passed; the file version" + "attributes cannot be deleted.");
+    }
+    
+    em.remove(version);
+  }
+  
 }

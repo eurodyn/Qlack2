@@ -185,7 +185,12 @@ public class Version {
 		Query query = em.createQuery("SELECT v FROM Version v WHERE v.node.id = :fileID order by v.createdOn DESC");
 		query.setParameter("fileID", fileID);
 		query.setMaxResults(1);
-		return (Version) query.getResultList().get(0);
+		
+		List<Version> versionList = query.getResultList();
+		if(versionList.isEmpty()) {
+		  return null;
+		}
+		return (Version) versionList.get(0);
 	}
 	
 	public void setAttribute(String name, String value, EntityManager em) {
