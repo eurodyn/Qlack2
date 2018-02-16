@@ -79,8 +79,12 @@ public class MailQueueMonitorClockImpl implements MailQueueMonitorClock, Runnabl
   }
 
   private void tick() {
-    LOGGER.log(Level.FINEST, "Mail queue monitor executing ...");
-    monitor.checkAndSendQueued();
+    try {
+      LOGGER.log(Level.FINEST, "Mail queue monitor executing ...");
+      monitor.checkAndSendQueued();
+    } catch (Exception e) {
+      LOGGER.log(Level.SEVERE, "Mail queue processing produced an error.", e);
+    }
   }
 
 }
