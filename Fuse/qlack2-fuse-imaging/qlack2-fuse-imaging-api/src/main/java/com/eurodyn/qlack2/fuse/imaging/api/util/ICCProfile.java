@@ -5,6 +5,7 @@ package com.eurodyn.qlack2.fuse.imaging.api.util;
  */
 @SuppressWarnings("squid:S00115")
 public enum ICCProfile {
+  // Official profiles from http://www.color.org
   CGATS21_CRPC1,
   CGATS21_CRPC2,
   CGATS21_CRPC3,
@@ -23,5 +24,8 @@ public enum ICCProfile {
   SWOP2006_Coated5v2,
   SWOP2013C3_CRPC5,
   Uncoated_Fogra47L_VIGC_260,
-  Uncoated_Fogra47L_VIGC_300
+  Uncoated_Fogra47L_VIGC_300,
+
+  // Custom profiles
+  CoatedFOGRA27
 }

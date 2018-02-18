@@ -123,6 +123,14 @@ public class ImagingServiceImplTest extends ITTestConf {
     FileUtils.writeByteArrayToFile(new File(outDir + File.separator + "generic-png-to-tiff.tiff"),
       dstFile);
 
+    // Generic PNG to TIFF (custom profile CoatedFOGRA27)
+    testFile = "/samples/png/16bit.png";
+    srcFile = getResource(testFile);
+    dstFile = imagingService.convert(srcFile, "TIFF", ICCProfile.CoatedFOGRA27);
+    assertTrue(dstFile.length > 0);
+    FileUtils.writeByteArrayToFile(new File(outDir + File.separator + "generic-png-to-tiff-CoatedFOGRA27.tiff"),
+      dstFile);
+
     // Generic JPEG to PNG
     testFile = "/samples/jpeg/sample.jpg";
     srcFile = getResource(testFile);
