@@ -174,4 +174,9 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/L
     <bundle>mvn:org.awaitility/awaitility/${awaitility.version}</bundle>
   </feature>
 
+  <feature name="qlack2-util-repack-zxing" version="${project.version}">
+    <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.zxing/${org.apache.servicemix.bundles.zxing.version}</bundle>
+    <bundle>mvn:com.beust/jcommander/${jcommander.version}</bundle>
+  </feature>
+
 </features>

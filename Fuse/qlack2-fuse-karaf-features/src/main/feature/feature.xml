@@ -350,6 +350,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   <feature description="QLACK2 Fuse - Imaging (deps)" name="qlack2-fuse-imaging-deps" version="${project.version}">
     <feature prerequisite="true">wrap</feature>
     <feature>pax-cdi</feature>
+    <feature>qlack2-util-repack-zxing</feature>
     <feature dependency="true">qlack2-util-repack-twelvemonkeys</feature>
     <feature>qlack2-util-repack-batik</feature>
     <bundle>mvn:org.apache.tika/tika-core/${tika.version}</bundle>

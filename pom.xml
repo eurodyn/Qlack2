@@ -136,6 +136,7 @@
     <javax.ws.rs-api.version>2.0</javax.ws.rs-api.version>
     <javers-core.version>3.6.0</javers-core.version>
     <jbpm.version>7.5.0.Final</jbpm.version>
+    <jcommander.version>1.72</jcommander.version>
     <jedis.version>2.7.3</jedis.version>
     <jjwt.version>0.9.0</jjwt.version>
     <joda.version>2.2</joda.version>
@@ -177,6 +178,7 @@
     <org.apache.servicemix.bundles.xalan.version>2.7.2_3</org.apache.servicemix.bundles.xalan.version>
     <org.apache.servicemix.bundles.xerces.version>2.11.0_1</org.apache.servicemix.bundles.xerces.version>
     <org.apache.servicemix.bundles.xmlresolver.version>1.2_5</org.apache.servicemix.bundles.xmlresolver.version>
+    <org.apache.servicemix.bundles.zxing.version>3.3.1_1</org.apache.servicemix.bundles.zxing.version>
     <org.apache.aries.spifly.dynamic.bundle.version>1.0.10</org.apache.aries.spifly.dynamic.bundle.version>
     <org.apache.aries.util.version>1.1.3</org.apache.aries.util.version>
     <org.hamcrest.hamcrest-all-osgi.version>1.3.0.1</org.hamcrest.hamcrest-all-osgi.version>
@@ -200,6 +202,7 @@
     <twelvemonkeys.version>3.3.2</twelvemonkeys.version>
     <wro4j.version>1.4.6</wro4j.version>
     <xml-apis-ext.version>1.3.04</xml-apis-ext.version>
+    <zxing.version>3.3.1</zxing.version>
   </properties>
 
   <repositories>

@@ -150,7 +150,11 @@
       <artifactId>common-image</artifactId>
       <version>${twelvemonkeys.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>com.google.zxing</groupId>
+      <artifactId>core</artifactId>
+      <version>${zxing.version}</version>
+    </dependency>
 
     <!-- Test dependencies -->
     <dependency>
