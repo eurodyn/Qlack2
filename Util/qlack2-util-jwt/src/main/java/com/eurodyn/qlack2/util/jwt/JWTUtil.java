@@ -85,4 +85,14 @@ public class JWTUtil {
 
     return response;
   }
+
+  /**
+   * Returns the value of a specific claim in JWT while also verifying the JWT.
+   * @param jwtClaimsRequest The JWT to be verified together with the secret used to sign it.
+   * @param claim The name of the claim to return.
+   * @return The calue of the requested claim.
+   */
+  public static Object getClaimValue(JWTClaimsRequest jwtClaimsRequest, String claim) {
+    return getClaims(jwtClaimsRequest).getClaims().get(claim);
+  }
 }
