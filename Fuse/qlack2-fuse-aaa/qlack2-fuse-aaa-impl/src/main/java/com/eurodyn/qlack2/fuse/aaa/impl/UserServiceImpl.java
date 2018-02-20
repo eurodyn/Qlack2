@@ -255,9 +255,14 @@ public class UserServiceImpl implements UserService {
     SessionDTO session = new SessionDTO();
     session.setUserId(user.getId());
     session.setApplicationSessionID(applicationSessionID);
-    accountingService.createSession(session);
+    String sessionId = accountingService.createSession(session);
 
-    return ConverterUtil.userToUserDTO(user);
+    // Create a DTO representation of the user and populate the session Id of the session that was
+    // just created.
+    final UserDTO userDTO = ConverterUtil.userToUserDTO(user);
+    userDTO.setSessionId(sessionId);
+
+    return userDTO;
   }
 
   @Override
