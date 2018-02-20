@@ -20,10 +20,10 @@
 		<class>com.eurodyn.qlack2.be.rules.impl.model.WorkingSetVersionKnowledgeBase</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
-		<properties>
-			<property name="hibernate.show_sql" value="false" />
-			<property name="hibernate.format_sql" value="true" />
-		</properties>
+    <properties>
+      <property name="hibernate.show_sql" value="false" />
+      <property name="hibernate.format_sql" value="true" />
+    </properties>
 	</persistence-unit>
 
 </persistence>
