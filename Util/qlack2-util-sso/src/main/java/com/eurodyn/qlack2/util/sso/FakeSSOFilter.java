@@ -43,7 +43,9 @@ public class FakeSSOFilter implements ContainerRequestFilter, ContainerResponseF
     List<SAMLAttributeDTO> samlAttrs = new ArrayList<>();
     samlAttrs.add(new SAMLAttributeDTO("uid", uid));
     samlAttrs.add(new SAMLAttributeDTO("email", email));
-    samlAttrs.add(new SAMLAttributeDTO("role", StringUtils.join(roles, ",")));
+    if (roles != null && !roles.isEmpty()) {
+      samlAttrs.add(new SAMLAttributeDTO("role", StringUtils.join(roles, ",")));
+    }
     return samlAttrs;
   }
 
@@ -80,8 +82,7 @@ public class FakeSSOFilter implements ContainerRequestFilter, ContainerResponseF
       List<String> uid = requestContext.getUriInfo().getQueryParameters().get("uid");
       List<String> email = requestContext.getUriInfo().getQueryParameters().get("email");
       List<String> role = requestContext.getUriInfo().getQueryParameters().get("role");
-      if (uid != null && email != null && role != null && !uid.isEmpty() && !email.isEmpty()
-          && !role.isEmpty()) {
+      if (uid != null && email != null && !uid.isEmpty() && !email.isEmpty()) {
         samlAttrs = getFakeAttributesAsSAMLAttributesFromRequestParms(uid.get(0), email.get(0), role);
         sessions.put(getCookieValue(requestContext), samlAttrs);
       }
