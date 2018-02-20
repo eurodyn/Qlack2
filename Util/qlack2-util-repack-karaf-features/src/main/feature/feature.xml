@@ -179,4 +179,10 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/L
     <bundle>mvn:com.beust/jcommander/${jcommander.version}</bundle>
   </feature>
 
+  <feature name="qlack2-util-repack-http-components" version="${project.version}">
+    <bundle>mvn:org.apache.httpcomponents/httpcore-osgi/${httpcore-osgi.version}</bundle>
+    <bundle>mvn:org.apache.httpcomponents/httpclient-osgi/${httpclient-osgi.version}</bundle>
+    <bundle>mvn:org.apache.httpcomponents/httpasyncclient-osgi/${httpasyncclient-osgi.version}</bundle>
+  </feature>
+
 </features>
