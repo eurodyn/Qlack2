@@ -84,5 +84,10 @@
       <version>${awaitility.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxrs</artifactId>
+      <version>${karaf.cxf.version}</version>
+    </dependency>
   </dependencies>
 </project>

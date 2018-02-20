@@ -1,5 +1,6 @@
 package com.eurodyn.qlack2.util.jwt.filter;
 
+import com.eurodyn.qlack2.common.util.util.TokenHolder;
 import com.eurodyn.qlack2.util.jwt.JWTUtil;
 import com.eurodyn.qlack2.util.jwt.annotations.JWTNeeded;
 import com.eurodyn.qlack2.util.jwt.api.JWTClaimsRequest;
@@ -52,6 +53,10 @@ public class JWTNeededFilter implements ContainerRequestFilter {
       if (!claims.isValid()) {
         LOGGER.log(Level.INFO, "Request had an invalid JWT: {0}", claims.getErrorMessage());
         requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+      } else {
+        // Keep JWT in a thread-local variable.
+        // IMPORTANT: Always setup a CXF interceptor filter to clean-up TokenHolder.
+        TokenHolder.setToken(jwt);
       }
     } else {
       LOGGER.log(Level.INFO, "Could not find a JWT.");
