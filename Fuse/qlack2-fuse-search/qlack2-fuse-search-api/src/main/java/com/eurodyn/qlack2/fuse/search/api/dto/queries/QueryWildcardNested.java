@@ -11,7 +11,7 @@ package com.eurodyn.qlack2.fuse.search.api.dto.queries;
  *
  * <pre>
  * new QueryWildcard()
- * 		.setTerm("fooField", "bar*")
+ * 		.setTerm("searchField", "searchTermWildcard*", "NestedObjectName", "idOfMatchedNestedObject"))
  * 		.setIndex("foo")
  * 		.setType("FooBarDTO")
  * 		.setPageSize(10)

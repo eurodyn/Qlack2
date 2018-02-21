@@ -221,6 +221,24 @@ public class SearchServiceImpl implements SearchService {
         .append("\" : \"")
         .append(query.getValue())
         .append("\" }");
+    } else if (dto instanceof QueryTermNested) {
+      QueryTermNested query = (QueryTermNested) dto;
+/** 21/02/2018 Adding the a QueryTerm for nested Objects*/
+      builder.append("\"nested\" : { ")
+        .append("\"path\": \"")
+        .append(query.getPath())
+        .append("\", \"query\": { ")
+        .append("\"term\" : { \"")
+        .append(query.getField())
+        .append("\" : \"")
+        .append(query.getValue())
+        .append("\" }")
+        .append(" } , \"inner_hits\": {")
+        .append("\"_source\" : false, ")
+        .append("\"docvalue_fields\" : [ \"")
+        .append(query.getDocvalueFields())
+        .append("\"]")
+        .append("}}");
     } else if (dto instanceof QueryWildcard) {
       QueryWildcard query = (QueryWildcard) dto;
 

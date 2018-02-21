@@ -8,7 +8,7 @@ package com.eurodyn.qlack2.fuse.search.api.dto.queries;
  *
  * <pre>
  * new QueryTerms()
- * 		.setTerms("fooField", "bar")
+ * 		.setTerms("searchField", "searchTermString", "NestedObjectName", "idOfMatchedNestedObject")
  * 		.setIndex("foo")
  * 		.setType("FooBarDTO")
  * 		.setPageSize(10)
