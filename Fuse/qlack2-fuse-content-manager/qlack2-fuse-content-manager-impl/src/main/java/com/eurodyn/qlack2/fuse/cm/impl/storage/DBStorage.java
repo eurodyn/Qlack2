@@ -114,12 +114,17 @@ public class DBStorage implements StorageEngine {
     try {
 
       Version version = em.find(Version.class, versionID);
-      version.getVersionBins().clear();
+     
+      if (version != null) {
+        version.getVersionBins().clear();
 
-      em.persist(version);
-      em.flush();
+        em.persist(version);
+        em.flush();
 
-      return true;
+        return true;
+      } else {
+        return true;
+      }
     } catch (Exception e) {
       LOGGER.log(Level.WARNING,
           MessageFormat.format("Could not delete content for version: {0}", versionID), e);
