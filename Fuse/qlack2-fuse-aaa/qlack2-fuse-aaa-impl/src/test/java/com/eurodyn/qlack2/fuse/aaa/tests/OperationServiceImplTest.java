@@ -1,27 +1,27 @@
 package com.eurodyn.qlack2.fuse.aaa.tests;
 
-import com.eurodyn.qlack2.fuse.aaa.conf.ITTestConf;
-import com.eurodyn.qlack2.fuse.aaa.api.OperationService;
-import com.eurodyn.qlack2.fuse.aaa.api.UserService;
-import com.eurodyn.qlack2.fuse.aaa.api.ResourceService;
 import com.eurodyn.qlack2.fuse.aaa.api.OpTemplateService;
+import com.eurodyn.qlack2.fuse.aaa.api.OperationService;
+import com.eurodyn.qlack2.fuse.aaa.api.ResourceService;
 import com.eurodyn.qlack2.fuse.aaa.api.UserGroupService;
-import com.eurodyn.qlack2.fuse.aaa.api.dto.ResourceDTO;
-import com.eurodyn.qlack2.fuse.aaa.api.dto.OpTemplateDTO;
-import com.eurodyn.qlack2.fuse.aaa.api.dto.UserDTO;
-import com.eurodyn.qlack2.fuse.aaa.api.dto.OperationDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.UserService;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.GroupDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.dto.OpTemplateDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.dto.OperationDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.dto.ResourceDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.dto.UserDTO;
+import com.eurodyn.qlack2.fuse.aaa.conf.ITTestConf;
 import com.eurodyn.qlack2.fuse.aaa.util.TestConst;
 import com.eurodyn.qlack2.fuse.aaa.util.TestUtilities;
+import java.util.UUID;
+import javax.inject.Inject;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.ops4j.pax.exam.junit.PaxExam;
 import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
-import org.junit.Assert;
-import javax.inject.Inject;
 import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
-import java.util.UUID;
 
 /**
  * @author European Dynamics SA
@@ -339,6 +339,29 @@ public class OperationServiceImplTest extends ITTestConf {
         Assert.assertNotNull(operationID);
 
         Assert.assertNull(operationService.isPermittedForGroup(groupID,operationName,null));
+    }
+
+    @Test
+    public void isPermittedForGroupByResource() {
+        GroupDTO groupDTO = TestUtilities.createGroupDTO();
+        String groupId = userGroupService.createGroup(groupDTO);
+        Assert.assertNotNull(groupId);
+
+        OperationDTO operationDTO = TestUtilities.createOperationDTO();
+        String operationID = operationService.createOperation(operationDTO);
+        Assert.assertNotNull(operationDTO);
+
+        ResourceDTO resourceDTO = TestUtilities.createResourceDTO();
+        String resourceId = resourceService.createResource(resourceDTO);
+        Assert.assertNotNull(resourceId);
+
+        operationService.addOperationToGroup(groupId, operationDTO.getName(), resourceId, false);
+
+        Boolean isPermittedForGroupByResource = operationService
+            .isPermittedForGroupByResource(groupId, operationDTO.getName(), resourceDTO.getName());
+
+        Assert.assertNotNull(isPermittedForGroupByResource);
+        Assert.assertTrue(isPermittedForGroupByResource);
     }
 
     @Test

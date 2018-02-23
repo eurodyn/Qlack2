@@ -316,6 +316,29 @@ public class OperationServiceImpl implements OperationService {
 	}
 
 	@Override
+	public Boolean isPermittedForGroupByResource(String groupID, String operationName, String resourceName) {
+    LOGGER.log(Level.FINEST,
+      "Checking permissions for group {0}, operation {1} and resource with object ID {2}.",
+      new String[] { groupID, operationName, resourceName});
+
+    Group group = Group.find(groupID, em);
+    Operation operation = Operation.findByName(operationName, em);
+
+    Boolean retVal = null;
+    GroupHasOperation gho = GroupHasOperation.findByGroupIDAndOperationNameAndResourceName(groupID, operationName, resourceName, em);
+    if (gho != null) {
+      retVal = !gho.isDeny();
+    }
+    else if (group.getParent() != null) {
+      // If this group is not assigned the operation check the group's
+      // parents until a result is found or until no other parent exists.
+      retVal = isPermittedForGroup(group.getParent().getId(), operationName, resourceName);
+    }
+
+    return retVal;
+  }
+
+	@Override
 	public Boolean isPermittedForGroup(String groupID, String operationName, String resourceObjectID) {
 		LOGGER.log(Level.FINEST,
 				"Checking permissions for group {0}, operation {1} and resource with object ID {2}.",
