@@ -40,6 +40,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Provides accounting information for the user.
@@ -51,6 +53,9 @@ import java.util.Set;
 @Singleton
 @OsgiServiceProvider(classes = {AccountingService.class})
 public class AccountingServiceImpl implements AccountingService {
+
+  // JUL reference.
+  private static final Logger LOGGER = Logger.getLogger(AccountingServiceImpl.class.getName());
 
   @PersistenceContext(unitName = "fuse-aaa")
   private EntityManager em;
@@ -78,7 +83,13 @@ public class AccountingServiceImpl implements AccountingService {
   @Override
   public void terminateSession(String sessionID) {
     Session sessionEntity = Session.find(sessionID, em);
-    sessionEntity.setTerminatedOn(DateTime.now().getMillis());
+    if (sessionEntity != null) {
+      sessionEntity.setTerminatedOn(DateTime.now().getMillis());
+    } else {
+      LOGGER
+        .log(Level.WARNING, "Requested to terminate a session that does not exist, session ID: {0}",
+          sessionID);
+    }
   }
 
   @Override
