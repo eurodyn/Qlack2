@@ -44,22 +44,27 @@ public class JWTNeededFilter implements ContainerRequestFilter {
     // Get the HTTP Authorization header from the request
     String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
-    // Extract the token from the HTTP Authorization header
-    String jwt = authorizationHeader.substring("Bearer".length()).trim();
+    if (StringUtils.isNotBlank(authorizationHeader)) {
+      // Extract the token from the HTTP Authorization header
+      String jwt = authorizationHeader.substring("Bearer".length()).trim();
 
-    // Validate JWT.
-    if (StringUtils.isNotEmpty(jwt)) {
-      final JWTClaimsResponse claims = JWTUtil.getClaims(new JWTClaimsRequest(jwt, secret));
-      if (!claims.isValid()) {
-        LOGGER.log(Level.INFO, "Request had an invalid JWT: {0}", claims.getErrorMessage());
-        requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+      // Validate JWT.
+      if (StringUtils.isNotEmpty(jwt)) {
+        final JWTClaimsResponse claims = JWTUtil.getClaims(new JWTClaimsRequest(jwt, secret));
+        if (!claims.isValid()) {
+          LOGGER.log(Level.INFO, "Request had an invalid JWT: {0}", claims.getErrorMessage());
+          requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+        } else {
+          // Keep JWT in a thread-local variable.
+          // IMPORTANT: Always setup a CXF interceptor filter to clean-up TokenHolder.
+          TokenHolder.setToken(jwt);
+        }
       } else {
-        // Keep JWT in a thread-local variable.
-        // IMPORTANT: Always setup a CXF interceptor filter to clean-up TokenHolder.
-        TokenHolder.setToken(jwt);
+        LOGGER.log(Level.INFO, "Could not find a JWT.");
+        requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
       }
     } else {
-      LOGGER.log(Level.INFO, "Could not find a JWT.");
+      LOGGER.log(Level.INFO, "Could not find {0} header.", HttpHeaders.AUTHORIZATION);
       requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
     }
   }
