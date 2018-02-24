@@ -18,7 +18,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * An authentication filter checking for a JWT and validating it.
+ * An authentication filter checking for a JWT and validating it. It also keeps the validated JWT
+ * inside a {@link TokenHolder} class.
  */
 @Provider
 @JWTNeeded
