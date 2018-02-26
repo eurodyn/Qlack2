@@ -328,6 +328,18 @@ public class UserServiceImpl implements UserService {
 
   @Override
   @Transactional(TxType.REQUIRED)
+  public boolean updatePassword(String username, String oldPassword, String newPassword) {
+    boolean passwordUpdated = false;
+    if (StringUtils.isNotBlank(canAuthenticate(username, oldPassword))) {
+      updatePassword(username, newPassword);
+      passwordUpdated = true;
+    }
+
+    return passwordUpdated;
+  }
+
+  @Override
+  @Transactional(TxType.REQUIRED)
   public boolean belongsToGroupByName(String userID, String groupName,
     boolean includeChildren) {
     User user = User.find(userID, em);
