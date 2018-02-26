@@ -88,11 +88,23 @@ public class JWTUtil {
 
   /**
    * Returns the value of a specific claim in JWT while also verifying the JWT.
+   *
    * @param jwtClaimsRequest The JWT to be verified together with the secret used to sign it.
    * @param claim The name of the claim to return.
    * @return The calue of the requested claim.
    */
   public static Object getClaimValue(JWTClaimsRequest jwtClaimsRequest, String claim) {
     return getClaims(jwtClaimsRequest).getClaims().get(claim);
+  }
+
+  /**
+   * Parses a JWT token (compact or normal) and returns its String representation.
+   * @param jwt The JWT to decode.
+   * @param secret The secret used to sign the JWT.
+   * @return Returns the String representation of the JWT.
+   */
+  public static String tokenToString(String jwt, String secret) {
+    return Jwts.parser().setSigningKey(Base64.encodeBase64String(secret.getBytes())).parse(jwt)
+      .toString();
   }
 }
