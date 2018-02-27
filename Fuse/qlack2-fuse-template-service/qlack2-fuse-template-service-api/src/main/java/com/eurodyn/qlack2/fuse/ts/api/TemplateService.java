@@ -16,7 +16,10 @@ package com.eurodyn.qlack2.fuse.ts.api;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+
 import com.eurodyn.qlack2.fuse.ts.exception.QTemplateServiceException;
 
 public interface TemplateService {
@@ -30,4 +33,14 @@ public interface TemplateService {
    * @throws QTemplateServiceException the q template service exception
    */
   ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream, Map<String, String> mappings);
+  
+  /**
+   * Creates the table in docx document.
+   *
+   * @param inputStream the input stream
+   * @param header The header of the table in the document that it will be generated.
+   * @param content The content of the table.
+   * @return the byte array output stream
+   */
+  ByteArrayOutputStream createTableInDocxDocument(InputStream inputStream, List<String> header, List<LinkedHashMap<Integer, String>> content);
 }
