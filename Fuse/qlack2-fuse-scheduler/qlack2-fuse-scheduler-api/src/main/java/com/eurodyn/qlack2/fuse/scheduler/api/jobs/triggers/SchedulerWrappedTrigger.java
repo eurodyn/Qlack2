@@ -14,11 +14,11 @@
  */
 package com.eurodyn.qlack2.fuse.scheduler.api.jobs.triggers;
 
+import com.eurodyn.qlack2.fuse.scheduler.api.utils.Constants;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
-import com.eurodyn.qlack2.fuse.scheduler.api.utils.Constants;
 
 /**
  * The scheduler wrapped trigger.
@@ -38,6 +38,10 @@ public class SchedulerWrappedTrigger implements Serializable {
 
 	/** The trigger group */
 	private String triggerGroup;
+
+  // The amount of seconds to delay the execution of this trigger. This goes together with the
+  // TRIGGERS.DELAYED type and it is only for jobs executing once into the future.
+	private long delay;
 
 	/** The trigger fire type (daily, monthly, weekly, etc) */
 	private Constants.TRIGGERS triggerType;
@@ -248,4 +252,11 @@ public class SchedulerWrappedTrigger implements Serializable {
 		this.triggerMisfire = triggerMisfire;
 	}
 
+  public long getDelay() {
+    return delay;
+  }
+
+  public void setDelay(long delay) {
+    this.delay = delay;
+  }
 }

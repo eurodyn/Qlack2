@@ -22,17 +22,25 @@ import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
+import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.triggers.CronTriggerImpl;
-import org.quartz.SimpleScheduleBuilder;
 
 import java.text.ParseException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
 /**
  * @author European Dynamics S.A.
  */
 public class QuartzConverters {
+
+  private QuartzConverters() {
+
+  }
 
   /**
    * Get a Quartz job object that contains all the details passed from the Scheduler wrapped job.
@@ -62,6 +70,7 @@ public class QuartzConverters {
    * @param jobGroup - the job's group
    * @throws ParseException might be thrown during the parsing of Quartz CronExpression.
    */
+  @SuppressWarnings("squid:S1301")
   public static Trigger getQuartzTrigger(SchedulerWrappedTrigger trigger, String jobName,
     String jobGroup)
     throws ParseException {
@@ -75,12 +84,16 @@ public class QuartzConverters {
 
     CronExpression ce = null;
     switch (trigger.getTriggerType()) {
-      case ASAP:
+      case DELAYED:
+        Date startEndDate = Date.from(Instant.now().plus(trigger.getDelay(), ChronoUnit.SECONDS));
+        tb.startAt(startEndDate);
+        tb.endAt(startEndDate);
         break;
       case Interval:
         tb.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-            .withIntervalInSeconds((int)trigger.getInterval(TimeUnit.SECONDS)) // Casting to int is safe for intervals less than 68 years
-            .repeatForever()
+          .withIntervalInSeconds((int) trigger.getInterval(
+            TimeUnit.SECONDS)) // Casting to int is safe for intervals less than 68 years
+          .repeatForever()
         );
         break;
       case Daily:
@@ -106,6 +119,8 @@ public class QuartzConverters {
         break;
       case Cron:
         ce = new CronExpression(trigger.getCronExpression());
+        break;
+      default:
         break;
     }
 
