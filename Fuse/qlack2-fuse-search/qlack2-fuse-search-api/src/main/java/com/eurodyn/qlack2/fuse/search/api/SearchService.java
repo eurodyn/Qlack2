@@ -1,5 +1,6 @@
 package com.eurodyn.qlack2.fuse.search.api;
 
+import com.eurodyn.qlack2.fuse.search.api.dto.SearchHitDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.SearchResultDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySpec;
 import com.eurodyn.qlack2.fuse.search.api.request.ScrollRequest;
@@ -34,10 +35,9 @@ public interface SearchService {
    * @param indexName The name of the index to search
    * @param typeName The type of the document
    * @param id The id of the document
-   * @param clazz The return type.
    * @return The document or null if not found
    */
-  <T> T findById(String indexName, String typeName, String id, Class<T> clazz);
+  SearchHitDTO findById(String indexName, String typeName, String id);
 
   /**
    * Sends a scroll request to ES requesting the next set of results

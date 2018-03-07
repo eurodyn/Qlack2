@@ -386,14 +386,13 @@ public class SearchServiceImpl implements SearchService {
   }
 
   @Override
-  public <T> T findById(String indexName, String typeName, String id, Class<T> clazz) {
+  public SearchHitDTO findById(String indexName, String typeName, String id) {
     String endpoint = indexName + "/" + typeName + "/" + id;
     try {
       Response response = esClient.getClient().performRequest("GET", endpoint);
       if (response.getStatusLine().getStatusCode() == 200) {
         Hit hit = mapper.readValue(response.getEntity().getContent(), Hit.class);
-        return hit != null && hit.getSource() != null ?
-            mapper.readValue(hit.getSource(), clazz) : null;
+        return map(hit);
       } else {
         return null;
       }
@@ -461,16 +460,20 @@ public class SearchServiceImpl implements SearchService {
 
     if (!countOnly && includeResults) {
       for (Hit hit : queryResponse.getHits().getHits()) {
-        SearchHitDTO sh = new SearchHitDTO();
-        sh.setScore(hit.getScore());
-        sh.setType(hit.getType());
-        sh.setSource(hit.getSource());
-        sh.setId(hit.getId());
-        sh.setInnerHits(hit.getInnerHits());
-        result.getHits().add(sh);
+        result.getHits().add(map(hit));
       }
     }
 
     return result;
+  }
+
+  private SearchHitDTO map(Hit hit) {
+    SearchHitDTO sh = new SearchHitDTO();
+    sh.setScore(hit.getScore());
+    sh.setType(hit.getType());
+    sh.setSource(hit.getSource());
+    sh.setId(hit.getId());
+    sh.setInnerHits(hit.getInnerHits());
+    return sh;
   }
 }
