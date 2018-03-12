@@ -27,7 +27,10 @@ import org.docx4j.model.structure.HeaderFooterPolicy;
 import org.docx4j.model.structure.SectionWrapper;
 import org.docx4j.model.table.TblFactory;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
+import org.docx4j.openpackaging.packages.SpreadsheetMLPackage;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.docx4j.openpackaging.parts.PartName;
+import org.docx4j.openpackaging.parts.SpreadsheetML.WorksheetPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.FooterPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.HeaderPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
@@ -38,11 +41,19 @@ import org.docx4j.wml.ObjectFactory;
 import org.docx4j.wml.Tbl;
 import org.docx4j.wml.Tc;
 import org.docx4j.wml.Tr;
+import org.xlsx4j.sml.CTRst;
+import org.xlsx4j.sml.CTSheetFormatPr;
+import org.xlsx4j.sml.CTXstringWhitespace;
+import org.xlsx4j.sml.Cell;
+import org.xlsx4j.sml.Row;
+import org.xlsx4j.sml.STCellType;
+import org.xlsx4j.sml.SheetData;
 
 import com.eurodyn.qlack2.fuse.ts.api.TemplateService;
 import com.eurodyn.qlack2.fuse.ts.exception.QTemplateServiceException;
 
 public class TemplateServiceImpl implements TemplateService {
+  
 
   @Override
   public ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
@@ -209,4 +220,89 @@ public class TemplateServiceImpl implements TemplateService {
           "Text in list on main document part cannot be generated.");
     }
   }
+  
+  @Override
+  public ByteArrayOutputStream generateExcelSpreadsheet(List<String> xlsxHeader,List<LinkedHashMap<Integer, String>> xlsxContent) {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    // Create a new spreadsheet package
+    SpreadsheetMLPackage pkg;
+    try {
+
+      pkg = SpreadsheetMLPackage.createPackage();
+
+      // Create a new worksheet part and retrieve the sheet data
+      WorksheetPart sheet =
+          pkg.createWorksheetPart(new PartName("/xl/worksheets/sheet1.xml"), "Sheet 1", 1);
+      
+      setSpreadsheetFormat(sheet);
+
+      addContent(sheet, xlsxContent, xlsxHeader);
+
+      pkg.save(baos);
+      
+      return baos;
+
+
+    } catch (JAXBException | Docx4JException e) {
+      throw new QTemplateServiceException("The excel document cannot be created!");
+    }
+  }
+  
+  private static void addContent(WorksheetPart sheet,
+      List<LinkedHashMap<Integer, String>> xlsxContent, List<String> xlsxHeader) {
+
+    // Minimal content already present
+    SheetData sheetData;
+    try {
+      sheetData = sheet.getContents().getSheetData();
+
+      Row rRow = org.xlsx4j.jaxb.Context.getsmlObjectFactory().createRow();
+      rRow.setS((long) 0);
+
+      for (int num = 0; num < xlsxHeader.size(); num++) {
+        rRow.getC().add(createCell(xlsxHeader.get(num)));
+      }
+      sheetData.getRow().add(rRow);
+
+      for (LinkedHashMap<Integer, String> map : xlsxContent) {
+        Row rColumn = org.xlsx4j.jaxb.Context.getsmlObjectFactory().createRow();
+        for (Integer column : map.keySet()) {
+          rColumn.getC().add(createCell(map.get(column)));
+        }
+        sheetData.getRow().add(rColumn);
+      }
+    } catch (Docx4JException e) {
+      throw new QTemplateServiceException("The content of excel spreadsheet cannot be added!");
+    }
+  }
+  
+  private static Cell createCell(String content) {
+
+    Cell cell = org.xlsx4j.jaxb.Context.getsmlObjectFactory().createCell();
+
+    CTXstringWhitespace ctx = org.xlsx4j.jaxb.Context.getsmlObjectFactory().createCTXstringWhitespace();
+    ctx.setValue(content);
+    
+    CTRst ctrst = new CTRst();
+    ctrst.setT(ctx);
+
+    cell.setT(STCellType.INLINE_STR);
+    cell.setIs(ctrst); // add ctrst as inline string
+    
+    return cell;
+
+  }
+  
+  private void setSpreadsheetFormat(WorksheetPart sheet) {
+    CTSheetFormatPr format = org.xlsx4j.jaxb.Context.getsmlObjectFactory().createCTSheetFormatPr();
+    format.setDefaultColWidth(30.0);        
+    format.setDefaultRowHeight(16.8);
+    format.setCustomHeight(Boolean.TRUE);
+    try {
+      sheet.getContents().setSheetFormatPr(format);
+    } catch (Docx4JException e) {
+      throw new QTemplateServiceException("The format of spreadsheet cannot be changed!");
+    }
+  }
+
 }

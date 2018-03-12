@@ -43,4 +43,6 @@ public interface TemplateService {
    * @return the byte array output stream
    */
   ByteArrayOutputStream createTableInDocxDocument(InputStream inputStream, List<String> header, List<LinkedHashMap<Integer, String>> content);
+  
+  ByteArrayOutputStream generateExcelSpreadsheet(List<String> xlsxHeader,List<LinkedHashMap<Integer, String>> xlsxContent);
 }
