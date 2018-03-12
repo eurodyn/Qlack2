@@ -355,16 +355,20 @@ public class SearchServiceImpl implements SearchService {
     if (dto instanceof QuerySort) {
       QuerySort sort = dto;
 
-      builder.append("{");
+      for (Entry<String, String> entry : sort.getSortMap().entrySet()) {
+        if (builder.length() > 1) {
+          builder.append(',');
+        }
 
-      builder.append("\"")
-        .append(sort.getField())
-        .append("\"")
-        .append(" : {")
-        .append("\"order\"").append(" : ").append("\"").append(sort.getOrder()).append("\"")
-        .append("}");
-
-      builder.append("}");
+        builder.append("{")
+          .append("\"")
+          .append(entry.getKey())
+          .append("\"")
+          .append(" : {")
+          .append("\"order\"").append(" : ").append("\"").append(entry.getValue()).append("\"")
+          .append("}")
+          .append("}");
+      }
     }
 
     builder.append("]");
