@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: aaa_4
+      author: European Dynamics SA
+      changes:
+        - dropUniqueConstraint:
+            tableName: aaa_resource
+            constraintName: object_id
+        - dropUniqueConstraint:
+            tableName: aaa_group
+            constraintName: object_id

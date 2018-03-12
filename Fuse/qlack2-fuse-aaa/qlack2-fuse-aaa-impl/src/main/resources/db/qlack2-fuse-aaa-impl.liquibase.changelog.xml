@@ -9,5 +9,6 @@
     <include file="db/aaa_1.yaml"/>
     <include file="db/aaa_2.yaml"/>
     <include file="db/aaa_3.yaml"/>
+    <include file="db/aaa_4.yaml"/>
 
 </databaseChangeLog>
