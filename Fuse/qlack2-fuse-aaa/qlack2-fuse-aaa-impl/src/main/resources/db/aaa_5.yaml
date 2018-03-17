@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: aaa_5
+      author: European Dynamics SA
+      changes:
+        - addColumn:
+            tableName: aaa_resource
+            columns:
+              - column:
+                  name: object_id2
+                  type: varchar(36)
+        - addColumn:
+            tableName: aaa_group
+            columns:
+              - column:
+                  name: object_id2
+                  type: varchar(36)
+        - update:
+            tableName: aaa_resource
+            columns:
+              - column:
+                  name: object_id2
+                  type: varchar(255)
+                  valueComputed: object_id
+        - update:
+            tableName: aaa_group
+            columns:
+              - column:
+                  name: object_id2
+                  type: varchar(255)
+                  valueComputed: object_id
+        - dropColumn:
+            tableName: aaa_resource
+            columnName: object_id
+        - dropColumn:
+            tableName: aaa_group
+            columnName: object_id
+        - renameColumn:
+            tableName: aaa_resource
+            oldColumnName: object_id2
+            newColumnName: object_id
+            columnDataType: varchar(255)
+        - renameColumn:
+            tableName: aaa_group
+            oldColumnName: object_id2
+            newColumnName: object_id
+            columnDataType: varchar(255)
