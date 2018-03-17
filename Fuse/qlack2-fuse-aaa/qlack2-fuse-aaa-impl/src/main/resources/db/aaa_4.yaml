@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: aaa_4
+      author: European Dynamics SA
+      changes:
+        - addColumn:
+            tableName: aaa_verification
+            columns:
+              - column:
+                  name: user_id
+                  type: varchar(36)
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: fk_aaa_verification_aaa_user
+            baseTableName: aaa_verification
+            baseColumnNames: user_id
+            referencedTableName: aaa_user
+            referencedColumnNames: id
+            onDelete: cascade
+            onUpdate: cascade

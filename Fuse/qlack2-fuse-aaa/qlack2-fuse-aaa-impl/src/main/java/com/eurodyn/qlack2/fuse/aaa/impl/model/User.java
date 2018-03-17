@@ -79,6 +79,10 @@ public class User implements Serializable {
   @OneToMany(mappedBy = "user")
   private List<UserAttribute> userAttributes;
 
+  // bi-directional many-to-one association to VerificationToken.
+  @OneToMany(mappedBy = "user")
+  private List<VerificationToken> verificationTokens;
+
   public User() {
     id = UUID.randomUUID().toString();
   }
@@ -200,6 +204,15 @@ public class User implements Serializable {
 
   public void setUserAttributes(List<UserAttribute> userAttributes) {
     this.userAttributes = userAttributes;
+  }
+
+  public List<VerificationToken> getVerificationTokens() {
+    return verificationTokens;
+  }
+
+  public void setVerificationTokens(
+    List<VerificationToken> verificationTokens) {
+    this.verificationTokens = verificationTokens;
   }
 
   public UserAttribute addUserAttribute(UserAttribute userAttribute) {
