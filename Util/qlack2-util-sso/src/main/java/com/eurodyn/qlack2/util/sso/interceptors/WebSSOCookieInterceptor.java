@@ -113,25 +113,29 @@ public class WebSSOCookieInterceptor extends JAXRSInInterceptor {
 
       /** Read attribute name and value */
       String attributeName = item.getAttributes().getNamedItem(samlAttributeName).getTextContent();
-      String attributeValue = item.getElementsByTagNameNS(samlNS, samlAttributeValue)
-        .item(0).getTextContent();
-      final SAMLAttributeDTO samlAttributeDTO = new SAMLAttributeDTO(attributeName, attributeValue);
+      if (item.getElementsByTagNameNS(samlNS, samlAttributeValue) != null) {
+        for (int k = 0; k < item.getElementsByTagNameNS(samlNS, samlAttributeValue).getLength(); k++) {
+          String attributeValue = item.getElementsByTagNameNS(samlNS, samlAttributeValue)
+            .item(k).getTextContent();
+          final SAMLAttributeDTO samlAttributeDTO = new SAMLAttributeDTO(attributeName, attributeValue);
 
-      /** Find additional attributes */
-      if (CollectionUtils.isNotEmpty(additionalAttributeAttributes)) {
-        for (int j = 0; j < additionalAttributeAttributes.size(); j += 2) {
-          String additionalAttributeNS = additionalAttributeAttributes.get(j);
-          String additionalAttributeName = additionalAttributeAttributes.get(j + 1);
-          String additionalAttribute = item.getAttributes().getNamedItemNS(
-            additionalAttributeNS, additionalAttributeName).getTextContent();
-          if (StringUtils.isNotEmpty(additionalAttribute)) {
-            samlAttributeDTO.addAdditionalAttribute(
-              new SAMLAttributeDTO(additionalAttributeNS + ":" + additionalAttributeName,
-                additionalAttribute));
+          /** Find additional attributes */
+          if (CollectionUtils.isNotEmpty(additionalAttributeAttributes)) {
+            for (int j = 0; j < additionalAttributeAttributes.size(); j += 2) {
+              String additionalAttributeNS = additionalAttributeAttributes.get(j);
+              String additionalAttributeName = additionalAttributeAttributes.get(j + 1);
+              String additionalAttribute = item.getAttributes().getNamedItemNS(
+                additionalAttributeNS, additionalAttributeName).getTextContent();
+              if (StringUtils.isNotEmpty(additionalAttribute)) {
+                samlAttributeDTO.addAdditionalAttribute(
+                  new SAMLAttributeDTO(additionalAttributeNS + ":" + additionalAttributeName,
+                    additionalAttribute));
+              }
+            }
           }
+          retVal.add(samlAttributeDTO);
         }
       }
-      retVal.add(samlAttributeDTO);
     }
 
     return retVal;
