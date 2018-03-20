@@ -612,8 +612,15 @@ public class UserServiceImpl implements UserService {
             cb.equal(sqRoot.get("name"), attribute.getName()));
         }
         if (StringUtils.isNotBlank(attribute.getData())) {
-          addPredicate(sq, cb,
-            cb.equal(sqRoot.get("data"), attribute.getData()));
+          // a like instead of equality will be performed on the attribute 
+          // values if the useLike variable is set to true
+          if(attCriteria.isUseLike()) {
+            addPredicate(sq, cb,
+                cb.like(sqRoot.get("data"), '%' + attribute.getData()+ '%'));
+          }else {
+            addPredicate(sq, cb,
+              cb.equal(sqRoot.get("data"), attribute.getData()));
+          }
         }
         if ((attribute.getBinData() != null)
           && (attribute.getBinData().length > 0)) {

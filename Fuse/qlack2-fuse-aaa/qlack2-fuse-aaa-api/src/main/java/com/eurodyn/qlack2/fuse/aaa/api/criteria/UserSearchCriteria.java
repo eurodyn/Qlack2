@@ -256,8 +256,11 @@ public class UserSearchCriteria {
 		private Type type;
 		private Collection<UserAttributeDTO> attributes;
 		private Collection<UserAttributeCriteria> attCriteria;
+		private boolean useLike;
 
-		private UserAttributeCriteria(){}
+	
+
+    private UserAttributeCriteria(){}
 
 		public Type getType() {
 			return type;
@@ -285,6 +288,14 @@ public class UserSearchCriteria {
 
 		private void setAttCriteria(UserAttributeCriteria[] attCriteria) {
 			this.attCriteria = Arrays.asList(attCriteria);
+		}
+		
+		public boolean isUseLike() {
+		    return useLike;
+		}
+
+		public void setUseLike(boolean useLike) {
+		   this.useLike = useLike;
 		}
 	}
 
