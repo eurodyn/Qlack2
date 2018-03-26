@@ -269,6 +269,37 @@ public class AuditLoggingServiceImpl implements
 		return query.getSingleResult().intValue();
 	}
 
+  @Override
+  @Transactional(TxType.REQUIRED)
+  public List<String> getAuditLogsColumn(List<SearchDTO> searchList, Date startDate,
+    Date endDate, String column) {
+    LOGGER.log(
+      Level.FINER,
+      "getAuditLogs for a requested column {4}, searchList count = {0}, startDate = {1} and endDate = {2}",
+      new String[] {
+        (searchList != null) ? String.valueOf(searchList.size())
+          : "0",
+        (startDate != null) ? startDate.toString() : "NONE",
+        (endDate != null) ? endDate.toString() : "NONE",
+        (column != null) ? column : "NONE"});
+
+    CriteriaBuilder cb = em.getCriteriaBuilder();
+    CriteriaQuery<String> cq = cb.createQuery(String.class);
+    Root<Audit> root = cq.from(Audit.class);
+
+    if(column == null) {
+      return null;
+    } else {
+      cq.select(root.get(column).as(String.class));
+    }
+
+    cq = applySearchCriteria(cb, cq, root, searchList, startDate, endDate);
+
+    TypedQuery<String> query = em.createQuery(cq);
+
+    return query.getResultList();
+  }
+
 	@Override
 	@Transactional(TxType.REQUIRED)
 	public AuditLogDTO getAuditById(String auditId){

@@ -152,4 +152,18 @@ public interface AuditLoggingService {
 	 */
 	public int countAuditLogs(List<SearchDTO> searchList, Date startDate,
 			Date endDate);
+
+  /**
+   * Returns the number of rows of entities for the spedific column
+   * that the given query will return.
+   * Used for pagination.
+   * @param searchList
+   * @param startDate
+   * @param endDate
+   * @param column
+   * @return
+   * @return
+   */
+  public List<String> getAuditLogsColumn(List<SearchDTO> searchList, Date startDate,
+    Date endDate, String column);
 }
