@@ -17,11 +17,13 @@ import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 /**
@@ -496,4 +498,25 @@ public class AccountingServiceImplTest extends ITTestConf {
         sessionAttributeDTO.getValue()));
   }
 
+  @Test
+  public void deleteOldSessions() {
+    //creates new user
+    UserDTO userDTO = TestUtilities.createUserDTO();
+    String userID = userService.createUser(userDTO);
+    Assert.assertNotNull(userID);
+
+    //creates new SessionDTO
+    SessionDTO sessionDTO = new SessionDTO();
+    sessionDTO.setId(UUID.randomUUID().toString());
+    sessionDTO.setApplicationSessionID(UUID.randomUUID().toString());
+    sessionDTO.setTerminatedOn(TestConst.DATE_TERMINATED_ON);
+    sessionDTO.setUserId(userID);
+    sessionDTO
+      .setCreatedOn(
+        Instant.now().toEpochMilli() - TimeUnit.MILLISECONDS.convert(1000, TimeUnit.DAYS));
+    accountingService.createSession(sessionDTO);
+    
+    Assert.assertEquals(1, accountingService.deleteOldSessions(
+      Instant.now().toEpochMilli() - TimeUnit.MILLISECONDS.convert(365, TimeUnit.DAYS)));
+  }
 }

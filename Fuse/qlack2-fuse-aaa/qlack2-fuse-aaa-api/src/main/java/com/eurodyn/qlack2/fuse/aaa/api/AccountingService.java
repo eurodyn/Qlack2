@@ -184,4 +184,11 @@ public interface AccountingService {
    * for this user; false otherwise.
    */
   boolean isAttributeValueUnique(String userId, String attributeName, String attributeValue);
+
+  /**
+   * Deletes sessions (together with session data) that have been created before a certain date.
+   * @param deleteBeforeDate The date (in milliseconds) before which all sessions are deleted.
+   * @return Returns the number of entries deleted.
+   */
+  long deleteOldSessions(long deleteBeforeDate);
 }

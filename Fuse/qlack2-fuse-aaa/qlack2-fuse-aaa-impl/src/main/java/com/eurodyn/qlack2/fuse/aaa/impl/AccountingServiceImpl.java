@@ -247,4 +247,12 @@ public class AccountingServiceImpl implements AccountingService {
 
     return count == 0;
   }
+
+  @Override
+  public long deleteOldSessions(long deleteBeforeDate) {
+    return new JPAQueryFactory(em)
+      .delete(qSession)
+      .where(qSession.createdOn.lt(deleteBeforeDate))
+      .execute();
+  }
 }
