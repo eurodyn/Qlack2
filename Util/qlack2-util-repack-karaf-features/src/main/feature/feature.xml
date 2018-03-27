@@ -80,6 +80,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/L
     <bundle>mvn:com.mysema.commons/mysema-commons-lang/${mysema-commons-lang}</bundle>
     <bundle>mvn:com.querydsl/querydsl-core/${querydsl.version}</bundle>
     <bundle>mvn:com.querydsl/querydsl-jpa/${querydsl.version}</bundle>
+	<bundle>mvn:com.querydsl/querydsl-sql/${querydsl.version}</bundle>
   </feature>
 
   <feature name="qlack2-util-repack-jpadb" version="${project.version}">
