@@ -1,6 +1,5 @@
 package com.eurodyn.qlack2.fuse.search.impl.mappers.request;
 
-import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -77,10 +76,6 @@ public class InternalSearchRequest {
   }
 
   public List<String> getSource() {
-    if (source == null) {
-      source = new ArrayList<String>();
-    }
-
     return source;
   }
 

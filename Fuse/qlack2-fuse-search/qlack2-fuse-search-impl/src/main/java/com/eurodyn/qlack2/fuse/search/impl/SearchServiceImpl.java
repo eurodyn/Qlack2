@@ -109,6 +109,7 @@ public class SearchServiceImpl implements SearchService {
       }
 
       if (dto.getAggregate() != null) {
+        internalRequest.setSource(new ArrayList<>());
         internalRequest.getSource().add(dto.getAggregate());
         internalRequest.setAggs(buildAggregate(dto.getAggregate(), dto.getAggregateSize()));
       }
