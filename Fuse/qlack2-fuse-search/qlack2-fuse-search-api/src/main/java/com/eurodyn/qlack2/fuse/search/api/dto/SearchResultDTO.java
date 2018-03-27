@@ -1,7 +1,9 @@
 package com.eurodyn.qlack2.fuse.search.api.dto;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The search results obtained after having executed a search
@@ -41,6 +43,8 @@ public class SearchResultDTO {
 
   // The list of hits generated for this search.
   private List<SearchHitDTO> hits = new ArrayList<SearchHitDTO>();
+
+  private Map<String, Long> aggregations = new LinkedHashMap<>();
 
   /**
    * @param executionTime the executionTime to set
@@ -206,5 +210,13 @@ public class SearchResultDTO {
       + shardsFailed + ", totalHits=" + totalHits + ", bestScore=" + bestScore + ", hasMore="
       + hasMore
       + ", hits=" + hits + "]";
+  }
+
+  public Map<String, Long> getAggregations() {
+    return aggregations;
+  }
+
+  public void setAggregations(Map<String, Long> aggregations) {
+    this.aggregations = aggregations;
   }
 }

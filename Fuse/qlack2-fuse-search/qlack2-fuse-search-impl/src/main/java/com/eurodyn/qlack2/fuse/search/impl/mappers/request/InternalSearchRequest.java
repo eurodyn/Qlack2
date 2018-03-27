@@ -1,7 +1,10 @@
 package com.eurodyn.qlack2.fuse.search.impl.mappers.request;
 
+import java.util.ArrayList;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 
 public class InternalSearchRequest {
@@ -15,6 +18,12 @@ public class InternalSearchRequest {
 	@JsonInclude(Include.NON_NULL)
 	@JsonRawValue
 	private String query;
+	@JsonInclude(Include.NON_NULL)
+	@JsonProperty("_source")
+	private List<String> source;
+	@JsonInclude(Include.NON_NULL)
+    @JsonRawValue
+	private String aggs;
 	@JsonRawValue
 	@JsonInclude(Include.NON_NULL)
     private String sort;
@@ -57,6 +66,26 @@ public class InternalSearchRequest {
 
   public void setSort(String sort) {
     this.sort = sort;
+  }
+
+  public String getAggs() {
+    return aggs;
+  }
+
+  public void setAggs(String aggs) {
+    this.aggs = aggs;
+  }
+
+  public List<String> getSource() {
+    if (source == null) {
+      source = new ArrayList<String>();
+    }
+
+    return source;
+  }
+
+  public void setSource(List<String> source) {
+    this.source = source;
   }
 
 }

@@ -3,6 +3,8 @@ package com.eurodyn.qlack2.fuse.search.impl.mappers.response;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,6 +21,8 @@ public class QueryResponse {
   @JsonProperty("_shards")
   private Shards shards;
   private Hits hits;
+  @JsonInclude(Include.NON_NULL)
+  private Aggregations aggregations;
   private long count;
   @JsonProperty("_scroll_id")
   private String scrollId;
@@ -69,6 +73,14 @@ public class QueryResponse {
 
   public void setScrollId(String scrollId) {
     this.scrollId = scrollId;
+  }
+
+  public Aggregations getAggregations() {
+    return aggregations;
+  }
+
+  public void setAggregations(Aggregations aggregations) {
+    this.aggregations = aggregations;
   }
 
   @JsonIgnoreProperties(ignoreUnknown = true)
@@ -206,5 +218,86 @@ public class QueryResponse {
       }
 
     }
+  }
+
+  @JsonIgnoreProperties(ignoreUnknown = true)
+  public static class Aggregations {
+
+    private Agg agg;
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Agg {
+      private long doc_count_error_upper_bound;
+      private long sum_other_doc_count;
+      private List<Bucket> buckets;
+
+      @JsonIgnoreProperties(ignoreUnknown = true)
+      public static class Bucket {
+        private long key;
+        private String key_as_string;
+        private long doc_count;
+
+        public long getKey() {
+          return key;
+        }
+
+        public void setKey(long key) {
+          this.key = key;
+        }
+
+        public String getKey_as_string() {
+          return key_as_string;
+        }
+
+        public void setKey_as_string(String key_as_string) {
+          this.key_as_string = key_as_string;
+        }
+
+        public long getDoc_count() {
+          return doc_count;
+        }
+
+        public void setDoc_count(long doc_count) {
+          this.doc_count = doc_count;
+        }
+      }
+
+      public long getDoc_count_error_upper_bound() {
+        return doc_count_error_upper_bound;
+      }
+
+      public void setDoc_count_error_upper_bound(long doc_count_error_upper_bound) {
+        this.doc_count_error_upper_bound = doc_count_error_upper_bound;
+      }
+
+      public long getSum_other_doc_count() {
+        return sum_other_doc_count;
+      }
+
+      public void setSum_other_doc_count(long sum_other_doc_count) {
+        this.sum_other_doc_count = sum_other_doc_count;
+      }
+
+      public List<Bucket> getBuckets() {
+        if (buckets == null) {
+          buckets = new ArrayList<>();
+        }
+
+        return buckets;
+      }
+
+      public void setBuckets(List<Bucket> buckets) {
+        this.buckets = buckets;
+      }
+    }
+
+    public Agg getAgg() {
+      return agg;
+    }
+
+    public void setAgg(Agg agg) {
+      this.agg = agg;
+    }
+
   }
 }

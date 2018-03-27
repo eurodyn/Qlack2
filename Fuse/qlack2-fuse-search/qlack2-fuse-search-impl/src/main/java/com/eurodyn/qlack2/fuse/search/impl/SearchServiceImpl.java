@@ -28,6 +28,7 @@ import com.eurodyn.qlack2.fuse.search.api.request.ScrollRequest;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.request.InternalScollRequest;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.request.InternalSearchRequest;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.response.QueryResponse;
+import com.eurodyn.qlack2.fuse.search.impl.mappers.response.QueryResponse.Aggregations.Agg.Bucket;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.response.QueryResponse.Hits.Hit;
 import com.eurodyn.qlack2.fuse.search.impl.util.ESClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -105,6 +106,11 @@ public class SearchServiceImpl implements SearchService {
 
       if (dto.getScroll() != null) {
         params.put("scroll", dto.getScroll().toString() + "m");
+      }
+
+      if (dto.getAggregate() != null) {
+        internalRequest.getSource().add(dto.getAggregate());
+        internalRequest.setAggs(buildAggregate(dto.getAggregate(), dto.getAggregateSize()));
       }
     }
     internalRequest.setQuery(buildQuery(dto));
@@ -345,8 +351,16 @@ public class SearchServiceImpl implements SearchService {
     }
     return builder.append("}")
       .toString().replace("\"null\"", "null");
+  }
 
-    //	System.out.println(builder.toString());
+  private String buildAggregate(String aggregate, int aggregateSize) {
+    return new StringBuilder("{")
+        .append("\"agg\" : {\"terms\" : {\"field\" : \"")
+        .append(aggregate)
+        .append("\", \"size\" : ")
+        .append(aggregateSize)
+        .append("}}}")
+        .toString();
   }
 
   private String buildSort(QuerySort dto) {
@@ -465,6 +479,12 @@ public class SearchServiceImpl implements SearchService {
     if (!countOnly && includeResults) {
       for (Hit hit : queryResponse.getHits().getHits()) {
         result.getHits().add(map(hit));
+      }
+    }
+
+    if (queryResponse.getAggregations() != null && queryResponse.getAggregations().getAgg() != null) {
+      for (Bucket bucket : queryResponse.getAggregations().getAgg().getBuckets()) {
+        result.getAggregations().put(bucket.getKey_as_string(), bucket.getDoc_count());
       }
     }
 
