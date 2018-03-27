@@ -359,6 +359,7 @@ public class SearchServiceImpl implements SearchService {
         .append(aggregate)
         .append("\", \"size\" : ")
         .append(aggregateSize)
+        .append(",\"order\" : {\"_term\" : \"desc\"}")
         .append("}}}")
         .toString();
   }
