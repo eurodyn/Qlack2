@@ -515,7 +515,7 @@ public class AccountingServiceImplTest extends ITTestConf {
       .setCreatedOn(
         Instant.now().toEpochMilli() - TimeUnit.MILLISECONDS.convert(1000, TimeUnit.DAYS));
     accountingService.createSession(sessionDTO);
-    
+
     Assert.assertEquals(1, accountingService.deleteOldSessions(
       Instant.now().toEpochMilli() - TimeUnit.MILLISECONDS.convert(365, TimeUnit.DAYS)));
   }
