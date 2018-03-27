@@ -46,7 +46,7 @@ public class VerificationServiceImpl implements VerificationService {
   public String verifyToken(String tokenID) {
     String userId = null;
     VerificationToken vt = em.find(VerificationToken.class, tokenID);
-    if (vt != null && vt.getExpiresOn() <= Instant.now().getMillis()) {
+    if (vt != null && vt.getExpiresOn() >= Instant.now().getMillis()) {
       userId = vt.getUser().getId();
     }
 
