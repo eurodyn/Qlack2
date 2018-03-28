@@ -14,9 +14,11 @@ package com.eurodyn.qlack2.fuse.ts.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.bind.JAXBException;
 
@@ -34,12 +36,26 @@ import org.docx4j.openpackaging.parts.SpreadsheetML.WorksheetPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.FooterPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.HeaderPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
+import org.docx4j.wml.BooleanDefaultTrue;
+import org.docx4j.wml.CTBorder;
 import org.docx4j.wml.Document;
 import org.docx4j.wml.Ftr;
 import org.docx4j.wml.Hdr;
+import org.docx4j.wml.HpsMeasure;
 import org.docx4j.wml.ObjectFactory;
+import org.docx4j.wml.P;
+import org.docx4j.wml.R;
+import org.docx4j.wml.RFonts;
+import org.docx4j.wml.RPr;
+import org.docx4j.wml.STBorder;
 import org.docx4j.wml.Tbl;
+import org.docx4j.wml.TblBorders;
+import org.docx4j.wml.TblPr;
+import org.docx4j.wml.TblWidth;
 import org.docx4j.wml.Tc;
+import org.docx4j.wml.TcMar;
+import org.docx4j.wml.TcPr;
+import org.docx4j.wml.Text;
 import org.docx4j.wml.Tr;
 import org.xlsx4j.sml.CTRst;
 import org.xlsx4j.sml.CTSheetFormatPr;
@@ -53,7 +69,6 @@ import com.eurodyn.qlack2.fuse.ts.api.TemplateService;
 import com.eurodyn.qlack2.fuse.ts.exception.QTemplateServiceException;
 
 public class TemplateServiceImpl implements TemplateService {
-  
 
   @Override
   public ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
@@ -80,49 +95,53 @@ public class TemplateServiceImpl implements TemplateService {
 
   @Override
   public ByteArrayOutputStream createTableInDocxDocument(InputStream inputStream,
-      List<String> header, List<LinkedHashMap<Integer, String>> content) {
+      List<String> header, List<LinkedHashMap<Map<String, String>, String>> content,
+      Map<String, String> tableProperties) {
     ObjectFactory factory = Context.getWmlObjectFactory();
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     try {
       WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(inputStream);
 
+
       int writableWidthTwips = wordMLPackage.getDocumentModel().getSections().get(0)
           .getPageDimensions().getWritableWidthTwips();
       Tbl tblCredProg =
           TblFactory.createTable(0, header.size(), writableWidthTwips / header.size());
-
+      removeBorders(tblCredProg, Boolean.valueOf(tableProperties.get("removeBorder")));
       // Add table header (row).
       Tr thead = factory.createTr();
       for (int num = 0; num < header.size(); num++) {
-        addTc(thead, header.get(num), wordMLPackage);
+        addStyledTableCell(thead, header.get(num), tableProperties,
+            tableProperties.get("boldHeader"));
       }
       tblCredProg.getContent().add(thead);
 
       // Add table content (the content is added by row).
-      for (Map<Integer, String> c : content) {
+      for (Map<Map<String, String>, String> c : content) {
         Tr tr = factory.createTr();
-        for (Integer column : c.keySet()) {
-          addTc(tr, c.get(column), wordMLPackage);
+
+        for (Entry<Map<String, String>, String> column : c.entrySet()) {
+          addStyledTableCell(tr, column.getValue(), column.getKey(),
+              column.getKey().get("boldContent"));
         }
         tblCredProg.getContent().add(tr);
       }
 
-      wordMLPackage.getMainDocumentPart().addObject(tblCredProg);
-
+      if (tableProperties.get("tablePosition") != null) {
+        // Set table specific position.
+        wordMLPackage.getMainDocumentPart().getContent()
+            .add(Integer.parseInt(tableProperties.get("tablePosition")), tblCredProg);
+      } else {
+        wordMLPackage.getMainDocumentPart().getContent().add(tblCredProg);
+      }
       Docx4J.save(wordMLPackage, baos);
-      
+
     } catch (Docx4JException e) {
       throw new QTemplateServiceException("The document cannot be created!");
     }
     return baos;
   }
 
-  protected void addTc(Tr tr, String text, WordprocessingMLPackage wordMLPackage) {
-    ObjectFactory factory = Context.getWmlObjectFactory();
-    Tc tc = factory.createTc();
-    tc.getContent().add(wordMLPackage.getMainDocumentPart().createParagraphOfText(text));
-    tr.getContent().add(tc);
-  }
 
   private void replaceHeaderPlaceholders(WordprocessingMLPackage wordMLPackage,
       Map<String, String> mappings) {
@@ -144,6 +163,21 @@ public class TemplateServiceImpl implements TemplateService {
           // Inject result into docx
           if (obj != null && headerPart != null) {
             headerPart.setJaxbElement((Hdr) obj);
+          }
+
+          String defaultXml = null;
+          HeaderPart defaultHeader = hfp.getDefaultHeader();
+          if (defaultHeader != null) {
+            defaultXml = XmlUtils.marshaltoString(defaultHeader.getContents());
+          }
+          Object defaultObj = null;
+
+          if (defaultXml != null) {
+            defaultObj = XmlUtils.unmarshallFromTemplate(defaultXml, mappings);
+          }
+          // Inject result into docx
+          if (defaultObj != null && defaultHeader != null) {
+            defaultHeader.setJaxbElement((Hdr) defaultObj);
           }
         }
       }
@@ -220,9 +254,10 @@ public class TemplateServiceImpl implements TemplateService {
           "Text in list on main document part cannot be generated.");
     }
   }
-  
+
   @Override
-  public ByteArrayOutputStream generateExcelSpreadsheet(List<String> xlsxHeader,List<LinkedHashMap<Integer, String>> xlsxContent) {
+  public ByteArrayOutputStream generateExcelSpreadsheet(List<String> xlsxHeader,
+      List<LinkedHashMap<Integer, String>> xlsxContent) {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     // Create a new spreadsheet package
     SpreadsheetMLPackage pkg;
@@ -233,13 +268,13 @@ public class TemplateServiceImpl implements TemplateService {
       // Create a new worksheet part and retrieve the sheet data
       WorksheetPart sheet =
           pkg.createWorksheetPart(new PartName("/xl/worksheets/sheet1.xml"), "Sheet 1", 1);
-      
+
       setSpreadsheetFormat(sheet);
 
       addContent(sheet, xlsxContent, xlsxHeader);
 
       pkg.save(baos);
-      
+
       return baos;
 
 
@@ -247,7 +282,7 @@ public class TemplateServiceImpl implements TemplateService {
       throw new QTemplateServiceException("The excel document cannot be created!");
     }
   }
-  
+
   private static void addContent(WorksheetPart sheet,
       List<LinkedHashMap<Integer, String>> xlsxContent, List<String> xlsxHeader) {
 
@@ -275,27 +310,28 @@ public class TemplateServiceImpl implements TemplateService {
       throw new QTemplateServiceException("The content of excel spreadsheet cannot be added!");
     }
   }
-  
+
   private static Cell createCell(String content) {
 
     Cell cell = org.xlsx4j.jaxb.Context.getsmlObjectFactory().createCell();
 
-    CTXstringWhitespace ctx = org.xlsx4j.jaxb.Context.getsmlObjectFactory().createCTXstringWhitespace();
+    CTXstringWhitespace ctx =
+        org.xlsx4j.jaxb.Context.getsmlObjectFactory().createCTXstringWhitespace();
     ctx.setValue(content);
-    
+
     CTRst ctrst = new CTRst();
     ctrst.setT(ctx);
 
     cell.setT(STCellType.INLINE_STR);
     cell.setIs(ctrst); // add ctrst as inline string
-    
+
     return cell;
 
   }
-  
+
   private void setSpreadsheetFormat(WorksheetPart sheet) {
     CTSheetFormatPr format = org.xlsx4j.jaxb.Context.getsmlObjectFactory().createCTSheetFormatPr();
-    format.setDefaultColWidth(30.0);        
+    format.setDefaultColWidth(30.0);
     format.setDefaultRowHeight(16.8);
     format.setCustomHeight(Boolean.TRUE);
     try {
@@ -305,4 +341,127 @@ public class TemplateServiceImpl implements TemplateService {
     }
   }
 
+  private static void addBoldStyle(RPr runProperties) {
+    BooleanDefaultTrue b = new BooleanDefaultTrue();
+    b.setVal(true);
+    runProperties.setB(b);
+  }
+
+  private static void addStyling(Tc tableCell, String content, Map<String, String> tableProperties,
+      String bold) {
+    ObjectFactory factory = Context.getWmlObjectFactory();
+    P paragraph = factory.createP();
+
+    Text text = factory.createText();
+    text.setValue(content);
+
+    R run = factory.createR();
+    run.getContent().add(text);
+
+    paragraph.getContent().add(run);
+
+    RPr runProperties = factory.createRPr();
+    // Set bold
+    if (bold != null && Boolean.valueOf(bold)) {
+      addBoldStyle(runProperties);
+    }
+
+    // Set font size of cell.
+    if (tableProperties.get("fontSize") != null) {
+      setFontSize(runProperties, tableProperties.get("fontSize"));
+    }
+
+    // Set fonts.
+    if (tableProperties.get("fonts") != null) {
+      setFonts(runProperties, tableProperties.get("fonts"));
+    }
+
+    run.setRPr(runProperties);
+
+    tableCell.getContent().add(paragraph);
+  }
+
+  private static void setFonts(RPr runProperties, String font) {
+    RFonts rf = new RFonts();
+    rf.setAscii(font);
+    runProperties.setRFonts(rf);
+  }
+
+  private static void setFontSize(RPr runProperties, String fontSize) {
+    HpsMeasure size = new HpsMeasure();
+    size.setVal(new BigInteger(fontSize));
+    runProperties.setSz(size);
+    runProperties.setSzCs(size);
+  }
+
+  private static void addStyledTableCell(Tr tableRow, String content,
+      Map<String, String> tableProperties, String bold) {
+    ObjectFactory factory = Context.getWmlObjectFactory();
+    Tc tableCell = factory.createTc();
+
+    // Cell properties.
+    addCellStyling(tableCell, tableProperties);
+
+    addStyling(tableCell, content, tableProperties, bold);
+
+    tableRow.getContent().add(tableCell);
+  }
+
+  private static void addCellStyling(Tc tableCell, Map<String, String> tableProperties) {
+    // Set cell width.
+    TcPr tableCellProperties = new TcPr();
+    if (tableProperties.get("width") != null) {
+      TblWidth tableWidth = new TblWidth();
+      tableWidth.setType("dxa");
+      tableWidth.setW(new BigInteger(tableProperties.get("width")));
+      tableCellProperties.setTcW(tableWidth);
+    }
+
+    // Set cell margin (Top, Bottom, Right, Left).
+    TcMar tcMar = new TcMar();
+    if (tableProperties.get("bottomMargin") != null) {
+      TblWidth tableWidthBottom = new TblWidth();
+      tableWidthBottom.setW(new BigInteger(tableProperties.get("bottomMargin")));
+      tcMar.setBottom(tableWidthBottom);
+    }
+    if (tableProperties.get("topMargin") != null) {
+      TblWidth tableWidthTop = new TblWidth();
+      tableWidthTop.setW(new BigInteger(tableProperties.get("topMargin")));
+      tcMar.setTop(tableWidthTop);
+    }
+    if (tableProperties.get("rightMargin") != null) {
+      TblWidth tableWidthRight = new TblWidth();
+      tableWidthRight.setW(new BigInteger(tableProperties.get("rightMargin")));
+      tcMar.setTop(tableWidthRight);
+    }
+    if (tableProperties.get("leftMargin") != null) {
+      TblWidth tableWidthLeft = new TblWidth();
+      tableWidthLeft.setW(new BigInteger(tableProperties.get("leftMargin")));
+      tcMar.setTop(tableWidthLeft);
+    }
+    tableCellProperties.setTcMar(tcMar);
+
+    tableCell.setTcPr(tableCellProperties);
+  }
+
+  private static void removeBorders(Tbl table, boolean removeBorder) {
+    table.setTblPr(new TblPr());
+    CTBorder border = new CTBorder();
+    border.setColor("auto");
+    border.setSpace(new BigInteger("0"));
+
+    if (removeBorder) {
+      border.setVal(STBorder.NONE);
+    } else {
+      border.setVal(STBorder.BASIC_THIN_LINES);
+    }
+    TblBorders borders = new TblBorders();
+    borders.setBottom(border);
+    borders.setLeft(border);
+    borders.setRight(border);
+    borders.setTop(border);
+    borders.setInsideH(border);
+    borders.setInsideV(border);
+    table.getTblPr().setTblBorders(borders);
+  }
 }

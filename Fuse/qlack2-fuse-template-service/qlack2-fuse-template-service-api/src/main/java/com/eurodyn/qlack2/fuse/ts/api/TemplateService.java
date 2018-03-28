@@ -42,7 +42,14 @@ public interface TemplateService {
    * @param content The content of the table.
    * @return the byte array output stream
    */
-  ByteArrayOutputStream createTableInDocxDocument(InputStream inputStream, List<String> header, List<LinkedHashMap<Integer, String>> content);
+  ByteArrayOutputStream createTableInDocxDocument(InputStream inputStream, List<String> header, List<LinkedHashMap<Map<String,String>, String>> content, Map<String,String> tableProperties);
   
+  /**
+   * Generate excel spreadsheet.
+   *
+   * @param xlsxHeader the xlsx header
+   * @param xlsxContent the xlsx content
+   * @return the byte array output stream
+   */
   ByteArrayOutputStream generateExcelSpreadsheet(List<String> xlsxHeader,List<LinkedHashMap<Integer, String>> xlsxContent);
 }
