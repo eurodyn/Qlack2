@@ -15,6 +15,9 @@ import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
 import org.ops4j.pax.exam.spi.reactors.PerSuite;
 import org.ops4j.pax.exam.util.Filter;
 
+import java.time.Duration;
+import java.time.Instant;
+
 /**
  * @author European Dynamics SA
  */
@@ -52,7 +55,8 @@ public class VerificationServiceImplTest extends ITTestConf {
   @Test
   public void verifyToken() {
     String userId = createTestUser();
-    String tokenID = verificationService.createVerificationToken(userId, TestConst.VERIFICATION_EXPIRES_ON);
+    String tokenID = verificationService.createVerificationToken(userId,
+      Instant.now().plus(Duration.ofDays(1)).toEpochMilli());
     Assert.assertNotNull(verificationService.verifyToken(tokenID));
   }
 
