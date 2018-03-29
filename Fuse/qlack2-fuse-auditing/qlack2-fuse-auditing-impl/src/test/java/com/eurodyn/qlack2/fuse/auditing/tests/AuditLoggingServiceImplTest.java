@@ -435,4 +435,35 @@ public class AuditLoggingServiceImplTest extends ITTestConf {
         Assert.assertNotNull(auditLoggingService.countAuditLogs(searchList,endDate,startDate));
     }
 
+  @Test
+  public void getAuditLogsColumn(){
+    //creates start and end date to search
+    Calendar startCale = new GregorianCalendar(2017,1,21);
+    Date startDate = startCale.getTime();
+
+    Calendar endCale = new GregorianCalendar(2017,9,21);
+    Date endDate = endCale.getTime();
+
+    AuditLogColumns auditLogColumns = AuditLogColumns.levelId;
+    SearchOperator searchOperator = SearchOperator.EQUAL;
+    SortOperator sortOperator = SortOperator.ASC;
+
+    List valuelist = new ArrayList();
+    valuelist.add("testValue01");
+
+    SearchDTO searchDTO = new SearchDTO();
+    searchDTO.setColumn(auditLogColumns);
+    searchDTO.setOperator(searchOperator);
+    searchDTO.setValue(valuelist);
+
+    SortDTO sortDTO = new SortDTO();
+    sortDTO.setColumn(auditLogColumns.opt3);
+    sortDTO.setOperator(sortOperator);
+
+    List searchList = new ArrayList();
+    searchList.add(searchDTO);
+
+    Assert.assertNotNull(auditLoggingService.getAuditLogsColumn(searchList, startDate,endDate,"opt3"));
+  }
+
 }
