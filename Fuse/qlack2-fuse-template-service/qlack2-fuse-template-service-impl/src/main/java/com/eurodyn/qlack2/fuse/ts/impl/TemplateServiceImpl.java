@@ -42,8 +42,12 @@ import org.docx4j.wml.Document;
 import org.docx4j.wml.Ftr;
 import org.docx4j.wml.Hdr;
 import org.docx4j.wml.HpsMeasure;
+import org.docx4j.wml.Jc;
+import org.docx4j.wml.JcEnumeration;
 import org.docx4j.wml.ObjectFactory;
 import org.docx4j.wml.P;
+import org.docx4j.wml.PPr;
+import org.docx4j.wml.PPrBase.Spacing;
 import org.docx4j.wml.R;
 import org.docx4j.wml.RFonts;
 import org.docx4j.wml.RPr;
@@ -107,7 +111,7 @@ public class TemplateServiceImpl implements TemplateService {
           .getPageDimensions().getWritableWidthTwips();
       Tbl tblCredProg =
           TblFactory.createTable(0, header.size(), writableWidthTwips / header.size());
-      removeBorders(tblCredProg, Boolean.valueOf(tableProperties.get("removeBorder")));
+      removeBorders(tblCredProg, Boolean.valueOf(tableProperties.get("removeBorder")), tableProperties.get("borderSpace"));
       // Add table header (row).
       Tr thead = factory.createTr();
       for (int num = 0; num < header.size(); num++) {
@@ -375,7 +379,8 @@ public class TemplateServiceImpl implements TemplateService {
     if (tableProperties.get("fonts") != null) {
       setFonts(runProperties, tableProperties.get("fonts"));
     }
-
+    paragraphStyling(paragraph,tableProperties);
+    
     run.setRPr(runProperties);
 
     tableCell.getContent().add(paragraph);
@@ -432,24 +437,25 @@ public class TemplateServiceImpl implements TemplateService {
     if (tableProperties.get("rightMargin") != null) {
       TblWidth tableWidthRight = new TblWidth();
       tableWidthRight.setW(new BigInteger(tableProperties.get("rightMargin")));
-      tcMar.setTop(tableWidthRight);
+      tcMar.setRight(tableWidthRight);
     }
     if (tableProperties.get("leftMargin") != null) {
       TblWidth tableWidthLeft = new TblWidth();
       tableWidthLeft.setW(new BigInteger(tableProperties.get("leftMargin")));
-      tcMar.setTop(tableWidthLeft);
+      tcMar.setLeft(tableWidthLeft);
     }
     tableCellProperties.setTcMar(tcMar);
 
     tableCell.setTcPr(tableCellProperties);
   }
 
-  private static void removeBorders(Tbl table, boolean removeBorder) {
+  private static void removeBorders(Tbl table, boolean removeBorder, String borderSpace) {
     table.setTblPr(new TblPr());
     CTBorder border = new CTBorder();
     border.setColor("auto");
-    border.setSpace(new BigInteger("0"));
-
+    if (borderSpace != null) {
+      border.setSpace(new BigInteger(borderSpace));
+    }
     if (removeBorder) {
       border.setVal(STBorder.NONE);
     } else {
@@ -463,5 +469,23 @@ public class TemplateServiceImpl implements TemplateService {
     borders.setInsideH(border);
     borders.setInsideV(border);
     table.getTblPr().setTblBorders(borders);
+  }
+  
+  private static void paragraphStyling(P paragraph,Map<String, String> tableProperties) {
+    ObjectFactory factory = Context.getWmlObjectFactory();
+    PPr paragraphProperties = factory.createPPr();
+    BooleanDefaultTrue b = new BooleanDefaultTrue();
+    paragraphProperties.setAdjustRightInd(b);
+    if (tableProperties.get("spacing") != null) {
+      Spacing sp = new Spacing();
+      sp.setAfter(new BigInteger(tableProperties.get("spacing")));
+      paragraphProperties.setSpacing(sp);
+    }
+    if (Boolean.valueOf(tableProperties.get("alignRight"))) {
+      Jc jc = new Jc();
+      jc.setVal(JcEnumeration.RIGHT);
+      paragraphProperties.setJc(jc);
+    }
+    paragraph.setPPr(paragraphProperties);
   }
 }
