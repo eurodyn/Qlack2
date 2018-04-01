@@ -14,17 +14,19 @@
 */
 package com.eurodyn.qlack2.fuse.auditing.impl.util;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLevelDTO;
 import com.eurodyn.qlack2.fuse.auditing.api.dto.AuditLogDTO;
 import com.eurodyn.qlack2.fuse.auditing.impl.model.Audit;
 import com.eurodyn.qlack2.fuse.auditing.impl.model.AuditLevel;
 import com.eurodyn.qlack2.fuse.auditing.impl.model.AuditTrace;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This is utility class used to convert Audit related models/list data to DTO
@@ -47,7 +49,11 @@ public final class ConverterUtil {
 		AuditLevel alLevel = null;
 		if (null != level) {
 			alLevel = new AuditLevel();
-			alLevel.setId(level.getId());
+      if (StringUtils.isBlank(level.getId())) {
+        alLevel.setId(UUID.randomUUID().toString());
+      } else {
+        alLevel.setId(level.getId());
+      }
 			alLevel.setName(level.getName());
 			alLevel.setDescription(level.getDescription());
 			alLevel.setPrinSessionId(level.getPrinSessionId());
