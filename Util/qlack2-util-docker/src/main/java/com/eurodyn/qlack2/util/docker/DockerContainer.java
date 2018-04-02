@@ -10,23 +10,25 @@ import com.github.dockerjava.core.DockerClientBuilder;
 import com.github.dockerjava.core.DockerClientConfig;
 import com.github.dockerjava.core.command.PullImageResultCallback;
 import com.github.dockerjava.core.command.WaitContainerResultCallback;
-import org.apache.commons.lang.StringUtils;
-
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import org.apache.commons.lang.StringUtils;
 
 public class DockerContainer {
 
   // JUL reference
-  private final static Logger LOGGER = Logger.getLogger(DockerContainer.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(DockerContainer.class.getName());
 
   private String imageName;
   private Map<String, String> ports = new HashMap<>();
   private Map<String, String> env = new HashMap<>();
+  private List<String> cmd = new ArrayList<>();
   private String name;
   private boolean forcePull = false;
   private boolean outputToConsole = false;
@@ -66,6 +68,11 @@ public class DockerContainer {
 
   public DockerContainer withEnv(String key, String val) {
     env.put(key, val);
+    return this;
+  }
+
+  public DockerContainer withCmd(String command) {
+    cmd.add(command);
     return this;
   }
 
@@ -132,15 +139,16 @@ public class DockerContainer {
     // Create port bindings and container.
     debug("Creating container for image {0}...", imageName);
     CreateContainerResponse createContainerResponse = dockerClient.createContainerCmd(imageName)
-      .withExposedPorts(ports.entrySet().stream().map(p -> ExposedPort.parse(p.getKey()))
-        .collect(Collectors.toList()))
-      .withPortBindings(
-        ports.entrySet().stream().map(p -> PortBinding.parse(p.getKey() + ":" + p.getValue()))
-          .collect(Collectors.toList()))
-      .withName(name)
-      .withEnv(env.entrySet().stream().map(e -> e.getKey() + "=" + e.getValue())
-        .collect(Collectors.toList()))
-      .exec();
+        .withExposedPorts(ports.entrySet().stream().map(p -> ExposedPort.parse(p.getKey()))
+            .collect(Collectors.toList()))
+        .withPortBindings(
+            ports.entrySet().stream().map(p -> PortBinding.parse(p.getKey() + ":" + p.getValue()))
+                .collect(Collectors.toList()))
+        .withName(name)
+        .withEnv(env.entrySet().stream().map(e -> e.getKey() + "=" + e.getValue())
+            .collect(Collectors.toList()))
+        .withCmd(cmd)
+        .exec();
     String containerId = createContainerResponse.getId();
     debug("Container for image {0} created with id {1}.", new Object[]{imageName, containerId});
 
