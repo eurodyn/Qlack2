@@ -79,6 +79,7 @@
       <version>${project.version}</version>
       <type>xml</type>
       <classifier>features</classifier>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.eurodyn.qlack2.util</groupId>
@@ -86,6 +87,7 @@
       <version>${project.version}</version>
       <type>xml</type>
       <classifier>features</classifier>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.eurodyn.qlack2.util</groupId>
@@ -93,11 +95,13 @@
       <version>${project.version}</version>
       <type>xml</type>
       <classifier>features</classifier>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.eurodyn.qlack2.util</groupId>
       <artifactId>qlack2-util-liquibase-impl</artifactId>
       <version>${project.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
