@@ -38,7 +38,7 @@ public abstract class QuerySpec {
 
     // If set to true then a _count request is sent instead of a _search which only returns the count
     // of the query results. In this case aggregate, includeResults, includeAllSource, explain, startRecord,
-    // pageSize, scroll, and querySort are ignored.
+    // pageSize, scroll, includes, excludes and querySort are ignored.
 	private boolean countOnly = false;
 
     // If not null then a scroll request is generated. In this case startRecord is ignored. This
@@ -47,12 +47,17 @@ public abstract class QuerySpec {
 
     // By giving a value to this field an aggregate query will be created. This field should contain
     // the name of a field of the searched document.
-    // Only the values of this field are going to be returned. Also the response will contain a set of
+    // Only the values of this field are going to be returned (includes and excludes are ignored). Also the response will contain a set of
     // results contains distinct values for this field.
 	// See https://www.elastic.co/guide/en/elasticsearch/reference/5.5/search-aggregations-bucket-terms-aggregation.html
 	private String aggregate;
 	// Only relevant if aggregate is given. In this case this sets the maximum result of the aggregation.
 	private int aggregateSize = 100;
+
+	// The next two lists are used to control which fields are to be given in the response.
+	// See https://www.elastic.co/guide/en/elasticsearch/reference/5.5/search-request-source-filtering.html
+	private final List<String> includes = new ArrayList<>();
+	private final List<String> excludes = new ArrayList<>();
 
 	protected QuerySort querySort;
 
@@ -216,5 +221,23 @@ public abstract class QuerySpec {
   public QuerySpec setAggregateSize(int aggregateSize) {
     this.aggregateSize = aggregateSize;
     return this;
+  }
+
+  public QuerySpec include(String include) {
+    includes.add(include);
+    return this;
+  }
+
+  public QuerySpec exclude(String exclude) {
+    excludes.add(exclude);
+    return this;
+  }
+
+  public List<String> getIncludes() {
+    return includes;
+  }
+
+  public List<String> getExcludes() {
+    return excludes;
   }
 }

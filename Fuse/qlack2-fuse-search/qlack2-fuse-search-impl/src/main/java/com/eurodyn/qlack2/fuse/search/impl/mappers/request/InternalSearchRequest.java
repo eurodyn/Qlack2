@@ -19,7 +19,7 @@ public class InternalSearchRequest {
 	private String query;
 	@JsonInclude(Include.NON_NULL)
 	@JsonProperty("_source")
-	private List<String> source;
+	private Source source;
 	@JsonInclude(Include.NON_NULL)
     @JsonRawValue
 	private String aggs;
@@ -75,12 +75,34 @@ public class InternalSearchRequest {
     this.aggs = aggs;
   }
 
-  public List<String> getSource() {
+  public Source getSource() {
     return source;
   }
 
-  public void setSource(List<String> source) {
+  public void setSource(Source source) {
     this.source = source;
   }
 
+  public static final class Source {
+    @JsonInclude(Include.NON_NULL)
+    private List<String> includes;
+    @JsonInclude(Include.NON_NULL)
+    private List<String> excludes;
+
+    public List<String> getIncludes() {
+      return includes;
+    }
+
+    public void setIncludes(List<String> includes) {
+      this.includes = includes;
+    }
+
+    public List<String> getExcludes() {
+      return excludes;
+    }
+
+    public void setExcludes(List<String> excludes) {
+      this.excludes = excludes;
+    }
+  }
 }

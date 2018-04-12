@@ -27,6 +27,7 @@ import com.eurodyn.qlack2.fuse.search.api.exception.QSearchException;
 import com.eurodyn.qlack2.fuse.search.api.request.ScrollRequest;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.request.InternalScollRequest;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.request.InternalSearchRequest;
+import com.eurodyn.qlack2.fuse.search.impl.mappers.request.InternalSearchRequest.Source;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.response.QueryResponse;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.response.QueryResponse.Aggregations.Agg.Bucket;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.response.QueryResponse.Hits.Hit;
@@ -108,9 +109,26 @@ public class SearchServiceImpl implements SearchService {
         params.put("scroll", dto.getScroll().toString() + "m");
       }
 
+      if (!dto.getIncludes().isEmpty() || !dto.getExcludes().isEmpty()) {
+        Source source = new Source();
+        if (!dto.getIncludes().isEmpty()) {
+          source.setIncludes(new ArrayList<>());
+          source.getIncludes().addAll(dto.getIncludes());
+        }
+
+        if (!dto.getExcludes().isEmpty()) {
+          source.setExcludes(new ArrayList<>());
+          source.getExcludes().addAll(dto.getExcludes());
+        }
+
+        internalRequest.setSource(source);
+      }
+
       if (dto.getAggregate() != null) {
-        internalRequest.setSource(new ArrayList<>());
-        internalRequest.getSource().add(dto.getAggregate());
+        Source source = new Source();
+        source.setIncludes(new ArrayList<>());
+        source.getIncludes().add(dto.getAggregate());
+        internalRequest.setSource(source);
         internalRequest.setAggs(buildAggregate(dto.getAggregate(), dto.getAggregateSize()));
       }
     }
