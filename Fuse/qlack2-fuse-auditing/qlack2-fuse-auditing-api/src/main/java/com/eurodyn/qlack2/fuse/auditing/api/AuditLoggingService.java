@@ -124,4 +124,10 @@ public interface AuditLoggingService {
    */
   List<String> getAuditLogsColumn(List<SearchDTO> searchList, Date startDate,
     Date endDate, String column);
+
+	/**
+	 * Flushes and then clears the first level entity cache. Useful for memory management inside large transactions.
+	 */
+	void flushAndClearCache();
+
 }

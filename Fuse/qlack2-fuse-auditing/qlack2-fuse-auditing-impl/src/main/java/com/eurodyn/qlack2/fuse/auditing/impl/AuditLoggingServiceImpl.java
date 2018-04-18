@@ -536,4 +536,9 @@ public class AuditLoggingServiceImpl implements
 		return cq;
 	}
 
+	@Override
+	public void flushAndClearCache() {
+		em.flush();
+		em.clear();
+	}
 }
