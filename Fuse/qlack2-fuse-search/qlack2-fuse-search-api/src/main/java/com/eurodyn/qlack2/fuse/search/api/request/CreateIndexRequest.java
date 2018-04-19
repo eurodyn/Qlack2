@@ -5,6 +5,7 @@ import java.util.List;
 
 public class CreateIndexRequest extends BaseRequest {
   private String name;
+  private String aliasName;
   private int shards = 5;
   private int replicas = 1;
   private String indexMapping;
@@ -52,6 +53,13 @@ public class CreateIndexRequest extends BaseRequest {
     this.indexMapping = indexMapping;
   }
 
+  public String getAliasName() {
+    return aliasName;
+  }
+
+  public void setAliasName(String aliasName) {
+    this.aliasName = aliasName;
+  }
   public List<String> getStopwords() {
 	return stopwords;
   }

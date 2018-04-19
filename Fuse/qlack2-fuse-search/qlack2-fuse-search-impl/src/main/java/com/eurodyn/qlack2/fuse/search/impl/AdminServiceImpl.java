@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.nio.entity.NStringEntity;
 import org.elasticsearch.client.Response;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
@@ -45,9 +46,15 @@ public class AdminServiceImpl implements AdminService {
        * https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html).
        */
       try {
+
         esClient.getClient().performRequest("PUT", createIndexRequest.getName(), new HashMap<>(),
             CreateIndexRequestMapper.INSTANCE.mapToNStringEntity(createIndexRequest));
-
+      if (
+        //setting the Alias during Index creation.
+        StringUtils.isNotBlank(createIndexRequest.getAliasName())) {
+        esClient.getClient().performRequest("PUT",
+          createIndexRequest.getName() + "/_alias/" + createIndexRequest.getAliasName());
+      }
         retVal = true;
       } catch (IOException e) {
         LOGGER.log(Level.SEVERE,
