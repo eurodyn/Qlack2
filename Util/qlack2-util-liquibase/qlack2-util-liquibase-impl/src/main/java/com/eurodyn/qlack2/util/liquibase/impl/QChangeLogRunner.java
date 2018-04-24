@@ -30,7 +30,8 @@ public class QChangeLogRunner {
    */
   private final static Logger LOGGER = Logger.getLogger(QChangeLogRunner.class.getName());
 
-  private static void runMigration(QChangeLogEntry changeLogEntry, Connection connection) {
+  // Apply Liquibase changelog. Returns true if no Liquibase exception occurred.
+  private static boolean runMigration(QChangeLogEntry changeLogEntry, Connection connection) {
     LOGGER.log(Level.INFO, "Executing: Priority {0}, ChangeLog: {1}.",
       new Object[]{changeLogEntry.getPriority(), changeLogEntry.getChangeLog()});
     try {
@@ -60,13 +61,16 @@ public class QChangeLogRunner {
       Liquibase liquibase = new Liquibase(dbChangeLog, new OSGiResourceAccessor(
         changeLogEntry.getBundle()), database);
       liquibase.update("");
+      return true;
     } catch (LiquibaseException e) {
       LOGGER.log(Level.SEVERE, MessageFormat.format(
         "Could not execute changelog {0}.", changeLogEntry.getChangeLog()), e);
+      return false;
     }
   }
 
-  public static void runMigrations() {
+  public static boolean runMigrations() {
+    boolean migrationsSucceeded = true;
     while (MigrationExecutor.queue.size() > 0) {
       /** Try to get a connection to test if the Datasource is alive. If not, wait and re-try.
        * The Datasource will be automatically refreshed by migrationMonitoringDSThread. */
@@ -88,7 +92,7 @@ public class QChangeLogRunner {
 
       try {
         final QChangeLogEntry qChangeLogEntry = MigrationExecutor.queue.remove();
-        QChangeLogRunner.runMigration(qChangeLogEntry, connection);
+        migrationsSucceeded &= QChangeLogRunner.runMigration(qChangeLogEntry, connection);
       } finally {
         try {
           if (connection != null && !connection.isClosed()) {
@@ -99,5 +103,6 @@ public class QChangeLogRunner {
         }
       }
     }
+    return migrationsSucceeded;
   }
 }

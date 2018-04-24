@@ -327,9 +327,10 @@ class MigrationAgent extends Thread {
 
       /** Loop listening for changelogs */
       LOGGER.log(Level.INFO, "Start listening and executing migrations.");
+      boolean allMigrationsSucceeded = true;
       while (!terminate) {
         if (MigrationExecutor.queue.size() > 0) {
-          QChangeLogRunner.runMigrations();
+          allMigrationsSucceeded &= QChangeLogRunner.runMigrations();
         }
         try {
           Thread.sleep(loopDelay);
@@ -342,7 +343,7 @@ class MigrationAgent extends Thread {
          * that other bundles depending on it can start accessing the
          * database.
          */
-        if (liquibaseBootMigrationsDoneServiceServiceRegistration == null) {
+        if (allMigrationsSucceeded && liquibaseBootMigrationsDoneServiceServiceRegistration == null) {
           registerMigrationsDoneService();
         }
       }
