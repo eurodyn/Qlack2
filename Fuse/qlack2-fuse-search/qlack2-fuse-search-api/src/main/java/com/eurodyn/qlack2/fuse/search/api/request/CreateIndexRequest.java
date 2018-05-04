@@ -9,17 +9,8 @@ public class CreateIndexRequest extends BaseRequest {
   private int shards = 5;
   private int replicas = 1;
   private String indexMapping;
-  private List<String> stopwords = new ArrayList<>();
+  private String analysis;
 
-  public void addStopWords(String... words) {
-	  if (words == null) {
-		  return;
-	  }
-
-	  for (String word : words) {
-		  stopwords.add(word);
-	  }
-  }
 
   public String getName() {
     return name;
@@ -60,11 +51,13 @@ public class CreateIndexRequest extends BaseRequest {
   public void setAliasName(String aliasName) {
     this.aliasName = aliasName;
   }
-  public List<String> getStopwords() {
-	return stopwords;
+
+  public String getAnalysis() {
+    return analysis;
   }
 
-  public void setStopwords(List<String> stopwords) {
-    this.stopwords = stopwords;
+  public void setAnalysis(String analysis) {
+    this.analysis = analysis;
   }
+
 }

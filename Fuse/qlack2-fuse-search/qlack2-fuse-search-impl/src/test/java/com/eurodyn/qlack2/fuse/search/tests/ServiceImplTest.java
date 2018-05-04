@@ -56,7 +56,6 @@ public class ServiceImplTest extends ITTestConf {
   public void testDeleteIndex() {
     CreateIndexRequest createIndexRequest = new CreateIndexRequest();
     createIndexRequest.setName(UUID.randomUUID().toString().replace("-", ""));
-    createIndexRequest.addStopWords("_german_");
 
     adminService.createIndex(createIndexRequest);
     Assert.assertTrue(adminService.deleteIndex(createIndexRequest.getName()));
