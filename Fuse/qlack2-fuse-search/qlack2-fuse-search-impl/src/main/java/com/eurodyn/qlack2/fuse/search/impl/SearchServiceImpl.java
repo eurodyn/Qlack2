@@ -318,6 +318,13 @@ public class SearchServiceImpl implements SearchService {
         .append(query.getDocvalueFields())
         .append("\"]")
         .append("}}");
+    } else if (dto instanceof QueryExists) {
+      QueryExists query = (QueryExists) dto;
+      builder.append("\"exists\" : { ")
+        .append("\"field\": \"")
+        .append(query.getField())
+        .append("\"")
+        .append("}");
     } else if (dto instanceof QueryRange) {
       QueryRange query = (QueryRange) dto;
       builder.append("\"range\" : { \"")
