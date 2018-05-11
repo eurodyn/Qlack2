@@ -23,6 +23,8 @@ public class SearchHitDTO {
   // a search hit.
   private String type;
 
+  private String highlight;
+
   private String id;
 
   /**
@@ -98,6 +100,14 @@ public class SearchHitDTO {
   public String toString() {
     return "SearchHitDTO [source=" + source + ", score=" + score + ", type=" + type
       + ", innerHits=" + innerHits + "]";
+  }
+
+  public String getHighlight() {
+    return highlight;
+  }
+
+  public void setHighlight(String highlight) {
+    this.highlight = highlight;
   }
 
 }

@@ -166,6 +166,8 @@ public class QueryResponse {
       private Object source;
       @JsonProperty("inner_hits")
       private Object innerHits;
+      @JsonProperty("highlight")
+      private Object highlight;
 
       public String getIndex() {
         return index;
@@ -215,6 +217,15 @@ public class QueryResponse {
 
       public void setInnerHits(JsonNode innerHits) {
         this.innerHits = innerHits;
+      }
+
+      @JsonRawValue
+      public String getHighlight() {
+        return highlight != null ? highlight.toString() : null;
+      }
+
+      public void setHighlight(JsonNode highlight) {
+        this.highlight = highlight;
       }
 
     }

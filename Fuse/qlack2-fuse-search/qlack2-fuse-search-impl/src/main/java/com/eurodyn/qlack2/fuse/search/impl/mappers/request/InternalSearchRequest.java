@@ -26,6 +26,9 @@ public class InternalSearchRequest {
 	@JsonRawValue
 	@JsonInclude(Include.NON_NULL)
     private String sort;
+	@JsonRawValue
+    @JsonInclude(Include.NON_NULL)
+	private String highlight;
 
 	public Integer getFrom() {
 		return from;
@@ -81,6 +84,14 @@ public class InternalSearchRequest {
 
   public void setSource(Source source) {
     this.source = source;
+  }
+
+  public String getHighlight() {
+    return highlight;
+  }
+
+  public void setHighlight(String highlight) {
+    this.highlight = highlight;
   }
 
   public static final class Source {

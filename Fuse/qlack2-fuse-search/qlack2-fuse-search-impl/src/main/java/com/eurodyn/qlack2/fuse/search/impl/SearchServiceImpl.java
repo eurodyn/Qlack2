@@ -131,6 +131,10 @@ public class SearchServiceImpl implements SearchService {
         internalRequest.setSource(source);
         internalRequest.setAggs(buildAggregate(dto.getAggregate(), dto.getAggregateSize()));
       }
+
+      if (dto.getHighlight() != null) {
+        internalRequest.setHighlight(buildHighlight(dto.getHighlight()));
+      }
     }
     internalRequest.setQuery(buildQuery(dto));
 
@@ -325,6 +329,15 @@ public class SearchServiceImpl implements SearchService {
         .append(query.getField())
         .append("\"")
         .append("}");
+    } else if (dto instanceof QueryMatchPhrase) {
+      QueryMatchPhrase query = (QueryMatchPhrase) dto;
+      builder.append("\"match_phrase\" : { ")
+        .append("\"")
+        .append(query.getField())
+        .append("\": \"")
+        .append(query.getValue())
+        .append("\"")
+        .append("}");
     } else if (dto instanceof QueryRange) {
       QueryRange query = (QueryRange) dto;
       builder.append("\"range\" : { \"")
@@ -388,6 +401,52 @@ public class SearchServiceImpl implements SearchService {
         .append(",\"order\" : {\"_term\" : \"desc\"}")
         .append("}}}")
         .toString();
+  }
+
+  private String buildHighlight(QueryHighlight highlight) {
+    StringBuilder builder = new StringBuilder("{");
+
+    if (highlight.getPreTag() != null) {
+      builder.append("\"pre_tags\" : [\"")
+        .append(highlight.getPreTag())
+        .append("\"],");
+    }
+
+    if (highlight.getPostTag() != null) {
+      builder.append("\"post_tags\" : [\"")
+        .append(highlight.getPostTag())
+        .append("\"],");
+    }
+
+    builder.append("\"require_field_match\": ")
+      .append(highlight.isRequireFieldMatch())
+      .append(",\"fields\": [");
+
+    for (HighlightField field : highlight.getFields()) {
+      builder.append("{\"")
+        .append(field.getField())
+        .append("\": {");
+
+        if (field.getType() != null) {
+          builder.append("\"type\": \"")
+            .append(field.getType())
+            .append("\",");
+        }
+
+        builder.append("\"force_source\": ")
+          .append(field.isForceSource())
+          .append(", \"fragment_size\" : ")
+          .append(field.getFragmentSize())
+          .append(", \"number_of_fragments\" : ")
+          .append(field.getNumberOfFragments())
+          .append(", \"no_match_size\": ")
+          .append(field.getNoMatchSize())
+          .append("}}");
+    }
+
+    builder.append("]}");
+
+    return builder.toString();
   }
 
   private String buildSort(QuerySort dto) {
@@ -525,6 +584,7 @@ public class SearchServiceImpl implements SearchService {
     sh.setSource(hit.getSource());
     sh.setId(hit.getId());
     sh.setInnerHits(hit.getInnerHits());
+    sh.setHighlight(hit.getHighlight());
     return sh;
   }
 }
