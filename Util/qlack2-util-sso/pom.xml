@@ -71,6 +71,11 @@
       <artifactId>commons-lang3</artifactId>
       <version>${commons.lang3.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.keycloak</groupId>
+      <artifactId>keycloak-saml-core</artifactId>
+      <version>${keycloak.version}</version>
+    </dependency>
   </dependencies>
 
 </project>
