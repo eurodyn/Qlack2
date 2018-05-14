@@ -18,6 +18,7 @@ import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Cookie;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.cxf.rs.security.saml.sso.SSOConstants;
 
 /**
  * This is a helper filter to allow testing of your application without an IdP. It aims to replace
@@ -102,7 +103,7 @@ public class FakeSSOFilter implements ContainerRequestFilter, ContainerResponseF
       cookieUuid = cookieFromRequest;
     }
     /** Set a fake Cookie, so that front-end checks believe the user was properly authenticated. */
-    responseContext.getHeaders().add("Set-Cookie", Constants.WEB_SSO_COOKIE_NAME +
+    responseContext.getHeaders().add("Set-Cookie", SSOConstants.SECURITY_CONTEXT_TOKEN +
       "=fake-sso-cookie_" + cookieUuid + "; Path=/");
   }
 
@@ -116,10 +117,10 @@ public class FakeSSOFilter implements ContainerRequestFilter, ContainerResponseF
 
   private Entry<String, Cookie> extractCookieFromRequestContext(ContainerRequestContext requestContext) {
     return requestContext.getCookies().entrySet().stream()
-        .filter(k -> Constants.WEB_SSO_COOKIE_NAME.equals(k.getKey())).findFirst().orElse(null);
+        .filter(k -> SSOConstants.SECURITY_CONTEXT_TOKEN.equals(k.getKey())).findFirst().orElse(null);
   }
 
   private String getUuidFromCookie(String cxfCookie) {
-    return cxfCookie.substring(cxfCookie.lastIndexOf("_") + 1);
+    return cxfCookie.substring(cxfCookie.lastIndexOf('_') + 1);
   }
 }
