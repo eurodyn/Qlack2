@@ -1,8 +1,5 @@
 package com.eurodyn.qlack2.fuse.search.api.request;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CreateIndexRequest extends BaseRequest {
   private String name;
   private String aliasName;
