@@ -8,24 +8,27 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
+import java.util.Base64;
+import javax.ws.rs.CookieParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
-import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.cxf.rs.security.saml.sso.SSOConstants;
 import org.keycloak.saml.BaseSAML2BindingBuilder;
 import org.keycloak.saml.SAML2LogoutRequestBuilder;
 import org.keycloak.saml.common.util.DocumentUtil;
 import org.w3c.dom.Document;
 
 /**
- * <p>Initiates a global logout constructing a self sending HTML form containing a signed
- * SAMLLogoutRequest that is send as response to the caller.</p>
- * <p>So that the form can be sent automatically, the current URL location of the browser
- * window.location.href) must be set to this service address.</p>
+ * <p>Create a SAML LogoutRequest using the HTTP-POST binding.</p>
+ * <p>The request is included in a self sending XHTML form containing that is send as response to
+ * the caller. So that the form can be sent automatically, the current URL location of the browser
+ * (window.location.href) must be set to this service address.</p>
  */
 @Path("glo")
-public class GlobalLogoutService {
+public class SamlHttpPostLogoutService {
 
   private String issuerId;
   private String idpLogoutAddress;
@@ -34,24 +37,55 @@ public class GlobalLogoutService {
   private String keystoreFile;
 
   @GET
-  public Response logout() throws Exception {
+  public Response logout(@CookieParam(SSOConstants.RELAY_STATE) Cookie relayStateCookie)
+    throws Exception {
 
     ResponseBuilder responseBuilder = Response.status(200);
 
-    // create the self sending HTML form
-    StringBuilder response = new StringBuilder(
-      "<form name=\"samlLogoutForm\" method=\"post\" action=\"").append(idpLogoutAddress)
-      .append("\" ><input type=\"hidden\" name=\"SAMLLogoutRequest\" value=\"");
-
-    String signedSAMLLogoutRequest = createSignedSAMLLogoutRequest();
-
-    response.append(StringEscapeUtils.escapeHtml4(signedSAMLLogoutRequest)).append(
-      "\" /><input type=\"submit\" value=\"Submit\" style=\"display:none;\"/> </form>")
-      .append(
-        "<SCRIPT TYPE=\"text/JavaScript\">document.forms[\"samlLogoutForm\"].submit();</SCRIPT>");
+    // create the self sending XHTML form
+    StringBuilder response = createForm(relayStateCookie);
 
     return responseBuilder.entity(response.toString()).build();
 
+  }
+
+  private StringBuilder createForm(@CookieParam(SSOConstants.RELAY_STATE) Cookie relayStateCookie)
+    throws Exception {
+    StringBuilder response = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
+      .append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\"")
+      .append("\"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">")
+      .append("<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\">")
+      .append("<body onload=\"document.forms[0].submit()\">")
+      .append("<noscript>")
+      .append("<p>")
+      .append("<strong>Note:</strong> Since your browser does not support JavaScript,")
+      .append("you must press the Continue button once to proceed.")
+      .append("</p>")
+      .append("</noscript>")
+      .append("<form method=\"post\" action=\"").append(idpLogoutAddress).append("\" >");
+
+    // add the SAML LogoutRequest form parameter
+    response.append("<div><input type=\"hidden\" name=\"SAMLRequest\" value=\"");
+    String signedSAMLLogoutRequest = createSignedSAMLLogoutRequest();
+    response.append(Base64.getEncoder().encodeToString(signedSAMLLogoutRequest.getBytes()))
+      .append("\" />");
+
+    // add the RelayState form parameter if exists
+    if (relayStateCookie != null) {
+      response.append("<input type=\"hidden\" name=\"RelayState\" value=\"")
+        .append(relayStateCookie.getValue()).append("\" />");
+    }
+
+    // JavaScript code to send the form automatically
+    response.append("</div><noscript>")
+      .append("<div>")
+      .append("<input type=\"submit\" value=\"Continue\"/>")
+      .append("</div>")
+      .append("</noscript>")
+      .append("</form>")
+      .append("</body>")
+      .append("</html>");
+    return response;
   }
 
   private String createSignedSAMLLogoutRequest() throws Exception {
