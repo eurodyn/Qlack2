@@ -24,6 +24,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/xml/feat
 
   <feature name="qlack2-util-sso" version="${project.version}">
     <bundle>mvn:javax.servlet/javax.servlet-api/${javax.servlet-api.version}</bundle>
+    <bundle>wrap:mvn:org.keycloak/keycloak-saml-core/${keycloak.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.util/qlack2-util-sso/${project.version}</bundle>
   </feature>
 
