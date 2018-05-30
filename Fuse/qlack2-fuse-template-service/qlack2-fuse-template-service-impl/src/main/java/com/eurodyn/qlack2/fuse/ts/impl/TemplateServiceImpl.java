@@ -223,7 +223,20 @@ public class TemplateServiceImpl implements TemplateService {
           // Inject result into docx
           if (obj != null && footerPart != null) {
             footerPart.setJaxbElement((Ftr) obj);
+          }
+          String defaultXml = null;
+          FooterPart defaultFooter = hfp.getDefaultFooter();
+          if (defaultFooter != null) {
+            defaultXml = XmlUtils.marshaltoString(defaultFooter.getContents());
+          }
+          Object defaultObj = null;
 
+          if (defaultXml != null) {
+            defaultObj = XmlUtils.unmarshallFromTemplate(defaultXml, mappings);
+          }
+          // Inject result into docx
+          if (defaultObj != null && defaultFooter != null) {
+            defaultFooter.setJaxbElement((Ftr) defaultObj);
           }
         }
       }
@@ -232,7 +245,6 @@ public class TemplateServiceImpl implements TemplateService {
           "Error occured during placeholder replacement on footer.");
     }
   }
-
   private void replaceHeaderAndFooterPlaceholders(WordprocessingMLPackage wordMLPackage,
       Map<String, String> mappings) {
     replaceHeaderPlaceholders(wordMLPackage, mappings);
@@ -358,6 +370,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     Text text = factory.createText();
     text.setValue(content);
+    text.setSpace("preserve");
 
     R run = factory.createR();
     run.getContent().add(text);
