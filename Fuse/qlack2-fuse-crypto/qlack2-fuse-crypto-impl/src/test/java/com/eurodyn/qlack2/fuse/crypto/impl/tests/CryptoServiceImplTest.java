@@ -8,18 +8,6 @@ import com.eurodyn.qlack2.fuse.crypto.api.CryptoService;
 import com.eurodyn.qlack2.fuse.crypto.api.dto.CreateKeyPairRequest;
 import com.eurodyn.qlack2.fuse.crypto.api.dto.KeystoreKey;
 import com.eurodyn.qlack2.fuse.crypto.impl.conf.ITTestConf;
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.inject.Inject;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.ops4j.pax.exam.junit.PaxExam;
-import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
-import org.ops4j.pax.exam.spi.reactors.PerSuite;
-import org.ops4j.pax.exam.util.Filter;
-import org.osgi.framework.BundleContext;
-
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -31,6 +19,17 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.inject.Inject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.ops4j.pax.exam.junit.PaxExam;
+import org.ops4j.pax.exam.spi.reactors.ExamReactorStrategy;
+import org.ops4j.pax.exam.spi.reactors.PerSuite;
+import org.ops4j.pax.exam.util.Filter;
+import org.osgi.framework.BundleContext;
 
 /**
  * @author European Dynamics SA.
@@ -126,7 +125,7 @@ public class CryptoServiceImplTest extends ITTestConf {
     String message = "Hello world";
 
     // Symmetric encryption.
-    Key key = cryptoService.generateKey(256, "Blowfish");
+    Key key = cryptoService.generateKey(128, "Blowfish");
     final byte[] encryptedMessageSymmetric = cryptoService
       .encrypt("Blowfish", key, message.getBytes(StandardCharsets.UTF_8));
     assertEquals(message,
