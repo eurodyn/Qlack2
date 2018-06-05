@@ -9,6 +9,7 @@ public class QueryHighlight {
   private String postTag;
   private boolean requireFieldMatch = true;
   private List<HighlightField> fields;
+  private QuerySpec highlightQuery;
 
   public QueryHighlight addField(HighlightField field) {
     getFields().add(field);
@@ -52,6 +53,15 @@ public class QueryHighlight {
 
   public QueryHighlight setFields(List<HighlightField> fields) {
     this.fields = fields;
+    return this;
+  }
+
+  public QuerySpec getHighlightQuery() {
+    return highlightQuery;
+  }
+
+  public QueryHighlight setHighlightQuery(QuerySpec highlightQuery) {
+    this.highlightQuery = highlightQuery;
     return this;
   }
 }

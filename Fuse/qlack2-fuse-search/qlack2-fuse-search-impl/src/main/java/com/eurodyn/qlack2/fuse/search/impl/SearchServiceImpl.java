@@ -21,8 +21,27 @@ import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import com.eurodyn.qlack2.fuse.search.api.SearchService;
 import com.eurodyn.qlack2.fuse.search.api.dto.SearchHitDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.SearchResultDTO;
-import com.eurodyn.qlack2.fuse.search.api.dto.queries.*;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.HighlightField;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryBoolean;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryBoolean.BooleanType;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryExists;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryHighlight;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMatch;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMatchPhrase;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMultiMatch;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryRange;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySort;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySpec;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryString;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryStringSpecField;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryStringSpecFieldNested;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTerm;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTermNested;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTerms;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTermsNested;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryWildcard;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryWildcardNested;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.SimpleQueryString;
 import com.eurodyn.qlack2.fuse.search.api.exception.QSearchException;
 import com.eurodyn.qlack2.fuse.search.api.request.ScrollRequest;
 import com.eurodyn.qlack2.fuse.search.impl.mappers.request.InternalScollRequest;
@@ -416,6 +435,12 @@ public class SearchServiceImpl implements SearchService {
       builder.append("\"post_tags\" : [\"")
         .append(highlight.getPostTag())
         .append("\"],");
+    }
+
+    if (highlight.getHighlightQuery() != null) {
+      builder.append("\"highlight_query\": ")
+        .append(buildQuery(highlight.getHighlightQuery()))
+        .append(",");
     }
 
     builder.append("\"require_field_match\": ")
