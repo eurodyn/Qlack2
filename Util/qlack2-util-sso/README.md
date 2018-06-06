@@ -89,9 +89,9 @@ Explaining exactly how and what is signed and/or encrypted lies far beyond the s
 
 # Configuration
 ## A. Preparation
-IdPs, Cookies and `localhost`/`127.0.0.1` are notoriously incompatible. In fact, OpenAM will not even allow you to set it up using IP addresses and your mileage may vary using `localhost`. For a consistent experience, make sure you either use a FQDN or edit your `hosts` file to create an entry for an imaginary domain; this is what we are using on this guide:  
+IdPs, Cookies and `localhost`/`127.0.0.1` are notoriously incompatible. In fact, OpenAM will not even allow you to set it up using IP addresses and your mileage may vary using `localhost`. For a consistent experience, make sure you either use a fully qualified domain name (FQDN) or edit your `hosts` file to create an entry for an imaginary domain; this is what we are using on this guide the:  
 
-`127.0.0.1 local.nassosmichas.com`
+`FQDN`
 
 ## B. Setting up the IdP
 You may choose any of the available Identity Management solutions, however on this guide we will be using OpenAM. Please note that the installation described below is only for development/test environments.
@@ -116,12 +116,12 @@ At this point you have successfully setup the IdP. Now it is time to register yo
 ### Certificates and Keystores
 You will need to configure a few different files to setup your SP. It is suggested that those files are placed in a directory outside of your source code as well as your local Karaf/app server installation. For this guide, we chose `/etc/project1`.
 Create a local keystore:  
-`keytool -genkey -alias project1_nmichas -keyalg RSA -keysize 2048 -keystore keystore.jks `
+`keytool -genkey -alias keystore_alias -keyalg RSA -keysize 2048 -keystore keystore.jks `
 
 <img src="docs/shell_1.png">  
 
 Fetch IdP's certificate:  
-```echo -e "-----BEGIN CERTIFICATE-----\n" `curl -s 'http://local.nassosmichas.com:8080/openam1300/saml2/jsp/exportmetadata.jsp' | xmllint --xpath "//*[local-name()='X509Certificate']/text()" -` "\n-----END CERTIFICATE-----" | sudo tee -a idp.crt > /dev/null```
+```echo -e "-----BEGIN CERTIFICATE-----\n" `curl -s 'http://FQDN:8080/openam1300/saml2/jsp/exportmetadata.jsp' | xmllint --xpath "//*[local-name()='X509Certificate']/text()" -` "\n-----END CERTIFICATE-----" | sudo tee -a idp.crt > /dev/null```
 
 <img src="docs/shell_2.png">  
 
@@ -136,12 +136,12 @@ Check your keystore contains all certificates:
 <img src="docs/shell_4.png">  
 
 Export your SP's certificate in order to import it into the IdP's keystore:  
-`keytool -export -keystore keystore.jks -alias project1_nmichas -file project1_nmichas.cer`
+`keytool -export -keystore keystore.jks -alias keystore_alias -file project1.cer`
 
 <img src="docs/shell_5.png">  
 
 Go to the location where OpenAM's configuration resides (e.g. `~/openam1300/openam1300`) and execute (OpenAM's default keystore password is `changeit`):  
-`keytool -importcert -file /etc/project1/project1_nmichas.cer -alias project1_nmichas -keystore keystore.jks`
+`keytool -importcert -file /etc/project1/project1.cer -alias keystore_alias -keystore keystore.jks`
 
 <img src="docs/shell_6.png">  
 
@@ -293,7 +293,7 @@ by CXF's components to create and verify digital signatures. Create a file
 ```
 org.apache.ws.security.crypto.merlin.keystore.type=jks
 org.apache.ws.security.crypto.merlin.keystore.password=mysecret
-org.apache.ws.security.crypto.merlin.keystore.alias=project1_nmichas
+org.apache.ws.security.crypto.merlin.keystore.alias=keystore_alias
 org.apache.ws.security.crypto.merlin.keystore.file=/etc/project1/keystore.jks
 ```
 We are almost there! As you have seen above, the blueprint configuration contains
@@ -306,25 +306,31 @@ your application should be able to read a config-admin .cfg with the following v
 # SAML/SSO configuration
 # ######################
 # The entity ID of this SP.
-sso.serviceAddress = http://local.nassosmichas.com:8181/api/
+sso.serviceAddress = http://FQDN:8181/api/
 
 # The URL of the IdP.
-sso.idpServiceAddress = http://local.nassosmichas.com:8080/openam1300/SSORedirect/metaAlias/idp
+sso.idpServiceAddress = http://FQDN:8080/openam1300/SSORedirect/metaAlias/idp
+
+# The global logout URL of the IdP.
+sso.idpLogoutAddress = http://FQDN:8080/openam1300/SSORedirect/metaAlias/idp
 
 # The URL of the service endpoint consuming the SAML Response on the SP.
-sso.assertionConsumerServiceAddress = http://local.nassosmichas.com:8181/api/saml/sso
+sso.assertionConsumerServiceAddress = http://FQDN:8181/api/saml/sso
 
 # The URL of the global logout service endpoint.
-sso.logoutServiceAddress =  http://local.nassosmichas.com:8181/api/sso/logout
+sso.logoutServiceAddress =  http://FQDN:8181/api/sso/logout
 
 # The name of the entry in the keystore (e.g. alias) holding the key with which this SP signs.
-sso.signatureUsername = project1_nmichas
+sso.signatureUsername = keystore_alias
 
 # The location in disk of the properties of the keystore.
 sso.signaturePropertiesFile = /etc/project1/saml-sp.properties
 
 # Whether to include a signature section in the metadata creation or not.
 sso.skipSignatureInMetadata = true
+
+# The URL to redirect to after a logout.
+sso.mainApplicationAddress = http://FQDN:8181
 ```
 
 ### Using SAML attributes
