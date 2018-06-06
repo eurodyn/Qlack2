@@ -252,4 +252,13 @@ public interface VersionService {
    * @param lockToken the lock token
    */
   void deleteVersion(String versionId, String lockToken);
+  
+  /**
+   * Retrieves the latest version by a given filename list under a node
+   *
+   * @param fileId the file id
+   * @param filenameList the filename list
+   * @return the versions by filename for file
+   */
+  List<VersionDTO> getVersionsByFilenameForFile(String fileId, List<String> filenameList);
 }
