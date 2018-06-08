@@ -14,11 +14,15 @@ import org.w3c.dom.NodeList;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Utility methods to be used by various imaging functions.
  */
 public class ImagingUtil {
+  // JUL reference.
+  private static final Logger LOGGER = Logger.getLogger(ImagingUtil.class.getName());
 
   private ImagingUtil() {
   }
@@ -65,6 +69,8 @@ public class ImagingUtil {
       } else {
         dotsPerInch.setVertical(0);
       }
+    } catch (Exception e) {
+     LOGGER.log(Level.SEVERE, "Could not obtain DPI info.", e);
     }
 
     return dotsPerInch;

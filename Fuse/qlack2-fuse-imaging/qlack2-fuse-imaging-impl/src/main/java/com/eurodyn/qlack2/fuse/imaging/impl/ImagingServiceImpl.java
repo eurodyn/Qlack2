@@ -44,10 +44,14 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Singleton
 @OsgiServiceProvider(classes = ImagingService.class)
 public class ImagingServiceImpl implements ImagingService {
+  // JUL reference.
+  private static final Logger LOGGER = Logger.getLogger(ImagingServiceImpl.class.getName());
 
   // A reference to the bundle context to be able to read resources from classpath.
   @Inject
@@ -153,6 +157,7 @@ public class ImagingServiceImpl implements ImagingService {
         imageInfo.setFormat(ImagingUtil.getType(image));
       }
     } catch (IOException | TikaException e) {
+      LOGGER.log(Level.SEVERE, "Could not obtain image info.", e);
       throw new QImagingException("Could not obtain image info.", e);
     }
 
@@ -209,6 +214,7 @@ public class ImagingServiceImpl implements ImagingService {
       // Return image.
       return dstImage.toByteArray();
     } catch (IOException e) {
+      LOGGER.log(Level.SEVERE, "Could not convert image.", e);
       throw new QImagingException("Could not convert image.", e);
     }
   }

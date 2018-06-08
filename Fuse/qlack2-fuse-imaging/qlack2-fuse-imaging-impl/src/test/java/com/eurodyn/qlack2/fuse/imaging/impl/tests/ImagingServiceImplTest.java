@@ -103,7 +103,7 @@ public class ImagingServiceImplTest extends ITTestConf {
 
   @Test
   public void convert() throws IOException {
-    String outDir = System.getProperty("java.io.tmpdir");
+    String outDir = System.getProperty("java.io.tmpdir") + "qlack2-fuse-imaging";
     System.out.println("Writing sample output files to: " + outDir);
 
     // Generic PNG to JPEG
@@ -222,6 +222,14 @@ public class ImagingServiceImplTest extends ITTestConf {
     FileUtils
       .writeByteArrayToFile(new File(outDir + File.separator + "specialised-svg-to-tiff.tiff"),
         dstFile);
+
+    // WMF
+    testFile = "/samples/wmf/tiger.wmf";
+    srcFile = getResource(testFile);
+    dstFile = imagingService.convert(srcFile, "PNG", null);
+    assertTrue(dstFile.length > 0);
+    FileUtils.writeByteArrayToFile(new File(outDir + File.separator + "wmf" +
+      testFile.replaceAll("/", "-") + ".png"), dstFile);
   }
 
   @Test
