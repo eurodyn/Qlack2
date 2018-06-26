@@ -10,7 +10,8 @@ import org.ops4j.pax.cdi.api.OsgiService;
 
 @Config(pid = "com.eurodyn.qlack2.fuse.scheduler", defaults = {
   @DefaultProperty(key = "managedDS", value = "osgi:service/qlack2-ds"),
-  @DefaultProperty(key = "nonManagedDS", value = "osgi:service/qlack2-ds-non-managed")
+  @DefaultProperty(key = "nonManagedDS", value = "osgi:service/qlack2-ds-non-managed"),
+  @DefaultProperty(key = "scheduler.enabled", value = "true")
 })
 @Singleton
 public class Bootstrap {

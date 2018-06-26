@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 @Transactional
 @Singleton
+
 public class SchedulerProvider {
 
   private static final Logger logger = Logger.getLogger(SchedulerProvider.class.getName());
@@ -34,6 +35,9 @@ public class SchedulerProvider {
    */
   @ConfigProperty("${nonManagedDS}")
   private String nonManagedDS;
+
+  @ConfigProperty("${scheduler.enabled}")
+  private String schedulerEnabled;
 
   /**
    * Reference to the scheduler
@@ -121,10 +125,15 @@ public class SchedulerProvider {
       if (scheduler == null) {
         initScheduler();
       }
-      logger.log(Level.CONFIG, MessageFormat.format("Starting scheduler with {0} seconds delay...",
-        Constants.QUARTZ_STARTUP_DELAY_SEC));
-      scheduler.startDelayed(Constants.QUARTZ_STARTUP_DELAY_SEC);
-      logger.log(Level.CONFIG, "Scheduler started [{0}].", scheduler);
+      if (Boolean.parseBoolean(schedulerEnabled)) {
+        logger
+          .log(Level.CONFIG, MessageFormat.format("Starting scheduler with {0} seconds delay...",
+            Constants.QUARTZ_STARTUP_DELAY_SEC));
+        scheduler.startDelayed(Constants.QUARTZ_STARTUP_DELAY_SEC);
+        logger.log(Level.CONFIG, "Scheduler started [{0}].", scheduler);
+      } else {
+        logger.log(Level.CONFIG, "Scheduler is disabled by configuration.");
+      }
     } catch (SchedulerException ex) {
       throw new QSchedulerException("Cannot start the scheduler", ex);
     }
