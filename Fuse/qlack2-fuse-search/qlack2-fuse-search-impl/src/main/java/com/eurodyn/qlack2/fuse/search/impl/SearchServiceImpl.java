@@ -595,7 +595,10 @@ public class SearchServiceImpl implements SearchService {
 
     if (queryResponse.getAggregations() != null && queryResponse.getAggregations().getAgg() != null) {
       for (Bucket bucket : queryResponse.getAggregations().getAgg().getBuckets()) {
-        result.getAggregations().put(bucket.getKey_as_string(), bucket.getDoc_count());
+        String key = bucket.getKey_as_string() != null ? bucket.getKey_as_string() : Long.toString(bucket.getKey());
+        if (key != null) {
+          result.getAggregations().put(key, bucket.getDoc_count());
+        }
       }
     }
 
