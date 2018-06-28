@@ -103,7 +103,9 @@ public class ImagingServiceImplTest extends ITTestConf {
 
   @Test
   public void convert() throws IOException {
-    String outDir = System.getProperty("java.io.tmpdir") + "qlack2-fuse-imaging";
+	String outDir = System.getProperty("java.io.tmpdir");
+	outDir = (outDir.endsWith(File.separator) ? outDir : outDir + File.separator);
+	outDir += "qlack2-fuse-imaging";
     System.out.println("Writing sample output files to: " + outDir);
 
     // Generic PNG to JPEG
