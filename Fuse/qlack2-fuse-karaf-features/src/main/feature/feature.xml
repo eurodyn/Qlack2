@@ -653,4 +653,15 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-template-service-impl/${project.version}</bundle>
    <feature>qlack2-util-repack-docx4j</feature>
   </feature>
+    <feature description="QLACK2 Fuse - Template Service (deps)" name="qlack2-fuse-template-service-deps" version="${project.version}">
+    <feature prerequisite="true">wrap</feature>
+    <feature>pax-cdi</feature>
+    <feature>qlack2-util-repack-jpadb</feature>
+    <feature>qlack2-util-repack-querydsl</feature>
+	
+	<!-- Dependencies of docx4j -->
+	<bundle>wrap:mvn:org.docx4j/docx4j/3.3.6</bundle>
+    <bundle>wrap:mvn:commons-io/commons-io/1.3.1</bundle>
+    <bundle>wrap:mvn:org.apache.xmlgraphics/xmlgraphics-commons/2.1</bundle>
+  </feature>
 </features>
