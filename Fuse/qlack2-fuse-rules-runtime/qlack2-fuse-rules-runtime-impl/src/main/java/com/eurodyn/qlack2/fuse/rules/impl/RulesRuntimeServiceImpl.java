@@ -36,7 +36,6 @@ import org.drools.core.util.DroolsStreamUtils;
 import org.kie.api.KieBase;
 import org.kie.api.KieBaseConfiguration;
 import org.kie.api.command.Command;
-import org.kie.api.definition.KiePackage;
 import org.kie.api.io.Resource;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.Environment;
@@ -115,17 +114,7 @@ public class RulesRuntimeServiceImpl implements RulesRuntimeService {
 
     ClassLoader classLoader = classLoaderBuilder.buildClassLoader(null);
 
-    // add packages to knowledge base
-    KnowledgeBuilderConfiguration kBuilderConfiguration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(null, classLoader);
-    KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(kBuilderConfiguration);
-
-    compileRules(rules, kbuilder);
-
-    KieBaseConfiguration kBaseConfiguration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
-    KieBase kbase = KnowledgeBaseFactory.newKnowledgeBase(kBaseConfiguration);
-
-    Collection<KiePackage> kpackages = kbuilder.getKnowledgePackages();
-    ((KnowledgeBaseImpl) kbase).addPackages(kpackages);
+    KieBase kbase = createKieBase(rules, classLoader);
 
     // save classloader and knowledge base
     String runtimeBaseId = createRuntimeBase(em, libraries, kbase);
@@ -663,15 +652,7 @@ public class RulesRuntimeServiceImpl implements RulesRuntimeService {
   public void statelessExecute(List<String> rules, List<Object> facts,
     Map<String, Object> globals, ClassLoader classLoader) {
 
-    KnowledgeBuilderConfiguration kBuilderConfiguration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(null, classLoader);
-    KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(kBuilderConfiguration);
-    compileRules(rules, kbuilder);
-
-    KieBaseConfiguration kBaseConfiguration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
-    KieBase kbase = KnowledgeBaseFactory.newKnowledgeBase(kBaseConfiguration);
-
-    // add packages to knowledge base
-    ((KnowledgeBaseImpl) kbase).addPackages(kbuilder.getKnowledgePackages());
+    KieBase kbase = createKieBase(rules, classLoader);
 
     // stateless execution
     StatelessKieSession session = kbase.newStatelessKieSession();
@@ -682,6 +663,21 @@ public class RulesRuntimeServiceImpl implements RulesRuntimeService {
     // execute rules for the given facts
     session.execute(facts);
 
+  }
+
+  private KieBase createKieBase(List<String> rules, ClassLoader classLoader) {
+    KnowledgeBuilderConfiguration kBuilderConfiguration = KnowledgeBuilderFactory
+        .newKnowledgeBuilderConfiguration(null, classLoader);
+    KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder(kBuilderConfiguration);
+    compileRules(rules, kbuilder);
+
+    KieBaseConfiguration kBaseConfiguration = KnowledgeBaseFactory
+        .newKnowledgeBaseConfiguration(null, classLoader);
+    KieBase kbase = KnowledgeBaseFactory.newKnowledgeBase(kBaseConfiguration);
+
+    // add packages to knowledge base
+    ((KnowledgeBaseImpl) kbase).addPackages(kbuilder.getKnowledgePackages());
+    return kbase;
   }
 
 }
