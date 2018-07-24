@@ -564,7 +564,8 @@ public class TemplateServiceImpl implements TemplateService {
 
       Object obj1 = null;
       if (xml1 != null) {
-        xml1 = xml1.replaceAll("\\\\n", "</w:t><w:br/><w:t>");
+        // replace every occurrence of \n with an new line
+        xml1 = xml1.replaceAll("(\n|\\\\n)", "</w:t><w:br/><w:t>");
         obj1 = XmlUtils.unmarshalString(xml1);
       }
       if (obj1 != null) {
