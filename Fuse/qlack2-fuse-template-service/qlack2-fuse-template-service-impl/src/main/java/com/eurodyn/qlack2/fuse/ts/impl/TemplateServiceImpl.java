@@ -16,16 +16,22 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+
+import org.apache.commons.lang3.StringUtils;
 import org.docx4j.Docx4J;
 import org.docx4j.XmlUtils;
 import org.docx4j.dml.wordprocessingDrawing.Inline;
 import org.docx4j.jaxb.Context;
+import org.docx4j.jaxb.XPathBinderAssociationIsPartialException;
 import org.docx4j.model.structure.HeaderFooterPolicy;
 import org.docx4j.model.structure.SectionWrapper;
 import org.docx4j.model.table.TblFactory;
@@ -38,6 +44,8 @@ import org.docx4j.openpackaging.parts.WordprocessingML.BinaryPartAbstractImage;
 import org.docx4j.openpackaging.parts.WordprocessingML.FooterPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.HeaderPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
+import org.docx4j.w14.CTOnOff;
+import org.docx4j.w14.CTSdtCheckbox;
 import org.docx4j.wml.BooleanDefaultTrue;
 import org.docx4j.wml.CTBorder;
 import org.docx4j.wml.ContentAccessor;
@@ -51,11 +59,14 @@ import org.docx4j.wml.JcEnumeration;
 import org.docx4j.wml.ObjectFactory;
 import org.docx4j.wml.P;
 import org.docx4j.wml.PPr;
+import org.docx4j.wml.PPrBase;
 import org.docx4j.wml.PPrBase.Spacing;
+import org.docx4j.wml.ParaRPr;
 import org.docx4j.wml.R;
 import org.docx4j.wml.RFonts;
 import org.docx4j.wml.RPr;
 import org.docx4j.wml.STBorder;
+import org.docx4j.wml.SdtElement;
 import org.docx4j.wml.Tbl;
 import org.docx4j.wml.TblBorders;
 import org.docx4j.wml.TblPr;
@@ -73,6 +84,7 @@ import org.xlsx4j.sml.Cell;
 import org.xlsx4j.sml.Row;
 import org.xlsx4j.sml.STCellType;
 import org.xlsx4j.sml.SheetData;
+
 import com.eurodyn.qlack2.fuse.ts.api.TemplateService;
 import com.eurodyn.qlack2.fuse.ts.exception.QTemplateServiceException;
 
@@ -112,13 +124,33 @@ public class TemplateServiceImpl implements TemplateService {
     }
     return baos;
   }
+  
+  @Override
+  public ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
+      Map<String, String> mappings, String checkbox, List<String> bulletList) {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try {
+
+      WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(inputStream);
+
+      // Replace placeholders on main part.
+      replaceBodyPlaceholdersWithCheckbox(wordMLPackage, mappings, checkbox, bulletList);
+      // Replace placeholders on header and footer.
+      replaceHeaderAndFooterPlaceholders(wordMLPackage, mappings);
+      Docx4J.save(wordMLPackage, baos);
+
+    } catch (Docx4JException e) {
+      throw new QTemplateServiceException(NO_DOCUMENT_CREATED);
+    }
+    return baos;
+  }
 
   @Override
   public ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
       Map<String, String> mappings, byte[] logo, long imageWidth) {
     ByteArrayOutputStream baos = null;
     if (logo != null) {
-      baos = replacePlaceHoldersAndLogoDocx(inputStream, mappings, logo, imageWidth);
+      baos = replacePlaceHoldersAndLogoDocx(inputStream, mappings, logo, imageWidth, null, null);
     } else {
       baos = replacePlaceholdersWordDoc(inputStream, mappings);
     }
@@ -134,13 +166,18 @@ public class TemplateServiceImpl implements TemplateService {
    * @return the byte array output stream
    */
   public ByteArrayOutputStream replacePlaceHoldersAndLogoDocx(InputStream inputStream,
-      Map<String, String> mappings, byte[] logo, long imageWidth) {
+      Map<String, String> mappings, byte[] logo, long imageWidth, List<String> paragraphList,
+      Integer position) {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     try {
       WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(inputStream);
 
       // Replace placeholders on main part.
-      replaceBodyPlaceholders(wordMLPackage, mappings);
+      if (paragraphList != null && !paragraphList.isEmpty() && position != null) {
+        replaceBodyPlaceholdersAndParagraph(wordMLPackage, mappings, paragraphList, position);
+      } else {
+        replaceBodyPlaceholders(wordMLPackage, mappings);
+      }
       // Replace placeholders on header and footer.
       replaceHeaderAndFooterPlaceholders(wordMLPackage, mappings);
       // Add logo on document.
@@ -294,7 +331,7 @@ public class TemplateServiceImpl implements TemplateService {
    * @param toSearch the to search
    * @return the all element from object
    */
-  private List<Object> getAllElementFromObject(Object obj, Class<?> toSearch) {
+  private static List<Object> getAllElementFromObject(Object obj, Class<?> toSearch) {
     List<Object> result = new ArrayList<>();
     if (obj instanceof JAXBElement) {
       obj = ((JAXBElement<?>) obj).getValue();
@@ -482,12 +519,287 @@ public class TemplateServiceImpl implements TemplateService {
       Map<String, String> mappings) {
     try {
       MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
+      
+     /* // Nachweisbrief SB
+      if (mappings.get("f_german_proofs") != null) {
+        String as[] = StringUtils.splitPreserveAllTokens(mappings.get("f_german_proofs"), '\n');
+        replaceParagraph("f_german_proofs", as, wordMLPackage, 15);
+      }*/
+      
       documentPart.variableReplace(mappings);
       generateTextWithListedPlaceholder(documentPart);
     } catch (JAXBException | Docx4JException e) {
       throw new QTemplateServiceException(
           "Error occured during placeholder replacement on main body.");
     }
+  }
+  
+  private void replaceBodyPlaceholdersAndParagraph(WordprocessingMLPackage wordMLPackage,
+      Map<String, String> mappings, List<String> paragraphList, Integer position) {
+    try {
+      MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
+      
+      // Nachweisbrief SB
+      for (String paragraph : paragraphList) {
+        if (mappings.get(paragraph) != null) {
+          String as[] = StringUtils.splitPreserveAllTokens(mappings.get(paragraph), '\n');
+          replaceParagraph(paragraph, as, wordMLPackage, position);
+        }
+      }
+      
+      documentPart.variableReplace(mappings);
+      generateTextWithListedPlaceholder(documentPart);
+    } catch (JAXBException | Docx4JException e) {
+      throw new QTemplateServiceException(
+          "Error occured during placeholder replacement on main body.");
+    }
+  }
+  
+  private void replaceBodyPlaceholdersWithCheckbox(WordprocessingMLPackage wordMLPackage,
+      Map<String, String> mappings, String checkbox, List<String> bulletList) {
+    try {
+      MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
+
+      addBulletList(wordMLPackage, mappings, bulletList);
+
+      findCheckbox(documentPart, checkbox);
+
+      documentPart.variableReplace(mappings);
+    } catch (JAXBException | Docx4JException e) {
+      throw new QTemplateServiceException(
+          "Error occured during placeholder replacement on main body.");
+    }
+  }
+
+  private void addBulletList(WordprocessingMLPackage wordMLPackage, Map<String, String> mappings,
+      List<String> bulletList) {
+    for (String bullet : bulletList) {
+      if (mappings.get(bullet) != null) {
+        List<String> myList = new ArrayList<>(Arrays.asList(mappings.get(bullet).split("\n")));
+        duplicate( wordMLPackage,  myList,bullet);
+        remove(wordMLPackage, bullet);
+      }
+    }
+  }
+  
+  private static void replaceParagraph(String placeholder, String [] as,
+      WordprocessingMLPackage template, Integer position) {
+    // 1. get the paragraph
+    List<Object> paragraphs = getAllElementFromObject(template.getMainDocumentPart(), P.class);
+
+    int index = 0;
+    for (Object par : paragraphs) {
+      index = 0;
+      P p = (P) par;
+      List list = template.getMainDocumentPart().getContent();
+      // Workaround for table being wrapped in JAXBElement
+      // This simple code assumes table is present and top level
+      for (Object o : list) {
+        
+        if (XmlUtils.unwrap(o) == par) {
+          break;
+        }
+        index++;
+      }
+    }
+    
+    P toReplace = new P();
+    for (Object p : paragraphs) {
+      List<Object> texts = getAllElementFromObject(p, Text.class);
+      for (Object t : texts) {
+        Text content = (Text) t;
+        if (content.getValue().contains(placeholder)) {
+          toReplace = (P) p;
+          break;
+        }
+      }
+    }
+    
+    // we now have the paragraph that contains our placeholder: toReplace
+    // 2. split into seperate lines
+ //   String as[] = StringUtils.splitPreserveAllTokens(toAdd, '\n');
+
+    for (int i = 0; i < as.length; i++) {
+      String ptext = as[i];
+
+
+      // 3. copy the found paragraph to keep styling correct
+      P copy = (P) XmlUtils.deepCopy(toReplace);
+      // replace the text elements from the copy
+      List<Object> texts = getAllElementFromObject(copy, Text.class);
+
+      if (texts.size() > 0) {
+        Text textToReplace = (Text) texts.get(0);
+        textToReplace.setValue(ptext);
+      }
+      
+      template.getMainDocumentPart().getContent().add(position,copy);
+    }
+
+    // 4. remove the original one
+    remove(template, placeholder);
+
+
+  }
+  
+  
+  
+  public static void findAndReplace(WordprocessingMLPackage doc, String toFind, List<String> list) {
+    List<Object> paragraphs = getAllElementFromObject(doc.getMainDocumentPart(), P.class);
+    ObjectFactory factory = new org.docx4j.wml.ObjectFactory();
+    for (Object par : paragraphs) {
+      P p = (P) par;
+      List<Object> texts = getAllElementFromObject(p, Text.class);
+
+      for (Object text : texts) {
+        Text t = (Text) text;
+        for (String replacer : list) {
+          if (t.getValue().contains(toFind)) {
+
+            t.setValue(replacer);
+            org.docx4j.wml.PPr ppr = factory.createPPr();
+
+            p.setPPr(ppr);
+            // Create and add <w:numPr>
+            PPrBase.NumPr numPr = factory.createPPrBaseNumPr();
+            ppr.setNumPr(numPr);
+
+
+            // The <w:numId> element
+            PPrBase.NumPr.NumId numIdElement = factory.createPPrBaseNumPrNumId();
+            numPr.setNumId(numIdElement);
+            numIdElement.setVal(BigInteger.valueOf(1));
+          }
+
+        }
+      }
+
+    }
+  }
+  
+  private void findCheckbox(MainDocumentPart documentPart, String checkbox)
+      throws XPathBinderAssociationIsPartialException, JAXBException {
+    boolean found = false;
+    String xpathSdt = "//w:sdt";
+    List<Object> list = documentPart.getJAXBNodesViaXPath(xpathSdt, false);
+    for (Iterator<Object> it = list.iterator(); it.hasNext();) {
+      Object o = XmlUtils.unwrap(it.next());
+
+      if (o instanceof SdtElement) {
+        SdtElement sdt = (SdtElement) o;
+        if (checkbox != null && sdt.getSdtPr().getTag() != null
+            && sdt.getSdtPr().getTag().getVal().equals(checkbox)) {
+          found = true;
+          for (Object o2 : sdt.getSdtPr().getRPrOrAliasOrLock()) {
+            o2 = XmlUtils.unwrap(o2);
+            if (o2 instanceof CTSdtCheckbox) {
+
+              CTSdtCheckbox cTSdtCheckbox = (CTSdtCheckbox) o2;
+              CTOnOff ctOnOff = new CTOnOff();
+              ctOnOff.setVal("1");
+              cTSdtCheckbox.setChecked(ctOnOff);
+            }
+          }
+        }
+          if (found) {
+            for (Object o2 : sdt.getSdtContent().getContent()) {
+                if (o2 instanceof R) {
+                  R r = (R)o2;
+                  for (Object o3 : r.getContent()) {
+                    List<Object> texts = getAllElementFromObject(o3, Text.class);
+                    for (Object t : texts) {
+                      Text text = (Text) t;
+                      text.setValue("☒");
+                    }
+                   
+                  }
+                }
+                found = false;
+              }
+          }
+          
+      }
+    }
+  }
+  
+  public static void remove(WordprocessingMLPackage wordMLPackage, String placeholder) {
+    List<Object> paragraphs = getAllElementFromObject(wordMLPackage.getMainDocumentPart(), P.class);
+    for (Object par : paragraphs) {
+      P p = (P) par;      
+      List<Object> texts = getAllElementFromObject(par, Text.class);
+      for (Object t : texts) {
+        Text text = (Text) t;
+        if (text.getValue().contains(placeholder)) {
+          ((ContentAccessor)p.getParent()).getContent().remove(p);
+          }
+        }
+      }
+    }
+  
+  public void duplicate(WordprocessingMLPackage wordMLPackage, List<String> replaceList, String placeholder) {
+    ObjectFactory factory = new org.docx4j.wml.ObjectFactory();
+    List<Object> paragraphs = getAllElementFromObject(wordMLPackage.getMainDocumentPart(), P.class);
+    for (Object par : paragraphs) {
+      P p = (P) par;
+      List list = wordMLPackage.getMainDocumentPart().getContent();
+      // Workaround for table being wrapped in JAXBElement
+      // This simple code assumes table is present and top level
+      int index = 0;
+      for (Object o : list) {
+        if (XmlUtils.unwrap(o) == par) {
+          break;
+        }
+        index++;
+      }
+      List<Object> texts = getAllElementFromObject(par, Text.class);
+      for (Object t : texts) {
+        Text text = (Text) t;
+        if (text.getValue().contains(placeholder)) {
+          for (String replacer : replaceList) {
+            
+           p = factory.createP();
+            R rspc = factory.createR();
+
+            text = factory.createText();
+            text.setValue(replacer);
+            rspc.getContent().add(text);
+
+            RPr runProperties = factory.createRPr();
+            
+            
+            setFontSize(runProperties, "18");
+      
+            rspc.setRPr(runProperties);
+            
+            p.getContent().add(rspc);
+            
+            org.docx4j.wml.PPr ppr = factory.createPPr();
+
+            p.setPPr(ppr);
+            // Create and add <w:numPr>
+            PPrBase.NumPr numPr = factory.createPPrBaseNumPr();
+            ParaRPr parRPr = factory.createParaRPr();
+            
+            HpsMeasure size = new HpsMeasure();
+            size.setVal(new BigInteger("18"));
+            runProperties.setSz(size);
+            runProperties.setSzCs(size);
+            parRPr.setSz(size);
+            ppr.setRPr(parRPr);
+            ppr.setNumPr(numPr);
+
+            
+            // The <w:numId> element
+            PPrBase.NumPr.NumId numIdElement = factory.createPPrBaseNumPrNumId();
+            numPr.setNumId(numIdElement);
+            numIdElement.setVal(BigInteger.valueOf(1));
+            wordMLPackage.getMainDocumentPart().getContent().add(index,p);
+          }
+          return;
+        }
+      }
+    }
+   
   }
 
   /**
@@ -876,5 +1188,38 @@ public class TemplateServiceImpl implements TemplateService {
       paragraphProperties.setJc(jc);
     }
     paragraph.setPPr(paragraphProperties);
+  }
+
+  @Override
+  public ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
+      Map<String, String> mappings,  List<String> paragraphList, Integer position) {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try {
+
+      WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(inputStream);
+
+      // Replace placeholders and paragraph on main part.
+      replaceBodyPlaceholdersAndParagraph(wordMLPackage, mappings, paragraphList, position);
+      // Replace placeholders on header and footer.
+      replaceHeaderAndFooterPlaceholders(wordMLPackage, mappings);
+      Docx4J.save(wordMLPackage, baos);
+
+    } catch (Docx4JException e) {
+      throw new QTemplateServiceException(NO_DOCUMENT_CREATED);
+    }
+    return baos;
+  }
+
+  @Override
+  public ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
+      Map<String, String> mappings, byte[] logo, long imageWidth, List<String> paragraphList,
+      Integer position) {
+    ByteArrayOutputStream baos = null;
+    if (logo != null) {
+      baos = replacePlaceHoldersAndLogoDocx(inputStream, mappings, logo, imageWidth, paragraphList, position);
+    } else {
+      baos = replacePlaceholdersWordDoc(inputStream, mappings, paragraphList, position);
+    }
+    return baos;
   }
 }
