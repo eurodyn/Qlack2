@@ -244,15 +244,15 @@ public class QueryResponse {
 
       @JsonIgnoreProperties(ignoreUnknown = true)
       public static class Bucket {
-        private long key;
+        private String key;
         private String key_as_string;
         private long doc_count;
 
-        public long getKey() {
+        public String getKey() {
           return key;
         }
 
-        public void setKey(long key) {
+        public void setKey(String key) {
           this.key = key;
         }
 
