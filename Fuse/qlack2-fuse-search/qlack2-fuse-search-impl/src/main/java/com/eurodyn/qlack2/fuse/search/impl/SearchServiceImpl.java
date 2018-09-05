@@ -114,7 +114,7 @@ public class SearchServiceImpl implements SearchService {
       endpointBuilder.append("/_search");
     }
 
-    Map<String, String> params = new HashMap<>();
+    Map<String, String> params = new HashMap<>(dto.getParams());
 
     QuerySort dtoSort = dto.getQuerySort();
     InternalSearchRequest internalRequest = new InternalSearchRequest();

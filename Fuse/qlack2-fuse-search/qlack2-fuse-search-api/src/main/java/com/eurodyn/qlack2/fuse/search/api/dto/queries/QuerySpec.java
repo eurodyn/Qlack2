@@ -2,7 +2,9 @@ package com.eurodyn.qlack2.fuse.search.api.dto.queries;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The superclass of all different types of queries supported by this module. It
@@ -61,6 +63,9 @@ public abstract class QuerySpec {
 
 	protected QuerySort querySort;
 	private QueryHighlight highlight;
+
+	// A map for additional parameters in the url
+	private final Map<String, String> params = new HashMap<>();
 
 	/**
 	 * Sets the indices against which the query is executed.
@@ -249,5 +254,9 @@ public abstract class QuerySpec {
   public QuerySpec setHighlight(QueryHighlight highlight) {
     this.highlight = highlight;
     return this;
+  }
+
+  public Map<String, String> getParams() {
+    return params;
   }
 }
