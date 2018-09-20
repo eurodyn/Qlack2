@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -48,6 +49,7 @@ import org.docx4j.w14.CTOnOff;
 import org.docx4j.w14.CTSdtCheckbox;
 import org.docx4j.wml.BooleanDefaultTrue;
 import org.docx4j.wml.CTBorder;
+import org.docx4j.wml.Color;
 import org.docx4j.wml.ContentAccessor;
 import org.docx4j.wml.Document;
 import org.docx4j.wml.Drawing;
@@ -124,7 +126,7 @@ public class TemplateServiceImpl implements TemplateService {
     }
     return baos;
   }
-  
+
   @Override
   public ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
       Map<String, String> mappings, String checkbox, List<String> bulletList) {
@@ -363,7 +365,7 @@ public class TemplateServiceImpl implements TemplateService {
     drawing.getAnchorOrInline().add(inline);
     return paragraph;
   }
-  
+
   @Override
   public ByteArrayOutputStream createTableInDocxDocument(InputStream inputStream,
       List<String> header, List<LinkedHashMap<Map<String, String>, String>> content,
@@ -377,14 +379,16 @@ public class TemplateServiceImpl implements TemplateService {
           .getPageDimensions().getWritableWidthTwips();
       Tbl tblCredProg =
           TblFactory.createTable(0, header.size(), writableWidthTwips / header.size());
-      removeBorders(tblCredProg, Boolean.valueOf(tableProperties.get("removeBorder")), tableProperties.get("borderSpace"));
+      removeBorders(tblCredProg, Boolean.valueOf(tableProperties.get("removeBorder")),
+          tableProperties.get("borderSpace"), null);
       // Add table header (row).
       Tr thead = factory.createTr();
       for (int num = 0; num < header.size(); num++) {
         addStyledTableCell(thead, header.get(num), tableProperties,
-            tableProperties.get("boldHeader"));
+            tableProperties.get("boldHeader"), null, false);
       }
-      if (tableProperties.get("repeatHeader") != null && tableProperties.get("repeatHeader").equals(Boolean.TRUE.toString())) {
+      if (tableProperties.get("repeatHeader") != null
+          && tableProperties.get("repeatHeader").equals(Boolean.TRUE.toString())) {
         repeatTableHeader(thead);
       }
       tblCredProg.getContent().add(thead);
@@ -394,10 +398,10 @@ public class TemplateServiceImpl implements TemplateService {
       // Add table content (the content is added by row).
       for (Map<Map<String, String>, String> c : content) {
         Tr tr = factory.createTr();
-        
+
         for (Entry<Map<String, String>, String> column : c.entrySet()) {
           addStyledTableCell(tr, column.getValue(), column.getKey(),
-              column.getKey().get("boldContent"));
+              column.getKey().get("boldContent"), null, false);
         }
         if (lastRowCounter == content.size() - 1) {
           keepLastRowWithParagraph(tr);
@@ -519,13 +523,6 @@ public class TemplateServiceImpl implements TemplateService {
       Map<String, String> mappings) {
     try {
       MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
-      
-     /* // Nachweisbrief SB
-      if (mappings.get("f_german_proofs") != null) {
-        String as[] = StringUtils.splitPreserveAllTokens(mappings.get("f_german_proofs"), '\n');
-        replaceParagraph("f_german_proofs", as, wordMLPackage, 15);
-      }*/
-      
       documentPart.variableReplace(mappings);
       generateTextWithListedPlaceholder(documentPart);
     } catch (JAXBException | Docx4JException e) {
@@ -533,12 +530,12 @@ public class TemplateServiceImpl implements TemplateService {
           "Error occured during placeholder replacement on main body.");
     }
   }
-  
+
   private void replaceBodyPlaceholdersAndParagraph(WordprocessingMLPackage wordMLPackage,
       Map<String, String> mappings, List<String> paragraphList, Integer position) {
     try {
       MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
-      
+
       // Nachweisbrief SB
       for (String paragraph : paragraphList) {
         if (mappings.get(paragraph) != null) {
@@ -546,7 +543,7 @@ public class TemplateServiceImpl implements TemplateService {
           replaceParagraph(paragraph, as, wordMLPackage, position);
         }
       }
-      
+
       documentPart.variableReplace(mappings);
       generateTextWithListedPlaceholder(documentPart);
     } catch (JAXBException | Docx4JException e) {
@@ -554,7 +551,7 @@ public class TemplateServiceImpl implements TemplateService {
           "Error occured during placeholder replacement on main body.");
     }
   }
-  
+
   private void replaceBodyPlaceholdersWithCheckbox(WordprocessingMLPackage wordMLPackage,
       Map<String, String> mappings, String checkbox, List<String> bulletList) {
     try {
@@ -576,13 +573,13 @@ public class TemplateServiceImpl implements TemplateService {
     for (String bullet : bulletList) {
       if (mappings.get(bullet) != null) {
         List<String> myList = new ArrayList<>(Arrays.asList(mappings.get(bullet).split("\n")));
-        duplicate( wordMLPackage,  myList,bullet);
+        duplicate(wordMLPackage, myList, bullet);
         remove(wordMLPackage, bullet);
       }
     }
   }
-  
-  private static void replaceParagraph(String placeholder, String [] as,
+
+  private static void replaceParagraph(String placeholder, String[] as,
       WordprocessingMLPackage template, Integer position) {
     // 1. get the paragraph
     List<Object> paragraphs = getAllElementFromObject(template.getMainDocumentPart(), P.class);
@@ -595,14 +592,14 @@ public class TemplateServiceImpl implements TemplateService {
       // Workaround for table being wrapped in JAXBElement
       // This simple code assumes table is present and top level
       for (Object o : list) {
-        
+
         if (XmlUtils.unwrap(o) == par) {
           break;
         }
         index++;
       }
     }
-    
+
     P toReplace = new P();
     for (Object p : paragraphs) {
       List<Object> texts = getAllElementFromObject(p, Text.class);
@@ -614,10 +611,6 @@ public class TemplateServiceImpl implements TemplateService {
         }
       }
     }
-    
-    // we now have the paragraph that contains our placeholder: toReplace
-    // 2. split into seperate lines
- //   String as[] = StringUtils.splitPreserveAllTokens(toAdd, '\n');
 
     for (int i = 0; i < as.length; i++) {
       String ptext = as[i];
@@ -632,8 +625,8 @@ public class TemplateServiceImpl implements TemplateService {
         Text textToReplace = (Text) texts.get(0);
         textToReplace.setValue(ptext);
       }
-      
-      template.getMainDocumentPart().getContent().add(position,copy);
+
+      template.getMainDocumentPart().getContent().add(position, copy);
     }
 
     // 4. remove the original one
@@ -641,9 +634,9 @@ public class TemplateServiceImpl implements TemplateService {
 
 
   }
-  
-  
-  
+
+
+
   public static void findAndReplace(WordprocessingMLPackage doc, String toFind, List<String> list) {
     List<Object> paragraphs = getAllElementFromObject(doc.getMainDocumentPart(), P.class);
     ObjectFactory factory = new org.docx4j.wml.ObjectFactory();
@@ -676,7 +669,7 @@ public class TemplateServiceImpl implements TemplateService {
 
     }
   }
-  
+
   private void findCheckbox(MainDocumentPart documentPart, String checkbox)
       throws XPathBinderAssociationIsPartialException, JAXBException {
     boolean found = false;
@@ -701,42 +694,43 @@ public class TemplateServiceImpl implements TemplateService {
             }
           }
         }
-          if (found) {
-            for (Object o2 : sdt.getSdtContent().getContent()) {
-                if (o2 instanceof R) {
-                  R r = (R)o2;
-                  for (Object o3 : r.getContent()) {
-                    List<Object> texts = getAllElementFromObject(o3, Text.class);
-                    for (Object t : texts) {
-                      Text text = (Text) t;
-                      text.setValue("☒");
-                    }
-                   
-                  }
+        if (found) {
+          for (Object o2 : sdt.getSdtContent().getContent()) {
+            if (o2 instanceof R) {
+              R r = (R) o2;
+              for (Object o3 : r.getContent()) {
+                List<Object> texts = getAllElementFromObject(o3, Text.class);
+                for (Object t : texts) {
+                  Text text = (Text) t;
+                  text.setValue("☒");
                 }
-                found = false;
+
               }
+            }
+            found = false;
           }
-          
+        }
+
       }
     }
   }
-  
+
   public static void remove(WordprocessingMLPackage wordMLPackage, String placeholder) {
     List<Object> paragraphs = getAllElementFromObject(wordMLPackage.getMainDocumentPart(), P.class);
     for (Object par : paragraphs) {
-      P p = (P) par;      
+      P p = (P) par;
       List<Object> texts = getAllElementFromObject(par, Text.class);
       for (Object t : texts) {
         Text text = (Text) t;
         if (text.getValue().contains(placeholder)) {
-          ((ContentAccessor)p.getParent()).getContent().remove(p);
-          }
+          ((ContentAccessor) p.getParent()).getContent().remove(p);
         }
       }
     }
-  
-  public void duplicate(WordprocessingMLPackage wordMLPackage, List<String> replaceList, String placeholder) {
+  }
+
+  public void duplicate(WordprocessingMLPackage wordMLPackage, List<String> replaceList,
+      String placeholder) {
     ObjectFactory factory = new org.docx4j.wml.ObjectFactory();
     List<Object> paragraphs = getAllElementFromObject(wordMLPackage.getMainDocumentPart(), P.class);
     for (Object par : paragraphs) {
@@ -756,8 +750,8 @@ public class TemplateServiceImpl implements TemplateService {
         Text text = (Text) t;
         if (text.getValue().contains(placeholder)) {
           for (String replacer : replaceList) {
-            
-           p = factory.createP();
+
+            p = factory.createP();
             R rspc = factory.createR();
 
             text = factory.createText();
@@ -765,21 +759,21 @@ public class TemplateServiceImpl implements TemplateService {
             rspc.getContent().add(text);
 
             RPr runProperties = factory.createRPr();
-            
-            
+
+
             setFontSize(runProperties, "18");
-      
+
             rspc.setRPr(runProperties);
-            
+
             p.getContent().add(rspc);
-            
+
             org.docx4j.wml.PPr ppr = factory.createPPr();
 
             p.setPPr(ppr);
             // Create and add <w:numPr>
             PPrBase.NumPr numPr = factory.createPPrBaseNumPr();
             ParaRPr parRPr = factory.createParaRPr();
-            
+
             HpsMeasure size = new HpsMeasure();
             size.setVal(new BigInteger("18"));
             runProperties.setSz(size);
@@ -788,18 +782,18 @@ public class TemplateServiceImpl implements TemplateService {
             ppr.setRPr(parRPr);
             ppr.setNumPr(numPr);
 
-            
+
             // The <w:numId> element
             PPrBase.NumPr.NumId numIdElement = factory.createPPrBaseNumPrNumId();
             numPr.setNumId(numIdElement);
             numIdElement.setVal(BigInteger.valueOf(1));
-            wordMLPackage.getMainDocumentPart().getContent().add(index,p);
+            wordMLPackage.getMainDocumentPart().getContent().add(index, p);
           }
           return;
         }
       }
     }
-   
+
   }
 
   /**
@@ -850,7 +844,7 @@ public class TemplateServiceImpl implements TemplateService {
           "Error occured during placeholder replacement on footer.");
     }
   }
-  
+
   /**
    * Replace header and footer placeholders.
    *
@@ -1004,6 +998,12 @@ public class TemplateServiceImpl implements TemplateService {
     runProperties.setB(b);
   }
 
+  private static void setItalic(RPr runProperties) {
+    BooleanDefaultTrue b = new BooleanDefaultTrue();
+    b.setVal(true);
+    runProperties.setI(b);
+  }
+
   /**
    * Adds the styling.
    *
@@ -1013,7 +1013,7 @@ public class TemplateServiceImpl implements TemplateService {
    * @param bold the bold
    */
   private static void addStyling(Tc tableCell, String content, Map<String, String> tableProperties,
-      String bold) {
+      String bold, Boolean italic, Boolean alignRight) {
     ObjectFactory factory = Context.getWmlObjectFactory();
     P paragraph = factory.createP();
 
@@ -1027,22 +1027,28 @@ public class TemplateServiceImpl implements TemplateService {
     paragraph.getContent().add(run);
 
     RPr runProperties = factory.createRPr();
-    // Set bold
+    // Set bold.
     if (bold != null && Boolean.valueOf(bold)) {
       addBoldStyle(runProperties);
     }
 
     // Set font size of cell.
-    if (tableProperties.get("fontSize") != null) {
+    if (tableProperties != null && tableProperties.get("fontSize") != null) {
       setFontSize(runProperties, tableProperties.get("fontSize"));
     }
 
     // Set fonts.
-    if (tableProperties.get("fonts") != null) {
-      setFonts(runProperties, tableProperties.get("fonts"));
+    if (tableProperties != null && (tableProperties.get("fonts") != null || tableProperties.get("fontColor") != null)) {
+      setFonts(runProperties, tableProperties.get("fonts"), tableProperties.get("fontColor"));
     }
-    paragraphStyling(paragraph,tableProperties);
-    
+
+    // Set italic.
+    if (italic != null && italic) {
+      setItalic(runProperties);
+    }
+
+    paragraphStyling(paragraph, tableProperties, alignRight);
+
     run.setRPr(runProperties);
 
     tableCell.getContent().add(paragraph);
@@ -1054,10 +1060,18 @@ public class TemplateServiceImpl implements TemplateService {
    * @param runProperties the run properties
    * @param font the font
    */
-  private static void setFonts(RPr runProperties, String font) {
-    RFonts rf = new RFonts();
-    rf.setAscii(font);
-    runProperties.setRFonts(rf);
+  private static void setFonts(RPr runProperties, String font, String fontColor) {
+    if (font != null) {
+      RFonts rf = new RFonts();
+      rf.setAscii(font);
+      runProperties.setRFonts(rf);
+    }
+    
+    if (fontColor != null) {
+      Color color = new Color();
+      color.setVal(fontColor);
+      runProperties.setColor(color);
+    }
   }
 
   /**
@@ -1082,14 +1096,14 @@ public class TemplateServiceImpl implements TemplateService {
    * @param bold the bold
    */
   private static void addStyledTableCell(Tr tableRow, String content,
-      Map<String, String> tableProperties, String bold) {
+      Map<String, String> tableProperties, String bold, Boolean italic, Boolean alignRight) {
     ObjectFactory factory = Context.getWmlObjectFactory();
     Tc tableCell = factory.createTc();
 
     // Cell properties.
     addCellStyling(tableCell, tableProperties);
 
-    addStyling(tableCell, content, tableProperties, bold);
+    addStyling(tableCell, content, tableProperties, bold, italic, alignRight);
 
     tableRow.getContent().add(tableCell);
   }
@@ -1102,39 +1116,41 @@ public class TemplateServiceImpl implements TemplateService {
    */
   private static void addCellStyling(Tc tableCell, Map<String, String> tableProperties) {
     // Set cell width.
-    TcPr tableCellProperties = new TcPr();
-    if (tableProperties.get("width") != null) {
-      TblWidth tableWidth = new TblWidth();
-      tableWidth.setType("dxa");
-      tableWidth.setW(new BigInteger(tableProperties.get("width")));
-      tableCellProperties.setTcW(tableWidth);
-    }
+    if (tableProperties != null) {
+      TcPr tableCellProperties = new TcPr();
+      if (tableProperties.get("width") != null) {
+        TblWidth tableWidth = new TblWidth();
+        tableWidth.setType("dxa");
+        tableWidth.setW(new BigInteger(tableProperties.get("width")));
+        tableCellProperties.setTcW(tableWidth);
+      }
 
-    // Set cell margin (Top, Bottom, Right, Left).
-    TcMar tcMar = new TcMar();
-    if (tableProperties.get("bottomMargin") != null) {
-      TblWidth tableWidthBottom = new TblWidth();
-      tableWidthBottom.setW(new BigInteger(tableProperties.get("bottomMargin")));
-      tcMar.setBottom(tableWidthBottom);
-    }
-    if (tableProperties.get("topMargin") != null) {
-      TblWidth tableWidthTop = new TblWidth();
-      tableWidthTop.setW(new BigInteger(tableProperties.get("topMargin")));
-      tcMar.setTop(tableWidthTop);
-    }
-    if (tableProperties.get("rightMargin") != null) {
-      TblWidth tableWidthRight = new TblWidth();
-      tableWidthRight.setW(new BigInteger(tableProperties.get("rightMargin")));
-      tcMar.setRight(tableWidthRight);
-    }
-    if (tableProperties.get("leftMargin") != null) {
-      TblWidth tableWidthLeft = new TblWidth();
-      tableWidthLeft.setW(new BigInteger(tableProperties.get("leftMargin")));
-      tcMar.setLeft(tableWidthLeft);
-    }
-    tableCellProperties.setTcMar(tcMar);
+      // Set cell margin (Top, Bottom, Right, Left).
+      TcMar tcMar = new TcMar();
+      if (tableProperties.get("bottomMargin") != null) {
+        TblWidth tableWidthBottom = new TblWidth();
+        tableWidthBottom.setW(new BigInteger(tableProperties.get("bottomMargin")));
+        tcMar.setBottom(tableWidthBottom);
+      }
+      if (tableProperties.get("topMargin") != null) {
+        TblWidth tableWidthTop = new TblWidth();
+        tableWidthTop.setW(new BigInteger(tableProperties.get("topMargin")));
+        tcMar.setTop(tableWidthTop);
+      }
+      if (tableProperties.get("rightMargin") != null) {
+        TblWidth tableWidthRight = new TblWidth();
+        tableWidthRight.setW(new BigInteger(tableProperties.get("rightMargin")));
+        tcMar.setRight(tableWidthRight);
+      }
+      if (tableProperties.get("leftMargin") != null) {
+        TblWidth tableWidthLeft = new TblWidth();
+        tableWidthLeft.setW(new BigInteger(tableProperties.get("leftMargin")));
+        tcMar.setLeft(tableWidthLeft);
+      }
+      tableCellProperties.setTcMar(tcMar);
 
-    tableCell.setTcPr(tableCellProperties);
+      tableCell.setTcPr(tableCellProperties);
+    }
   }
 
   /**
@@ -1144,7 +1160,8 @@ public class TemplateServiceImpl implements TemplateService {
    * @param removeBorder the remove border
    * @param borderSpace the border space
    */
-  private static void removeBorders(Tbl table, boolean removeBorder, String borderSpace) {
+  private static void removeBorders(Tbl table, boolean removeBorder, String borderSpace,
+      String indentLeft) {
     table.setTblPr(new TblPr());
     CTBorder border = new CTBorder();
     border.setColor("auto");
@@ -1163,26 +1180,35 @@ public class TemplateServiceImpl implements TemplateService {
     borders.setTop(border);
     borders.setInsideH(border);
     borders.setInsideV(border);
+
+    if (indentLeft != null) {
+      TblWidth tableWidth = new TblWidth();
+      tableWidth.setType("dxa");
+      tableWidth.setW(new BigInteger(indentLeft));
+      table.getTblPr().setTblInd(tableWidth);
+    }
     table.getTblPr().setTblBorders(borders);
   }
-  
+
   /**
    * Paragraph styling.
    *
    * @param paragraph the paragraph
    * @param tableProperties the table properties
    */
-  private static void paragraphStyling(P paragraph,Map<String, String> tableProperties) {
+  private static void paragraphStyling(P paragraph, Map<String, String> tableProperties,
+      Boolean alignRight) {
     ObjectFactory factory = Context.getWmlObjectFactory();
     PPr paragraphProperties = factory.createPPr();
     BooleanDefaultTrue b = new BooleanDefaultTrue();
     paragraphProperties.setAdjustRightInd(b);
-    if (tableProperties.get("spacing") != null) {
+    if (tableProperties != null && tableProperties.get("spacing") != null) {
       Spacing sp = new Spacing();
       sp.setAfter(new BigInteger(tableProperties.get("spacing")));
       paragraphProperties.setSpacing(sp);
     }
-    if (Boolean.valueOf(tableProperties.get("alignRight"))) {
+    if ((tableProperties != null && Boolean.valueOf(tableProperties.get("alignRight")))
+        || alignRight) {
       Jc jc = new Jc();
       jc.setVal(JcEnumeration.RIGHT);
       paragraphProperties.setJc(jc);
@@ -1192,7 +1218,7 @@ public class TemplateServiceImpl implements TemplateService {
 
   @Override
   public ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
-      Map<String, String> mappings,  List<String> paragraphList, Integer position) {
+      Map<String, String> mappings, List<String> paragraphList, Integer position) {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     try {
 
@@ -1216,10 +1242,101 @@ public class TemplateServiceImpl implements TemplateService {
       Integer position) {
     ByteArrayOutputStream baos = null;
     if (logo != null) {
-      baos = replacePlaceHoldersAndLogoDocx(inputStream, mappings, logo, imageWidth, paragraphList, position);
+      baos = replacePlaceHoldersAndLogoDocx(inputStream, mappings, logo, imageWidth, paragraphList,
+          position);
     } else {
       baos = replacePlaceholdersWordDoc(inputStream, mappings, paragraphList, position);
     }
     return baos;
   }
+
+  @Override
+  public ByteArrayOutputStream replacePlaceholderWithTable(InputStream inputStream,
+      List<LinkedHashMap<Map<String, String>, Boolean>> table, String placeholder) {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try {
+
+      WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(inputStream);
+
+      addTable(wordMLPackage, table, placeholder);
+
+      Docx4J.save(wordMLPackage, baos);
+
+    } catch (Docx4JException e) {
+      throw new QTemplateServiceException(NO_DOCUMENT_CREATED);
+    }
+    return baos;
+  }
+
+  private void addTable(WordprocessingMLPackage wordMLPackage,
+      List<LinkedHashMap<Map<String, String>, Boolean>> table, String placeholder) {
+    ObjectFactory factory = new org.docx4j.wml.ObjectFactory();
+    List<Object> paragraphs = getAllElementFromObject(wordMLPackage.getMainDocumentPart(), P.class);
+    int writableWidthTwips = wordMLPackage.getDocumentModel().getSections().get(0)
+        .getPageDimensions().getWritableWidthTwips();
+    Tbl tblCredProg = TblFactory.createTable(0, 2, writableWidthTwips / 2);
+    removeBorders(tblCredProg, true, null, "365");
+    for (Object par : paragraphs) {
+      List list = wordMLPackage.getMainDocumentPart().getContent();
+      int index = 0;
+      for (Object o : list) {
+        if (XmlUtils.unwrap(o) == par) {
+          break;
+        }
+        index++;
+      }
+      List<Object> texts = getAllElementFromObject(par, Text.class);
+      for (Object t : texts) {
+        Text text = (Text) t;
+        if (text.getValue().contains(placeholder)) {
+          for (LinkedHashMap<Map<String, String>, Boolean> c : table) {
+            for (Entry<Map<String, String>, Boolean> column : c.entrySet()) {
+              Tr tr = factory.createTr();
+              Map<String, String> map = column.getKey();
+              for (Entry<String, String> value1 : map.entrySet()) {
+                addStyledTableFirstCell(tr, value1.getKey(), column.getValue(), false);
+
+                addStyledTableSecondCell(tr, value1.getValue(), column.getValue(), true);
+              }
+              tblCredProg.getContent().add(tr);
+            }
+          }
+          wordMLPackage.getMainDocumentPart().getContent().add(index, tblCredProg);
+          // 4. remove the original one
+          remove(wordMLPackage, placeholder);
+          return;
+        }
+      }
+    }
+  }
+
+  private void addStyledTableFirstCell(Tr tableRow, String content, Boolean italic,
+      Boolean alignRight) {
+
+    Map<String, String> tableProperties = new HashMap<>();
+    tableProperties.put("spacing", "60");
+
+    tableProperties.put("width", "4450");
+    tableProperties.put("indentleft", "300");
+    if (italic != null && italic) {
+      tableProperties.put("fontSize", "16");
+      tableProperties.put("fontColor", "808080");
+    }
+    addStyledTableCell(tableRow, content, tableProperties, null, italic, alignRight);
+  }
+
+  private void addStyledTableSecondCell(Tr tableRow, String content, Boolean italic,
+      Boolean alignRight) {
+
+    Map<String, String> tableProperties = new HashMap<>();
+    tableProperties.put("spacing", "60");
+
+    tableProperties.put("width", "4450");
+    if (italic != null && italic) {
+      tableProperties.put("fontSize", "16");
+      tableProperties.put("fontColor", "808080");
+    }
+    addStyledTableCell(tableRow, content, tableProperties, null, italic, alignRight);
+  }
+
 }

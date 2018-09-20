@@ -111,4 +111,14 @@ public interface TemplateService {
    */
   ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
       Map<String, String> mappings, String checkbox, List<String> bulletList);
+  
+  /**
+   * Replace placeholder with table.
+   *
+   * @param inputStream the input stream
+   * @param table the table
+   * @return the byte array output stream
+   */
+  ByteArrayOutputStream replacePlaceholderWithTable(InputStream inputStream,
+      List<LinkedHashMap<Map<String, String>, Boolean>> table, String placeholder);
 }
