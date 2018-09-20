@@ -3,8 +3,11 @@ package com.eurodyn.qlack2.fuse.search.impl;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,8 +18,10 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import com.eurodyn.qlack2.fuse.search.api.IndexingService;
+import com.eurodyn.qlack2.fuse.search.api.SearchService;
 import com.eurodyn.qlack2.fuse.search.api.dto.ESDocumentIdentifierDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.IndexingDTO;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySpec;
 import com.eurodyn.qlack2.fuse.search.api.exception.QSearchException;
 import com.eurodyn.qlack2.fuse.search.impl.util.ESClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +38,9 @@ public class IndexingServiceImpl implements IndexingService {
   @Inject
   @Named("ESClient")
   private ESClient esClient;
+
+  @Inject
+  private SearchService searchService;
 
   public IndexingServiceImpl() {
 	  mapper = new ObjectMapper();
@@ -68,5 +76,57 @@ public class IndexingServiceImpl implements IndexingService {
 			LOGGER.log(Level.SEVERE, MessageFormat.format("Could not delete document with id: {0}", dto.getId()), e);
 			throw new QSearchException(MessageFormat.format("Could not delete document with id: {0}", dto.getId()));
 		}
+  }
+
+  @Override
+  public void unindexByQuery(QuerySpec query) {
+    StringBuilder endpointBuilder = new StringBuilder();
+
+    // This is done to remove duplicates
+    List<String> indeces = new ArrayList<>(new HashSet<>(query.getIndices()));
+
+    // If no indeces are defind then search them all
+    if (indeces.isEmpty()) {
+      endpointBuilder.append("_all");
+    }
+
+    // append indeces to the query
+    for (String index : indeces) {
+      if (indeces.indexOf(index) > 0) {
+        endpointBuilder.append(",");
+      }
+
+      endpointBuilder.append(index);
+    }
+
+    // This is done to remove duplicates
+    List<String> types = new ArrayList<>(new HashSet<>(query.getTypes()));
+
+    // if no types are defined then search them all
+    if (!types.isEmpty()) {
+      endpointBuilder.append("/");
+    }
+
+    // append types to the query
+    for (String type : types) {
+      if (types.indexOf(type) > 0) {
+        endpointBuilder.append(",");
+      }
+
+      endpointBuilder.append(type);
+    }
+
+    endpointBuilder.append("/_delete_by_query");
+
+    Map<String, String> params = new HashMap<>(query.getParams());
+    String q = "{\"query\": " + searchService.buildQuery(query) + "}";
+
+    try {
+      ContentType contentType = ContentType.APPLICATION_JSON.withCharset(Charset.forName("UTF-8"));
+      esClient.getClient().performRequest("POST", endpointBuilder.toString(), params, new NStringEntity(q, contentType));
+    } catch (IOException e) {
+      LOGGER.log(Level.SEVERE, "Could not delete documents", e);
+      throw new QSearchException("Could not delete documents", e);
+    }
   }
 }

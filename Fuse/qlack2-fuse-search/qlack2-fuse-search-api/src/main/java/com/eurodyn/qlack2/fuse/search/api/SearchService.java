@@ -46,4 +46,12 @@ public interface SearchService {
    * @return
    */
   SearchResultDTO scroll(ScrollRequest request);
+
+  /**
+   * Builds a query as a string.
+   *
+   * @param dto the query spec to convert to string.
+   * @return The string representation of the query.
+   */
+  String buildQuery(QuerySpec dto);
 }

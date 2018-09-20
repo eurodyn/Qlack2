@@ -186,7 +186,8 @@ public class SearchServiceImpl implements SearchService {
     return result;
   }
 
-  private String buildQuery(QuerySpec dto) {
+  @Override
+  public String buildQuery(QuerySpec dto) {
     StringBuilder builder = new StringBuilder("{");
 
     if (dto instanceof QueryBoolean) {
