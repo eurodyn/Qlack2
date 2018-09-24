@@ -17,7 +17,6 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -1252,13 +1251,14 @@ public class TemplateServiceImpl implements TemplateService {
 
   @Override
   public ByteArrayOutputStream replacePlaceholderWithTable(InputStream inputStream,
-      List<LinkedHashMap<Map<String, String>, Boolean>> table, String placeholder) {
+      List<LinkedHashMap<Map<String, String>, Map<String, String>>> table, String placeholder,
+      String identLeft) {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     try {
 
       WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(inputStream);
 
-      addTable(wordMLPackage, table, placeholder);
+      addTable(wordMLPackage, table, placeholder, identLeft);
 
       Docx4J.save(wordMLPackage, baos);
 
@@ -1268,14 +1268,23 @@ public class TemplateServiceImpl implements TemplateService {
     return baos;
   }
 
+  /**
+   * Adds the table.
+   *
+   * @param wordMLPackage the word ML package
+   * @param table the table
+   * @param placeholder the placeholder
+   * @param identLeft the ident left
+   */
   private void addTable(WordprocessingMLPackage wordMLPackage,
-      List<LinkedHashMap<Map<String, String>, Boolean>> table, String placeholder) {
+      List<LinkedHashMap<Map<String, String>, Map<String, String>>> table, String placeholder,
+      String identLeft) {
     ObjectFactory factory = new org.docx4j.wml.ObjectFactory();
     List<Object> paragraphs = getAllElementFromObject(wordMLPackage.getMainDocumentPart(), P.class);
     int writableWidthTwips = wordMLPackage.getDocumentModel().getSections().get(0)
         .getPageDimensions().getWritableWidthTwips();
     Tbl tblCredProg = TblFactory.createTable(0, 2, writableWidthTwips / 2);
-    removeBorders(tblCredProg, true, null, "365");
+    removeBorders(tblCredProg, true, null, identLeft);
     for (Object par : paragraphs) {
       List list = wordMLPackage.getMainDocumentPart().getContent();
       int index = 0;
@@ -1289,14 +1298,17 @@ public class TemplateServiceImpl implements TemplateService {
       for (Object t : texts) {
         Text text = (Text) t;
         if (text.getValue().contains(placeholder)) {
-          for (LinkedHashMap<Map<String, String>, Boolean> c : table) {
-            for (Entry<Map<String, String>, Boolean> column : c.entrySet()) {
+          for (LinkedHashMap<Map<String, String>, Map<String, String>> c : table) {
+            for (Entry<Map<String, String>, Map<String, String>> column : c.entrySet()) {
               Tr tr = factory.createTr();
               Map<String, String> map = column.getKey();
               for (Entry<String, String> value1 : map.entrySet()) {
-                addStyledTableFirstCell(tr, value1.getKey(), column.getValue(), false);
 
-                addStyledTableSecondCell(tr, value1.getValue(), column.getValue(), true);
+                addStyledTableCell(tr, value1.getKey(), column.getValue(), null,
+                    Boolean.valueOf(column.getValue().get("italic")), false);
+
+                addStyledTableCell(tr, value1.getValue(), column.getValue(), null,
+                    Boolean.valueOf(column.getValue().get("italic")), true);
               }
               tblCredProg.getContent().add(tr);
             }
@@ -1309,34 +1321,4 @@ public class TemplateServiceImpl implements TemplateService {
       }
     }
   }
-
-  private void addStyledTableFirstCell(Tr tableRow, String content, Boolean italic,
-      Boolean alignRight) {
-
-    Map<String, String> tableProperties = new HashMap<>();
-    tableProperties.put("spacing", "60");
-
-    tableProperties.put("width", "4450");
-    tableProperties.put("indentleft", "300");
-    if (italic != null && italic) {
-      tableProperties.put("fontSize", "16");
-      tableProperties.put("fontColor", "808080");
-    }
-    addStyledTableCell(tableRow, content, tableProperties, null, italic, alignRight);
-  }
-
-  private void addStyledTableSecondCell(Tr tableRow, String content, Boolean italic,
-      Boolean alignRight) {
-
-    Map<String, String> tableProperties = new HashMap<>();
-    tableProperties.put("spacing", "60");
-
-    tableProperties.put("width", "4450");
-    if (italic != null && italic) {
-      tableProperties.put("fontSize", "16");
-      tableProperties.put("fontColor", "808080");
-    }
-    addStyledTableCell(tableRow, content, tableProperties, null, italic, alignRight);
-  }
-
 }
