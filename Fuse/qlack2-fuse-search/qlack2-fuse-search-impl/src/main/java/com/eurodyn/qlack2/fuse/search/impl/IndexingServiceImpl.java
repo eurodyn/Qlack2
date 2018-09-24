@@ -24,14 +24,17 @@ import com.eurodyn.qlack2.fuse.search.api.dto.IndexingDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySpec;
 import com.eurodyn.qlack2.fuse.search.api.exception.QSearchException;
 import com.eurodyn.qlack2.fuse.search.impl.util.ESClient;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
 @Singleton
 @OsgiServiceProvider(classes = {IndexingService.class})
 public class IndexingServiceImpl implements IndexingService {
 
   private static ObjectMapper mapper;
+  private static ObjectMapper updateMapper;
   private static final Logger LOGGER = Logger.getLogger(IndexingServiceImpl.class.getName());
 
   // The ES client injected by blueprint.
@@ -46,22 +49,46 @@ public class IndexingServiceImpl implements IndexingService {
 	  mapper = new ObjectMapper();
 	  mapper.registerModule(new JavaTimeModule());
 	  mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+
+	  updateMapper = new ObjectMapper();
+	  updateMapper.registerModule(new JavaTimeModule());
+	  updateMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+	  updateMapper.setSerializationInclusion(Include.NON_NULL);
   }
 
   @Override
   public void indexDocument(IndexingDTO dto) {
-		try {
-			String endpoint = dto.getIndex() + "/" + dto.getType() + "/" + dto.getId();
-			Map<String, String> params = dto.isRefresh() ? Collections.singletonMap("refresh", "wait_for") : new HashMap<>();
+    index(dto, false);
+  }
 
-			// Execute indexing request.
+  @Override
+  public void updateDocument(IndexingDTO dto) {
+    index(dto, true);
+  }
+
+  private void index(IndexingDTO dto, boolean update) {
+    try {
+      String endpoint = dto.getIndex() + "/" + dto.getType() + "/" + dto.getId();
+      String method;
+      String jsonBody;
+      if (update) {
+        endpoint += "/_update";
+        method = "POST";
+        jsonBody = "{\"doc\": " + updateMapper.writeValueAsString(dto.getSourceObject()) + "}";
+      } else {
+        method = "PUT";
+        jsonBody = mapper.writeValueAsString(dto.getSourceObject());
+      }
+
+      Map<String, String> params = dto.isRefresh() ? Collections.singletonMap("refresh", "wait_for") : new HashMap<>();
+
+      // Execute indexing request.
       ContentType contentType = ContentType.APPLICATION_JSON.withCharset(Charset.forName("UTF-8"));
-			esClient.getClient().performRequest("PUT", endpoint, params,
-					new NStringEntity(mapper.writeValueAsString(dto.getSourceObject()), contentType));
-		} catch (IOException e) {
-			LOGGER.log(Level.SEVERE, MessageFormat.format("Could not index document with id: {0}", dto.getId()), e);
-			throw new QSearchException(MessageFormat.format("Could not index document with id: {0}", dto.getId()));
-		}
+      esClient.getClient().performRequest(method, endpoint, params, new NStringEntity(jsonBody, contentType));
+    } catch (IOException e) {
+      LOGGER.log(Level.SEVERE, MessageFormat.format("Could not index document with id: {0}", dto.getId()), e);
+      throw new QSearchException(MessageFormat.format("Could not index document with id: {0}", dto.getId()));
+    }
   }
 
   @Override
