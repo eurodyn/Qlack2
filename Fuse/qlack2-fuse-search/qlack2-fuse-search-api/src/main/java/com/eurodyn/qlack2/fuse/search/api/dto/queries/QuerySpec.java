@@ -61,6 +61,10 @@ public abstract class QuerySpec {
 	private final List<String> includes = new ArrayList<>();
 	private final List<String> excludes = new ArrayList<>();
 
+    // boost this query to influence ES score. At the moments works only for QueryStringSpecField and
+    // QueryTerm
+    private int boost = 1;
+
 	protected QuerySort querySort;
 	private QueryHighlight highlight;
 
@@ -258,5 +262,14 @@ public abstract class QuerySpec {
 
   public Map<String, String> getParams() {
     return params;
+  }
+
+  public int getBoost() {
+    return boost;
+  }
+
+  public QuerySpec setBoost(int boost) {
+    this.boost = boost;
+    return this;
   }
 }

@@ -267,9 +267,11 @@ public class SearchServiceImpl implements SearchService {
 
       builder.append("\"term\" : { \"")
         .append(query.getField())
-        .append("\" : \"")
+        .append("\" : {\"value\" : \"")
         .append(query.getValue())
-        .append("\" }");
+        .append("\", \"boost\" : ")
+        .append(query.getBoost())
+        .append("}}");
     } else if (dto instanceof QueryTermNested) {
       QueryTermNested query = (QueryTermNested) dto;
 /** 21/02/2018 Adding the a QueryTerm for nested Objects*/
@@ -375,7 +377,9 @@ public class SearchServiceImpl implements SearchService {
         .append(query.getValue())
         .append("\" , \"default_operator\" : \"")
         .append(query.getOperator())
-        .append("\" }");
+        .append("\", \"boost\" : ")
+        .append(query.getBoost())
+        .append("}");
     }
     /** 23/01/2018 A dding the a QueryStringSpecField query for nested Objects*/
     else if (dto instanceof QueryStringSpecFieldNested) {
