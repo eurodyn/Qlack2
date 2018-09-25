@@ -25,6 +25,7 @@ import com.eurodyn.qlack2.fuse.search.api.dto.queries.HighlightField;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryBoolean;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryBoolean.BooleanType;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryExists;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryExistsNested;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryHighlight;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMatch;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMatchPhrase;
@@ -350,6 +351,20 @@ public class SearchServiceImpl implements SearchService {
         .append("\"field\": \"")
         .append(query.getField())
         .append("\"")
+        .append("}");
+    } else if (dto instanceof QueryExistsNested) {
+      /** 26/09/2018 Adding the exists query for nested Objects*/
+      QueryExistsNested query = (QueryExistsNested) dto;
+      builder.append("\"nested\" : { ")
+        .append("\"path\": \"")
+        .append(query.getPath())
+        .append("\", \"query\": { ")
+        .append("\"exists\" : { \"")
+        .append("field")
+        .append("\" : \"")
+        .append(query.getField())
+        .append("\" }")
+        .append(" } ")
         .append("}");
     } else if (dto instanceof QueryMatchPhrase) {
       QueryMatchPhrase query = (QueryMatchPhrase) dto;
