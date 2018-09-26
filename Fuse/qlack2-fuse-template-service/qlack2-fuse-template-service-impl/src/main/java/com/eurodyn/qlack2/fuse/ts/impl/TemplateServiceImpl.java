@@ -29,7 +29,11 @@ import javax.xml.bind.JAXBException;
 import org.apache.commons.lang3.StringUtils;
 import org.docx4j.Docx4J;
 import org.docx4j.XmlUtils;
+import org.docx4j.dml.wordprocessingDrawing.Anchor;
 import org.docx4j.dml.wordprocessingDrawing.Inline;
+import org.docx4j.dml.wordprocessingDrawing.STAlignH;
+import org.docx4j.dml.wordprocessingDrawing.STRelFromH;
+import org.docx4j.dml.wordprocessingDrawing.STRelFromV;
 import org.docx4j.jaxb.Context;
 import org.docx4j.jaxb.XPathBinderAssociationIsPartialException;
 import org.docx4j.model.structure.HeaderFooterPolicy;
@@ -44,6 +48,7 @@ import org.docx4j.openpackaging.parts.WordprocessingML.BinaryPartAbstractImage;
 import org.docx4j.openpackaging.parts.WordprocessingML.FooterPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.HeaderPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
+import org.docx4j.openpackaging.parts.relationships.Namespaces;
 import org.docx4j.w14.CTOnOff;
 import org.docx4j.w14.CTSdtCheckbox;
 import org.docx4j.wml.BooleanDefaultTrue;
@@ -128,7 +133,8 @@ public class TemplateServiceImpl implements TemplateService {
 
   @Override
   public ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
-      Map<String, String> mappings, String checkbox, List<String> bulletList) {
+      Map<String, String> mappings, String checkbox, List<String> bulletList, byte[] logo,
+      long imageWidth) {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     try {
 
@@ -138,6 +144,8 @@ public class TemplateServiceImpl implements TemplateService {
       replaceBodyPlaceholdersWithCheckbox(wordMLPackage, mappings, checkbox, bulletList);
       // Replace placeholders on header and footer.
       replaceHeaderAndFooterPlaceholders(wordMLPackage, mappings);
+
+      addHeaderAnchor(wordMLPackage, logo, imageWidth);
       Docx4J.save(wordMLPackage, baos);
 
     } catch (Docx4JException e) {
@@ -189,6 +197,63 @@ public class TemplateServiceImpl implements TemplateService {
       throw new QTemplateServiceException(NO_DOCUMENT_CREATED);
     }
     return baos;
+  }
+  
+  /**
+   * Adds the header anchor.
+   *
+   * @param wordMLPackage the word ML package
+   * @param logo the logo
+   * @param imageWidth the image width
+   */
+  private void addHeaderAnchor(WordprocessingMLPackage wordMLPackage, byte[] logo,
+      long imageWidth) {
+    BinaryPartAbstractImage imagePart = null;
+    HeaderPart headerPart = checkIfHeaderPartExists(wordMLPackage);
+    try {
+      if (headerPart != null) {
+        imagePart = BinaryPartAbstractImage.createImagePart(wordMLPackage, headerPart, logo);
+      }
+    } catch (Exception e) {
+      throw new QTemplateServiceException(IMAGE_PART_NOT_CREATED);
+    }
+
+    if (imagePart != null) {
+      Inline inline = createInlineImage(imagePart, imageWidth);
+      // convert the inline to an anchor (xml contents are essentially the same)
+      String anchorXml = XmlUtils.marshaltoString(inline, true, false, Context.jc,
+          Namespaces.NS_WORD12, "anchor", Inline.class);
+
+      org.docx4j.dml.ObjectFactory dmlFactory = new org.docx4j.dml.ObjectFactory();
+      org.docx4j.dml.wordprocessingDrawing.ObjectFactory wordDmlFactory =
+          new org.docx4j.dml.wordprocessingDrawing.ObjectFactory();
+      try {
+        Anchor anchor = (Anchor) XmlUtils.unmarshalString(anchorXml, Context.jc, Anchor.class);
+        anchor.setSimplePos(dmlFactory.createCTPoint2D());
+        anchor.getSimplePos().setX(0L);
+        anchor.getSimplePos().setY(0L);
+        anchor.setSimplePosAttr(false);
+        anchor.setPositionH(wordDmlFactory.createCTPosH());
+        anchor.getPositionH().setAlign(STAlignH.CENTER);
+        anchor.getPositionH().setRelativeFrom(STRelFromH.LEFT_MARGIN);
+        anchor.setPositionV(wordDmlFactory.createCTPosV());
+        anchor.getPositionV().setPosOffset(4395445);
+        anchor.getPositionV().setRelativeFrom(STRelFromV.PAGE);
+        anchor.setWrapNone(wordDmlFactory.createCTWrapNone());
+        // Now add the inline in w:p/w:r/w:drawing
+        ObjectFactory factory = new ObjectFactory();
+        P paragraph = factory.createP();
+        R run = factory.createR();
+        paragraph.getContent().add(run);
+        Drawing drawing = factory.createDrawing();
+        run.getContent().add(drawing);
+        drawing.getAnchorOrInline().add(anchor);
+
+        headerPart.getContent().add(paragraph);
+      } catch (JAXBException e) {
+        throw new QTemplateServiceException(IMAGE_PART_NOT_CREATED);
+      }
+    }
   }
 
   /**

@@ -110,7 +110,7 @@ public interface TemplateService {
    * @return the byte array output stream
    */
   ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
-      Map<String, String> mappings, String checkbox, List<String> bulletList);
+      Map<String, String> mappings, String checkbox, List<String> bulletList, byte[] logo, long imageWidth);
   
   
   /**
