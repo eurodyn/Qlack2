@@ -620,12 +620,11 @@ public class TemplateServiceImpl implements TemplateService {
       Map<String, String> mappings, String checkbox, List<String> bulletList) {
     try {
       MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
-
       addBulletList(wordMLPackage, mappings, bulletList);
 
       findCheckbox(documentPart, checkbox);
-
       documentPart.variableReplace(mappings);
+      generateTextWithListedPlaceholder(documentPart);
     } catch (JAXBException | Docx4JException e) {
       throw new QTemplateServiceException(
           "Error occured during placeholder replacement on main body.");
