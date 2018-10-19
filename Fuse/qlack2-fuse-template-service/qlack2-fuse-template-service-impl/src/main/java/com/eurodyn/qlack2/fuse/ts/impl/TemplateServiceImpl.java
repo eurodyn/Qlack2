@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -190,7 +191,7 @@ public class TemplateServiceImpl implements TemplateService {
       // Replace placeholders on header and footer.
       replaceHeaderAndFooterPlaceholders(wordMLPackage, mappings);
       // Add logo on document.
-      addHeaderImage(wordMLPackage, logo, imageWidth);
+      addHeaderImage(wordMLPackage, logo, imageWidth, null);
       Docx4J.save(wordMLPackage, baos);
 
     } catch (Docx4JException e) {
@@ -262,7 +263,8 @@ public class TemplateServiceImpl implements TemplateService {
    * @param wordMLPackage the word ML package
    * @param logo the logo
    */
-  private void addHeaderImage(WordprocessingMLPackage wordMLPackage, byte[] logo, long imageWidth) {
+  private void addHeaderImage(WordprocessingMLPackage wordMLPackage, byte[] logo, long imageWidth,
+      String placeholder) {
     BinaryPartAbstractImage imagePart = null;
     BinaryPartAbstractImage imagePartBody = null;
     HeaderPart headerPart = checkIfHeaderPartExists(wordMLPackage);
@@ -279,12 +281,20 @@ public class TemplateServiceImpl implements TemplateService {
     if (imagePart != null) {
       Inline inline = createInlineImage(imagePart, imageWidth);
       paragraph = addInlineImageToParagraph(inline);
-      setParagraphAlignment(paragraph);
+      if (placeholder != null) {
+        setParagraphAlignment(paragraph, JcEnumeration.LEFT);
+      } else {
+        setParagraphAlignment(paragraph, JcEnumeration.CENTER);
+      }
     }
 
     Inline inlineBody = createInlineImage(imagePartBody, imageWidth);
     P paragraphBody = addInlineImageToParagraph(inlineBody);
-    setParagraphAlignment(paragraphBody);
+    if (placeholder != null) {
+      setParagraphAlignment(paragraphBody, JcEnumeration.LEFT);
+    } else {
+      setParagraphAlignment(paragraphBody, JcEnumeration.CENTER);
+    }
 
     List<Object> elements = null;
     List<Object> elementsBody = null;
@@ -295,6 +305,69 @@ public class TemplateServiceImpl implements TemplateService {
 
     replaceImage(paragraph, elements);
     replaceImage(paragraphBody, elementsBody);
+    
+    if (placeholder != null) {
+      replaceImageParagraphWithPlaceholder(paragraph, elements, placeholder);
+      replaceImageBodyWithPlaceholder(paragraphBody, elementsBody, placeholder);
+    }
+  }
+
+  private void replaceImageBodyWithPlaceholder(P paragraphBody, List<Object> elementsBody,
+      String placeholder) {
+    if (elementsBody != null) {
+      for (Object obj : elementsBody) {
+        if (obj instanceof Tbl) {
+          Tbl table = (Tbl) obj;
+          List<Object> rows = getAllElementFromObject(table, Tr.class);
+          for (Object trObj : rows) {
+            Tr tr = (Tr) trObj;
+            List<Object> cols = getAllElementFromObject(tr, Tc.class);
+            for (Object tcObj : cols) {
+              Tc tc = (Tc) tcObj;
+              List<Object> texts = getAllElementFromObject(tc, Text.class);
+              for (Object textObj : texts) {
+                Text text = (Text) textObj;
+                if (text.getValue().equals(placeholder)) {
+                  tc.getContent().clear();
+                  tc.getContent().add(paragraphBody);
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    
+  }
+
+  private void replaceImageParagraphWithPlaceholder(P paragraph, List<Object> elements,
+      String placeholder) {
+    if (elements != null) {
+      for (Object obj : elements) {
+        if (obj instanceof Tbl) {
+          Tbl table = (Tbl) obj;
+          List<Object> rows = getAllElementFromObject(table, Tr.class);
+          for (Object trObj : rows) {
+            Tr tr = (Tr) trObj;
+            List<Object> cols = getAllElementFromObject(tr, Tc.class);
+            for (Object tcObj : cols) {
+              Tc tc = (Tc) tcObj;
+              List<Object> texts = getAllElementFromObject(tc, Text.class);
+              for (Object textObj : texts) {
+                Text text = (Text) textObj;
+                if (text.getValue().equals(placeholder)) {
+                  tc.getContent().clear();
+                  tc.getContent().add(paragraph);
+                  break;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    
   }
 
   /**
@@ -324,11 +397,11 @@ public class TemplateServiceImpl implements TemplateService {
    *
    * @param paragraph the new paragraph
    */
-  private void setParagraphAlignment(P paragraph) {
+  private void setParagraphAlignment(P paragraph, JcEnumeration alignment) {
     ObjectFactory factory = new ObjectFactory();
     PPr paragraphProperties = factory.createPPr();
     Jc justification = factory.createJc();
-    justification.setVal(JcEnumeration.CENTER);
+    justification.setVal(alignment);
     paragraphProperties.setJc(justification);
     paragraph.setPPr(paragraphProperties);
   }
@@ -1384,5 +1457,26 @@ public class TemplateServiceImpl implements TemplateService {
         }
       }
     }
+  }
+
+  @Override
+  public ByteArrayOutputStream replacePlaceholdersWithImage(InputStream inputStream,
+      List<Map<byte[], String>> iconsToReplaced) {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try {
+      WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(inputStream);
+
+      // Add logo on document.
+      for (Map<byte[], String> icon : iconsToReplaced) {
+        for (Entry<byte[], String> entry : icon.entrySet()) {
+          addHeaderImage(wordMLPackage, entry.getKey(), 0, entry.getValue());
+        }
+      }
+      Docx4J.save(wordMLPackage, baos);
+
+    } catch (Docx4JException e) {
+      throw new QTemplateServiceException(NO_DOCUMENT_CREATED);
+    }
+    return baos;
   }
 }

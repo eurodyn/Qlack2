@@ -20,6 +20,7 @@ import java.util.Map;
 
 import com.eurodyn.qlack2.fuse.ts.exception.QTemplateServiceException;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface TemplateService.
  */
@@ -107,6 +108,8 @@ public interface TemplateService {
    * @param mappings the mappings
    * @param checkbox the checkbox
    * @param bulletList the bullet list
+   * @param logo the logo
+   * @param imageWidth the image width
    * @return the byte array output stream
    */
   ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
@@ -125,4 +128,14 @@ public interface TemplateService {
   ByteArrayOutputStream replacePlaceholderWithTable(InputStream inputStream,
       List<LinkedHashMap<Map<String, String>, Map<String, String>>> table, String placeholder,
       String identLeft);
+  
+  /**
+   * Replace placeholders with image.
+   *
+   * @param inputStream the input stream
+   * @param iconsToReplaced the icons to replaced
+   * @return the byte array output stream
+   */
+  ByteArrayOutputStream replacePlaceholdersWithImage(InputStream inputStream,
+      List<Map<byte[], String>> iconsToReplaced);
 }
