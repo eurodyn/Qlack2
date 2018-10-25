@@ -17,12 +17,12 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -302,72 +302,21 @@ public class TemplateServiceImpl implements TemplateService {
       elements = getAllElementFromObject(headerPart, Tbl.class);
     }
     elementsBody = getAllElementFromObject(wordMLPackage.getMainDocumentPart(), Tbl.class);
-
-    replaceImage(paragraph, elements);
-    replaceImage(paragraphBody, elementsBody);
-    
     if (placeholder != null) {
-      replaceImageParagraphWithPlaceholder(paragraph, elements, placeholder);
-      replaceImageBodyWithPlaceholder(paragraphBody, elementsBody, placeholder);
+      replaceImage(paragraph, elements, placeholder);
+      replaceImage(paragraphBody, elementsBody, placeholder);
+    } else {
+      replaceImage(paragraph, elements, TENANT_LOGO);
+      replaceImage(paragraphBody, elementsBody, TENANT_LOGO);
     }
   }
 
-  private void replaceImageBodyWithPlaceholder(P paragraphBody, List<Object> elementsBody,
-      String placeholder) {
-    if (elementsBody != null) {
-      for (Object obj : elementsBody) {
-        if (obj instanceof Tbl) {
-          Tbl table = (Tbl) obj;
-          List<Object> rows = getAllElementFromObject(table, Tr.class);
-          for (Object trObj : rows) {
-            Tr tr = (Tr) trObj;
-            List<Object> cols = getAllElementFromObject(tr, Tc.class);
-            for (Object tcObj : cols) {
-              Tc tc = (Tc) tcObj;
-              List<Object> texts = getAllElementFromObject(tc, Text.class);
-              for (Object textObj : texts) {
-                Text text = (Text) textObj;
-                if (text.getValue().equals(placeholder)) {
-                  tc.getContent().clear();
-                  tc.getContent().add(paragraphBody);
-                  break;
-                }
-              }
-            }
-          }
-        }
-      }
+  private static void replaceImageBodyWithPlaceholder(P paragraphBody, Tc tc, String placeholder,
+      Text text) {
+    if (tc != null && text.getValue().contains(placeholder)) {
+      tc.getContent().clear();
+      tc.getContent().add(paragraphBody);
     }
-    
-  }
-
-  private void replaceImageParagraphWithPlaceholder(P paragraph, List<Object> elements,
-      String placeholder) {
-    if (elements != null) {
-      for (Object obj : elements) {
-        if (obj instanceof Tbl) {
-          Tbl table = (Tbl) obj;
-          List<Object> rows = getAllElementFromObject(table, Tr.class);
-          for (Object trObj : rows) {
-            Tr tr = (Tr) trObj;
-            List<Object> cols = getAllElementFromObject(tr, Tc.class);
-            for (Object tcObj : cols) {
-              Tc tc = (Tc) tcObj;
-              List<Object> texts = getAllElementFromObject(tc, Text.class);
-              for (Object textObj : texts) {
-                Text text = (Text) textObj;
-                if (text.getValue().equals(placeholder)) {
-                  tc.getContent().clear();
-                  tc.getContent().add(paragraph);
-                  break;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    
   }
 
   /**
@@ -397,7 +346,7 @@ public class TemplateServiceImpl implements TemplateService {
    *
    * @param paragraph the new paragraph
    */
-  private void setParagraphAlignment(P paragraph, JcEnumeration alignment) {
+  private static void setParagraphAlignment(P paragraph, JcEnumeration alignment) {
     ObjectFactory factory = new ObjectFactory();
     PPr paragraphProperties = factory.createPPr();
     Jc justification = factory.createJc();
@@ -412,16 +361,16 @@ public class TemplateServiceImpl implements TemplateService {
    * @param imagePart the image part
    * @return the inline
    */
-  private Inline createInlineImage(BinaryPartAbstractImage imagePart, long imageWidth) {
+  private static Inline createInlineImage(BinaryPartAbstractImage imagePart, long imageWidth) {
     int docPrId = 1;
     int cNvPrId = 2;
     Inline inline = null;
     try {
       if (imagePart != null) {
         if (imageWidth > 0) {
-          inline = imagePart.createImageInline("", "Image", docPrId, cNvPrId, imageWidth, false);
+          inline = imagePart.createImageInline("", "Image", UUID.randomUUID().variant(), UUID.randomUUID().variant(), imageWidth, false);
         } else {
-          inline = imagePart.createImageInline("", "Image", docPrId, cNvPrId, false);
+          inline = imagePart.createImageInline("", "Image", UUID.randomUUID().variant(), UUID.randomUUID().variant(), false);
         }
       }
     } catch (Exception e) {
@@ -436,7 +385,7 @@ public class TemplateServiceImpl implements TemplateService {
    * @param paragraph the paragraph
    * @param elements the elements
    */
-  public void replaceImage(P paragraph, List<Object> elements) {
+  public void replaceImage(P paragraph, List<Object> elements, String placeholder) {
     if (elements != null) {
       for (Object obj : elements) {
         if (obj instanceof Tbl) {
@@ -450,7 +399,7 @@ public class TemplateServiceImpl implements TemplateService {
               List<Object> texts = getAllElementFromObject(tc, Text.class);
               for (Object textObj : texts) {
                 Text text = (Text) textObj;
-                if (text.getValue().equals(TENANT_LOGO)) {
+                if (text.getValue().equals(placeholder)) {
                   tc.getContent().clear();
                   tc.getContent().add(paragraph);
                   break;
@@ -506,7 +455,7 @@ public class TemplateServiceImpl implements TemplateService {
   @Override
   public ByteArrayOutputStream createTableInDocxDocument(InputStream inputStream,
       List<String> header, List<LinkedHashMap<Map<String, String>, String>> content,
-      Map<String, String> tableProperties) {
+      Map<String, String> tableProperties, List<Map<byte[], String>> iconsToReplaced) {
     ObjectFactory factory = Context.getWmlObjectFactory();
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     try {
@@ -522,7 +471,7 @@ public class TemplateServiceImpl implements TemplateService {
       Tr thead = factory.createTr();
       for (int num = 0; num < header.size(); num++) {
         addStyledTableCell(thead, header.get(num), tableProperties,
-            tableProperties.get("boldHeader"), null, false);
+            tableProperties.get("boldHeader"), null, false, null, wordMLPackage);
       }
       if (tableProperties.get("repeatHeader") != null
           && tableProperties.get("repeatHeader").equals(Boolean.TRUE.toString())) {
@@ -536,9 +485,9 @@ public class TemplateServiceImpl implements TemplateService {
       for (Map<Map<String, String>, String> c : content) {
         Tr tr = factory.createTr();
 
-        for (Entry<Map<String, String>, String> column : c.entrySet()) {
-          addStyledTableCell(tr, column.getValue(), column.getKey(),
-              column.getKey().get("boldContent"), null, false);
+        for (Entry<Map<String, String>, String> column : c.entrySet()) {         
+            addStyledTableCell(tr, column.getValue(), column.getKey(),
+                column.getKey().get("boldContent"), null, false, iconsToReplaced, wordMLPackage);
         }
         if (lastRowCounter == content.size() - 1) {
           keepLastRowWithParagraph(tr);
@@ -554,6 +503,7 @@ public class TemplateServiceImpl implements TemplateService {
       } else {
         wordMLPackage.getMainDocumentPart().getContent().add(tblCredProg);
       }
+      
       Docx4J.save(wordMLPackage, baos);
 
     } catch (Docx4JException e) {
@@ -1140,6 +1090,7 @@ public class TemplateServiceImpl implements TemplateService {
     runProperties.setI(b);
   }
 
+
   /**
    * Adds the styling.
    *
@@ -1147,9 +1098,14 @@ public class TemplateServiceImpl implements TemplateService {
    * @param content the content
    * @param tableProperties the table properties
    * @param bold the bold
+   * @param italic the italic
+   * @param alignRight the align right
+   * @param iconsToReplaced the icons to replaced
+   * @param wordMLPackage the word ML package
    */
   private static void addStyling(Tc tableCell, String content, Map<String, String> tableProperties,
-      String bold, Boolean italic, Boolean alignRight) {
+      String bold, Boolean italic, Boolean alignRight, List<Map<byte[], String>> iconsToReplaced,
+      WordprocessingMLPackage wordMLPackage) {
     ObjectFactory factory = Context.getWmlObjectFactory();
     P paragraph = factory.createP();
 
@@ -1161,7 +1117,7 @@ public class TemplateServiceImpl implements TemplateService {
     run.getContent().add(text);
 
     paragraph.getContent().add(run);
-
+    
     RPr runProperties = factory.createRPr();
     // Set bold.
     if (bold != null && Boolean.valueOf(bold)) {
@@ -1174,7 +1130,8 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     // Set fonts.
-    if (tableProperties != null && (tableProperties.get("fonts") != null || tableProperties.get("fontColor") != null)) {
+    if (tableProperties != null
+        && (tableProperties.get("fonts") != null || tableProperties.get("fontColor") != null)) {
       setFonts(runProperties, tableProperties.get("fonts"), tableProperties.get("fontColor"));
     }
 
@@ -1184,10 +1141,73 @@ public class TemplateServiceImpl implements TemplateService {
     }
 
     paragraphStyling(paragraph, tableProperties, alignRight);
-
+    
     run.setRPr(runProperties);
+    
+    if (tableProperties != null && (tableProperties.get("image") != null
+        && Boolean.valueOf(tableProperties.get("image")))) {
+      addImageOnTableCell(tableCell, content, iconsToReplaced, wordMLPackage, factory, paragraph,
+          text, run);
+    } else {
+      tableCell.getContent().add(paragraph);
+    }
+   
+  }
 
-    tableCell.getContent().add(paragraph);
+  private static void addImageOnTableCell(Tc tableCell, String content,
+      List<Map<byte[], String>> iconsToReplaced, WordprocessingMLPackage wordMLPackage,
+      ObjectFactory factory, P paragraph, Text text, R run) {
+    boolean added = false;
+    for (Map<byte[], String> icon : iconsToReplaced) {
+      for (Entry<byte[], String> entry : icon.entrySet()) {
+        if (entry.getValue().equals(content)) {
+          BinaryPartAbstractImage imagePartBody = null;
+          try {
+            imagePartBody =
+                BinaryPartAbstractImage.createImagePart(wordMLPackage, entry.getKey());
+          } catch (Exception e) {
+            throw new QTemplateServiceException(IMAGE_PART_NOT_CREATED);
+          }
+          Inline inlineBody = createInlineImage(imagePartBody, 0);
+          
+          String anchorXml = XmlUtils.marshaltoString(inlineBody, true, false, Context.jc,
+              Namespaces.NS_WORD12, "anchor", Inline.class);
+
+          org.docx4j.dml.ObjectFactory dmlFactory = new org.docx4j.dml.ObjectFactory();
+          org.docx4j.dml.wordprocessingDrawing.ObjectFactory wordDmlFactory =
+              new org.docx4j.dml.wordprocessingDrawing.ObjectFactory();
+          try {
+            Anchor anchor = (Anchor) XmlUtils.unmarshalString(anchorXml, Context.jc, Anchor.class);
+            anchor.setSimplePos(dmlFactory.createCTPoint2D());
+            anchor.getSimplePos().setX(0L);
+            anchor.getSimplePos().setY(0L);
+            anchor.setSimplePosAttr(false);
+            anchor.setPositionH(wordDmlFactory.createCTPosH());
+            anchor.getPositionH().setAlign(STAlignH.LEFT);
+            anchor.getPositionH().setRelativeFrom(STRelFromH.COLUMN);
+            anchor.setPositionV(wordDmlFactory.createCTPosV());
+            anchor.getPositionV().setRelativeFrom(STRelFromV.PAGE);
+            anchor.setWrapNone(wordDmlFactory.createCTWrapNone());
+            // Now add the inline in w:p/w:r/w:drawing
+            // Remove text that has been added.
+            run.getContent().remove(text);
+            Drawing drawing = factory.createDrawing();
+            run.getContent().add(drawing);
+            drawing.getAnchorOrInline().add(anchor);
+            // Add new paragraph on table cell.
+            tableCell.getContent().add(paragraph);
+            added = true;
+            replaceImageBodyWithPlaceholder(paragraph, tableCell, entry.getValue(), text);
+          } catch (JAXBException e) {
+            throw new QTemplateServiceException(IMAGE_PART_NOT_CREATED);
+          }
+          break;
+        }
+      }
+    }
+    if (!added) {
+      tableCell.getContent().add(paragraph);
+    }
   }
 
   /**
@@ -1223,6 +1243,7 @@ public class TemplateServiceImpl implements TemplateService {
     runProperties.setSzCs(size);
   }
 
+ 
   /**
    * Adds the styled table cell.
    *
@@ -1230,16 +1251,22 @@ public class TemplateServiceImpl implements TemplateService {
    * @param content the content
    * @param tableProperties the table properties
    * @param bold the bold
+   * @param italic the italic
+   * @param alignRight the align right
+   * @param iconsToReplaced the icons to replaced
+   * @param wordMLPackage the word ML package
    */
   private static void addStyledTableCell(Tr tableRow, String content,
-      Map<String, String> tableProperties, String bold, Boolean italic, Boolean alignRight) {
+      Map<String, String> tableProperties, String bold, Boolean italic, Boolean alignRight,
+      List<Map<byte[], String>> iconsToReplaced, WordprocessingMLPackage wordMLPackage) {
     ObjectFactory factory = Context.getWmlObjectFactory();
     Tc tableCell = factory.createTc();
 
     // Cell properties.
     addCellStyling(tableCell, tableProperties);
 
-    addStyling(tableCell, content, tableProperties, bold, italic, alignRight);
+    addStyling(tableCell, content, tableProperties, bold, italic, alignRight, iconsToReplaced,
+        wordMLPackage);
 
     tableRow.getContent().add(tableCell);
   }
@@ -1442,10 +1469,10 @@ public class TemplateServiceImpl implements TemplateService {
               for (Entry<String, String> value1 : map.entrySet()) {
 
                 addStyledTableCell(tr, value1.getKey(), column.getValue(), null,
-                    Boolean.valueOf(column.getValue().get("italic")), false);
+                    Boolean.valueOf(column.getValue().get("italic")), false, null, wordMLPackage);
 
                 addStyledTableCell(tr, value1.getValue(), column.getValue(), null,
-                    Boolean.valueOf(column.getValue().get("italic")), true);
+                    Boolean.valueOf(column.getValue().get("italic")), true, null, wordMLPackage);
               }
               tblCredProg.getContent().add(tr);
             }
@@ -1478,5 +1505,5 @@ public class TemplateServiceImpl implements TemplateService {
       throw new QTemplateServiceException(NO_DOCUMENT_CREATED);
     }
     return baos;
-  }
+  }  
 }

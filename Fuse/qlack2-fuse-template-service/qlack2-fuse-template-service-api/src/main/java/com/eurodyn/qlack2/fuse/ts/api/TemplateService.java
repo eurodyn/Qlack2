@@ -49,7 +49,7 @@ public interface TemplateService {
    */
   ByteArrayOutputStream createTableInDocxDocument(InputStream inputStream, List<String> header,
       List<LinkedHashMap<Map<String, String>, String>> content,
-      Map<String, String> tableProperties);
+      Map<String, String> tableProperties, List<Map<byte[], String>> iconsToReplaced);
 
   /**
    * Generate excel spreadsheet.
