@@ -485,6 +485,10 @@ public class TemplateServiceImpl implements TemplateService {
       for (Map<Map<String, String>, String> c : content) {
         Tr tr = factory.createTr();
 
+        // prevent row from splitting to a new page
+        // instead move whole row to next page
+        preventRowSplit(tr);
+
         for (Entry<Map<String, String>, String> column : c.entrySet()) {         
             addStyledTableCell(tr, column.getValue(), column.getKey(),
                 column.getKey().get("boldContent"), null, false, iconsToReplaced, wordMLPackage);
@@ -1334,7 +1338,7 @@ public class TemplateServiceImpl implements TemplateService {
     if (removeBorder) {
       border.setVal(STBorder.NONE);
     } else {
-      border.setVal(STBorder.BASIC_THIN_LINES);
+      border.setVal(STBorder.SINGLE);
     }
     TblBorders borders = new TblBorders();
     borders.setBottom(border);
@@ -1506,4 +1510,20 @@ public class TemplateServiceImpl implements TemplateService {
     }
     return baos;
   }  
+
+  /**
+   * Method that prevents row splitting to a new page.
+   *
+   * @param Tr the current row
+   */
+  private void preventRowSplit(Tr tr) {
+    TrPr trpr = Context.getWmlObjectFactory().createTrPr();
+    tr.setTrPr(trpr);
+    BooleanDefaultTrue booleandefaulttrue =
+        Context.getWmlObjectFactory().createBooleanDefaultTrue();
+    JAXBElement<org.docx4j.wml.BooleanDefaultTrue> booleandefaulttrueWrapped =
+        Context.getWmlObjectFactory().createCTTrPrBaseCantSplit(booleandefaulttrue);
+    Context.getWmlObjectFactory().createCTTrPrBaseTblHeader(booleandefaulttrue);
+    trpr.getCnfStyleOrDivIdOrGridBefore().add(booleandefaulttrueWrapped);
+  }
 }
