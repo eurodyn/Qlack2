@@ -156,4 +156,14 @@ public class IndexingServiceImpl implements IndexingService {
       throw new QSearchException("Could not delete documents", e);
     }
   }
+
+  @Override
+  public void refresh(String index) {
+    try {
+      esClient.getClient().performRequest("POST", index + "/_refresh");
+    } catch (IOException e) {
+      LOGGER.log(Level.SEVERE, "Could not refresh index " + index, e);
+      throw new QSearchException("Could not refresh index " + index, e);
+    }
+  }
 }

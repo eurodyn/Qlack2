@@ -36,4 +36,11 @@ public interface IndexingService {
    * @param query The query.
    */
   void unindexByQuery(QuerySpec query);
+
+  /**
+   * Refreshes an index making all data searchable after execution.
+   *
+   * @param index The index name.
+   */
+  void refresh(String index);
 }
