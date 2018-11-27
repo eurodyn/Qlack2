@@ -194,4 +194,17 @@ public class Resource implements Serializable {
         return retVal;
     }
 
+  public static Resource findByName(String resName, EntityManager em) {
+    Resource retVal = null;
+
+    Query q = em.createQuery("select r from Resource r where r.name = :resourceName");
+    q.setParameter("resourceName", resName);
+    List<Resource> l = q.getResultList();
+    if (!l.isEmpty()) {
+      retVal = (Resource)l.get(0);
+    }
+
+    return retVal;
+  }
+
 }

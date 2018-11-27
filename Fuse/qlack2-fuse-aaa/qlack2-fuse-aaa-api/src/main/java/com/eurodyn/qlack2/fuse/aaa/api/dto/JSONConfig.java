@@ -9,6 +9,7 @@ public class JSONConfig {
 	private Operation[] operations;
 	private GroupHasOperation[] groupHasOperations;
 	private TemplateHasOperation[] templateHasOperations;
+	private Resource[] resources;
 
 	public Group[] getGroups() {
 		return groups != null ? groups : new Group[0];
@@ -50,7 +51,15 @@ public class JSONConfig {
 		this.templateHasOperations = templateHasOperations;
 	}
 
-	public static class Group {
+  public Resource[] getResources() {
+    return resources;
+  }
+
+  public void setResources(Resource[] resources) {
+    this.resources = resources;
+  }
+
+  public static class Group {
 		private String name;
 		private String description;
 		private String objectID;
@@ -190,4 +199,25 @@ public class JSONConfig {
 			this.operationName = operationName;
 		}
 	}
+
+  public static class Resource{
+	  private String name;
+	  private String description;
+
+    public String getName() {
+      return name;
+    }
+
+    public void setName(String name) {
+      this.name = name;
+    }
+
+    public String getDescription() {
+      return description;
+    }
+
+    public void setDescription(String description) {
+      this.description = description;
+    }
+  }
 }

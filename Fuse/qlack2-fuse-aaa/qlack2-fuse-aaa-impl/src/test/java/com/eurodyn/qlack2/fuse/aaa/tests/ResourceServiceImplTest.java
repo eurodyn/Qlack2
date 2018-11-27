@@ -130,4 +130,14 @@ public class ResourceServiceImplTest extends ITTestConf {
         Assert.assertNotNull(resourceService.getResourceByObjectId(resourceDTO.getObjectID()));
     }
 
+    @Test
+  public void getResourceByName(){
+      ResourceDTO resourceDTO = TestUtilities.createResourceDTO();
+      String resourceID = resourceService.createResource(resourceDTO);
+      Assert.assertNotNull(resourceID);
+
+      ResourceDTO getResourceDTO = resourceService.getResourceByName(resourceDTO.getName());
+      Assert.assertEquals(resourceDTO.getName(),getResourceDTO.getName());
+    }
+
 }

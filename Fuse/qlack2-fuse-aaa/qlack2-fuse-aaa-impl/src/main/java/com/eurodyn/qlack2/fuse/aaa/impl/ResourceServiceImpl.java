@@ -90,4 +90,9 @@ public class ResourceServiceImpl implements ResourceService {
 				objectID, em));
 	}
 
+  @Override
+  public ResourceDTO getResourceByName(String resourceName){
+    return ConverterUtil.resourceToResourceDTO(Resource.findByName(resourceName, em));
+  }
+
 }

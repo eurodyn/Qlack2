@@ -4,9 +4,11 @@ import com.eurodyn.qlack2.fuse.aaa.api.JSONConfigService;
 import com.eurodyn.qlack2.fuse.aaa.api.OpTemplateService;
 import com.eurodyn.qlack2.fuse.aaa.api.OperationService;
 import com.eurodyn.qlack2.fuse.aaa.api.UserGroupService;
+import com.eurodyn.qlack2.fuse.aaa.api.ResourceService;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.GroupDTO;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.JSONConfig;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.OpTemplateDTO;
+import com.eurodyn.qlack2.fuse.aaa.api.dto.ResourceDTO;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.OperationDTO;
 import com.eurodyn.qlack2.fuse.aaa.impl.model.Application;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -47,6 +49,9 @@ public class JSONConfigServiceImpl implements JSONConfigService {
 
     @Inject
     private OperationService operationService;
+
+    @Inject
+    private ResourceService resourceService;
 
     @PersistenceContext(unitName = "fuse-aaa")
     private EntityManager em;
@@ -177,6 +182,25 @@ public class JSONConfigServiceImpl implements JSONConfigService {
             }
         }
         em.flush();
+
+        //Create Resources
+      for (JSONConfig.Resource r : config.getResources()){
+        // If the resource exists, update it, otherwise create it.
+        LOGGER.log(Level.FINEST, "Processing resource {0}", r.getName());
+        ResourceDTO resDTO =  resourceService.getResourceByName(r.getName());
+        boolean isNew = resDTO == null;
+        if (isNew) {
+          resDTO = new ResourceDTO();
+        }
+        resDTO.setDescription(r.getDescription());
+        resDTO.setName(r.getName());
+        if (isNew) {
+          resourceService.createResource(resDTO);
+        } else {
+          resourceService.updateResource(resDTO);
+        }
+      }
+      em.flush();
 
         // Create Group has Operations.
         for (JSONConfig.GroupHasOperation gho : config.getGroupHasOperations()) {

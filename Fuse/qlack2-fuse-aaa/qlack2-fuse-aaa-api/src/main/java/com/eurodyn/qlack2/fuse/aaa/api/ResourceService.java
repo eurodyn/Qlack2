@@ -80,4 +80,13 @@ public interface ResourceService {
      * @return The resource's details
      */
     ResourceDTO getResourceByObjectId(String objectID);
+
+
+  /**
+   * Retrieves a resource by its name
+   *
+   * @param resourceName The name of the resource to retrieve
+   * @return The retrieved resource
+   */
+    ResourceDTO getResourceByName(String resourceName);
 }
