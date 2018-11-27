@@ -30,6 +30,7 @@ import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryHighlight;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMatch;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMatchPhrase;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryMultiMatch;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryNested;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryRange;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySort;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySpec;
@@ -40,6 +41,7 @@ import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTerm;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTermNested;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTerms;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryTermsNested;
+import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryType;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryWildcard;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QueryWildcardNested;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.SimpleQueryString;
@@ -228,6 +230,51 @@ public class SearchServiceImpl implements SearchService {
 
         builder.append("]");
         appendComa = true;
+      }
+
+      builder.append("}");
+    } else if (dto instanceof QueryType) {
+      QueryType query = (QueryType) dto;
+
+      builder.append("\"type\" : {\"value\": \"")
+        .append(query.getTerm())
+        .append("\"}");
+    } else if (dto instanceof QueryNested) {
+      QueryNested query = (QueryNested) dto;
+      builder.append("\"nested\": {")
+        .append("\"path\": \"")
+        .append(query.getPath())
+        .append("\", \"query\": ")
+        .append(buildQuery(query.getQuery()));
+
+      if (query.getInnerHits() != null) {
+        builder.append(", \"inner_hits\": {")
+          .append("\"size\": ")
+          .append(query.getInnerHits().getSize());
+
+        if (!query.getInnerHits().getExcludes().isEmpty()) {
+          builder.append(", \"_source\": {\"excludes\":[");
+
+          List<String> excludedFields = new ArrayList<>(query.getInnerHits().getExcludes());
+          for (String excludedField : excludedFields) {
+            if (excludedFields.indexOf(excludedField) > 0) {
+              builder.append(",");
+            }
+
+            builder.append("\"")
+              .append(excludedField)
+              .append("\"");
+          }
+
+          builder.append("]}");
+        }
+
+        if (query.getInnerHits().getHighlight() != null) {
+          builder.append(", \"highlight\": ")
+            .append(buildHighlight(query.getInnerHits().getHighlight()));
+        }
+
+        builder.append("}");
       }
 
       builder.append("}");
@@ -468,6 +515,10 @@ public class SearchServiceImpl implements SearchService {
       .append(",\"fields\": [");
 
     for (HighlightField field : highlight.getFields()) {
+      if (highlight.getFields().indexOf(field) > 0) {
+        builder.append(",");
+      }
+
       builder.append("{\"")
         .append(field.getField())
         .append("\": {");
