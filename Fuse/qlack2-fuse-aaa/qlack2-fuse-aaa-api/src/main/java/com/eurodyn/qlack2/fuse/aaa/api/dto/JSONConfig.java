@@ -52,7 +52,7 @@ public class JSONConfig {
 	}
 
   public Resource[] getResources() {
-    return resources;
+    return resources != null ? resources : new Resource[0];
   }
 
   public void setResources(Resource[] resources) {
