@@ -11,6 +11,8 @@ import com.eurodyn.qlack2.fuse.aaa.api.dto.UserDTO;
 import com.eurodyn.qlack2.fuse.aaa.conf.ITTestConf;
 import com.eurodyn.qlack2.fuse.aaa.util.TestConst;
 import com.eurodyn.qlack2.fuse.aaa.util.TestUtilities;
+import java.util.HashMap;
+import java.util.Map;
 import javax.inject.Inject;
 import org.junit.Assert;
 import org.junit.Test;
@@ -374,6 +376,40 @@ public class UserServiceImplTest extends ITTestConf {
     userService.updateAttributes(attrList, true);
 
     Assert.assertNotNull(userService.getAttribute(userUpdAttrsID, userAttrDTO.getName()));
+  }
+
+  @Test
+  public void getAttributes() {
+    LOGGER.log(Level.INFO, "Testing getAttributes");
+    final int userAttrCnt = 5;
+    Map<String, String> userAttributeMap = new HashMap<>();
+    for (int index = 0; index < userAttrCnt; index++) {
+      String username = TestConst.generateRandomString();
+      String mail = username + "@test.com";
+      UserDTO userDTO = new UserDTO();
+      String userId = UUID.randomUUID().toString();
+      userDTO.setId(userId);
+      userDTO.setUsername(username);
+      userDTO.setPassword(TestConst.USER_PASSWORD);
+
+      UserAttributeDTO userAttributeDTO = new UserAttributeDTO();
+      userAttributeDTO.setName("mail");
+      userAttributeDTO.setData(mail);
+      userDTO.setAttribute(userAttributeDTO);
+      userService.createUser(userDTO);
+      userAttributeMap.put(userId, mail);
+    }
+
+    Set<UserAttributeDTO> userAttributeDTOs = userService
+      .getAttributes(userAttributeMap.keySet(), "mail");
+
+    Assert.assertNotNull(userAttributeDTOs);
+    Assert.assertFalse(userAttributeDTOs.isEmpty());
+    Assert.assertEquals(userAttrCnt, userAttributeDTOs.size());
+    for (UserAttributeDTO userAttributeDTO : userAttributeDTOs) {
+      Assert.assertEquals(userAttributeMap.get(userAttributeDTO.getUserId()),
+        userAttributeDTO.getData());
+    }
   }
 
   @Test

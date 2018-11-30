@@ -285,6 +285,16 @@ public interface UserService {
   UserAttributeDTO getAttribute(String userID, String attributeName);
 
   /**
+   * Retrieves a set of user attributes for a set of user IDs and the attribute name.
+   *
+   * @param userIDs The IDs of the users owning the attribute to retrieve
+   * @param attributeName The name of the attribute to retrieve
+   * @return The retrieved attributes or an empty Set if the specified attribute does not exist for
+   * the specified users
+   */
+  Set<UserAttributeDTO> getAttributes(Set<String> userIDs, String attributeName);
+
+  /**
    * Retrieves the IDs of the users having a specified attribute.
    *
    * @param userIDs The IDs of the users among which to check. If no user IDs are

@@ -418,6 +418,12 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public Set<UserAttributeDTO> getAttributes(Set<String> userIDs, String attributeName) {
+    List<UserAttribute> attributes = User.findAttributes(userIDs, attributeName, em);
+    return ConverterUtil.userAttributesToUserAttributeDTOSet(attributes);
+  }
+
+  @Override
   @Transactional(TxType.REQUIRED)
   public Set<String> getUserIDsForAttribute(Collection<String> userIDs,
     String attributeName, String attributeValue) {

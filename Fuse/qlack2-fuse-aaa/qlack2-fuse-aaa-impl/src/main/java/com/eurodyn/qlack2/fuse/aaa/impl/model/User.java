@@ -256,6 +256,15 @@ public class User implements Serializable {
     return retVal;
   }
 
+  public static List<UserAttribute> findAttributes(Set<String> userIds, String attributeName,
+    EntityManager em) {
+    Query query = em
+      .createQuery("SELECT a FROM UserAttribute a WHERE a.user.id in :ids AND a.name = :name");
+    query.setParameter("ids", userIds);
+    query.setParameter("name", attributeName);
+    return query.getResultList();
+  }
+
   public static Set<String> getAllUserIds(EntityManager em) {
     Set<String> retVal = new HashSet<>();
     Query query = em.createQuery("SELECT u.id FROM User u");
