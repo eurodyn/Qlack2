@@ -23,10 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
-
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-
 import org.apache.commons.lang3.StringUtils;
 import org.docx4j.Docx4J;
 import org.docx4j.XmlUtils;
@@ -81,6 +79,7 @@ import org.docx4j.wml.TblWidth;
 import org.docx4j.wml.Tc;
 import org.docx4j.wml.TcMar;
 import org.docx4j.wml.TcPr;
+import org.docx4j.wml.TcPrInner.GridSpan;
 import org.docx4j.wml.Text;
 import org.docx4j.wml.Tr;
 import org.docx4j.wml.TrPr;
@@ -91,7 +90,6 @@ import org.xlsx4j.sml.Cell;
 import org.xlsx4j.sml.Row;
 import org.xlsx4j.sml.STCellType;
 import org.xlsx4j.sml.SheetData;
-
 import com.eurodyn.qlack2.fuse.ts.api.TemplateService;
 import com.eurodyn.qlack2.fuse.ts.exception.QTemplateServiceException;
 
@@ -454,7 +452,7 @@ public class TemplateServiceImpl implements TemplateService {
 
   @Override
   public ByteArrayOutputStream createTableInDocxDocument(InputStream inputStream,
-      List<String> header, List<LinkedHashMap<Map<String, String>, String>> content,
+      List<String> header, String tableTitle, List<LinkedHashMap<Map<String, String>, String>> content,
       Map<String, String> tableProperties, List<Map<byte[], String>> iconsToReplaced) {
     ObjectFactory factory = Context.getWmlObjectFactory();
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -467,11 +465,35 @@ public class TemplateServiceImpl implements TemplateService {
           TblFactory.createTable(0, header.size(), writableWidthTwips / header.size());
       removeBorders(tblCredProg, Boolean.valueOf(tableProperties.get("removeBorder")),
           tableProperties.get("borderSpace"), null);
+      
+      // Add table title (row).
+      if (tableTitle != null) {
+        Tr tTitle = factory.createTr();
+        addStyledTableCell(tTitle, tableTitle, tableProperties,
+            tableProperties.get("boldHeader"), null, false, null, wordMLPackage);
+        
+        if (tableProperties.get("repeatHeader") != null
+            && tableProperties.get("repeatHeader").equals(Boolean.TRUE.toString())) {
+          repeatTableHeader(tTitle);
+        }
+        tableProperties.remove("tableTitleGridSpan");
+        tableProperties.remove("tableTitleFontSize");
+        tblCredProg.getContent().add(tTitle);
+      }
+      
       // Add table header (row).
       Tr thead = factory.createTr();
       for (int num = 0; num < header.size(); num++) {
-        addStyledTableCell(thead, header.get(num), tableProperties,
-            tableProperties.get("boldHeader"), null, false, null, wordMLPackage);
+        // align right cell content if title exists
+        if (num == 4 && tableTitle != null) {
+          tableProperties.put("alignRight", String.valueOf(Boolean.TRUE));
+          addStyledTableCell(thead, header.get(num), tableProperties,
+              tableProperties.get("boldHeader"), null, true, null, wordMLPackage);  
+          tableProperties.remove("alignRight");
+        } else {
+          addStyledTableCell(thead, header.get(num), tableProperties,
+              tableProperties.get("boldHeader"), null, false, null, wordMLPackage); 
+        }
       }
       if (tableProperties.get("repeatHeader") != null
           && tableProperties.get("repeatHeader").equals(Boolean.TRUE.toString())) {
@@ -1133,6 +1155,11 @@ public class TemplateServiceImpl implements TemplateService {
       setFontSize(runProperties, tableProperties.get("fontSize"));
     }
 
+    // Set font size of title cell.
+    if (tableProperties != null && tableProperties.get("tableTitleFontSize") != null) {
+      setFontSize(runProperties, tableProperties.get("tableTitleFontSize"));
+    }
+    
     // Set fonts.
     if (tableProperties != null
         && (tableProperties.get("fonts") != null || tableProperties.get("fontColor") != null)) {
@@ -1316,6 +1343,13 @@ public class TemplateServiceImpl implements TemplateService {
       }
       tableCellProperties.setTcMar(tcMar);
 
+      // Merge cells of table title row to avoid word wrapping
+      if (tableProperties.get("tableTitleGridSpan") != null) {
+        GridSpan gridSpan = new GridSpan();
+        gridSpan.setVal(new BigInteger(tableProperties.get("tableTitleGridSpan")));
+        tableCellProperties.setGridSpan(gridSpan);
+      }
+      
       tableCell.setTcPr(tableCellProperties);
     }
   }

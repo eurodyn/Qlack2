@@ -48,7 +48,7 @@ public interface TemplateService {
    * @return the byte array output stream
    */
   ByteArrayOutputStream createTableInDocxDocument(InputStream inputStream, List<String> header,
-      List<LinkedHashMap<Map<String, String>, String>> content,
+      String tableTitle, List<LinkedHashMap<Map<String, String>, String>> content,
       Map<String, String> tableProperties, List<Map<byte[], String>> iconsToReplaced);
 
   /**
