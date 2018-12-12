@@ -51,6 +51,9 @@
 							<goal>bower</goal>
 						</goals>
 						<phase>generate-resources</phase>
+            <configuration>
+              <arguments>install --unsafe-perm --allow-root</arguments>
+            </configuration>
 					</execution>
 
 					<!-- Execute gulp build -->
