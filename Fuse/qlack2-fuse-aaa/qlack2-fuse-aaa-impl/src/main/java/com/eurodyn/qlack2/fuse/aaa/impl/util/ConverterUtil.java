@@ -401,6 +401,17 @@ public class ConverterUtil {
         return dto;
     }
 
+    public static List<ResourceDTO> resourceToResourceDTO(List<Resource> entities) {
+      if (entities.isEmpty()) {
+        return null;
+      }
+      List<ResourceDTO> dtoList = new ArrayList<>();
+      for (Resource entity : entities) {
+        dtoList.add(resourceToResourceDTO(entity));
+      }
+      return dtoList;
+    }
+
 	public static List<GroupHasOperationDTO> groupHasOperationToGroupHasOperationDTO(
 			List<GroupHasOperation> entities) {
 		if (entities == null) {

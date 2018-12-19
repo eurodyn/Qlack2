@@ -25,6 +25,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -93,6 +94,11 @@ public class ResourceServiceImpl implements ResourceService {
   @Override
   public ResourceDTO getResourceByName(String resourceName){
     return ConverterUtil.resourceToResourceDTO(Resource.findByName(resourceName, em));
+  }
+
+  @Override
+  public List<ResourceDTO> getAllResources(){
+	  return ConverterUtil.resourceToResourceDTO(Resource.findAllResources(em));
   }
 
 }

@@ -207,4 +207,9 @@ public class Resource implements Serializable {
     return retVal;
   }
 
+  public static List<Resource> findAllResources(EntityManager em) {
+    Query q = em.createQuery("select r from Resource r");
+    return q.getResultList();
+  }
+
 }

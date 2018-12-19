@@ -17,6 +17,7 @@ package com.eurodyn.qlack2.fuse.aaa.api;
 import com.eurodyn.qlack2.fuse.aaa.api.dto.ResourceDTO;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  *
@@ -24,62 +25,62 @@ import java.util.Collection;
  */
 public interface ResourceService {
 
-    /**
-     * Registers a resource with the system in order for it to be access controlled
-     * @param resourceDTO The information of the resource to register.
-     * @return The ID of the registered resource
-     */
-    String createResource(ResourceDTO resourceDTO);
-    
-    /**
-     * Updates a resource.
-     * @param resourceDTO The details of the resource to update.
-     */
-    void updateResource(ResourceDTO resourceDTO);
+  /**
+   * Registers a resource with the system in order for it to be access controlled
+   * @param resourceDTO The information of the resource to register.
+   * @return The ID of the registered resource
+   */
+  String createResource(ResourceDTO resourceDTO);
+
+  /**
+   * Updates a resource.
+   * @param resourceDTO The details of the resource to update.
+   */
+  void updateResource(ResourceDTO resourceDTO);
 
 
-    /**
-     * Removes a resource from the system
-     * @param resourceID The ID of the resource to remove
-     */
-    void deleteResource(String resourceID);
+  /**
+   * Removes a resource from the system
+   * @param resourceID The ID of the resource to remove
+   */
+  void deleteResource(String resourceID);
 
 
-    /**
-     * Removes a set of resources from the system
-     * @param resourceIDs The IDs of the resources to remove
-     */
-    void deleteResources(Collection<String> resourceIDs);
+  /**
+   * Removes a set of resources from the system
+   * @param resourceIDs The IDs of the resources to remove
+   */
+  void deleteResources(Collection<String> resourceIDs);
 
 
-    /**
-     * Removes a resource from the system identified by its object ID
-     * @param objectID The object ID of the resource to remove
-     */
-    void deleteResourceByObjectId(String objectID);
+  /**
+   * Removes a resource from the system identified by its object ID
+   * @param objectID The object ID of the resource to remove
+   */
+  void deleteResourceByObjectId(String objectID);
 
 
-    /**
-     * Removes a set of resources from the system
-     * @param objectIDs The object IDs of the resources to remove 
-     */
-    void deleteResourcesByObjectIds(Collection<String> objectIDs);
+  /**
+   * Removes a set of resources from the system
+   * @param objectIDs The object IDs of the resources to remove
+   */
+  void deleteResourcesByObjectIds(Collection<String> objectIDs);
 
 
-    /**
-     * Retrieves a resource by its ID
-     * @param resourceID The ID of the resource to retrieve
-     * @return The resource's details
-     */
-    ResourceDTO getResourceById(String resourceID);
+  /**
+   * Retrieves a resource by its ID
+   * @param resourceID The ID of the resource to retrieve
+   * @return The resource's details
+   */
+  ResourceDTO getResourceById(String resourceID);
 
 
-    /**
-     * Retrieves a resource by its object ID
-     * @param objectID The id of the object of the resource to retrieve
-     * @return The resource's details
-     */
-    ResourceDTO getResourceByObjectId(String objectID);
+  /**
+   * Retrieves a resource by its object ID
+   * @param objectID The id of the object of the resource to retrieve
+   * @return The resource's details
+   */
+  ResourceDTO getResourceByObjectId(String objectID);
 
 
   /**
@@ -88,5 +89,13 @@ public interface ResourceService {
    * @param resourceName The name of the resource to retrieve
    * @return The retrieved resource
    */
-    ResourceDTO getResourceByName(String resourceName);
+  ResourceDTO getResourceByName(String resourceName);
+
+
+  /**
+   * Retrieves all resources
+   *
+   * @return  The retrieved resources
+   */
+  List<ResourceDTO> getAllResources();
 }
