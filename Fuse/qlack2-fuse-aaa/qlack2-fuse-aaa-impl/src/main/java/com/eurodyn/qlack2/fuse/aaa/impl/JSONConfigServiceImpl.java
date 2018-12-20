@@ -194,6 +194,7 @@ public class JSONConfigServiceImpl implements JSONConfigService {
         }
         resDTO.setDescription(r.getDescription());
         resDTO.setName(r.getName());
+        resDTO.setObjectID(r.getObjectId());
         if (isNew) {
           resourceService.createResource(resDTO);
         } else {

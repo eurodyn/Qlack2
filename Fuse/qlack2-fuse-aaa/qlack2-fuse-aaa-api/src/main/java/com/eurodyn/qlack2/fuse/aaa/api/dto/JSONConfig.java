@@ -203,6 +203,7 @@ public class JSONConfig {
   public static class Resource{
 	  private String name;
 	  private String description;
+    private String objectId;
 
     public String getName() {
       return name;
@@ -218,6 +219,14 @@ public class JSONConfig {
 
     public void setDescription(String description) {
       this.description = description;
+    }
+
+    public String getObjectId() {
+      return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+      this.objectId = objectId;
     }
   }
 }
