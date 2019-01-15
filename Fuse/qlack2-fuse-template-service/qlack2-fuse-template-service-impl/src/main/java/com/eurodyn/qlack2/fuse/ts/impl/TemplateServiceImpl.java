@@ -144,7 +144,9 @@ public class TemplateServiceImpl implements TemplateService {
       // Replace placeholders on header and footer.
       replaceHeaderAndFooterPlaceholders(wordMLPackage, mappings);
 
-      addHeaderAnchor(wordMLPackage, logo, imageWidth);
+      if (logo != null) {
+        addHeaderAnchor(wordMLPackage, logo, imageWidth);
+      }
       Docx4J.save(wordMLPackage, baos);
 
     } catch (Docx4JException e) {
@@ -635,6 +637,7 @@ public class TemplateServiceImpl implements TemplateService {
   private void replaceBodyPlaceholders(WordprocessingMLPackage wordMLPackage,
       Map<String, String> mappings) {
     try {
+      removeEmptyPlaceholderText(wordMLPackage, mappings);
       MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
       documentPart.variableReplace(mappings);
       generateTextWithListedPlaceholder(documentPart);
@@ -657,11 +660,23 @@ public class TemplateServiceImpl implements TemplateService {
         }
       }
 
+      removeEmptyPlaceholderText(wordMLPackage, mappings);
+      
       documentPart.variableReplace(mappings);
       generateTextWithListedPlaceholder(documentPart);
     } catch (JAXBException | Docx4JException e) {
       throw new QTemplateServiceException(
           "Error occured during placeholder replacement on main body.");
+    }
+  }
+
+  private void removeEmptyPlaceholderText(WordprocessingMLPackage wordMLPackage,
+      Map<String, String> mappings) {
+    // If placeholder is empty, remove the placeholder (Text) from the document.
+    for (Entry<String, String> key : mappings.entrySet()) {
+      if (key.getValue() != null && key.getValue().length() <= 0) {
+        remove(wordMLPackage, key.getKey());
+      }
     }
   }
 
@@ -672,6 +687,7 @@ public class TemplateServiceImpl implements TemplateService {
       addBulletList(wordMLPackage, mappings, bulletList);
 
       findCheckbox(documentPart, checkbox);
+      removeEmptyPlaceholderText(wordMLPackage, mappings);
       documentPart.variableReplace(mappings);
       generateTextWithListedPlaceholder(documentPart);
     } catch (JAXBException | Docx4JException e) {
