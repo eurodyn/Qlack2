@@ -561,7 +561,6 @@ public class VersionServiceImpl implements VersionService {
         .createQuery("SELECT v FROM Version v WHERE v.filename IN  (:fileNameList) AND v.node.parent.id = :fileId ORDER BY v.createdOn DESC");
     query.setParameter("fileNameList", filenameList);
     query.setParameter("fileId", fileId);
-    query.setMaxResults(1);
     
     @SuppressWarnings("unchecked")
     List<Version> versions = query.getResultList();
