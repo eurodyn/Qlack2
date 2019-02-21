@@ -16,6 +16,7 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
+import org.elasticsearch.client.HttpAsyncResponseConsumerFactory.HeapBufferedResponseConsumerFactory;
 import org.elasticsearch.client.Response;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import com.eurodyn.qlack2.fuse.search.api.SearchService;
@@ -165,7 +166,8 @@ public class SearchServiceImpl implements SearchService {
       ContentType contentType = ContentType.APPLICATION_JSON.withCharset(Charset.forName("UTF-8"));
       response = esClient.getClient()
         .performRequest("GET", endpointBuilder.toString(), params,
-          new NStringEntity(mapper.writeValueAsString(internalRequest), contentType));
+          new NStringEntity(mapper.writeValueAsString(internalRequest), contentType),
+          new HeapBufferedResponseConsumerFactory(280 * 1024 * 1024));
     } catch (IOException e) {
       LOGGER.log(Level.SEVERE, "Could not execute query.", e);
       throw new QSearchException("Could not execute query.", e);
