@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+
 import com.eurodyn.qlack2.fuse.cm.api.dto.BreadcrumbPartDTO;
 import com.eurodyn.qlack2.fuse.cm.api.dto.FileDTO;
 import com.eurodyn.qlack2.fuse.cm.api.dto.FolderDTO;
@@ -70,7 +71,7 @@ public class ConverterUtil {
 
   /**
    * Convert a Node entity to a FileDTO; this method <b>does not</b> convert also the file versions.
-   * 
+   *
    * @param entity The node entity to be converted.
    * @param lazyRelatives when true it does not compute the relatives ancestors/descendants of the
    *        specific entity.
@@ -85,7 +86,7 @@ public class ConverterUtil {
 
     FileDTO dto = new FileDTO();
     dto.setMimetype(entity.getMimetype());
-    dto.setSize(entity.getSize());
+    dto.setSize(entity.getContentSize());
     initNodeDTO(dto, entity, lazyRelatives, findPath);
     return dto;
   }
@@ -132,7 +133,7 @@ public class ConverterUtil {
       boolean findPath) {
     // Computes the full path until the specified Node entity.
     if (findPath) {
-      List<BreadcrumbPartDTO> path = new ArrayList<BreadcrumbPartDTO>();
+      List<BreadcrumbPartDTO> path = new ArrayList<>();
       path = findDirectoryPath(entity, path);
       dto.setPath(path);
     }
@@ -235,7 +236,7 @@ public class ConverterUtil {
 
     dto.setCreatedOn(entity.getCreatedOn());
     dto.setMimetype(entity.getMimetype());
-    dto.setSize(entity.getSize());
+	dto.setContentSize(entity.getContentSize());
     dto.setFilename(entity.getFilename());
     dto.setNodeId(entity.getNode().getId());
 

@@ -46,8 +46,8 @@ public class VersionDTO {
   /** The mimetype. */
   private String mimetype;
 
-  /** The size. */
-  private Long size;
+  /** The content size. */
+  private Long contentSize;
 
   /** The filename. */
   private String filename;
@@ -220,24 +220,24 @@ public class VersionDTO {
   }
 
   /**
-   * Gets the size.
+   * Gets the content size.
    *
-   * @return the size
+   * @return the content size
    */
-  public Long getSize() {
-    return size;
+  public Long getContentSize() {
+	  return contentSize;
   }
 
   /**
-   * Sets the size.
+   * Sets the content size.
    *
-   * @param size the size to set
+   * @param contentSize the new content size
    */
-  public void setSize(Long size) {
-    this.size = size;
+  public void setContentSize(Long contentSize) {
+	  this.contentSize = contentSize;
   }
 
-  /**
+/**
    * Gets the filename.
    *
    * @return the filename

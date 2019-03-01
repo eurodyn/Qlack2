@@ -30,8 +30,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
-import com.eurodyn.qlack2.fuse.cm.api.util.CMConstants;
-
 @Entity
 @Table(name = "cm_node")
 public class Node {
@@ -54,8 +52,9 @@ public class Node {
 	private List<NodeAttribute> attributes;
 	// The media type of the latest version.
 	private String mimetype;
-	// The size of the latest version.
-	private Long size;
+	// The content size of the latest version.
+	@Column(name = "content_size")
+	private Long contentSize;
 	/**
 	 * @return the mimetype
 	 */
@@ -69,9 +68,6 @@ public class Node {
 	public void setMimetype(String mimetype) {
 		this.mimetype = mimetype;
 	}
-
-
-	
 
 	public Node() {
 		id = UUID.randomUUID().toString();
@@ -116,7 +112,7 @@ public class Node {
 	public void setLockToken(String lockToken) {
 		this.lockToken = lockToken;
 	}
-	
+
 	public List<Node> getChildren() {
 		return children;
 	}
@@ -132,11 +128,19 @@ public class Node {
 	public void setAttributes(List<NodeAttribute> attributes) {
 		this.attributes = attributes;
 	}
-	
+
+	public Long getContentSize() {
+		return contentSize;
+	}
+
+	public void setContentSize(Long contentSize) {
+		this.contentSize = contentSize;
+	}
+
 	public static Node findNode(String nodeID, EntityManager em)  {
 		return em.find(Node.class, nodeID);
 	}
-	
+
 	public static Node findFolder(String nodeID, EntityManager em)  {
 		Node node = findNode(nodeID, em);
 		if ((node != null) &&(node.getType() == NodeType.FOLDER)) {
@@ -144,7 +148,7 @@ public class Node {
 		}
 		return null;
 	}
-	
+
 	public static Node findFile(String nodeID, EntityManager em)  {
 		Node node = findNode(nodeID, em);
 		if ((node != null) && (node.getType() == NodeType.FILE)) {
@@ -161,8 +165,8 @@ public class Node {
 		}
 		return null;
 	}
-	
-	
+
+
 	public void setAttribute(String name, String value, EntityManager em) {
 		NodeAttribute attribute = getAttribute(name);
 		if (attribute == null) {
@@ -173,7 +177,7 @@ public class Node {
 		attribute.setValue(value);
 		em.merge(attribute);
 	}
-	
+
 	public void removeAttribute(String name, EntityManager em) {
 		// remove the attribute itself
 		em.remove(getAttribute(name));
@@ -183,17 +187,4 @@ public class Node {
 		this.setAttributes(l);
 	}
 
-	/**
-	 * @return the size
-	 */
-	public Long getSize() {
-		return size;
-	}
-
-	/**
-	 * @param size the size to set
-	 */
-	public void setSize(Long size) {
-		this.size = size;
-	}
 }

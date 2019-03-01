@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: contentmanager_6
+      author: European Dynamics SA
+      changes:
+        - renameColumn:
+            tableName: cm_version
+            oldColumnName: size
+            newColumnName: content_size
+            columnDataType: bigint
+        - renameColumn:
+            tableName: cm_node
+            oldColumnName: size
+            newColumnName: content_size
+            columnDataType: bigint

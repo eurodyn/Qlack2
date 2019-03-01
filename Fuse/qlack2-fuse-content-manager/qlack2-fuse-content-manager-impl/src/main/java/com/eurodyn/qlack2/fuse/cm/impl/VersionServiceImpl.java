@@ -18,13 +18,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -36,6 +36,7 @@ import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.config.TikaConfig;
 import org.apache.tika.exception.TikaException;
@@ -43,6 +44,7 @@ import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.metadata.Metadata;
 import org.joda.time.DateTime;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+
 import com.eurodyn.qlack2.fuse.cm.api.ConcurrencyControlService;
 import com.eurodyn.qlack2.fuse.cm.api.VersionService;
 import com.eurodyn.qlack2.fuse.cm.api.dto.BinChunkDTO;
@@ -53,13 +55,11 @@ import com.eurodyn.qlack2.fuse.cm.api.exception.QIOException;
 import com.eurodyn.qlack2.fuse.cm.api.exception.QNodeLockException;
 import com.eurodyn.qlack2.fuse.cm.api.exception.QSelectedNodeLockException;
 import com.eurodyn.qlack2.fuse.cm.api.storage.StorageEngine;
-import com.eurodyn.qlack2.fuse.cm.api.util.CMConstants;
 import com.eurodyn.qlack2.fuse.cm.impl.model.Node;
 import com.eurodyn.qlack2.fuse.cm.impl.model.NodeAttribute;
 import com.eurodyn.qlack2.fuse.cm.impl.model.QVersionDeleted;
 import com.eurodyn.qlack2.fuse.cm.impl.model.Version;
 import com.eurodyn.qlack2.fuse.cm.impl.model.VersionAttribute;
-import com.eurodyn.qlack2.fuse.cm.impl.model.VersionBin;
 import com.eurodyn.qlack2.fuse.cm.impl.model.VersionDeleted;
 import com.eurodyn.qlack2.fuse.cm.impl.storage.StorageEngineFactory;
 import com.eurodyn.qlack2.fuse.cm.impl.util.Constants;
@@ -158,11 +158,11 @@ public class VersionServiceImpl implements VersionService {
     }
     // The entire content is provided as a binary as a result the size can be computed.
     if (content != null) {
-      version.setSize(new Long(content.length));
+    	version.setContentSize(new Long(content.length));
     }
     // THe size is pre-computed (e.g Retrieved from the flu_file)
     else {
-      version.setSize(cmVersion.getSize());
+    	version.setContentSize(cmVersion.getContentSize());
     }
 
 
@@ -378,11 +378,11 @@ public class VersionServiceImpl implements VersionService {
 
     // The entire content is provided as a binary as a result the size can be computed.
     if (content != null) {
-      version.setSize(new Long(content.length));
+    	version.setContentSize(new Long(content.length));
     }
     // THe size is pre-computed (e.g Retrieved from the flu_file)
     else {
-      version.setSize(versionDTO.getSize());
+    	version.setContentSize(versionDTO.getContentSize());
     }
 
     // The content is provided, so the mimetype is immediately computed
@@ -536,12 +536,12 @@ public class VersionServiceImpl implements VersionService {
       LOGGER.log(Level.SEVERE, "Could not delete versionBin for version:" + versionID, e);
     }
   }
-  
-  
+
+
   @Override
   @Transactional(TxType.REQUIRED)
   public void deleteVersion(String versionId, String lockToken) throws QNodeLockException {
-    
+
     Version version = em.find(Version.class, versionId);
     Node file = version.getNode();
 
@@ -549,11 +549,11 @@ public class VersionServiceImpl implements VersionService {
       throw new QNodeLockException("File with ID " + file + " is locked and an "
           + "invalid lock token was passed; the file version" + "attributes cannot be deleted.");
     }
-    
+
     em.remove(version);
   }
-  
-  
+
+
   @Override
   @Transactional(TxType.REQUIRED)
   public List<VersionDTO> getVersionsByFilenameForFile(String fileId , List<String> filenameList) {
@@ -561,10 +561,10 @@ public class VersionServiceImpl implements VersionService {
         .createQuery("SELECT v FROM Version v WHERE v.filename IN  (:fileNameList) AND v.node.parent.id = :fileId ORDER BY v.createdOn DESC");
     query.setParameter("fileNameList", filenameList);
     query.setParameter("fileId", fileId);
-    
+
     @SuppressWarnings("unchecked")
     List<Version> versions = query.getResultList();
     return ConverterUtil.versionToVersionDTOList(versions);
   }
-  
+
 }

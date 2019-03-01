@@ -17,17 +17,13 @@ package com.eurodyn.qlack2.fuse.cm.impl.model;
 import java.util.List;
 import java.util.UUID;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedNativeQueries;
-import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Query;
 import javax.persistence.Table;
@@ -47,23 +43,9 @@ public class Version {
 	private String filename;
 	// The media type of the latest version.
 	private String mimetype;
-	
-	// The size of the latest version.
-	private Long size;
-
-	/**
-	 * @return the size
-	 */
-	public Long getSize() {
-		return size;
-	}
-
-	/**
-	 * @param size the size to set
-	 */
-	public void setSize(Long size) {
-		this.size = size;
-	}
+	// The content size of the latest version.
+	@Column(name = "content_size")
+	private Long contentSize;
 
 	@OneToMany(mappedBy = "version", cascade = CascadeType.ALL)
 	private List<VersionAttribute> attributes;
@@ -114,7 +96,6 @@ public class Version {
 		this.filename = filename;
 	}
 
-
 	public List<VersionAttribute> getAttributes() {
 		return attributes;
 	}
@@ -122,7 +103,6 @@ public class Version {
 	public void setAttributes(List<VersionAttribute> attributes) {
 		this.attributes = attributes;
 	}
-	
 
 	/**
 	 * @return the mimetype
@@ -138,12 +118,11 @@ public class Version {
 		this.mimetype = mimetype;
 	}
 
-	
+
 	public static Version find(String versionID, EntityManager em) {
 		return em.find(Version.class, versionID);
 	}
-	
-	
+
 	/**
 	 * @return the versionBins
 	 */
@@ -156,6 +135,14 @@ public class Version {
 	 */
 	public void setVersionBins(List<VersionBin> versionBins) {
 		this.versionBins = versionBins;
+	}
+
+	public Long getContentSize() {
+		return contentSize;
+	}
+
+	public void setContentSize(Long contentSize) {
+		this.contentSize = contentSize;
 	}
 
 	public static Version find(String fileID, String versionName,
@@ -171,7 +158,7 @@ public class Version {
 		}
 		return retVal;
 	}
-	
+
 	public VersionAttribute getAttribute(String name) {
 		for (VersionAttribute attribute : attributes) {
 			if (attribute.getName().equals(name)) {
@@ -180,19 +167,19 @@ public class Version {
 		}
 		return null;
 	}
-	
+
 	public static Version findLatest(String fileID, EntityManager em) {
 		Query query = em.createQuery("SELECT v FROM Version v WHERE v.node.id = :fileID order by v.createdOn DESC");
 		query.setParameter("fileID", fileID);
 		query.setMaxResults(1);
-		
+
 		List<Version> versionList = query.getResultList();
 		if(versionList.isEmpty()) {
 		  return null;
 		}
-		return (Version) versionList.get(0);
+		return versionList.get(0);
 	}
-	
+
 	public void setAttribute(String name, String value, EntityManager em) {
 		VersionAttribute attribute = getAttribute(name);
 		if (attribute == null) {
@@ -203,10 +190,10 @@ public class Version {
 		attribute.setValue(value);
 		em.merge(attribute);
 	}
-	
+
 	public void removeAttribute(String name, EntityManager em) {
 		em.remove(getAttribute(name));
 	}
-	
-	
+
+
 }

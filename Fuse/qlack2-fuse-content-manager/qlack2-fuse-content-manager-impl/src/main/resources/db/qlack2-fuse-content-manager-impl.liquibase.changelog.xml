@@ -11,4 +11,5 @@
     <include file="db/contentmanager_3.yaml"/>
     <include file="db/contentmanager_4.yaml"/>
     <include file="db/contentmanager_5.yaml"/>
+    <include file="db/contentmanager_6.yaml"/>
 </databaseChangeLog>

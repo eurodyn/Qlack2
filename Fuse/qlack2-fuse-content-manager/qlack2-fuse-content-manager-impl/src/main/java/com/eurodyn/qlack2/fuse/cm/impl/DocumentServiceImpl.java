@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
@@ -28,8 +29,10 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import javax.transaction.Transactional.TxType;
+
 import org.joda.time.DateTime;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+
 import com.eurodyn.qlack2.fuse.cm.api.ConcurrencyControlService;
 import com.eurodyn.qlack2.fuse.cm.api.DocumentService;
 import com.eurodyn.qlack2.fuse.cm.api.VersionService;
@@ -275,7 +278,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     //
     fileEntity.setMimetype(file.getMimetype());
-    fileEntity.setSize(file.getSize());
+    fileEntity.setContentSize(file.getSize());
 
     // Set created / last modified information
     DateTime now = DateTime.now();
@@ -573,7 +576,7 @@ public class DocumentServiceImpl implements DocumentService {
     Node newNode = new Node();
     newNode.setType(node.getType());
     newNode.setParent(newParent);
-    List<NodeAttribute> newAttributes = new ArrayList<NodeAttribute>();
+    List<NodeAttribute> newAttributes = new ArrayList<>();
     newNode.setAttributes(newAttributes);
 
     // Copy attributes except created/modified/locked information
@@ -680,7 +683,7 @@ public class DocumentServiceImpl implements DocumentService {
                 .and(qNodeAttribute.value.in(fileNames)));
 
     List<Node> nodeResultList = q.fetchResults().getResults();
-    List<String> namesList = new ArrayList<String>();
+    List<String> namesList = new ArrayList<>();
     // TODO Future enhancement
     for (Node node : nodeResultList) {
       NodeDTO nodeDTO = ConverterUtil.nodeToNodeDTO(node);
