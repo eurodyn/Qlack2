@@ -1,34 +1,33 @@
 /*
  * Copyright 2014 EUROPEAN DYNAMICS SA <info@eurodyn.com>
  *
- * Licensed under the EUPL, Version 1.1 only (the "License").
- * You may not use this work except in compliance with the Licence.
- * You may obtain a copy of the Licence at:
+ * Licensed under the EUPL, Version 1.1 only (the "License"). You may not use this work except in
+ * compliance with the Licence. You may obtain a copy of the Licence at:
  * https://joinup.ec.europa.eu/software/page/eupl/licence-eupl
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the Licence is distributed on an "AS IS" basis,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the Licence for the specific language governing permissions and
- * limitations under the Licence.
+ * Unless required by applicable law or agreed to in writing, software distributed under the Licence
+ * is distributed on an "AS IS" basis, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the Licence for the specific language governing permissions and limitations under
+ * the Licence.
  */
 package com.eurodyn.qlack2.fuse.mailing.impl.model;
-
-import com.eurodyn.qlack2.fuse.mailing.api.MailService;
-import com.eurodyn.qlack2.fuse.mailing.api.MailService.EMAIL_STATUS;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.LockModeType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Version;
+import com.eurodyn.qlack2.fuse.mailing.api.MailService;
+import com.eurodyn.qlack2.fuse.mailing.api.MailService.EMAIL_STATUS;
 
 @Entity
 @Table(name = "mai_email")
@@ -82,7 +81,11 @@ public class Email implements java.io.Serializable {
   private String serverResponse;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "email")
-  private Set<Attachment> attachments = new HashSet<Attachment>(0);
+  private Set<Attachment> attachments = new HashSet<>(0);
+
+  @Version
+  @Column(name = "db_version")
+  private long dbVersion;
 
   // -- Constructors
 
@@ -96,20 +99,33 @@ public class Email implements java.io.Serializable {
   }
 
   public static List<Email> findQueued(EntityManager em, byte maxTries) {
-    String jpql =
-      "SELECT m FROM Email m " +
-        "WHERE m.status = :status AND m.tries < :tries";
+    String jpql = "SELECT m FROM Email m WHERE m.status = :status AND m.tries < :tries";
 
-    return em.createQuery(jpql, Email.class)
-      .setParameter("status", MailService.EMAIL_STATUS.QUEUED.toString())
-      .setParameter("tries", maxTries)
-      .getResultList();
+    List<Email> retList = new ArrayList<>();
+
+    // Using PESSIMISTIC_FORCE_INCREMENT for locking rows to avoid duplicate emails when using
+    // multiple mailers.
+    // If Oracle DB is used, WARN log HHH000444 is returned. Need to suppress this log.
+    // If log4j is used, suppress above log by adding line
+    // log4j.logger.org.hibernate.loader.Loader=OFF
+    // in org.ops4j.pax.logging.cfg file.
+    try {
+      retList = em.createQuery(jpql, Email.class)
+          .setParameter("status", MailService.EMAIL_STATUS.QUEUED.toString())
+          .setParameter("tries", maxTries).setLockMode(LockModeType.PESSIMISTIC_FORCE_INCREMENT)
+          .getResultList();
+    } catch (Exception e) {
+      // Exception is thrown when a thread tries to query already locked rows.
+      // We do not need to handle it, only to catch it to ensure a thread will query on the updated
+      // data.
+    }
+
+    return retList;
   }
 
   public static List<Email> findByDateAndStatus(EntityManager em, Long date,
-    EMAIL_STATUS... statuses) {
-    String select =
-      "SELECT m FROM Email m ";
+      EMAIL_STATUS... statuses) {
+    String select = "SELECT m FROM Email m ";
 
     List<String> predicates = new ArrayList<>(2);
     if (date != null) {
@@ -268,6 +284,14 @@ public class Email implements java.io.Serializable {
 
   public void setAttachments(Set<Attachment> attachments) {
     this.attachments = attachments;
+  }
+
+  public long getDbVersion() {
+    return dbVersion;
+  }
+
+  public void setDbVersion(long dbVersion) {
+    this.dbVersion = dbVersion;
   }
 
 }

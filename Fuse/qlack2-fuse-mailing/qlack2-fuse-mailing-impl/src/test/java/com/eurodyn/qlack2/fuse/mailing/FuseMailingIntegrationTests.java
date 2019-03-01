@@ -1,5 +1,13 @@
 package com.eurodyn.qlack2.fuse.mailing;
 
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.junit.AfterClass;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 import com.eurodyn.qlack2.fuse.mailing.conf.ITTestConf;
 import com.eurodyn.qlack2.fuse.mailing.tests.DistributionListServiceImplTest;
 import com.eurodyn.qlack2.fuse.mailing.tests.InternalMessageServiceImplTest;
@@ -7,15 +15,6 @@ import com.eurodyn.qlack2.fuse.mailing.tests.MailServiceImplTest;
 import com.eurodyn.qlack2.util.availcheck.api.AvailabilityCheck;
 import com.eurodyn.qlack2.util.docker.DockerContainer;
 import com.eurodyn.qlack2.util.testing.TestingUtil;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author European Dynamics SA
@@ -26,12 +25,13 @@ import java.util.logging.Logger;
   DistributionListServiceImplTest.class,
   MailServiceImplTest.class,
 })
-public class FuseLexiconIntegrationTests {
+public class FuseMailingIntegrationTests {
 
   /**
    * JUL reference
    */
-  private final static Logger LOGGER = Logger.getLogger(FuseLexiconIntegrationTests.class.getName());
+  private final static Logger LOGGER =
+      Logger.getLogger(FuseMailingIntegrationTests.class.getName());
 
   // The prefix name of the test container to start.
   public static final String TEST_CONTAINER_PREFIX = "TEST-qlack-";
