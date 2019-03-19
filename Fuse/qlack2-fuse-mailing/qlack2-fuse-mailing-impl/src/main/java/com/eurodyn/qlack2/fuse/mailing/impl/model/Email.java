@@ -80,6 +80,9 @@ public class Email implements java.io.Serializable {
   @Column(name = "server_response", length = 1024)
   private String serverResponse;
 
+  @Column(name = "charset", length = 20)
+  private String charset;
+
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "email")
   private Set<Attachment> attachments = new HashSet<>(0);
 
@@ -284,6 +287,14 @@ public class Email implements java.io.Serializable {
 
   public void setAttachments(Set<Attachment> attachments) {
     this.attachments = attachments;
+  }
+
+  public String getCharset() {
+    return charset;
+  }
+
+  public void setCharset(String charset) {
+    this.charset = charset;
   }
 
   public long getDbVersion() {

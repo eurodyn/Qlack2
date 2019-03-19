@@ -65,6 +65,7 @@ public class MailQueueMonitor {
     dto.setSubject(email.getSubject());
     dto.setBody(email.getBody());
     dto.setFrom(email.getFromEmail());
+    dto.setCharset(email.getCharset());
     if (email.getToEmails() != null) {
       dto.setToContact(ConverterUtil.createRecepientlist(email.getToEmails()));
     }

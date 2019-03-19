@@ -90,6 +90,7 @@ public class MailServiceImpl implements MailService {
     email.setTries((byte) 0);
     email.setStatus(EMAIL_STATUS.QUEUED.toString());
     email.setAddedOnDate(System.currentTimeMillis());
+    email.setCharset(emailDto.getCharset());
 
     em.persist(email);
 

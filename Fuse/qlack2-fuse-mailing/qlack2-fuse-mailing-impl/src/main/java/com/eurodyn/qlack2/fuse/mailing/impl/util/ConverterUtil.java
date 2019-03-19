@@ -269,6 +269,7 @@ public class ConverterUtil {
     dto.setServerResponse(entity.getServerResponse());
     dto.setSubject(entity.getSubject());
     dto.setStatus(entity.getStatus());
+    dto.setCharset(entity.getCharset());
 
     return dto;
   }

@@ -130,6 +130,9 @@ public class MailQueueSender {
       /** Enable STARTTLS */
       email.setStartTLSRequired(startTLS);
 
+      /**Set Email charset**/
+      email.setCharset(vo.getCharset());
+
       email.send();
     } catch (Exception e) {
       throw new QMailingException("There was a problem sending email.", e);

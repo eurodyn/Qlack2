@@ -14,6 +14,7 @@
  */
 package com.eurodyn.qlack2.fuse.mailing.api.dto;
 
+import com.eurodyn.qlack2.fuse.mailing.api.util.EmailCharset;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,6 +42,7 @@ public class EmailDTO implements Serializable {
   private List<AttachmentDTO> attachments;
   private Date dateSent;
   private String serverResponse;
+  private String charset = EmailCharset.UTF_8.getValue();
   public EmailDTO() {
     this.emailType = EMAIL_TYPE.TEXT;
   }
@@ -174,6 +176,14 @@ public class EmailDTO implements Serializable {
 
   public void setServerResponse(String serverResponse) {
     this.serverResponse = serverResponse;
+  }
+
+  public String getCharset() {
+    return charset;
+  }
+
+  public void setCharset(String charset) {
+    this.charset = charset;
   }
 
   public void resetAllRecipients() {
