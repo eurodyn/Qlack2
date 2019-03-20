@@ -1562,4 +1562,122 @@ public class TemplateServiceImpl implements TemplateService {
     Context.getWmlObjectFactory().createCTTrPrBaseTblHeader(booleandefaulttrue);
     trpr.getCnfStyleOrDivIdOrGridBefore().add(booleandefaulttrueWrapped);
   }
+
+  @Override
+  public ByteArrayOutputStream createTableInDocxWithCustomBorders(InputStream inputStream,
+      List<String> header, String tableTitle,
+      List<LinkedHashMap<Map<String, String>, String>> content, Map<String, String> tableProperties,
+      List<Map<byte[], String>> iconsToBeReplaced) {
+
+    TblBorders borders = new TblBorders();
+
+    // Create custom outside border.
+    CTBorder outsideBorder = new CTBorder();
+    outsideBorder.setColor("auto");
+    outsideBorder.setSz(BigInteger.valueOf(5));
+    outsideBorder.setSpace(BigInteger.valueOf(0));
+    outsideBorder.setVal(STBorder.SINGLE);
+
+    // Set outside borders.
+    borders.setBottom(outsideBorder);
+    borders.setLeft(outsideBorder);
+    borders.setRight(outsideBorder);
+    borders.setTop(outsideBorder);
+
+    // Create custom inside border.
+    CTBorder insideBorder = new CTBorder();
+    insideBorder.setColor("auto");
+    insideBorder.setSz(BigInteger.valueOf(2));
+    insideBorder.setSpace(BigInteger.valueOf(0));
+    insideBorder.setVal(STBorder.SINGLE);
+
+    // Set inside borders.
+    borders.setInsideH(insideBorder);
+    borders.setInsideV(insideBorder);
+
+    ObjectFactory factory = Context.getWmlObjectFactory();
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try {
+      WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(inputStream);
+
+      int writableWidthTwips = wordMLPackage.getDocumentModel().getSections().get(0)
+          .getPageDimensions().getWritableWidthTwips();
+      Tbl tblCredProg =
+          TblFactory.createTable(0, header.size(), writableWidthTwips / header.size());
+      removeBorders(tblCredProg, Boolean.valueOf(tableProperties.get("removeBorder")),
+          tableProperties.get("borderSpace"), null);
+      
+      tblCredProg.getTblPr().setTblBorders(borders);
+
+      // Add table title (row).
+      if (tableTitle != null) {
+        Tr tTitle = factory.createTr();
+        addStyledTableCell(tTitle, tableTitle, tableProperties, tableProperties.get("boldHeader"),
+            null, false, null, wordMLPackage);
+
+        if (tableProperties.get("repeatHeader") != null
+            && tableProperties.get("repeatHeader").equals(Boolean.TRUE.toString())) {
+          repeatTableHeader(tTitle);
+        }
+        tableProperties.remove("tableTitleGridSpan");
+        tableProperties.remove("tableTitleFontSize");
+        tblCredProg.getContent().add(tTitle);
+      }
+
+      // Add table header (row).
+      Tr thead = factory.createTr();
+      for (int num = 0; num < header.size(); num++) {
+        // align right cell content if title exists
+        if (num == 4 && tableTitle != null) {
+          tableProperties.put("alignRight", String.valueOf(Boolean.TRUE));
+          addStyledTableCell(thead, header.get(num), tableProperties,
+              tableProperties.get("boldHeader"), null, true, null, wordMLPackage);
+          tableProperties.remove("alignRight");
+        } else {
+          addStyledTableCell(thead, header.get(num), tableProperties,
+              tableProperties.get("boldHeader"), null, false, null, wordMLPackage);
+        }
+      }
+      if (tableProperties.get("repeatHeader") != null
+          && tableProperties.get("repeatHeader").equals(Boolean.TRUE.toString())) {
+        repeatTableHeader(thead);
+      }
+      tblCredProg.getContent().add(thead);
+
+      // variable for the last row of table
+      int lastRowCounter = 0;
+      // Add table content (the content is added by row).
+      for (Map<Map<String, String>, String> c : content) {
+        Tr tr = factory.createTr();
+
+        // prevent row from splitting to a new page
+        // instead move whole row to next page
+        preventRowSplit(tr);
+
+        for (Entry<Map<String, String>, String> column : c.entrySet()) {
+          addStyledTableCell(tr, column.getValue(), column.getKey(),
+              column.getKey().get("boldContent"), null, false, iconsToBeReplaced, wordMLPackage);
+        }
+        if (lastRowCounter == content.size() - 1) {
+          keepLastRowWithParagraph(tr);
+        }
+        tblCredProg.getContent().add(tr);
+        lastRowCounter++;
+      }
+
+      if (tableProperties.get("tablePosition") != null) {
+        // Set table specific position.
+        wordMLPackage.getMainDocumentPart().getContent()
+            .add(Integer.parseInt(tableProperties.get("tablePosition")), tblCredProg);
+      } else {
+        wordMLPackage.getMainDocumentPart().getContent().add(tblCredProg);
+      }
+
+      Docx4J.save(wordMLPackage, baos);
+
+    } catch (Docx4JException e) {
+      throw new QTemplateServiceException(NO_DOCUMENT_CREATED);
+    }
+    return baos;
+  }
 }

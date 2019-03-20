@@ -138,4 +138,20 @@ public interface TemplateService {
    */
   ByteArrayOutputStream replacePlaceholdersWithImage(InputStream inputStream,
       List<Map<byte[], String>> iconsToReplaced);
+
+  /**
+   * Creates a table in docx with custom borders.
+   *
+   * @param inputStream the input stream
+   * @param header the header of the table that will be generated.
+   * @param tableTitle the table title
+   * @param content the table content
+   * @param tableProperties the table properties
+   * @param iconsToBeReplaced the icons to be replaced
+   * @return the byte array output stream
+   */
+  ByteArrayOutputStream createTableInDocxWithCustomBorders(InputStream inputStream,
+      List<String> header, String tableTitle,
+      List<LinkedHashMap<Map<String, String>, String>> content, Map<String, String> tableProperties,
+      List<Map<byte[], String>> iconsToBeReplaced);
 }
