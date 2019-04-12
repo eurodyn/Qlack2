@@ -66,6 +66,10 @@ local.properties
 .e4css
 RemoteSystemsTempFiles
 
+# IntelliJ
+#####################
+/.idea
+
 # Netbeans
 #####################
 /nbactions.xml
