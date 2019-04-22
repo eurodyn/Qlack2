@@ -12,5 +12,6 @@
   <include file="db/mailing_4.yaml"/>
   <include file="db/mailing_5.yaml"/>
   <include file="db/mailing_6.yaml"/>
+  <include file="db/mailing_7.yaml"/>
 
 </databaseChangeLog>

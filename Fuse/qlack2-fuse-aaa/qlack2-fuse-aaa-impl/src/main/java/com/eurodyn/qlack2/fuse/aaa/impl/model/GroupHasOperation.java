@@ -162,7 +162,7 @@ public class GroupHasOperation implements Serializable {
 	}
 
 	public static List<GroupHasOperation> findByGroupName(String groupName, EntityManager em) {
-		Query q = em.createQuery("SELET o FROM GroupHasOperation o WHERE group.name = :groupName");
+		Query q = em.createQuery("SELECT o FROM GroupHasOperation o WHERE group.name = :groupName");
 		q.setParameter("groupName", groupName);
 		return q.getResultList();
 	}
