@@ -238,7 +238,7 @@ public class TemplateServiceImpl implements TemplateService {
         anchor.getPositionH().setAlign(STAlignH.CENTER);
         anchor.getPositionH().setRelativeFrom(STRelFromH.LEFT_MARGIN);
         anchor.setPositionV(wordDmlFactory.createCTPosV());
-        anchor.getPositionV().setPosOffset(4471035);
+        anchor.getPositionV().setPosOffset(4646930);
         anchor.getPositionV().setRelativeFrom(STRelFromV.PAGE);
         anchor.setWrapNone(wordDmlFactory.createCTWrapNone());
         // Now add the inline in w:p/w:r/w:drawing
