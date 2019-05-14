@@ -117,6 +117,21 @@ public class GroupHasOperation implements Serializable {
 	}
 
   public static GroupHasOperation findByGroupIDAndOperationNameAndResourceName(String groupID,
+    String operationName, String resourceName, String resourceObjectId, EntityManager em) {
+    Query q = em.createQuery("SELECT o FROM GroupHasOperation o WHERE "
+      + "o.group.id = :groupID AND o.operation.name = :operationName AND o.resource.name = :resourceName AND o.resource.objectId = :resourceObjectId");
+    q.setParameter("groupID", groupID);
+    q.setParameter("operationName", operationName);
+    q.setParameter("resourceName", resourceName);
+    q.setParameter("resourceObjectId", resourceObjectId);
+    List<GroupHasOperation> queryResults = q.getResultList();
+    if (queryResults.isEmpty()) {
+      return null;
+    }
+    return queryResults.get(0);
+  }
+
+  public static GroupHasOperation findByGroupIDAndOperationNameAndResourceName(String groupID,
     String operationName, String resourceName, EntityManager em) {
     Query q = em.createQuery("SELECT o FROM GroupHasOperation o WHERE "
       + "o.group.id = :groupID AND o.operation.name = :operationName AND o.resource.name = :resourceName");

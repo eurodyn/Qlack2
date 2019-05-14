@@ -365,6 +365,40 @@ public class OperationServiceImplTest extends ITTestConf {
     }
 
     @Test
+    public void isPermittedForGroupByResourceAndObjectId() {
+      GroupDTO groupDTO = TestUtilities.createGroupDTO();
+      String groupId = userGroupService.createGroup(groupDTO);
+      Assert.assertNotNull(groupId);
+
+      OperationDTO operationDTO = TestUtilities.createOperationDTO();
+      operationService.createOperation(operationDTO);
+      Assert.assertNotNull(operationDTO);
+
+      String commonObjectId = UUID.randomUUID().toString();
+
+      ResourceDTO resourceWithPermission = TestUtilities.createResourceDTO();
+      resourceWithPermission.setObjectID(commonObjectId);
+      String resourceIdWithPermission = resourceService.createResource(resourceWithPermission);
+      Assert.assertNotNull(resourceIdWithPermission);
+
+      ResourceDTO resourceWithoutPermission = TestUtilities.createResourceDTO();
+      resourceWithoutPermission.setObjectID(commonObjectId);
+      String resourceIdWithoutPermission = resourceService.createResource(resourceWithoutPermission);
+      Assert.assertNotNull(resourceWithoutPermission);
+
+      operationService.addOperationToGroup(groupId, operationDTO.getName(), resourceIdWithPermission, false);
+
+      Boolean isPermittedForGroupByResourceAndObjectId = operationService
+        .isPermittedForGroupByResource(groupId, operationDTO.getName(), resourceWithPermission.getName(), commonObjectId);
+
+      Assert.assertNotNull(isPermittedForGroupByResourceAndObjectId);
+      Assert.assertTrue(isPermittedForGroupByResourceAndObjectId);
+
+      isPermittedForGroupByResourceAndObjectId = operationService.isPermittedForGroup(groupId, operationDTO.getName(), commonObjectId);
+      Assert.assertNull(isPermittedForGroupByResourceAndObjectId);
+    }
+
+    @Test
     public void getAllowedUsersForOperation(){
         //creates Operation
         OperationDTO operationDTO = TestUtilities.createOperationDTO();

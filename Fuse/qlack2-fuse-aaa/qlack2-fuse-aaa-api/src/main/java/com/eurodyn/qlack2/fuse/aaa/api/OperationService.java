@@ -483,4 +483,21 @@ public interface OperationService {
    * operation. null, if there is no information available to reply accordingly.
    */
   Boolean isPermittedForGroupByResource(String groupID, String operationName, String resourceName);
+
+  /**
+   * Checks whether a specific operation, for a specific group on a specific resource is allowed.
+   * The check is performed by checking whether the specified group is assigned the specific
+   * operation and resource, if yes, check the deny flag of the operation assignment to decide
+   * whether the group is permitted the operation. In case no assignment for this operation can be
+   * found for the group the group's ancestors are checked recursively until we arrive to a
+   * decision.
+   *
+   * @param groupID The id of the group for which to check the operation
+   * @param operationName The name of the operation to check
+   * @param resourceName The name of the resource to check
+   * @param resourceObjectId A specific object Id the resource is referring to
+   * @return true, if the group is allowed the operation. false, if the group is denied the
+   * operation. null, if there is no information available to reply accordingly.
+   */
+  Boolean isPermittedForGroupByResource(String groupID, String operationName, String resourceName, String resourceObjectId);
 }
