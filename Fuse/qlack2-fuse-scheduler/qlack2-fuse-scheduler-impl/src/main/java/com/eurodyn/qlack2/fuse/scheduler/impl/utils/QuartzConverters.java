@@ -72,8 +72,7 @@ public class QuartzConverters {
    */
   @SuppressWarnings("squid:S1301")
   public static Trigger getQuartzTrigger(SchedulerWrappedTrigger trigger, String jobName,
-    String jobGroup)
-    throws ParseException {
+    String jobGroup) throws ParseException {
     TriggerBuilder<Trigger> tb = TriggerBuilder.newTrigger();
     tb.startAt(trigger.getStartOn());
     if (trigger.getEndOn() != null) {
@@ -129,6 +128,14 @@ public class QuartzConverters {
       cti.setCronExpression(ce);
       cti.setMisfireInstruction(getMisfireInstruction(trigger));
       tb.withSchedule(cti.getScheduleBuilder());
+    }
+
+    /*
+     * if trigger priority is not null set the given priority
+     * else priority is set automatically to default value(5).
+     */
+    if (trigger.getPriority() != null) {
+      tb.withPriority(trigger.getPriority());
     }
 
     return tb.build();

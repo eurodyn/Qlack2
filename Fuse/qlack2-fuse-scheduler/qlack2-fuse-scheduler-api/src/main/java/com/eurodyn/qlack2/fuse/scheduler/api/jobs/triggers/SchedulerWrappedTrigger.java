@@ -64,6 +64,9 @@ public class SchedulerWrappedTrigger implements Serializable {
 	/** The trigger mis-fire policy */
 	private Constants.TRIGGER_MISFIRE triggerMisfire;
 
+  /** The priority */
+	private Integer priority;
+
 	/**
 	 * Get the trigger start date.
 	 *
@@ -258,5 +261,23 @@ public class SchedulerWrappedTrigger implements Serializable {
 
   public void setDelay(long delay) {
     this.delay = delay;
+  }
+
+  /**
+   * Get the trigger priority.
+   *
+   * @return the priority
+   */
+  public Integer getPriority() {
+    return priority;
+  }
+
+  /**
+   * Set the trigger priority.
+   *
+   * @param priority the priority to set
+   */
+  public void setPriority(Integer priority) {
+    this.priority = priority;
   }
 }
