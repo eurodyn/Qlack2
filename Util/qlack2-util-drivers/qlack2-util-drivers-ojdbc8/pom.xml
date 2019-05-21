@@ -32,7 +32,7 @@
                 </goals>
                 <configuration>
                   <url>
-                    http://nexus.eurodyn.com/repository/maven-3rdparty/com/oracle/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.jar
+                    http://maven.icm.edu.pl/artifactory/repo/oracle/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.jar
                   </url>
                   <outputDirectory>src/lib</outputDirectory>
                   <outputFileName>ojdbc8.jar</outputFileName>
