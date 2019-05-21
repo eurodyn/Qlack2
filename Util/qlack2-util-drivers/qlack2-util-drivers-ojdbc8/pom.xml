@@ -32,11 +32,11 @@
                 </goals>
                 <configuration>
                   <url>
-                    http://maven.icm.edu.pl/artifactory/repo/oracle/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.jar
+                    http://nexus.eurodyn.com/repository/maven-3rdparty/com/oracle/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.jar
                   </url>
                   <outputDirectory>src/lib</outputDirectory>
                   <outputFileName>ojdbc8.jar</outputFileName>
-                  <md5>057478599050cf8999ced6069d3ccbf4</md5>
+                  <md5>f8e6bc5ae55d38ad5e7e092679104d37</md5>
                 </configuration>
               </execution>
             </executions>
