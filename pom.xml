@@ -171,7 +171,7 @@
     <nodejs.version>v6.11.0</nodejs.version>
     <npm.version>3.10.10</npm.version>
     <objenesis.version>2.5.1</objenesis.version>
-    <oracle.db.version>12.2.0.1.0</oracle.db.version>
+    <oracle.db.version>12.2.0.1</oracle.db.version>
     <org.apache.servicemix.bundles.javax-inject.version>1_2</org.apache.servicemix.bundles.javax-inject.version>
     <org.apache.servicemix.bundles.xmlgraphics-commons.version>2.1_1</org.apache.servicemix.bundles.xmlgraphics-commons.version>
     <org.apache.servicemix.bundles.batik.version>1.9.1_1</org.apache.servicemix.bundles.batik.version>
