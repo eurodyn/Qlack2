@@ -41,6 +41,9 @@ public class ESClient {
   /** Enable or disable hostname verification. Only applies when https is used to communicate with elasticsearch. Must be false to disable hostname verification. */
   private String verifyHostName;
 
+  /** ES Max Retry Timeout Millis */
+  private String esMaxRetryTimeoutMillis;
+
   /** The client to ES */
   private RestClient client;
 
@@ -60,10 +63,11 @@ public class ESClient {
 	  this.verifyHostName = verifyHostName;
   }
 
+  public void setEsMaxRetryTimeoutMillis(String esMaxRetryTimeoutMillis) { this.esMaxRetryTimeoutMillis = esMaxRetryTimeoutMillis;}
+
   /** Initialiser for this singleton instance */
   public void init() {
     LOGGER.log(Level.CONFIG, "Initialising connection to ES: {0}", esHosts);
-
     /** Process Http hosts for ES */
     final HttpHost[] httpHosts = Arrays.stream(esHosts.split(",")).map(host ->
       new HttpHost(host.split(":")[1], Integer.parseInt(host.split(":")[2]), host.split(":")[0])
@@ -75,11 +79,13 @@ public class ESClient {
 
 			@Override
 			public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
+
 				if (StringUtils.isNotEmpty(esUsername) && StringUtils.isNotEmpty(esPassword)) {
 					final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
 					credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(esUsername, esPassword));
 
 					httpClientBuilder = httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+
 				}
 
 				if ("false".equals(verifyHostName)) {
@@ -94,7 +100,8 @@ public class ESClient {
 
 				return httpClientBuilder;
 			}
-    	})
+    	}).setMaxRetryTimeoutMillis(Integer.parseInt(StringUtils.isNotBlank(esMaxRetryTimeoutMillis)
+        && StringUtils.isNumericSpace(esMaxRetryTimeoutMillis)?esMaxRetryTimeoutMillis:"30000"))
     	.build();
   }
 

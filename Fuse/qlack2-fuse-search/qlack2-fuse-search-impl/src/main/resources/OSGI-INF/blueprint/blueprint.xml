@@ -6,6 +6,7 @@
   <cm:property-placeholder persistent-id="com.eurodyn.qlack2.fuse.search" update-strategy="reload">
     <cm:default-properties>
       <cm:property name="es.hosts" value="http:localhost:9200"/>
+      <cm:property name="es.esMaxRetryTimeoutMillis" value="30000"/>
     </cm:default-properties>
   </cm:property-placeholder>
 
@@ -17,6 +18,7 @@
     <property name="esHosts" value="${es.hosts}"/>
     <property name="esUsername" value="${es.username}"/>
     <property name="esPassword" value="${es.password}"/>
+    <property name="esMaxRetryTimeoutMillis" value="${es.esMaxRetryTimeoutMillis}"/>
     <property name="verifyHostName" value="${es.hostname.verification}"/>
   </bean>
 </blueprint>
