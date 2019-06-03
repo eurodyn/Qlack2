@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
@@ -16,13 +16,16 @@ import javax.inject.Named;
 import javax.inject.Singleton;
 import org.apache.http.entity.ContentType;
 import org.apache.http.nio.entity.NStringEntity;
+import org.elasticsearch.client.Response;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import com.eurodyn.qlack2.fuse.search.api.IndexingService;
 import com.eurodyn.qlack2.fuse.search.api.SearchService;
+import com.eurodyn.qlack2.fuse.search.api.dto.BulkIndexingDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.ESDocumentIdentifierDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.IndexingDTO;
 import com.eurodyn.qlack2.fuse.search.api.dto.queries.QuerySpec;
 import com.eurodyn.qlack2.fuse.search.api.exception.QSearchException;
+import com.eurodyn.qlack2.fuse.search.impl.mappers.response.QueryResponse;
 import com.eurodyn.qlack2.fuse.search.impl.util.ESClient;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,9 +36,10 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @OsgiServiceProvider(classes = {IndexingService.class})
 public class IndexingServiceImpl implements IndexingService {
 
+  private static final Logger LOGGER = Logger.getLogger(IndexingServiceImpl.class.getName());
+
   private static ObjectMapper mapper;
   private static ObjectMapper updateMapper;
-  private static final Logger LOGGER = Logger.getLogger(IndexingServiceImpl.class.getName());
 
   // The ES client injected by blueprint.
   @Inject
@@ -46,14 +50,14 @@ public class IndexingServiceImpl implements IndexingService {
   private SearchService searchService;
 
   public IndexingServiceImpl() {
-	  mapper = new ObjectMapper();
-	  mapper.registerModule(new JavaTimeModule());
-	  mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    mapper = new ObjectMapper();
+    mapper.registerModule(new JavaTimeModule());
+    mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
-	  updateMapper = new ObjectMapper();
-	  updateMapper.registerModule(new JavaTimeModule());
-	  updateMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-	  updateMapper.setSerializationInclusion(Include.NON_NULL);
+    updateMapper = new ObjectMapper();
+    updateMapper.registerModule(new JavaTimeModule());
+    updateMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+    updateMapper.setSerializationInclusion(Include.NON_NULL);
   }
 
   @Override
@@ -80,11 +84,13 @@ public class IndexingServiceImpl implements IndexingService {
         jsonBody = mapper.writeValueAsString(dto.getSourceObject());
       }
 
-      Map<String, String> params = dto.isRefresh() ? Collections.singletonMap("refresh", "wait_for") : new HashMap<>();
+      if (dto.isRefresh()) {
+        dto.getParameters().put("refresh", "wait_for");
+      }
 
       // Execute indexing request.
       ContentType contentType = ContentType.APPLICATION_JSON.withCharset(Charset.forName("UTF-8"));
-      esClient.getClient().performRequest(method, endpoint, params, new NStringEntity(jsonBody, contentType));
+      esClient.getClient().performRequest(method, endpoint, dto.getParameters(), new NStringEntity(jsonBody, contentType));
     } catch (IOException e) {
       LOGGER.log(Level.SEVERE, MessageFormat.format("Could not index document with id: {0}", dto.getId()), e);
       throw new QSearchException(MessageFormat.format("Could not index document with id: {0}", dto.getId()));
@@ -93,16 +99,66 @@ public class IndexingServiceImpl implements IndexingService {
 
   @Override
   public void unindexDocument(ESDocumentIdentifierDTO dto) {
-	  try {
-		  	String endpoint = dto.getIndex() + "/" + dto.getType() + "/" + dto.getId();
-		  	Map<String, String> params = dto.isRefresh() ? Collections.singletonMap("refresh", "wait_for") : new HashMap<>();
+    try {
+      String endpoint = dto.getIndex() + "/" + dto.getType() + "/" + dto.getId();
 
-			// Execute indexing request.
-			esClient.getClient().performRequest("DELETE", endpoint, params);
-		} catch (IOException e) {
-			LOGGER.log(Level.SEVERE, MessageFormat.format("Could not delete document with id: {0}", dto.getId()), e);
-			throw new QSearchException(MessageFormat.format("Could not delete document with id: {0}", dto.getId()));
-		}
+      if (dto.isRefresh()) {
+        dto.getParameters().put("refresh", "wait_for");
+      }
+
+      // Execute indexing request.
+      esClient.getClient().performRequest("DELETE", endpoint, dto.getParameters());
+    } catch (IOException e) {
+      LOGGER.log(Level.SEVERE, MessageFormat.format("Could not delete document with id: {0}", dto.getId()), e);
+      throw new QSearchException(MessageFormat.format("Could not delete document with id: {0}", dto.getId()));
+    }
+  }
+
+  @Override
+  public <T> boolean indexDocuments(BulkIndexingDTO<T> dto) {
+    return bulkIndex(dto, false);
+  }
+
+  @Override
+  public <T> boolean updateDocuments(BulkIndexingDTO<T> dto) {
+    return bulkIndex(dto, true);
+  }
+
+  private <T> boolean bulkIndex(BulkIndexingDTO<T> dto, boolean update) {
+    if (dto.getObjects().isEmpty()) {
+      return true;
+    }
+
+    try {
+      String endpoint = dto.getIndex() + "/" + dto.getType() + "/_bulk";
+
+      StringBuilder jsonBody = new StringBuilder();
+      for (Entry<String, T> entry : dto.getObjects().entrySet()) {
+        if (update) {
+          jsonBody.append("{\"update\" : {\"_id\": \"" + entry.getKey() + "\"}}\n")
+              .append("{\"doc\": ")
+              .append(updateMapper.writeValueAsString(entry.getValue()))
+              .append("}");
+        } else {
+          jsonBody.append("{\"index\" : {\"_id\": \"" + entry.getKey() + "\"}}\n")
+              .append(mapper.writeValueAsString(entry.getValue()));
+        }
+        jsonBody.append("\n");
+      }
+
+      if (dto.isRefresh()) {
+        dto.getParameters().put("refresh", "wait_for");
+      }
+
+      // Execute indexing request.
+      ContentType contentType = ContentType.APPLICATION_JSON.withCharset(Charset.forName("UTF-8"));
+      Response response = esClient.getClient().performRequest("POST", endpoint, dto.getParameters(), new NStringEntity(jsonBody.toString(), contentType));
+      QueryResponse queryResponse = mapper.readValue(response.getEntity().getContent(), QueryResponse.class);
+      return !queryResponse.isErrors();
+    } catch (IOException e) {
+      LOGGER.log(Level.SEVERE, "Could not bulk index documents", e);
+      throw new QSearchException("Could not bulk index documents");
+    }
   }
 
   @Override

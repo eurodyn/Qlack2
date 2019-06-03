@@ -1,100 +1,117 @@
 package com.eurodyn.qlack2.fuse.search.api.dto;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Holds the minimum necessary information to uniquely identify a document in
- * ES.
+ * Holds the minimum necessary information to uniquely identify a document in ES.
  */
 public class ESDocumentIdentifierDTO implements Serializable {
-	private static final long serialVersionUID = 3216613727616909251L;
-	// The index at which this document resides.
-	protected String index;
+  private static final long serialVersionUID = 3216613727616909251L;
 
-	// The type of this document.
-	protected String type;
+  // The index at which this document resides.
+  protected String index;
 
-	// The unique ID of this document.
-	protected String id;
+  // The type of this document.
+  protected String type;
 
-	/**
-     * If set to true then wait for the changes made by the request to be made
-     * visible by a refresh before replying. This doesn’t force an immediate
-     * refresh, rather, it waits for a refresh to happen. Elasticsearch
-     * automatically refreshes shards that have changed every
-     * index.refresh_interval which defaults to one second. That setting is
-     * dynamic. Calling the Refresh API or setting refresh to true on any of the
-     * APIs that support it will also cause a refresh, in turn causing already
-     * running requests with refresh=wait_for to return.
-     */
-    protected boolean refresh;
+  // The unique ID of this document.
+  protected String id;
 
-	public ESDocumentIdentifierDTO() {
-		super();
-	}
+  // The parameters of the request.
+  protected Map<String, String> parameters;
 
-	public ESDocumentIdentifierDTO(String index, String type, String id) {
-	    this(index, type, id, false);
-	}
+  /**
+   * If set to true then wait for the changes made by the request to be made visible by a refresh
+   * before replying. This doesn’t force an immediate refresh, rather, it waits for a refresh to
+   * happen. Elasticsearch automatically refreshes shards that have changed every
+   * index.refresh_interval which defaults to one second. That setting is dynamic. Calling the
+   * Refresh API or setting refresh to true on any of the APIs that support it will also cause a
+   * refresh, in turn causing already running requests with refresh=wait_for to return.
+   */
+  protected boolean refresh;
 
-	public ESDocumentIdentifierDTO(String index, String type, String id, boolean refresh) {
-	    super();
-	    this.index = index;
-        this.type = type;
-        this.id = id;
-        this.refresh = refresh;
-	}
+  public ESDocumentIdentifierDTO() {
+    super();
+  }
 
-	/**
-	 * @return the index
-	 */
-	public String getIndex() {
-		return index;
-	}
+  public ESDocumentIdentifierDTO(String index, String type, String id) {
+    this(index, type, id, false);
+  }
 
-	/**
-	 * @param index
-	 *            the index to set
-	 */
-	public void setIndex(String index) {
-		this.index = index;
-	}
+  public ESDocumentIdentifierDTO(String index, String type, String id, boolean refresh) {
+    super();
+    this.index = index;
+    this.type = type;
+    this.id = id;
+    this.refresh = refresh;
+  }
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
+  /**
+   * @return the index
+   */
+  public String getIndex() {
+    return index;
+  }
 
-	/**
-	 * @param type
-	 *            the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
+  /**
+   * @param index the index to set
+   */
+  public void setIndex(String index) {
+    this.index = index;
+  }
 
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
+  /**
+   * @return the type
+   */
+  public String getType() {
+    return type;
+  }
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
+  /**
+   * @param type the type to set
+   */
+  public void setType(String type) {
+    this.type = type;
+  }
 
-	public boolean isRefresh() {
-	    return refresh;
-	}
+  /**
+   * @return the id
+   */
+  public String getId() {
+    return id;
+  }
 
-	public void setRefresh(boolean refresh) {
-        this.refresh = refresh;
-	}
+  /**
+   * @param id the id to set
+   */
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public boolean isRefresh() {
+    return refresh;
+  }
+
+  public void setRefresh(boolean refresh) {
+    this.refresh = refresh;
+  }
+
+  /**
+   * Gets the request parameters map.
+   *
+   * @return The request parameters map.
+   */
+  public Map<String, String> getParameters() {
+    if (parameters == null) {
+      parameters = new HashMap<>();
+    }
+
+    return parameters;
+  }
+
+  public void setParameters(Map<String, String> parameters) {
+    this.parameters = parameters;
+  }
 }

@@ -18,6 +18,7 @@ public class QueryResponse {
   private int took;
   @JsonProperty("timed_out")
   private boolean timeOut;
+  private boolean errors;
   @JsonProperty("_shards")
   private Shards shards;
   private Hits hits;
@@ -41,6 +42,14 @@ public class QueryResponse {
 
   public void setTimeOut(boolean timeOut) {
     this.timeOut = timeOut;
+  }
+
+  public boolean isErrors() {
+    return errors;
+  }
+
+  public void setErrors(boolean errors) {
+    this.errors = errors;
   }
 
   public Shards getShards() {
