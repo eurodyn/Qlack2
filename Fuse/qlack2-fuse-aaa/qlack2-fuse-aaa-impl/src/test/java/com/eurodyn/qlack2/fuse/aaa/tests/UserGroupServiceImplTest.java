@@ -7,6 +7,7 @@ import com.eurodyn.qlack2.fuse.aaa.api.dto.UserDTO;
 import com.eurodyn.qlack2.fuse.aaa.conf.ITTestConf;
 import com.eurodyn.qlack2.fuse.aaa.util.TestConst;
 import com.eurodyn.qlack2.fuse.aaa.util.TestUtilities;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.junit.Assert;
 import org.junit.Test;
@@ -365,6 +366,31 @@ public class UserGroupServiceImplTest extends ITTestConf {
 
     userGroupService.addUserByGroupName(userID, groupDTO.getName());
     Assert.assertNotNull(userGroupService.getUserGroupsIds(userID));
+  }
+
+  @Test
+  public void getGroupUsersNames() {
+    List<GroupDTO> groups = new ArrayList<>();
+    final int groupCount = 6;
+    for (int index = 0; index < groupCount; index++) {
+      GroupDTO group = TestUtilities.createGroupDTO();
+      groups.add(group);
+      userGroupService.createGroup(group);
+    }
+
+    for (GroupDTO group : groups) {
+      userGroupService
+        .addUserByGroupName(userService.createUser(TestUtilities.createUserDTO()), group.getName());
+      userGroupService
+        .addUserByGroupName(userService.createUser(TestUtilities.createUserDTO()), group.getName());
+    }
+
+    Set<String> groupIDs = groups.stream().map(GroupDTO::getId).collect(Collectors.toSet());
+
+    Set<String> groupUsersNames = userGroupService.getGroupUsersNames(groupIDs);
+    Assert.assertNotNull(groupUsersNames);
+    Assert.assertFalse(groupUsersNames.isEmpty());
+    Assert.assertTrue(groupUsersNames.size() == (2 * groupCount));
   }
 
 }

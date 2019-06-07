@@ -266,4 +266,11 @@ public interface UserGroupService {
    */
   Set<String> getUserGroupsIds(String userID);
 
+  /**
+   * Retrieves the names of the users who are members of specific groups
+   *
+   * @param groupIDs The ids of the groups whose members to retrieve
+   * @return The names of the retrieved users
+   */
+  Set<String> getGroupUsersNames(Collection<String> groupIDs);
 }

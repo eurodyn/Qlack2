@@ -393,9 +393,6 @@ public class OperationServiceImplTest extends ITTestConf {
 
       Assert.assertNotNull(isPermittedForGroupByResourceAndObjectId);
       Assert.assertTrue(isPermittedForGroupByResourceAndObjectId);
-
-      isPermittedForGroupByResourceAndObjectId = operationService.isPermittedForGroup(groupId, operationDTO.getName(), commonObjectId);
-      Assert.assertNull(isPermittedForGroupByResourceAndObjectId);
     }
 
     @Test

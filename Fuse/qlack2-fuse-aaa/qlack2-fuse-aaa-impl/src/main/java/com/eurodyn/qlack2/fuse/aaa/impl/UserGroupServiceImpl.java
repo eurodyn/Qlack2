@@ -22,6 +22,7 @@ import com.eurodyn.qlack2.fuse.aaa.impl.model.QGroup;
 import com.eurodyn.qlack2.fuse.aaa.impl.model.User;
 import com.eurodyn.qlack2.fuse.aaa.impl.util.ConverterUtil;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.stream.Collectors;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -263,6 +264,14 @@ public class UserGroupServiceImpl implements UserGroupService {
   public Set<String> getGroupUsersIds(String groupID, boolean includeChildren) {
     Group group = Group.find(groupID, em);
     return getGroupHierarchyUsersIds(group, false, includeChildren);
+  }
+
+  @Override
+  public Set<String> getGroupUsersNames(Collection<String> groupIDs) {
+    List<Group> groups = Group.find(groupIDs, em);
+    Set<User> users = groups.stream().flatMap(g -> g.getUsers().stream())
+      .collect(Collectors.toSet());
+    return users.stream().map(User::getUsername).collect(Collectors.toSet());
   }
 
   @Override

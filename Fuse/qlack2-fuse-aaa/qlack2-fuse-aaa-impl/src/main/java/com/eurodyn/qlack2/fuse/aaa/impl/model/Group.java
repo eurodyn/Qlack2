@@ -16,6 +16,7 @@ package com.eurodyn.qlack2.fuse.aaa.impl.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -167,6 +168,17 @@ public class Group implements Serializable {
 	public static Group find(String groupID, EntityManager em) {
 		return em.find(Group.class, groupID);
 	}
+
+  public static List<Group> find(Collection<String> groupIDs, EntityManager em) {
+    List<Group> retVal = null;
+    Query q = em.createQuery("select g from Group g where g.id in :groupIDs");
+    q.setParameter("groupIDs", groupIDs);
+    List<Group> l = q.getResultList();
+    if (!l.isEmpty()) {
+      retVal = q.getResultList();
+    }
+    return retVal;
+  }
 
 	public static Group findByName(String name, EntityManager em) {
         Query q = em.createQuery("SELECT g FROM Group g WHERE g.name = :groupName");
