@@ -2,6 +2,7 @@ package com.eurodyn.qlack2.util.docker;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
+import com.github.dockerjava.api.command.ListImagesCmd;
 import com.github.dockerjava.api.model.AuthConfig;
 import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.PortBinding;
@@ -205,4 +206,14 @@ public class DockerContainer {
     remove(dockerClient, id);
   }
 
+  /**
+   * Search for a specific docker image and delete it.
+   * @param imageName The image that is about to be deleted.
+   */
+  public void cleanImage(String imageName){
+    DockerClient dockerClient =  createDockerClient();
+    ListImagesCmd listImagesCmd = dockerClient.listImagesCmd();
+    listImagesCmd.withImageNameFilter(imageName).exec().stream()
+      .forEach(i -> dockerClient.removeImageCmd(i.getId()).exec());
+  }
 }
