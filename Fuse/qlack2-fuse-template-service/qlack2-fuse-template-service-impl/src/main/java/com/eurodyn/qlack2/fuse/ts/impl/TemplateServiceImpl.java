@@ -12,6 +12,8 @@
  */
 package com.eurodyn.qlack2.fuse.ts.impl;
 
+import com.eurodyn.qlack2.fuse.ts.api.TemplateService;
+import com.eurodyn.qlack2.fuse.ts.exception.QTemplateServiceException;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -71,6 +73,7 @@ import org.docx4j.wml.R;
 import org.docx4j.wml.RFonts;
 import org.docx4j.wml.RPr;
 import org.docx4j.wml.STBorder;
+import org.docx4j.wml.STLineSpacingRule;
 import org.docx4j.wml.SdtElement;
 import org.docx4j.wml.Tbl;
 import org.docx4j.wml.TblBorders;
@@ -90,8 +93,6 @@ import org.xlsx4j.sml.Cell;
 import org.xlsx4j.sml.Row;
 import org.xlsx4j.sml.STCellType;
 import org.xlsx4j.sml.SheetData;
-import com.eurodyn.qlack2.fuse.ts.api.TemplateService;
-import com.eurodyn.qlack2.fuse.ts.exception.QTemplateServiceException;
 
 /**
  * The Class TemplateServiceImpl.
@@ -472,7 +473,7 @@ public class TemplateServiceImpl implements TemplateService {
       if (tableTitle != null) {
         Tr tTitle = factory.createTr();
         addStyledTableCell(tTitle, tableTitle, tableProperties,
-            tableProperties.get("boldHeader"), null, false, null, wordMLPackage);
+          tableProperties.get("boldHeader"), null, false, null, wordMLPackage, null);
         
         if (tableProperties.get("repeatHeader") != null
             && tableProperties.get("repeatHeader").equals(Boolean.TRUE.toString())) {
@@ -490,11 +491,11 @@ public class TemplateServiceImpl implements TemplateService {
         if (num == 4 && tableTitle != null) {
           tableProperties.put("alignRight", String.valueOf(Boolean.TRUE));
           addStyledTableCell(thead, header.get(num), tableProperties,
-              tableProperties.get("boldHeader"), null, true, null, wordMLPackage);  
+            tableProperties.get("boldHeader"), null, true, null, wordMLPackage, null);
           tableProperties.remove("alignRight");
         } else {
           addStyledTableCell(thead, header.get(num), tableProperties,
-              tableProperties.get("boldHeader"), null, false, null, wordMLPackage); 
+            tableProperties.get("boldHeader"), null, false, null, wordMLPackage, null);
         }
       }
       if (tableProperties.get("repeatHeader") != null
@@ -513,9 +514,9 @@ public class TemplateServiceImpl implements TemplateService {
         // instead move whole row to next page
         preventRowSplit(tr);
 
-        for (Entry<Map<String, String>, String> column : c.entrySet()) {         
-            addStyledTableCell(tr, column.getValue(), column.getKey(),
-                column.getKey().get("boldContent"), null, false, iconsToReplaced, wordMLPackage);
+        for (Entry<Map<String, String>, String> column : c.entrySet()) {
+          addStyledTableCell(tr, column.getValue(), column.getKey(),
+            column.getKey().get("boldContent"), null, false, iconsToReplaced, wordMLPackage, null);
         }
         if (lastRowCounter == content.size() - 1) {
           keepLastRowWithParagraph(tr);
@@ -1288,18 +1289,20 @@ public class TemplateServiceImpl implements TemplateService {
    * @param alignRight the align right
    * @param iconsToReplaced the icons to replaced
    * @param wordMLPackage the word ML package
+   * @param isLeftCol Boolean for left column
    */
   private static void addStyledTableCell(Tr tableRow, String content,
-      Map<String, String> tableProperties, String bold, Boolean italic, Boolean alignRight,
-      List<Map<byte[], String>> iconsToReplaced, WordprocessingMLPackage wordMLPackage) {
+    Map<String, String> tableProperties, String bold, Boolean italic, Boolean alignRight,
+    List<Map<byte[], String>> iconsToReplaced, WordprocessingMLPackage wordMLPackage,
+    Boolean isLeftCol) {
     ObjectFactory factory = Context.getWmlObjectFactory();
     Tc tableCell = factory.createTc();
 
     // Cell properties.
-    addCellStyling(tableCell, tableProperties);
+    addCellStyling(tableCell, tableProperties, isLeftCol);
 
     addStyling(tableCell, content, tableProperties, bold, italic, alignRight, iconsToReplaced,
-        wordMLPackage);
+      wordMLPackage);
 
     tableRow.getContent().add(tableCell);
   }
@@ -1309,50 +1312,84 @@ public class TemplateServiceImpl implements TemplateService {
    *
    * @param tableCell the table cell
    * @param tableProperties the table properties
+   * @param isLeftCol Boolean for left column
    */
-  private static void addCellStyling(Tc tableCell, Map<String, String> tableProperties) {
+  private static void addCellStyling(Tc tableCell, Map<String, String> tableProperties,
+    Boolean isLeftCol) {
     // Set cell width.
     if (tableProperties != null) {
       TcPr tableCellProperties = new TcPr();
-      if (tableProperties.get("width") != null) {
-        TblWidth tableWidth = new TblWidth();
-        tableWidth.setType("dxa");
-        tableWidth.setW(new BigInteger(tableProperties.get("width")));
-        tableCellProperties.setTcW(tableWidth);
-      }
-
+      addCellStylingWidth(tableProperties, tableCellProperties, isLeftCol);
       // Set cell margin (Top, Bottom, Right, Left).
-      TcMar tcMar = new TcMar();
-      if (tableProperties.get("bottomMargin") != null) {
-        TblWidth tableWidthBottom = new TblWidth();
-        tableWidthBottom.setW(new BigInteger(tableProperties.get("bottomMargin")));
-        tcMar.setBottom(tableWidthBottom);
-      }
-      if (tableProperties.get("topMargin") != null) {
-        TblWidth tableWidthTop = new TblWidth();
-        tableWidthTop.setW(new BigInteger(tableProperties.get("topMargin")));
-        tcMar.setTop(tableWidthTop);
-      }
-      if (tableProperties.get("rightMargin") != null) {
-        TblWidth tableWidthRight = new TblWidth();
-        tableWidthRight.setW(new BigInteger(tableProperties.get("rightMargin")));
-        tcMar.setRight(tableWidthRight);
-      }
-      if (tableProperties.get("leftMargin") != null) {
-        TblWidth tableWidthLeft = new TblWidth();
-        tableWidthLeft.setW(new BigInteger(tableProperties.get("leftMargin")));
-        tcMar.setLeft(tableWidthLeft);
-      }
-      tableCellProperties.setTcMar(tcMar);
-
+      addCellStylingMargins(tableProperties, tableCellProperties);
       // Merge cells of table title row to avoid word wrapping
       if (tableProperties.get("tableTitleGridSpan") != null) {
         GridSpan gridSpan = new GridSpan();
         gridSpan.setVal(new BigInteger(tableProperties.get("tableTitleGridSpan")));
         tableCellProperties.setGridSpan(gridSpan);
       }
-      
       tableCell.setTcPr(tableCellProperties);
+    }
+  }
+
+  /**
+   * Add the table margins.
+   *
+   * @param tableProperties the tableProperties
+   * @param tableCellProperties the tableCellProperties
+   */
+  private static void addCellStylingMargins(Map<String, String> tableProperties,
+    TcPr tableCellProperties) {
+    TcMar tcMar = new TcMar();
+    if (tableProperties.get("bottomMargin") != null) {
+      TblWidth tableWidthBottom = new TblWidth();
+      tableWidthBottom.setW(new BigInteger(tableProperties.get("bottomMargin")));
+      tcMar.setBottom(tableWidthBottom);
+    }
+    if (tableProperties.get("topMargin") != null) {
+      TblWidth tableWidthTop = new TblWidth();
+      tableWidthTop.setW(new BigInteger(tableProperties.get("topMargin")));
+      tcMar.setTop(tableWidthTop);
+    }
+    if (tableProperties.get("rightMargin") != null) {
+      TblWidth tableWidthRight = new TblWidth();
+      tableWidthRight.setW(new BigInteger(tableProperties.get("rightMargin")));
+      tcMar.setRight(tableWidthRight);
+    }
+    if (tableProperties.get("leftMargin") != null) {
+      TblWidth tableWidthLeft = new TblWidth();
+      tableWidthLeft.setW(new BigInteger(tableProperties.get("leftMargin")));
+      tcMar.setLeft(tableWidthLeft);
+    }
+    tableCellProperties.setTcMar(tcMar);
+  }
+
+  /**
+   * Add the table column width.
+   *
+   * @param tableProperties the tableProperties
+   * @param tableCellProperties the tableCellProperties
+   * @param isLeftCol Boolean for left column
+   */
+  private static void addCellStylingWidth(Map<String, String> tableProperties,
+    TcPr tableCellProperties, Boolean isLeftCol) {
+    if (tableProperties.get("width") != null) {
+      TblWidth tableWidth = new TblWidth();
+      tableWidth.setType("dxa");
+      tableWidth.setW(new BigInteger(tableProperties.get("width")));
+      tableCellProperties.setTcW(tableWidth);
+    }
+    if (tableProperties.get("width-left") != null && Boolean.TRUE.equals(isLeftCol)) {
+      TblWidth tableWidth = new TblWidth();
+      tableWidth.setType("dxa");
+      tableWidth.setW(new BigInteger(tableProperties.get("width-left")));
+      tableCellProperties.setTcW(tableWidth);
+    }
+    if (tableProperties.get("width-right") != null && Boolean.FALSE.equals(isLeftCol)) {
+      TblWidth tableWidth = new TblWidth();
+      tableWidth.setType("dxa");
+      tableWidth.setW(new BigInteger(tableProperties.get("width-right")));
+      tableCellProperties.setTcW(tableWidth);
     }
   }
 
@@ -1408,6 +1445,13 @@ public class TemplateServiceImpl implements TemplateService {
     if (tableProperties != null && tableProperties.get("spacing") != null) {
       Spacing sp = new Spacing();
       sp.setAfter(new BigInteger(tableProperties.get("spacing")));
+      paragraphProperties.setSpacing(sp);
+    }
+    if (tableProperties != null && tableProperties.get("line") != null
+      && tableProperties.get("lineRule") != null) {
+      Spacing sp = new Spacing();
+      sp.setLine(new BigInteger(tableProperties.get("line")));
+      sp.setLineRule(STLineSpacingRule.fromValue(tableProperties.get("lineRule")));
       paragraphProperties.setSpacing(sp);
     }
     if ((tableProperties != null && Boolean.valueOf(tableProperties.get("alignRight")))
@@ -1507,12 +1551,14 @@ public class TemplateServiceImpl implements TemplateService {
               Tr tr = factory.createTr();
               Map<String, String> map = column.getKey();
               for (Entry<String, String> value1 : map.entrySet()) {
-
+                // styles for 1st column
                 addStyledTableCell(tr, value1.getKey(), column.getValue(), null,
-                    Boolean.valueOf(column.getValue().get("italic")), false, null, wordMLPackage);
-
+                  Boolean.valueOf(column.getValue().get("italic")), false,
+                  null, wordMLPackage, Boolean.TRUE);
+                // styles for 2nd column
                 addStyledTableCell(tr, value1.getValue(), column.getValue(), null,
-                    Boolean.valueOf(column.getValue().get("italic")), true, null, wordMLPackage);
+                  Boolean.valueOf(column.getValue().get("italic")), true,
+                  null, wordMLPackage, Boolean.FALSE);
               }
               tblCredProg.getContent().add(tr);
             }
@@ -1613,7 +1659,7 @@ public class TemplateServiceImpl implements TemplateService {
       if (tableTitle != null) {
         Tr tTitle = factory.createTr();
         addStyledTableCell(tTitle, tableTitle, tableProperties, tableProperties.get("boldHeader"),
-            null, false, null, wordMLPackage);
+          null, false, null, wordMLPackage, null);
 
         if (tableProperties.get("repeatHeader") != null
             && tableProperties.get("repeatHeader").equals(Boolean.TRUE.toString())) {
@@ -1631,11 +1677,11 @@ public class TemplateServiceImpl implements TemplateService {
         if (num == 4 && tableTitle != null) {
           tableProperties.put("alignRight", String.valueOf(Boolean.TRUE));
           addStyledTableCell(thead, header.get(num), tableProperties,
-              tableProperties.get("boldHeader"), null, true, null, wordMLPackage);
+            tableProperties.get("boldHeader"), null, true, null, wordMLPackage, null);
           tableProperties.remove("alignRight");
         } else {
           addStyledTableCell(thead, header.get(num), tableProperties,
-              tableProperties.get("boldHeader"), null, false, null, wordMLPackage);
+            tableProperties.get("boldHeader"), null, false, null, wordMLPackage, null);
         }
       }
       if (tableProperties.get("repeatHeader") != null
@@ -1656,7 +1702,8 @@ public class TemplateServiceImpl implements TemplateService {
 
         for (Entry<Map<String, String>, String> column : c.entrySet()) {
           addStyledTableCell(tr, column.getValue(), column.getKey(),
-              column.getKey().get("boldContent"), null, false, iconsToBeReplaced, wordMLPackage);
+            column.getKey().get("boldContent"), null, false, iconsToBeReplaced, wordMLPackage,
+            null);
         }
         if (lastRowCounter == content.size() - 1) {
           keepLastRowWithParagraph(tr);
