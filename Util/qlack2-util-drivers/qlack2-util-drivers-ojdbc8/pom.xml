@@ -20,28 +20,6 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>com.googlecode.maven-download-plugin</groupId>
-            <artifactId>download-maven-plugin</artifactId>
-            <version>${download-maven-plugin.version}</version>
-            <executions>
-              <execution>
-                <id>fetch-oracle-jdbc</id>
-                <phase>initialize</phase>
-                <goals>
-                  <goal>wget</goal>
-                </goals>
-                <configuration>
-                  <url>
-                    http://maven.icm.edu.pl/artifactory/repo/oracle/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.jar
-                  </url>
-                  <outputDirectory>src/lib</outputDirectory>
-                  <outputFileName>ojdbc8.jar</outputFileName>
-                  <md5>f8e6bc5ae55d38ad5e7e092679104d37</md5>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-install-plugin</artifactId>
             <version>${maven-install-plugin.version}</version>
@@ -59,7 +37,7 @@
                   <packaging>jar</packaging>
                   <generatePom>true</generatePom>
                   <createChecksum>true</createChecksum>
-                  <file>${project.basedir}/src/lib/ojdbc8.jar</file>
+                  <file>${project.basedir}/src/lib/ojdbc8-12.2.0.1.0.jar</file>
                 </configuration>
               </execution>
             </executions>
