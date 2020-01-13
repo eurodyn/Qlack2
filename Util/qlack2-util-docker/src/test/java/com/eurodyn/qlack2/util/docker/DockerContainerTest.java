@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public class DockerContainerTest {
 
-  //@Test
+  @Test
   public void dockerContainerTest() throws Exception {
     final String containerId = DockerContainer.builder()
       .withImage("docker.elastic.co/elasticsearch/elasticsearch:5.4.1")
