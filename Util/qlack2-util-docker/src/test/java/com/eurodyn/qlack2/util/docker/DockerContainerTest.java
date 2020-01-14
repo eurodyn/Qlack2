@@ -2,7 +2,6 @@ package com.eurodyn.qlack2.util.docker;
 
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.util.UUID;
 
 public class DockerContainerTest {
