@@ -9,3 +9,9 @@ jdk: openjdk8
 
 script: mvn clean install
 
+notifications:
+  email:
+    recipients:
+      - qlack@eurodyn.com
+    on_success: change
+    on_failure: change
