@@ -3,6 +3,9 @@ sudo: required
 services:
   - docker
 
+before_install:
+  - export DOCKER_HOST=tcp://localhost:2375
+
 language: java
 
 jdk: openjdk8
