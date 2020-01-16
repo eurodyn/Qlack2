@@ -54,6 +54,7 @@ import org.docx4j.w14.CTOnOff;
 import org.docx4j.w14.CTSdtCheckbox;
 import org.docx4j.wml.BooleanDefaultTrue;
 import org.docx4j.wml.CTBorder;
+import org.docx4j.wml.CTSignedTwipsMeasure;
 import org.docx4j.wml.Color;
 import org.docx4j.wml.ContentAccessor;
 import org.docx4j.wml.Document;
@@ -1169,6 +1170,11 @@ public class TemplateServiceImpl implements TemplateService {
       setFonts(runProperties, tableProperties.get("fonts"), tableProperties.get("fontColor"));
     }
 
+    // Set character spacing.
+    if (tableProperties != null && tableProperties.get("charSpacing") != null) {
+      setCharSpacing(runProperties, tableProperties.get("charSpacing"));
+    }
+
     // Set italic.
     if (italic != null && italic) {
       setItalic(runProperties);
@@ -1275,6 +1281,18 @@ public class TemplateServiceImpl implements TemplateService {
     size.setVal(new BigInteger(fontSize));
     runProperties.setSz(size);
     runProperties.setSzCs(size);
+  }
+
+  /**
+   * Sets the character spacing.
+   *
+   * @param runProperties the run properties
+   * @param spacing the character spacing
+   */
+  private static void setCharSpacing(RPr runProperties, String spacing) {
+    CTSignedTwipsMeasure val = new CTSignedTwipsMeasure();
+    val.setVal(new BigInteger(spacing));
+    runProperties.setSpacing(val);
   }
 
  
