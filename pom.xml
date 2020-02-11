@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.eurodyn.qlack2</groupId>
@@ -61,8 +63,10 @@
     <blueprint.tx>v2.0.0</blueprint.tx>
 
     <!-- Sonar output -->
-    <sonar.dependencyCheck.reportPath>${project.build.directory}/dependency-check-report.xml</sonar.dependencyCheck.reportPath>
-    <sonar.dependencyCheck.htmlReportPath>${project.build.directory}/dependency-check-report.html</sonar.dependencyCheck.htmlReportPath>
+    <sonar.dependencyCheck.reportPath>${project.build.directory}/dependency-check-report.xml
+    </sonar.dependencyCheck.reportPath>
+    <sonar.dependencyCheck.htmlReportPath>${project.build.directory}/dependency-check-report.html
+    </sonar.dependencyCheck.htmlReportPath>
 
     <!-- Dependencies -->
     <activemq.version>5.12.0</activemq.version>
@@ -76,20 +80,22 @@
     <asm.version>5.0.4</asm.version>
     <aspectj-maven-plugin.version>1.9</aspectj-maven-plugin.version>
     <aspectj.servicemix.version>1.8.5_1</aspectj.servicemix.version>
-    <aspectj.springsource.version>1.8.5.RELEASE</aspectj.springsource.version> <!-- old - should be removed -->
+    <aspectj.springsource.version>1.8.5.RELEASE
+    </aspectj.springsource.version> <!-- old - should be removed -->
     <aspectj.version>1.8.5</aspectj.version>
     <atmosphere.version>2.4.0</atmosphere.version>
     <awaitility.version>3.0.0</awaitility.version>
     <backport.version>2.2_1</backport.version>
     <beanshell.version>2.0b5</beanshell.version>
     <blueprint-maven-plugin-annotation.version>1.1.0</blueprint-maven-plugin-annotation.version>
-    <blueprint-maven-plugin.version>1.7.0</blueprint-maven-plugin.version> <!-- TODO add ".version" -->
+    <blueprint-maven-plugin.version>1.7.0
+    </blueprint-maven-plugin.version> <!-- TODO add ".version" -->
     <build-helper-maven-plugin.version>1.12</build-helper-maven-plugin.version>
     <c3p0.version>0.9.1.1</c3p0.version>
     <clamav4j.version>0.5</clamav4j.version>
     <cometd.version>3.0.5</cometd.version>
     <commons-email.version>1.5</commons-email.version>
-    <commons.beanutils.version>1.9.3</commons.beanutils.version>
+    <commons.beanutils.version>1.9.4</commons.beanutils.version>
     <commons.codec.version>1.8</commons.codec.version>
     <commons.collections.version>3.2.2</commons.collections.version>
     <commons.dbcp.servicemix.version>1.4_3</commons.dbcp.servicemix.version>
@@ -120,7 +126,8 @@
     <httpcore-osgi.version>4.4.6</httpcore-osgi.version>
     <ical4j.version>1.0.2</ical4j.version>
     <jacc.version>1.0.2.Final</jacc.version>
-    <jackson2.version>2.8.5</jackson2.version>
+    <jackson2.version>2.9.10.2</jackson2.version>
+    <jackson.datatype.version>2.9.10</jackson.datatype.version>
     <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
     <jai.version>1.1.3</jai.version>
     <javassist.version>3.19.0-GA</javassist.version>
@@ -144,7 +151,8 @@
     <karaf.cxf.version>3.1.14</karaf.cxf.version>
     <karaf.hibernate.validator.version>5.0.3.Final</karaf.hibernate.validator.version>
     <karaf.hibernate.version>4.3.6.Final</karaf.hibernate.version>
-    <karaf.version>4.0.9</karaf.version> <!-- https://github.com/eurodyn/Qlack2-Website/wiki/Against-which-Karaf-version-is-QLACK-built -->
+    <karaf.version>4.0.9
+    </karaf.version> <!-- https://github.com/eurodyn/Qlack2-Website/wiki/Against-which-Karaf-version-is-QLACK-built -->
     <keycloak.version>3.4.3.Final</keycloak.version>
     <liquibase.snakeyaml.version>1.17</liquibase.snakeyaml.version>
     <liquibase.version>3.5.3</liquibase.version>
@@ -172,15 +180,23 @@
     <npm.version>3.10.10</npm.version>
     <objenesis.version>2.5.1</objenesis.version>
     <oracle.db.version>12.2.0.1</oracle.db.version>
-    <org.apache.servicemix.bundles.javax-inject.version>1_2</org.apache.servicemix.bundles.javax-inject.version>
-    <org.apache.servicemix.bundles.xmlgraphics-commons.version>2.1_1</org.apache.servicemix.bundles.xmlgraphics-commons.version>
-    <org.apache.servicemix.bundles.batik.version>1.9.1_1</org.apache.servicemix.bundles.batik.version>
+    <org.apache.servicemix.bundles.javax-inject.version>1_2
+    </org.apache.servicemix.bundles.javax-inject.version>
+    <org.apache.servicemix.bundles.xmlgraphics-commons.version>2.1_1
+    </org.apache.servicemix.bundles.xmlgraphics-commons.version>
+    <org.apache.servicemix.bundles.batik.version>1.9.1_1
+    </org.apache.servicemix.bundles.batik.version>
     <org.apache.servicemix.bundles.bcel.version>5.2_4</org.apache.servicemix.bundles.bcel.version>
-    <org.apache.servicemix.bundles.xalan.version>2.7.2_3</org.apache.servicemix.bundles.xalan.version>
-    <org.apache.servicemix.bundles.xerces.version>2.11.0_1</org.apache.servicemix.bundles.xerces.version>
-    <org.apache.servicemix.bundles.xmlresolver.version>1.2_5</org.apache.servicemix.bundles.xmlresolver.version>
-    <org.apache.servicemix.bundles.zxing.version>3.3.1_1</org.apache.servicemix.bundles.zxing.version>
-    <org.apache.aries.spifly.dynamic.bundle.version>1.0.10</org.apache.aries.spifly.dynamic.bundle.version>
+    <org.apache.servicemix.bundles.xalan.version>2.7.2_3
+    </org.apache.servicemix.bundles.xalan.version>
+    <org.apache.servicemix.bundles.xerces.version>2.11.0_1
+    </org.apache.servicemix.bundles.xerces.version>
+    <org.apache.servicemix.bundles.xmlresolver.version>1.2_5
+    </org.apache.servicemix.bundles.xmlresolver.version>
+    <org.apache.servicemix.bundles.zxing.version>3.3.1_1
+    </org.apache.servicemix.bundles.zxing.version>
+    <org.apache.aries.spifly.dynamic.bundle.version>1.0.10
+    </org.apache.aries.spifly.dynamic.bundle.version>
     <org.apache.aries.util.version>1.1.3</org.apache.aries.util.version>
     <org.hamcrest.hamcrest-all-osgi.version>1.3.0.1</org.hamcrest.hamcrest-all-osgi.version>
     <org.hsqldb.version>2.3.4</org.hsqldb.version>
@@ -204,6 +220,7 @@
     <wro4j.version>1.4.6</wro4j.version>
     <xml-apis-ext.version>1.3.04</xml-apis-ext.version>
     <zxing.version>3.3.1</zxing.version>
+    <dependency-check-maven.version>5.3.0</dependency-check-maven.version>
   </properties>
 
   <repositories>
@@ -223,7 +240,7 @@
     </repository>
     <repository>
       <id>JBoss repository</id>
-      <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+      <url>https://repository.jboss.org/nexus/content/groups/public/</url>
     </repository>
   </repositories>
 
@@ -498,6 +515,23 @@
             </executions>
           </plugin>
         </plugins>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.owasp</groupId>
+              <artifactId>dependency-check-maven</artifactId>
+              <version>${version.owasp}</version>
+              <configuration>
+                <format>ALL</format>
+                <suppressionFiles>
+                  <suppressionFile>
+                    https://raw.githubusercontent.com/eurodyn/Qlack2/master/owasp-suppression.xml
+                  </suppressionFile>
+                </suppressionFiles>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
       </build>
     </profile>
 
@@ -563,36 +597,6 @@
         </plugins>
       </build>
     </profile>
-
-    <profile>
-      <id>owasp</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.owasp</groupId>
-            <artifactId>dependency-check-maven</artifactId>
-            <version>${dependency-check-maven.version}</version>
-            <inherited>false</inherited>
-            <configuration>
-              <suppressionFiles>
-                <suppressionFile>https://raw.githubusercontent.com/eurodyn/Qlack2/master/owasp-suppression.xml</suppressionFile>
-                <suppressionFile>owasp-suppression.xml</suppressionFile>
-              </suppressionFiles>
-              <failOnError>false</failOnError>
-              <format>all</format>
-            </configuration>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>aggregate</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
   </profiles>
 
   <!-- Optional dependencies of various JARs which are not resolved

@@ -496,7 +496,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
     <bundle>mvn:org.apache.httpcomponents/httpasyncclient-osgi/${httpasyncclient-osgi.version}</bundle>
     <bundle>wrap:mvn:org.elasticsearch.client/rest/${elasticsearch.client-rest.version}</bundle>
     <bundle>mvn:org.mapstruct/mapstruct-jdk8/${mapstruct.version}</bundle>
-    <bundle>mvn:com.fasterxml.jackson.datatype/jackson-datatype-jsr310/${jackson2.version}</bundle>
+    <bundle>mvn:com.fasterxml.jackson.datatype/jackson-datatype-jsr310/${jackson.datatype.version}</bundle>
   </feature>
 
   <!-- ***************************************************************************************** -->
