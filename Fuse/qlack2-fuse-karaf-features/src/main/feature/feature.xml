@@ -7,7 +7,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" name="QLACK2-FUSE">
   <!-- External repos -->
   <repository>mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/${project.version}/xml/features</repository>
-  <repository>mvn:org.code-house.jackson/features/${jackson2.version}/xml/features</repository>
+  <repository>mvn:org.code-house.jackson/features/${org.code-house.jackson.version}/xml/features</repository>
   <repository>mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/${project.version}/xml/features</repository>
   <repository>mvn:org.kie/kie-karaf-features/${jbpm.version}/xml/features-core</repository>
   <repository>mvn:org.kie/kie-karaf-features/${jbpm.version}/xml/features</repository>

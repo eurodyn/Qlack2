@@ -20,16 +20,16 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/L
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" name="QLACK2-UTIL-REPACK">
   <feature description="Qlack - Repack - Jackson (with RS support)" name="qlack2-util-repack-jackson-rs" version="${project.version}">
     <feature>qlack2-util-repack-jackson</feature>
-    <bundle>mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/${jackson2.version}</bundle>
-    <bundle>mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/${jackson2.version}</bundle>
+    <bundle>mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-base/${jackson.datatype.version}</bundle>
+    <bundle>mvn:com.fasterxml.jackson.jaxrs/jackson-jaxrs-json-provider/${jackson.datatype.version}</bundle>
   </feature>
 
   <feature description="Qlack - Repack - Jackson" name="qlack2-util-repack-jackson" version="${project.version}">
-    <bundle>mvn:com.fasterxml.jackson.core/jackson-core/${jackson2.version}</bundle>
+    <bundle>mvn:com.fasterxml.jackson.core/jackson-core/${jackson.datatype.version}</bundle>
     <bundle>mvn:com.fasterxml.jackson.core/jackson-databind/${jackson2.version}</bundle>
-    <bundle>mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson2.version}</bundle>
-    <bundle>mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/${jackson2.version}</bundle>
-    <bundle>mvn:org.yaml/snakeyaml/${snakeyaml.version}</bundle>
+    <bundle>mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.datatype.version}</bundle>
+    <bundle>mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/${jackson.datatype.version}</bundle>
+    <bundle>mvn:org.yaml/snakeyaml/${snakeyaml.jackson.version}</bundle>
   </feature>
 
   <feature name="qlack2-util-repack-swagger" version="${project.version}">
