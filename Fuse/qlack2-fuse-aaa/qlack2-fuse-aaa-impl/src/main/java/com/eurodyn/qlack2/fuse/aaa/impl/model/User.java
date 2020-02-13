@@ -14,6 +14,12 @@
 */
 package com.eurodyn.qlack2.fuse.aaa.impl.model;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -23,13 +29,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Query;
 import javax.persistence.Table;
 import javax.persistence.Version;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 
 /**
@@ -286,4 +285,11 @@ public class User implements Serializable {
     return retVal;
   }
 
+  public long getDbversion() {
+    return dbversion;
+  }
+
+  public void setDbversion(long dbversion) {
+    this.dbversion = dbversion;
+  }
 }

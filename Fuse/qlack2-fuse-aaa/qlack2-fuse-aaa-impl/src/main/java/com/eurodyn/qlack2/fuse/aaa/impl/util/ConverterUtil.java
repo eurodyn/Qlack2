@@ -71,6 +71,7 @@ public class ConverterUtil {
 
         UserDTO dto = new UserDTO();
         dto.setId(entity.getId());
+        dto.setDbversion(entity.getDbversion());
         dto.setUsername(entity.getUsername());
         dto.setStatus(entity.getStatus());
         dto.setSuperadmin(entity.isSuperadmin());
@@ -127,6 +128,7 @@ public class ConverterUtil {
         if (StringUtils.isNotBlank(dto.getId())) {
           entity.setId(dto.getId());
         }
+        entity.setDbversion(dto.getDbversion());
         entity.setUsername(dto.getUsername());
         entity.setStatus(dto.getStatus());
         entity.setSuperadmin(dto.isSuperadmin());

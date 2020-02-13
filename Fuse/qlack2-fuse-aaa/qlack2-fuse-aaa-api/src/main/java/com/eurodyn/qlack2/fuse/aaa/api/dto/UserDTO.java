@@ -26,6 +26,7 @@ public class UserDTO implements Serializable {
   private static final long serialVersionUID = -7705469804446714609L;
 
   private String id;
+  private long dbversion;
   private String username;
   private String password;
   private byte status;
@@ -195,5 +196,13 @@ public class UserDTO implements Serializable {
 
   public void setSessionId(String sessionId) {
     this.sessionId = sessionId;
+  }
+
+  public long getDbversion() {
+    return dbversion;
+  }
+
+  public void setDbversion(long dbversion) {
+    this.dbversion = dbversion;
   }
 }
