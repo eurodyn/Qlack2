@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
@@ -165,7 +164,15 @@ public class Group implements Serializable {
 		this.children = children;
 	}
 
-	public static Group find(String groupID, EntityManager em) {
+  public long getDbversion() {
+    return dbversion;
+  }
+
+  public void setDbversion(long dbversion) {
+    this.dbversion = dbversion;
+  }
+
+  public static Group find(String groupID, EntityManager em) {
 		return em.find(Group.class, groupID);
 	}
 

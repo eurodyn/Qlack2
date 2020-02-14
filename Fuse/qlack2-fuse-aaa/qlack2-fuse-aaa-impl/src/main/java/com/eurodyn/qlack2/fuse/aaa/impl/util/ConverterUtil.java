@@ -246,6 +246,7 @@ public class ConverterUtil {
 
 	    GroupDTO dto = new GroupDTO();
 	    dto.setId(entity.getId());
+	    dto.setDbversion(entity.getDbversion());
 	    dto.setDescription(entity.getDescription());
 	    dto.setName(entity.getName());
 	    dto.setObjectID(entity.getObjectId());
