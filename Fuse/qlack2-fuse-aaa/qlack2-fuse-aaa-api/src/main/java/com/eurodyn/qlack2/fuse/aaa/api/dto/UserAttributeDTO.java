@@ -25,6 +25,7 @@ public class UserAttributeDTO implements Serializable {
 	private static final long serialVersionUID = -6811545393980630525L;
 
 	private String id;
+  private long dbversion;
 	private String name;
 	private String data;
 	private String userId;
@@ -116,4 +117,11 @@ public class UserAttributeDTO implements Serializable {
 		this.id = id;
 	}
 
+  public long getDbversion() {
+    return dbversion;
+  }
+
+  public void setDbversion(long dbversion) {
+    this.dbversion = dbversion;
+  }
 }

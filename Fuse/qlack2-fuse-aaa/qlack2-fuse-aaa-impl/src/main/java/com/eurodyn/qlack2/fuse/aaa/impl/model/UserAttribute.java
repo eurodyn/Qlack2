@@ -34,7 +34,6 @@ public class UserAttribute implements Serializable {
 	@Version
 	private long dbversion;
 
-
 	private byte[] bindata;
 
 	@Column(name="content_type")
@@ -101,4 +100,11 @@ public class UserAttribute implements Serializable {
 		this.user = user;
 	}
 
+  public long getDbversion() {
+    return dbversion;
+  }
+
+  public void setDbversion(long dbversion) {
+    this.dbversion = dbversion;
+  }
 }

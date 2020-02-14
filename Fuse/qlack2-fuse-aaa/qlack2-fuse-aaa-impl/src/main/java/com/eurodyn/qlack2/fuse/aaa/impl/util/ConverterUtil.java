@@ -102,6 +102,7 @@ public class ConverterUtil {
 		}
 		UserAttributeDTO dto = new UserAttributeDTO();
 		dto.setId(entity.getId());
+		dto.setDbversion(entity.getDbversion());
 		dto.setName(entity.getName());
 		dto.setData(entity.getData());
 		dto.setBinData(entity.getBindata());
@@ -147,6 +148,8 @@ public class ConverterUtil {
     	List<UserAttribute> entities = new ArrayList<>();
     	for (UserAttributeDTO dto : dtos) {
     		UserAttribute entity = new UserAttribute();
+    		entity.setId(dto.getId());
+    		entity.setDbversion(dto.getDbversion());
     		entity.setUser(user);
     		entity.setName(dto.getName());
     		entity.setData(dto.getData());
