@@ -14,6 +14,7 @@ package com.eurodyn.qlack2.fuse.ts.api;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,6 +129,18 @@ public interface TemplateService {
   ByteArrayOutputStream replacePlaceholderWithTable(InputStream inputStream,
       List<LinkedHashMap<Map<String, String>, Map<String, String>>> table, String placeholder,
       String identLeft);
+
+  /**
+   * Replace placeholders with tables.
+   *
+   * @param inputStream  the input stream
+   * @param placeholders HashMap that contains the placeholders with their tables
+   * @param identLeft    the ident left
+   * @return the byte array output stream
+   */
+  ByteArrayOutputStream replacePlaceholdersWithTables(InputStream inputStream,
+    HashMap<String, List<LinkedHashMap<Map<String, String>, Map<String, String>>>> placeholders,
+    String identLeft);
   
   /**
    * Replace placeholders with image.

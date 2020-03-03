@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -1525,6 +1526,26 @@ public class TemplateServiceImpl implements TemplateService {
       WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(inputStream);
 
       addTable(wordMLPackage, table, placeholder, identLeft);
+
+      Docx4J.save(wordMLPackage, baos);
+
+    } catch (Docx4JException e) {
+      throw new QTemplateServiceException(NO_DOCUMENT_CREATED);
+    }
+    return baos;
+  }
+
+  @Override
+  public ByteArrayOutputStream replacePlaceholdersWithTables(InputStream inputStream,
+    HashMap<String, List<LinkedHashMap<Map<String, String>, Map<String, String>>>> placeholders,
+    String identLeft) {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try {
+
+      WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(inputStream);
+
+      placeholders
+        .forEach((placeholder, table) -> addTable(wordMLPackage, table, placeholder, identLeft));
 
       Docx4J.save(wordMLPackage, baos);
 
