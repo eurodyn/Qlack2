@@ -160,6 +160,29 @@ public class TemplateServiceImpl implements TemplateService {
 
   @Override
   public ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
+    Map<String, String> mappings, String checkbox, List<String> bulletList, Map<String, String> bulletListProperties) {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try {
+      WordprocessingMLPackage wordMLPackage = WordprocessingMLPackage.load(inputStream);
+
+      // Replace placeholders on main part.
+      if (bulletListProperties != null && !bulletListProperties.isEmpty()) {
+        replaceBodyPlaceholdersWithCheckbox(wordMLPackage, mappings, checkbox, bulletList, bulletListProperties);
+      } else {
+        replaceBodyPlaceholdersWithCheckbox(wordMLPackage, mappings, checkbox, bulletList);
+      }
+      // Replace placeholders on header and footer.
+      replaceHeaderAndFooterPlaceholders(wordMLPackage, mappings);
+
+      Docx4J.save(wordMLPackage, baos);
+    } catch (Docx4JException e) {
+      throw new QTemplateServiceException(NO_DOCUMENT_CREATED);
+    }
+    return baos;
+  }
+
+  @Override
+  public ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
       Map<String, String> mappings, byte[] logo, long imageWidth) {
     ByteArrayOutputStream baos = null;
     if (logo != null) {
@@ -685,12 +708,54 @@ public class TemplateServiceImpl implements TemplateService {
     }
   }
 
+  /**
+   * Replaces body placeholders, adds bullet list and checkbox.
+   *
+   * @param wordMLPackage the wordMLPackage
+   * @param mappings the mappings
+   * @param checkbox the checkbox
+   * @param bulletList the bulletList
+   * @param bulletListProperties the bulletListProperties
+   */
+  private void replaceBodyPlaceholdersWithCheckbox(WordprocessingMLPackage wordMLPackage,
+    Map<String, String> mappings, String checkbox, List<String> bulletList, Map<String, String> bulletListProperties) {
+    try {
+      MainDocumentPart documentPart = wordMLPackage.getMainDocumentPart();
+      addBulletList(wordMLPackage, mappings, bulletList, bulletListProperties);
+      findCheckbox(documentPart, checkbox);
+      documentPart.variableReplace(mappings);
+      generateTextWithListedPlaceholder(documentPart);
+    } catch (JAXBException | Docx4JException e) {
+      throw new QTemplateServiceException(
+        "Error occured during placeholder replacement on main body.");
+    }
+  }
+
   private void addBulletList(WordprocessingMLPackage wordMLPackage, Map<String, String> mappings,
       List<String> bulletList) {
     for (String bullet : bulletList) {
       if (mappings.get(bullet) != null) {
         List<String> myList = new ArrayList<>(Arrays.asList(mappings.get(bullet).split("\n")));
         duplicate(wordMLPackage, myList, bullet);
+        remove(wordMLPackage, bullet);
+      }
+    }
+  }
+
+  /**
+   * Add bullet list with custom properties in placeholder.
+   *
+   * @param wordMLPackage the wordMLPackage
+   * @param mappings the mappings
+   * @param bulletList the bulletList
+   * @param bulletListProperties the bulletListProperties
+   */
+  private void addBulletList(WordprocessingMLPackage wordMLPackage, Map<String, String> mappings,
+    List<String> bulletList, Map<String, String> bulletListProperties) {
+    for (String bullet : bulletList) {
+      if (mappings.get(bullet) != null) {
+        List<String> myList = new ArrayList<>(Arrays.asList(mappings.get(bullet).split("\n")));
+        duplicate(wordMLPackage, myList, bullet, bulletListProperties);
         remove(wordMLPackage, bullet);
       }
     }
@@ -911,6 +976,103 @@ public class TemplateServiceImpl implements TemplateService {
       }
     }
 
+  }
+
+  /**
+   * Adds the bullet list with custom properties without removing the placeholder.
+   *
+   * @param wordMLPackage the wordMLPackage
+   * @param replaceList the replaceList
+   * @param placeholder the placeholder
+   * @param bulletListProperties the bulletListProperties
+   */
+  private void duplicate(WordprocessingMLPackage wordMLPackage, List<String> replaceList,
+    String placeholder, Map<String, String> bulletListProperties) {
+
+    String DEFAULT_FONT_SIZE = "18";
+    String DEFAULT_BULLET_MARGIN = "15";
+    String fontsize =
+      (bulletListProperties.get("fontSize") != null && !bulletListProperties.get("fontSize")
+        .isEmpty())
+        ? bulletListProperties.get("fontSize")
+        : DEFAULT_FONT_SIZE;
+    String bulletMargin =
+      (bulletListProperties.get("bulletMargin") != null && !bulletListProperties.get("bulletMargin")
+        .isEmpty())
+        ? bulletListProperties.get("bulletMargin")
+        : DEFAULT_BULLET_MARGIN;
+
+    ObjectFactory factory = new org.docx4j.wml.ObjectFactory();
+    List<Object> paragraphs = getAllElementFromObject(wordMLPackage.getMainDocumentPart(), P.class);
+
+    for (Object par : paragraphs) {
+      P p = (P) par;
+      List list = wordMLPackage.getMainDocumentPart().getContent();
+      // Workaround for table being wrapped in JAXBElement
+      // This simple code assumes table is present and top level
+      int index = 0;
+      for (Object o : list) {
+        if (XmlUtils.unwrap(o) == par) {
+          break;
+        }
+        index++;
+      }
+      List<Object> texts = getAllElementFromObject(par, Text.class);
+      for (Object t : texts) {
+        Text text = (Text) t;
+        if (text.getValue().contains(placeholder)) {
+          for (String replacer : replaceList) {
+
+            p = factory.createP();
+            R rspc = factory.createR();
+
+            text = factory.createText();
+            text.setValue(replacer);
+            rspc.getContent().add(text);
+
+            RPr runProperties = factory.createRPr();
+
+            setFontSize(runProperties, fontsize);
+
+            rspc.setRPr(runProperties);
+
+            p.getContent().add(rspc);
+
+            org.docx4j.wml.PPr ppr = factory.createPPr();
+
+            p.setPPr(ppr);
+            // Create and add <w:numPr>
+            PPrBase.NumPr numPr = factory.createPPrBaseNumPr();
+            ParaRPr parRPr = factory.createParaRPr();
+
+            HpsMeasure size = new HpsMeasure();
+            size.setVal(new BigInteger(fontsize));
+            runProperties.setSz(size);
+            runProperties.setSzCs(size);
+            parRPr.setSz(size);
+            ppr.setRPr(parRPr);
+
+            // The <w:numId> element
+            PPrBase.NumPr.NumId numIdElement = factory.createPPrBaseNumPrNumId();
+            numPr.setNumId(numIdElement);
+            numIdElement.setVal(new BigInteger(bulletMargin));
+            ppr.setNumPr(numPr);
+
+            // The <w:spacing> element
+            if (bulletListProperties.get("line") != null
+              && bulletListProperties.get("lineRule") != null) {
+              Spacing spacing = new Spacing();
+              spacing.setLine(new BigInteger(bulletListProperties.get("line")));
+              spacing
+                .setLineRule(STLineSpacingRule.fromValue(bulletListProperties.get("lineRule")));
+              ppr.setSpacing(spacing);
+            }
+            wordMLPackage.getMainDocumentPart().getContent().add(index, p);
+          }
+          return;
+        }
+      }
+    }
   }
 
   /**

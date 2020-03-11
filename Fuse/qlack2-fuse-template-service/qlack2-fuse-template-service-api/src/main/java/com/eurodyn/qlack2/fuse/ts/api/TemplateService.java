@@ -115,6 +115,20 @@ public interface TemplateService {
    */
   ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
       Map<String, String> mappings, String checkbox, List<String> bulletList, byte[] logo, long imageWidth);
+
+  /**
+   * Replace placeholders word doc.
+   *
+   * @param inputStream the input stream
+   * @param mappings the mappings
+   * @param checkbox the checkbox
+   * @param bulletList the bullet list
+   * @param bulletListProperties the bullet list properties
+   * @return the byte array output stream
+   */
+  ByteArrayOutputStream replacePlaceholdersWordDoc(InputStream inputStream,
+    Map<String, String> mappings, String checkbox, List<String> bulletList,
+    Map<String, String> bulletListProperties);
   
   
   /**
