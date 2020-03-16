@@ -24,8 +24,8 @@ pipeline {
     }
     post {
         always {
-            sh 'sh /var/lib/jenkins/docker-cleanup-test-containers.sh TEST-qlack'
-            sh 'sh /var/lib/jenkins/kill-karaf-by-grep.sh "workspace/Qlack2-*"'
+            sh 'sh /var/lib/jenkins/script/docker-cleanup-test-containers.sh TEST-qlack'
+            sh 'sh /var/lib/jenkins/script/kill-karaf-by-grep.sh "../workspace/Qlack2*"'
         }
         changed {
             emailext subject: '$DEFAULT_SUBJECT',
