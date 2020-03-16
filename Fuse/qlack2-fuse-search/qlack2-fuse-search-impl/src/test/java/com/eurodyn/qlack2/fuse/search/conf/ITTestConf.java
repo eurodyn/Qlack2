@@ -92,6 +92,7 @@ public abstract class ITTestConf {
       configureConsole().ignoreRemoteShell(),
       addCodeCoverageOption(),
       features(karafStandardFeaturesUrl, "wrap"),
+      features(projectFeaturesRepo, "qlack2-jackson-libs"),
       features(projectFeaturesRepo, "qlack2-fuse-search-deps"),
         features(projectFeaturesRepoUtil, "qlack2-common-util"),
       CoreOptions.wrappedBundle(CoreOptions.mavenBundle("com.eurodyn.qlack2.util", "qlack2-util-testing")),

@@ -126,7 +126,7 @@
     <httpcore-osgi.version>4.4.6</httpcore-osgi.version>
     <ical4j.version>1.0.2</ical4j.version>
     <jacc.version>1.0.2.Final</jacc.version>
-    <jackson2.version>2.9.10.2</jackson2.version>
+    <jackson2.version>2.9.10.3</jackson2.version>
     <jackson.datatype.version>2.9.10</jackson.datatype.version>
     <org.code-house.jackson.version>2.8.11</org.code-house.jackson.version>
     <snakeyaml.jackson.version>1.23</snakeyaml.jackson.version>

@@ -7,11 +7,17 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
 <features xmlns="http://karaf.apache.org/xmlns/features/v1.4.0" name="QLACK2-FUSE">
   <!-- External repos -->
   <repository>mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/${project.version}/xml/features</repository>
-  <repository>mvn:org.code-house.jackson/features/${org.code-house.jackson.version}/xml/features</repository>
   <repository>mvn:com.eurodyn.qlack2.common/qlack2-common-karaf-features/${project.version}/xml/features</repository>
   <repository>mvn:org.kie/kie-karaf-features/${jbpm.version}/xml/features-core</repository>
   <repository>mvn:org.kie/kie-karaf-features/${jbpm.version}/xml/features</repository>
   <repository>mvn:com.eurodyn.qlack2.util/qlack2-util-repack-karaf-features/${project.version}/xml/features</repository>
+
+  <feature description="Jackson libs" name="qlack2-jackson-libs" version="${project.version}">
+    <bundle>mvn:com.fasterxml.jackson.datatype/jackson-datatype-jsr310/${jackson.datatype.version}</bundle>
+    <bundle>mvn:com.fasterxml.jackson.core/jackson-core/${jackson.datatype.version}</bundle>
+    <bundle>mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.datatype.version}</bundle>
+    <bundle>mvn:com.fasterxml.jackson.core/jackson-databind/${jackson2.version}</bundle>
+  </feature>
 
   <!-- ***************************************************************************************** -->
   <!-- AAA                                                                                       -->
@@ -474,6 +480,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   <!-- SEARCH                                                                                    -->
   <!-- ***************************************************************************************** -->
   <feature description="QLACK2 Fuse - Search" name="qlack2-fuse-search" version="${project.version}">
+    <feature>qlack2-jackson-libs</feature>
     <feature>qlack2-fuse-search-deps</feature>
     <feature>qlack2-fuse-search-api</feature>
     <feature>qlack2-fuse-search-impl</feature>
@@ -487,7 +494,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.fuse/qlack2-fuse-karaf-features/LATEST/x
   </feature>
   <feature description="QLACK2 Fuse - Search (deps)" name="qlack2-fuse-search-deps" version="${project.version}">
     <feature>pax-cdi</feature>
-    <feature>jackson-databind</feature>
     <bundle>mvn:com.google.guava/guava/${google-guava.version}</bundle>
     <bundle>mvn:org.apache.commons/commons-lang3/${commons.lang3.version}</bundle>
     <bundle>mvn:org.apache.servicemix.bundles/org.apache.servicemix.bundles.javax-inject/${org.apache.servicemix.bundles.javax-inject.version}</bundle>
