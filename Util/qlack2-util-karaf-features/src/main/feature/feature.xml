@@ -29,9 +29,10 @@ feature:repo-add mvn:com.eurodyn.qlack2.util/qlack2-util-karaf-features/xml/feat
   </feature>
 
   <feature name="qlack2-util-jbpm-runtime" version="${project.version}">
-    <feature version="${project.version}">qlack2-util-repack-jpa</feature>
+    <feature version="${project.version}">qlack2-util-repack-jpadb</feature>
     <feature version="${jbpm.version}">qlack2-util-repack-drools-common</feature>
     <feature version="${jbpm.version}">qlack2-util-repack-jbpm-commons</feature>
+    <bundle></bundle>
     <bundle>mvn:commons-codec/commons-codec/${commons.codec.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.util/qlack2-util-jbpm-util-hibernate-core-kie/${project.version}</bundle>
     <bundle>mvn:joda-time/joda-time/${joda.version}</bundle>

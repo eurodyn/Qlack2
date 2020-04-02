@@ -28,7 +28,6 @@ feature:repo-add mvn:com.eurodyn.qlack2.be/qlack2-be-karaf-features/LATEST/xml/f
     <feature>qlack2-util-rest</feature>
     <feature>qlack2-util-validator-util</feature>
     <feature>qlack2-fuse-idm</feature>
-    <feature>qlack2-fuse-auditing-client</feature>
     <feature>qlack2-fuse-auditing</feature>
     <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-explorer-api/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.be/qlack2-be-explorer-impl/${project.version}</bundle>
@@ -42,7 +41,7 @@ feature:repo-add mvn:com.eurodyn.qlack2.be/qlack2-be-karaf-features/LATEST/xml/f
     <feature>qlack2-util-repack-jackson-rs</feature>
     <feature>qlack2-util-rest</feature>
     <feature>qlack2-util-validator-util</feature>
-    <feature>qlack2-util-fileupload</feature>
+    <feature>qlack2-fuse-fileupload</feature>
     <feature>qlack2-fuse-idm</feature>
     <feature>qlack2-be-explorer</feature>
     <feature>qlack2-util-jbpm-runtime</feature>
@@ -61,9 +60,8 @@ feature:repo-add mvn:com.eurodyn.qlack2.be/qlack2-be-karaf-features/LATEST/xml/f
     <feature>qlack2-util-validator-util</feature>
     <feature>qlack2-fuse-idm</feature>
     <feature>qlack2-be-explorer</feature>
-    <feature>qlack2-fuse-auditing-client</feature>
     <feature>qlack2-fuse-auditing</feature>
-    <feature>qlack2-util-fileupload</feature>
+    <feature>qlack2-fuse-fileupload</feature>
     <bundle>mvn:commons-io/commons-io/${commons.io.version}</bundle>
     <bundle>wrap:mvn:org.apache.httpcomponents/httpcore/${apache.httpcore.version}</bundle>
     <bundle>wrap:mvn:org.apache.httpcomponents/httpclient/${apache.httpclient.version}</bundle>

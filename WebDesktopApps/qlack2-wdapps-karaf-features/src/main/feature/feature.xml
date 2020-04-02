@@ -7,7 +7,6 @@
 
   <feature description="Qlack2 - WebDesktop - AppManagement" name="qlack2-webdesktop-appmanagement" version="${project.version}">
     <feature>qlack2-fuse-idm</feature>
-    <feature>qlack2-fuse-auditing-client</feature>
     <feature>qlack2-fuse-auditing</feature>
     <feature>qlack2-wd-api</feature>
     <bundle>mvn:org.yaml/snakeyaml/${snakeyaml.version}</bundle>
@@ -20,7 +19,6 @@
     <feature>war</feature>
     <feature>qlack2-fuse-idm</feature>
     <feature>qlack2-util-validator-util</feature>
-    <feature>qlack2-fuse-auditing-client</feature>
     <feature>qlack2-fuse-auditing</feature>
     <feature>qlack2-wd-api</feature>
     <bundle>mvn:org.yaml/snakeyaml/${snakeyaml.version}</bundle>
@@ -34,7 +32,7 @@
   <feature description="Qlack2 - WebDesktop - SampleApp" name="qlack2-webdesktop-sample-app" version="${project.version}">
     <feature>qlack2-fuse-idm</feature>
     <feature>qlack2-util-validator-util</feature>
-    <feature>qlack2-util-fileupload</feature>
+    <feature>qlack2-fuse-fileupload</feature>
     <feature>qlack2-wd-api</feature>
     <bundle>mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-sample-app-api/${project.version}</bundle>
     <bundle>mvn:com.eurodyn.qlack2.webdesktop.apps/qlack2-wdapps-sample-app-impl/${project.version}</bundle>
