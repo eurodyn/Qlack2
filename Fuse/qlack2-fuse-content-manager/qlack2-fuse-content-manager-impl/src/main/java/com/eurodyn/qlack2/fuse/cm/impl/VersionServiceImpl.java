@@ -20,6 +20,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
@@ -565,6 +566,52 @@ public class VersionServiceImpl implements VersionService {
     @SuppressWarnings("unchecked")
     List<Version> versions = query.getResultList();
     return ConverterUtil.versionToVersionDTOList(versions);
+  }
+
+  @Override
+  @Transactional(TxType.REQUIRED)
+  public VersionDTO getFileLatestVersionByNodeAttributes(String parentId, Map<String,
+    String> attributes) {
+    // Find all versions of the node
+    StringBuilder sbQuery = new StringBuilder("SELECT v FROM Version v WHERE v.node.id = (")
+      // First find the node id that fulfills all attributes criteria
+      .append("SELECT n.id FROM Node n ");
+
+    if (attributes != null && !attributes.isEmpty()) {
+      AtomicInteger i = new AtomicInteger();
+
+      attributes.forEach((k, v) -> {
+        i.getAndIncrement();
+        sbQuery.append(" INNER JOIN  n.attributes attr").append(i).append(" WITH ( ")
+          .append("attr").append(i).append(".name = :").append(Constants.ATTRIBUTE_PARAM).append(i)
+          .append(" AND attr").append(i).append(".value = :").append(Constants.VALUE_PARAM)
+          .append(i).append(")");
+      });
+    }
+
+    sbQuery.append(" WHERE n.parent.id = :parentId ORDER BY n.createdOn ASC) ")
+      // Sort in desc
+      .append(" order by v.createdOn DESC");
+
+    Query query = em.createQuery(sbQuery.toString());
+    query.setParameter("parentId", parentId);
+    // We only need the latest version of the node and since it's always the first because the
+    // results are sorted in desc order, we limit the results to 1.
+    query.setMaxResults(1);
+
+    if (attributes != null) {
+      AtomicInteger i = new AtomicInteger();
+
+      attributes.forEach((k, v) -> {
+        i.getAndIncrement();
+        query.setParameter(Constants.ATTRIBUTE_PARAM + i, k);
+        query.setParameter(Constants.VALUE_PARAM + i, v);
+      });
+    }
+
+    List<Version> versionList = query.getResultList();
+
+    return versionList.isEmpty() ? null : ConverterUtil.versionToVersionDTO(versionList.get(0));
   }
 
 }

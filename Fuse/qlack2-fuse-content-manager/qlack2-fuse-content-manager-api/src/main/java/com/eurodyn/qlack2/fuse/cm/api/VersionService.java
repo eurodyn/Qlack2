@@ -261,4 +261,13 @@ public interface VersionService {
    * @return the versions by filename for file
    */
   List<VersionDTO> getVersionsByFilenameForFile(String fileId, List<String> filenameList);
+
+  /**
+   * Retrieves the latest file version based on the node attributes
+   *
+   * @param parentId the parent id
+   * @param attributes the attributes
+   * @return the latest version of the file
+   */
+  VersionDTO getFileLatestVersionByNodeAttributes(String parentId, Map<String, String> attributes);
 }

@@ -18,5 +18,6 @@ public class Constants extends com.eurodyn.qlack2.fuse.cm.api.util.CMConstants {
 	public static final String CREATED_ON = "CREATED ON";
 	public static final String LOCKABLE = "LOCKABLE";
 	public static final String VERSIONABLE = "VERSIONABLE";
-	
+  public static final String ATTRIBUTE_PARAM = "attr_";
+  public static final String VALUE_PARAM = "value_";
 }
