@@ -303,4 +303,12 @@ public interface DocumentService {
    */
   CreateFileAndVersionStatusDTO createFileAndVersion(FileDTO cmFile, VersionDTO cmVersion,
       byte[] content, String userID, String lockToken);
+
+  /**
+   * Finds all node parent ids that match with a specific value of version attributes.
+   *
+   * @param attributes the attributes
+   * @return the parent ids
+   */
+  List<String> findParentIdsByVersionAttributesLike(Map<String, String> attributes);
 }

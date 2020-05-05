@@ -12,27 +12,6 @@
  */
 package com.eurodyn.qlack2.fuse.cm.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
-import javax.inject.Inject;
-import javax.inject.Singleton;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.transaction.Transactional;
-import javax.transaction.Transactional.TxType;
-
-import org.joda.time.DateTime;
-import org.ops4j.pax.cdi.api.OsgiServiceProvider;
-
 import com.eurodyn.qlack2.fuse.cm.api.ConcurrencyControlService;
 import com.eurodyn.qlack2.fuse.cm.api.DocumentService;
 import com.eurodyn.qlack2.fuse.cm.api.VersionService;
@@ -57,6 +36,25 @@ import com.eurodyn.qlack2.fuse.cm.impl.util.Constants;
 import com.eurodyn.qlack2.fuse.cm.impl.util.ConverterUtil;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
+import org.joda.time.DateTime;
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 
 @Transactional
 @Singleton
@@ -693,4 +691,41 @@ public class DocumentServiceImpl implements DocumentService {
     return namesList;
   }
 
+  @Override
+  @Transactional(TxType.REQUIRED)
+  public List<String> findParentIdsByVersionAttributesLike(Map<String, String> attributes) {
+    // Find all parent ids
+    StringBuilder sbQuery = new StringBuilder("SELECT v.node.parent.id FROM Version v ");
+
+    if (attributes != null && !attributes.isEmpty()) {
+      AtomicInteger i = new AtomicInteger();
+
+      attributes.forEach((k, v) -> {
+        i.getAndIncrement();
+        sbQuery.append("INNER JOIN v.attributes attr").append(i).append(" WITH ( ")
+          .append("attr").append(i).append(".name = :").append(Constants.ATTRIBUTE_PARAM).append(i)
+          .append(" AND attr").append(i)
+          // Use the LIKE operator to search for a specific value
+          .append(".value LIKE :").append(Constants.VALUE_PARAM).append(i).append(")");
+      });
+    }
+
+    Query query = em.createQuery(sbQuery.toString());
+
+    if (attributes != null) {
+      AtomicInteger i = new AtomicInteger();
+
+      attributes.forEach((k, v) -> {
+        i.getAndIncrement();
+        query.setParameter(Constants.ATTRIBUTE_PARAM + i, k);
+        // Use the % wildcard to get all matching results with that value
+        query.setParameter(Constants.VALUE_PARAM + i, "%" + v.toLowerCase() + "%");
+      });
+    }
+
+    @SuppressWarnings("unchecked")
+    List<String> parentIds = query.getResultList();
+
+    return parentIds;
+  }
 }
