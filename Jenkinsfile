@@ -43,7 +43,7 @@ pipeline {
             }
         }
     }
-    /*post {
+    post {
         always {
             sh 'sh /var/lib/jenkins/scripts/docker-cleanup-test-containers.sh TEST-qlack'
             sh 'sh /var/lib/jenkins/scripts/kill-karaf-by-grep.sh "../workspace/Qlack2*"'
@@ -53,5 +53,5 @@ pipeline {
                         body: '$DEFAULT_CONTENT',
                         to: 'qlack@eurodyn.com'
         }
-    }*/
+    }
 }
