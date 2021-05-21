@@ -18,7 +18,9 @@ pipeline {
         }    
         stage('Sonar Analysis') {
             steps {
-                sh 'mvn sonar:sonar -Dsonar.projectName=QLACK2 -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_KEY_QLACK2} -Dmaven.repo.local=/root/.m2/qlack2/repository'
+                withSonarQubeEnv('sonar'){
+                    sh 'mvn sonar:sonar -Dsonar.projectName=QLACK2 -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_KEY_QLACK2} -Dmaven.repo.local=/root/.m2/qlack2/repository'
+                }
             }
         }
         stage('Produce bom.xml'){
