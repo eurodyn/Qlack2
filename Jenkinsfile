@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent{
+        label 'jenkins-agent-1 || jenkins-agent-2'
+    }
+    tools {
+        jdk 'OpenJDK 1.8.0_232'
+    }
     options { 
         disableConcurrentBuilds()
         buildDiscarder(logRotator(numToKeepStr: '10')) 
@@ -11,11 +16,6 @@ pipeline {
                 sh 'mvn jacoco:report -Dmaven.repo.local=/root/.m2/qlack2/repository'
             }
         }
-        stage('Depencencies Check') {
-            steps {
-                sh 'mvn org.owasp:dependency-check-maven:aggregate -Dmaven.repo.local=/root/.m2/qlack2/repository'
-            }
-        }    
         stage('Sonar Analysis') {
             steps {
                 withSonarQubeEnv('sonar'){
