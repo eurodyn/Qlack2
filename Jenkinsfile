@@ -10,12 +10,7 @@ pipeline {
                 sh 'mvn clean install -Dmaven.repo.local=/root/.m2/qlack2/repository'
                 sh 'mvn jacoco:report -Dmaven.repo.local=/root/.m2/qlack2/repository'
             }
-        }
-        stage('Depencencies Check') {
-            steps {
-                sh 'mvn org.owasp:dependency-check-maven:aggregate -Dmaven.repo.local=/root/.m2/qlack2/repository'
-            }
-        }    
+        }  
         stage('Sonar Analysis') {
             steps {
                 withSonarQubeEnv('sonar'){
@@ -33,7 +28,7 @@ pipeline {
                 sh '''
                     cat > payload.json <<__HERE__
                     {
-                        "project": "0cbafbeb-f23f-41c3-ac88-5126f8bfcd06",
+                        "project": "bf9332c3-a693-4324-8c7e-09fbe65f1751",
                         "bom": "$(cat target/bom.xml |base64 -w 0 -)"
                     }
                     __HERE__
