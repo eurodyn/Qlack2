@@ -520,19 +520,6 @@
         </plugins>
         <pluginManagement>
           <plugins>
-            <plugin>
-              <groupId>org.owasp</groupId>
-              <artifactId>dependency-check-maven</artifactId>
-              <version>${version.owasp}</version>
-              <configuration>
-                <format>ALL</format>
-                <suppressionFiles>
-                  <suppressionFile>
-                    https://raw.githubusercontent.com/eurodyn/Qlack2/master/owasp-suppression.xml
-                  </suppressionFile>
-                </suppressionFiles>
-              </configuration>
-            </plugin>
           </plugins>
         </pluginManagement>
       </build>
