@@ -60,12 +60,6 @@
     <blueprint.jpa>v2.0.0</blueprint.jpa>
     <blueprint.tx>v2.0.0</blueprint.tx>
 
-    <!-- Sonar output -->
-    <sonar.dependencyCheck.reportPath>${project.build.directory}/dependency-check-report.xml
-    </sonar.dependencyCheck.reportPath>
-    <sonar.dependencyCheck.htmlReportPath>${project.build.directory}/dependency-check-report.html
-    </sonar.dependencyCheck.htmlReportPath>
-
     <!-- Dependencies -->
     <activemq.version>5.12.0</activemq.version>
     <angular.translate.version>2.1.0-1</angular.translate.version>
@@ -219,7 +213,6 @@
     <wro4j.version>1.4.6</wro4j.version>
     <xml-apis-ext.version>1.3.04</xml-apis-ext.version>
     <zxing.version>3.3.1</zxing.version>
-    <dependency-check-maven.version>5.3.1</dependency-check-maven.version>
     <sonar-maven-plugin.version>3.7.0.1746</sonar-maven-plugin.version>
   </properties>
 
@@ -350,18 +343,6 @@
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
           <version>${sonar-maven-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.owasp</groupId>
-          <artifactId>dependency-check-maven</artifactId>
-          <version>${dependency-check-maven.version}</version>
-          <configuration>
-            <format>ALL</format>
-            <suppressionFiles>
-              <suppressionFile>owasp-suppression.xml</suppressionFile>
-            </suppressionFiles>
-            <failOnError>false</failOnError>
-          </configuration>
         </plugin>
 
         <plugin>
@@ -538,23 +519,6 @@
             </executions>
           </plugin>
         </plugins>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>org.owasp</groupId>
-              <artifactId>dependency-check-maven</artifactId>
-              <version>${version.owasp}</version>
-              <configuration>
-                <format>ALL</format>
-                <suppressionFiles>
-                  <suppressionFile>
-                    https://raw.githubusercontent.com/eurodyn/Qlack2/master/owasp-suppression.xml
-                  </suppressionFile>
-                </suppressionFiles>
-              </configuration>
-            </plugin>
-          </plugins>
-        </pluginManagement>
       </build>
     </profile>
 
