@@ -13,7 +13,7 @@ pipeline {
                     runAsGroup: 0
                 containers:
                 - name: qlack2-builder
-                  image: eddevopsd2/maven-java-npm-docker:mvn3.6.3-jdk8-npm6.14.4-docker
+                  image: eddevopsd2/ubuntu-dind:dind-mvn3.6.3-jdk8-npm6.14.13
                   volumeMounts:
                   - name: maven
                     mountPath: /root/.m2/
@@ -38,6 +38,13 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10')) 
     }
     stages {
+        stage ('Dockerd') {
+            steps {
+                container (name: 'qlack2-builder'){
+                    sh 'dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock &> dockerd-logfile &'
+                }
+            }
+        }
         stage('Build') {
             steps {
                 container (name: 'qlack2-builder'){
