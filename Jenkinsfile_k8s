@@ -18,6 +18,10 @@ pipeline {
                   - name: maven
                     mountPath: /root/.m2/
                     subPath: qlack2
+                  - name: docker
+                    mountPath: /root/.docker/config.json
+                    subPath: config.json
+                    readOnly: true
                   tty: true
                   securityContext:
                     privileged: true
@@ -29,6 +33,9 @@ pipeline {
                 - name: maven
                   persistentVolumeClaim:
                     claimName: maven-nfs-pvc
+                - name: docker
+                  persistentVolumeClaim:
+                    claimName: docker-nfs-pvc
             '''
             workspaceVolume persistentVolumeClaimWorkspaceVolume(claimName: 'workspace-nfs-pvc', readOnly: false)
         }
@@ -48,7 +55,11 @@ pipeline {
         stage('Build') {
             steps {
                 container (name: 'qlack2-builder'){
-                    sh 'mvn clean install'
+                    sh '''
+                        export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+                        mvn clean install
+                    '''
+
                     sh 'mvn jacoco:report'
                 }
             }
