@@ -57,9 +57,10 @@ pipeline {
                 container (name: 'qlack2-builder'){
                     sh '''
                         export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+                        mkdir /sys/fs/cgroup/systemd
+                        mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
                         mvn clean install
                     '''
-
                     sh 'mvn jacoco:report'
                 }
             }
