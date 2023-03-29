@@ -169,8 +169,8 @@
     <mongodb.driver>3.1.0</mongodb.driver>
     <mysema-commons-lang>0.2.4</mysema-commons-lang>
     <mysql-connector-java.version>5.1.38</mysql-connector-java.version>
-    <nodejs.version>v6.11.0</nodejs.version>
-    <npm.version>3.10.10</npm.version>
+    <nodejs.version>v10.4.0</nodejs.version>
+    <npm.version>6.14.12</npm.version>
     <objenesis.version>2.5.1</objenesis.version>
     <oracle.db.version>12.2.0.1</oracle.db.version>
     <org.apache.servicemix.bundles.javax-inject.version>1_2
