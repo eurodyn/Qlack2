@@ -8,6 +8,18 @@ pipeline {
                 name: qlack2
                 namespace: jenkins
               spec:
+                affinity:
+                  podAntiAffinity:
+                    preferredDuringSchedulingIgnoredDuringExecution:
+                    - weight: 50
+                      podAffinityTerm:
+                        labelSelector:
+                          matchExpressions:
+                          - key: jenkins/jenkins-jenkins-agent
+                            operator: In
+                            values:
+                            - "true"
+                        topologyKey: kubernetes.io/hostname
                 securityContext:
                     runAsUser: 0
                     runAsGroup: 0
@@ -42,7 +54,8 @@ pipeline {
     }
     options { 
         disableConcurrentBuilds()
-        buildDiscarder(logRotator(numToKeepStr: '10')) 
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 3, unit: 'HOURS')
     }
     stages {
         stage ('Dockerd') {
@@ -70,7 +83,7 @@ pipeline {
                 container (name: 'qlack2-builder'){
                     withSonarQubeEnv('sonar'){
                         sh 'update-alternatives --set java /usr/lib/jvm/java-11-openjdk-amd64/bin/java'
-                        sh 'mvn sonar:sonar -Dsonar.projectName=QLACK2 -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_GLOBAL_KEY}'
+                        sh 'mvn sonar:sonar -Dsonar.projectName=QLACK2 -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_GLOBAL_KEY} -Dsonar.working.directory="/tmp"'
                     }
                 }
             }
