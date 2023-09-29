@@ -1,50 +1,116 @@
 pipeline {
-    agent{
-        label 'jenkins-agent-1 || jenkins-agent-2'
-    }
-    tools {
-        jdk 'OpenJDK 1.8.0_232'
+    agent {
+        kubernetes {
+            yaml '''
+              apiVersion: v1
+              kind: Pod
+              metadata:
+                name: qlack2
+                namespace: jenkins
+              spec:
+                affinity:
+                  podAntiAffinity:
+                    preferredDuringSchedulingIgnoredDuringExecution:
+                    - weight: 50
+                      podAffinityTerm:
+                        labelSelector:
+                          matchExpressions:
+                          - key: jenkins/jenkins-jenkins-agent
+                            operator: In
+                            values:
+                            - "true"
+                        topologyKey: kubernetes.io/hostname
+                securityContext:
+                    runAsUser: 0
+                    runAsGroup: 0
+                containers:
+                - name: qlack2-builder
+                  image: eddevopsd2/ubuntu-dind:dind-mvn3.6.3-jdk8-npm6.14.13
+                  volumeMounts:
+                  - name: maven
+                    mountPath: /root/.m2/
+                    subPath: qlack2
+                  - name: docker
+                    mountPath: /root/.docker/config.json
+                    subPath: config.json
+                    readOnly: true
+                  tty: true
+                  securityContext:
+                    privileged: true
+                    runAsUser: 0
+                    fsGroup: 0
+                imagePullSecrets:
+                - name: regcred
+                volumes:
+                - name: maven
+                  persistentVolumeClaim:
+                    claimName: maven-nfs-pvc
+                - name: docker
+                  persistentVolumeClaim:
+                    claimName: docker-nfs-pvc
+            '''
+            workspaceVolume persistentVolumeClaimWorkspaceVolume(claimName: 'workspace-nfs-pvc', readOnly: false)
+        }
     }
     options { 
         disableConcurrentBuilds()
-        buildDiscarder(logRotator(numToKeepStr: '10')) 
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        timeout(time: 3, unit: 'HOURS')
     }
     stages {
+        stage ('Dockerd') {
+            steps {
+                container (name: 'qlack2-builder'){
+                    sh 'dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock &> dockerd-logfile &'
+                }
+            }
+        }
         stage('Build') {
             steps {
-                sh 'mvn clean install -Dmaven.repo.local=/root/.m2/qlack2/repository'
-                sh 'mvn jacoco:report -Dmaven.repo.local=/root/.m2/qlack2/repository'
+                container (name: 'qlack2-builder'){
+                    sh '''
+                        export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
+                        [ -d /sys/fs/cgroup/systemd ] || mkdir /sys/fs/cgroup/systemd
+                        mount -t cgroup -o none,name=systemd cgroup /sys/fs/cgroup/systemd
+                        mvn clean install
+                    '''
+                    sh 'mvn jacoco:report'
+                }
             }
         }
         stage('Sonar Analysis') {
-            tools {
-                jdk 'OpenJDK 11.0.6_10'
-            }   
             steps {
-                withSonarQubeEnv('sonar'){
-                    sh 'mvn sonar:sonar -Dsonar.projectName=QLACK2 -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.login=${SONAR_KEY_QLACK2} -Dmaven.repo.local=/root/.m2/qlack2/repository'
+                container (name: 'qlack2-builder'){
+                    withSonarQubeEnv('sonar'){
+                        sh 'update-alternatives --set java /usr/lib/jvm/java-11-openjdk-amd64/bin/java'
+                        sh 'mvn sonar:sonar -Dsonar.projectName=QLACK2 -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_GLOBAL_KEY} -Dsonar.working.directory="/tmp"'
+                    }
                 }
             }
         }
         stage('Produce bom.xml'){
             steps{
-                sh 'mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom -Dmaven.repo.local=/root/.m2/qlack2/repository'
+                container (name: 'qlack2-builder'){
+                    sh 'mvn org.cyclonedx:cyclonedx-maven-plugin:makeAggregateBom'
+                }
             }
         }
         stage('Dependency-Track Analysis'){
             steps{
-                sh '''
-                    cat > payload.json <<__HERE__
-                    {
-                        "project": "bf9332c3-a693-4324-8c7e-09fbe65f1751",
-                        "bom": "$(cat target/bom.xml |base64 -w 0 -)"
-                    }
-                    __HERE__
-                   '''
+                container (name: 'qlack2-builder'){
+                    sh '''
+                        cat > payload.json <<__HERE__
+                        {
+                            "project": "a42f438d-b743-49f5-b2ac-9f7b52c30241",
+                            "bom": "$(cat target/bom.xml |base64 -w 0 -)"
+                        }
+                        __HERE__
+                    '''
 
-                sh '''
-                    curl -X "PUT" ${DEPENDENCY_TRACK_URL} -H 'Content-Type: application/json' -H 'X-API-Key: '${DEPENDENCY_TRACK_API_KEY} -d @payload.json
-                   '''
+                    sh '''
+                        curl -X "PUT" ${DEPENDENCY_TRACK_URL} -H 'Content-Type: application/json' -H 'X-API-Key: '${DEPENDENCY_TRACK_API_KEY} -d @payload.json
+                    '''
+                }
             }
         }
     }
