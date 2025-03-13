@@ -142,9 +142,9 @@
     <joda.version>2.2</joda.version>
     <junit.version>4.12</junit.version>
     <karaf.cxf.version>3.1.14</karaf.cxf.version>
-    <karaf.hibernate.validator.version>5.0.3.Final</karaf.hibernate.validator.version>
-    <karaf.hibernate.version>4.3.6.Final</karaf.hibernate.version>
-    <karaf.version>4.0.9
+    <karaf.hibernate.validator.version>6.0.13.Final</karaf.hibernate.validator.version>
+    <karaf.hibernate.version>5.2.9.Final</karaf.hibernate.version>
+    <karaf.version>4.2.2
     </karaf.version> <!-- https://github.com/eurodyn/Qlack2-Website/wiki/Against-which-Karaf-version-is-QLACK-built -->
     <keycloak.version>3.4.3.Final</keycloak.version>
     <liquibase.snakeyaml.version>1.17</liquibase.snakeyaml.version>
@@ -218,22 +218,12 @@
 
   <repositories>
     <repository>
-      <id>com.springsource.repository.bundles.release</id>
-      <name>SpringSource Enterprise Bundle Repository - SpringSource
-        Bundle Releases
-      </name>
-      <url>https://repository.springsource.com/maven/bundles/release</url>
-    </repository>
-    <repository>
-      <id>com.springsource.repository.bundles.external</id>
-      <name>SpringSource Enterprise Bundle Repository - External Bundle
-        Releases
-      </name>
-      <url>https://repository.springsource.com/maven/bundles/external</url>
-    </repository>
-    <repository>
       <id>JBoss repository</id>
       <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+    </repository>
+    <repository>
+      <id>zeroturnaround-public</id>
+      <url>https://mvnrepository.com/artifact/org.zeroturnaround/jr-sdk</url>
     </repository>
   </repositories>
 

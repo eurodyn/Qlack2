@@ -10,7 +10,7 @@ import javax.validation.Validator;
 import javax.validation.ValidatorContext;
 import javax.validation.ValidatorFactory;
 
-public class HibernateValidatorFactory implements ValidatorFactory {
+public abstract class HibernateValidatorFactory implements ValidatorFactory {
 	Configuration<?> configuration = Validation.byDefaultProvider()
 			.providerResolver(new HibernateValidatorResolver())
 			.configure();
