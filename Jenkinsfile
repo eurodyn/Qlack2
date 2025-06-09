@@ -23,6 +23,7 @@ pipeline {
                 securityContext:
                     runAsUser: 0
                     runAsGroup: 0
+                    fsGroup: 0
                 containers:
                 - name: qlack2-builder
                   image: eddevopsd2/ubuntu-dind:dind-mvn3.6.3-jdk8-npm6.14.13
@@ -38,7 +39,6 @@ pipeline {
                   securityContext:
                     privileged: true
                     runAsUser: 0
-                    fsGroup: 0
                 imagePullSecrets:
                 - name: regcred
                 volumes:
