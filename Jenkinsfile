@@ -8,18 +8,14 @@ pipeline {
                 name: qlack2
                 namespace: jenkins
               spec:
-                affinity:
-                  podAntiAffinity:
-                    preferredDuringSchedulingIgnoredDuringExecution:
-                    - weight: 50
-                      podAffinityTerm:
-                        labelSelector:
-                          matchExpressions:
-                          - key: jenkins/jenkins-jenkins-agent
-                            operator: In
-                            values:
-                            - "true"
-                        topologyKey: kubernetes.io/hostname
+                tolerations:
+                - key: "jenkins"
+                  operator: "Equal"
+                  value: "agent"
+                  effect: "NoSchedule"
+                nodeSelector:
+                  jenkins-agent: "true"
+                priorityClassName: jenkins-low-priority
                 securityContext:
                     runAsUser: 0
                     runAsGroup: 0
